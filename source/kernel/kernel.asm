@@ -15,7 +15,7 @@ extern _kmain:near				; Externel C kernel
 
 main:
 	jmp short  main_kernel
-	nop
+	nop					  ;
 
 ; ------------------------------------------------------------------
 ; main_kernel -- The main MASM kernel 
