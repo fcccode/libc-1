@@ -11,30 +11,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\ctype.asm">
+    <None Include="src\conio.asm">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="source\stdio.asm">
+    <None Include="src\ctype.asm">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="source\string.asm">
+    <None Include="src\stdio.asm">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="source\conio.asm">
+    <None Include="src\string.asm">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\string.h">
+    <ClInclude Include="h\ctype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\conio.h">
+    <ClInclude Include="h\stdio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\ctype.h">
+    <ClInclude Include="h\conio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\stdio.h">
+    <ClInclude Include="h\string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

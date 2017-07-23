@@ -21,17 +21,17 @@ stdio             Offset: 00000010H  Code and data size: 186H
   _getchar          _gets             _printf           _putchar
   _puts             _scanf          
 
-ctype             Offset: 00000260H  Code and data size: 2d0H
+ctype             Offset: 00000250H  Code and data size: 2d0H
   _isalnum          _isalpha          _iscntrl          _isdigit
   _isgraph          _islower          _isprint          _ispunct
   _isspace          _isupper          _isxdigit         _tolower
   _toupper        
 
-conio             Offset: 00000650H  Code and data size: e4H
+conio             Offset: 00000640H  Code and data size: e4H
   _clrscr           _cursoroff        _cursoron         _delay
   _drawline         _getch            _getche           _gotoxy
   _newline          _setbackground    _setcursortype    _wherex
   _wherey         
 
-string            Offset: 00000850H  Code and data size: 80H
+string            Offset: 00000840H  Code and data size: 80H
   _strcmp           _strncmp        

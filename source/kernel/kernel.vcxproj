@@ -93,13 +93,30 @@ del *.obj</NMakeBuildCommandLine>
     <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <IncludePath>.\..\lib\headers\;$(IncludePath)</IncludePath>
+    <IncludePath>.\..\lib\h\;$(IncludePath)</IncludePath>
     <NMakeBuildCommandLine>SET PATH=
 .\..\..\prog\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c
 .\..\..\prog\VC152\ML.EXE /omf /c *.asm 
 .\..\..\prog\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\lib\Succ.lib, nul
-del *.obj</NMakeBuildCommandLine>
-    <NMakeOutput>kernel.bin</NMakeOutput>
+del *.obj
+
+IF NOT EXIST .\..\..\built\formatted_floppy.img GOTO floppy_error
+IF EXIST .\..\..\built\built_floppy.img GOTO remove_image
+GOTO copy_image
+:remove_image
+DEL .\..\..\built\built_floppy.img &gt; NUL
+:copy_image
+COPY .\..\..\built\formatted_floppy.img .\..\..\built\built_floppy.img &gt; NUL
+
+.\..\..\prog\imdisk -a -f .\..\..\built\built_floppy.img -s 1440K -m B:
+move kernel.bin  B:
+.\..\..\prog\imdisk -D -m B:
+.\..\..\prog\dd if=.\..\bootload\bootload.bin of=.\..\..\built\built_floppy.img bs=512
+
+.\..\..\prog\qemu\qemu -fda .\..\..\built\built_floppy.img</NMakeBuildCommandLine>
+    <NMakeOutput>
+    </NMakeOutput>
+    <LibraryPath>.\..\lib\h\;$(IncludePath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>

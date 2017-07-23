@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <conio.h>
+#include <string.h>
 
 void clearbuff(char *var) {
 	while (var)	*var++ = '\0';

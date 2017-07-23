@@ -78,10 +78,12 @@ del *.bak</NMakeBuildCommandLine>
     <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>.\..\..\prog\VC152\ML.EXE /omf /c source\*.asm
+    <NMakeBuildCommandLine>.\..\..\prog\VC152\ML.EXE /omf /c src\*.asm
 .\..\..\prog\VC152\LIB.EXE /BATCH Succ -+stdio.obj -+ctype.obj -+conio.obj -+string.obj, Succ.lst, Succ.lib
 del *.obj
 del *.bak</NMakeBuildCommandLine>
+    <NMakeOutput>
+    </NMakeOutput>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
@@ -97,16 +99,16 @@ del *.bak</NMakeBuildCommandLine>
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="source\conio.asm" />
-    <None Include="source\ctype.asm" />
-    <None Include="source\stdio.asm" />
-    <None Include="source\string.asm" />
+    <None Include="src\conio.asm" />
+    <None Include="src\ctype.asm" />
+    <None Include="src\stdio.asm" />
+    <None Include="src\string.asm" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\conio.h" />
-    <ClInclude Include="headers\ctype.h" />
-    <ClInclude Include="headers\stdio.h" />
-    <ClInclude Include="headers\string.h" />
+    <ClInclude Include="h\conio.h" />
+    <ClInclude Include="h\ctype.h" />
+    <ClInclude Include="h\stdio.h" />
+    <ClInclude Include="h\string.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
