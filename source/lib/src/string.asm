@@ -86,4 +86,57 @@ _strncmp PROC
 	ret
 _strncmp ENDP
 
+
+
+; ------------------------------------------------------------------
+; char *strcpy(char *dest, const char *src)
+; ------------------------------------------------------------------
+; Coppy string in src to dest
+
+_strcpy PROC
+    push bp								; Save BP on stack
+    mov bp, sp							; Set BP to SP   
+	mov di, [bp + 4]					; Point to param address str1
+	mov si, [bp + 6]					; Point to param address str2
+
+  @@cpy:
+	mov al, [si]						; Transfer contents (at least one byte terminator)
+	mov [di], al
+	inc si
+	inc di
+	cmp byte ptr al, 0					; If source string is empty, quit out
+	jne @@cpy
+
+	mov sp, bp							; Restore stack pointer
+	pop bp								; Restore BP register   
+	ret
+_strcpy ENDP
+
+
+; ------------------------------------------------------------------
+; char *strncpy(char *dest, const char *src, size_t n)
+; ------------------------------------------------------------------
+; Coppy string in src to dest up to n chars
+
+_strncpy PROC
+    push bp								; Save BP on stack
+    mov bp, sp							; Set BP to SP   
+	mov di, [bp + 4]					; Point to param address str1
+	mov si, [bp + 6]					; Point to param address str2
+	
+	xor cx, cx							; Store n in cx for loop
+
+	.WHILE cx != [bp + 8]
+		mov al, [si]					; Transfer contents (at least one byte terminator)
+		mov [di], al
+		inc si
+		inc di
+		inc cx
+		.BREAK .IF !al					; If source string is empty, quit out
+	.ENDW
+
+	mov sp, bp							; Restore stack pointer
+	pop bp								; Restore BP register   
+	ret
+_strncpy ENDP
 END

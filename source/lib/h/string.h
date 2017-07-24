@@ -2,9 +2,15 @@
 #ifndef __STRING__
 #define __STRING__
 
+#ifndef NULL
+#define NULL			((void *)0)		// Define NULL
+#endif
+
 typedef unsigned int size_t;
 
-int strcmp(const char *str1, const char *str2);
-int strncmp(const char *str1, const char *str2, size_t n);
+int strcmp(const char *str1, const char *str2);					// Compaire two strings
+int strncmp(const char *str1, const char *str2, size_t n);		// Compaire up to n chars in two strings
+char *strcpy(char *dest, const char *src);					    // Coppies string to dest
+char *strncpy(char *dest, const char *src, size_t n);			// Copies up to n chars in string
 
 #endif // __STRING__

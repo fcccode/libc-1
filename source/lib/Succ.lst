@@ -12,7 +12,8 @@ _isxdigit.........ctype             _newline..........conio
 _printf...........stdio             _putchar..........stdio
 _puts.............stdio             _scanf............stdio
 _setbackground....conio             _setcursortype....conio
-_strcmp...........string            _strncmp..........string
+_strcmp...........string            _strcpy...........string
+_strncmp..........string            _strncpy..........string
 _tolower..........ctype             _toupper..........ctype
 _wherex...........conio             _wherey...........conio
 
@@ -33,5 +34,5 @@ conio             Offset: 00000640H  Code and data size: e4H
   _newline          _setbackground    _setcursortype    _wherex
   _wherey         
 
-string            Offset: 00000840H  Code and data size: 80H
-  _strcmp           _strncmp        
+string            Offset: 00000840H  Code and data size: b8H
+  _strcmp           _strcpy           _strncmp          _strncpy
