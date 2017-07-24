@@ -1,5 +1,5 @@
 // ctype.h
-#ifndef __CTYPE__
+#ifndef __CTYPE__	   //
 #define __CTYPE__
 
 int isalnum(int c);						// Checks whether the passed character is alphanumeric
