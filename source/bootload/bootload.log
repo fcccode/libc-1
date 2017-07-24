@@ -1,3 +1,1 @@
-﻿  '.\..\..\nasm' is not recognized as an internal or external command,
-  operable program or batch file.
-C:\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.MakeFile.Targets(44,5): error MSB3073: The command ".\..\..\nasm -f bin bootload.asm -o bootload.bin " exited with code 9009.
+﻿
