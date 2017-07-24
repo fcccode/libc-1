@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bootload", "source\bootload
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kernel", "source\kernel\kernel.vcxproj", "{3CB80D1A-27E3-4587-8B9D-E8AC38687500}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib", "source\lib\lib.vcxproj", "{AB76EC80-F16F-4A57-BECB-49421AFFD95B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "library", "source\library\library.vcxproj", "{AB76EC80-F16F-4A57-BECB-49421AFFD95B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
