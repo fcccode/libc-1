@@ -93,11 +93,11 @@ del *.obj</NMakeBuildCommandLine>
     <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <IncludePath>.\..\lib\h\;$(IncludePath)</IncludePath>
+    <IncludePath>.\..\library\include\;$(IncludePath)</IncludePath>
     <NMakeBuildCommandLine>SET PATH=
 .\..\..\prog\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c
 .\..\..\prog\VC152\ML.EXE /omf /c *.asm 
-.\..\..\prog\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\lib\Succ.lib, nul
+.\..\..\prog\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\library\lib\Succ.lib, nul
 del *.obj
 
 IF NOT EXIST .\..\..\built\formatted_floppy.img GOTO floppy_error
@@ -116,7 +116,7 @@ move kernel.bin  B:
 .\..\..\prog\qemu\qemu -fda .\..\..\built\built_floppy.img</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
-    <LibraryPath>.\..\lib\h\;$(IncludePath)</LibraryPath>
+    <LibraryPath>.\..\library\include\;$(IncludePath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>
