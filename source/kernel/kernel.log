@@ -2,12 +2,11 @@
   Copyright (c) Microsoft Corp 1984-1993. All rights reserved.
   
   kmain.c
-kmain.c(57): warning C4047: '=' : different levels of indirection
   Microsoft (R) Macro Assembler Version 6.15.8803
+   Assembling: kernel.asm
   	Patched for you by promethee [ECL] in the year 2001 - enjoy
   Copyright (C) Microsoft Corp 1981-2000.  All rights reserved.
   
-   Assembling: kernel.asm
   
   Microsoft (R) Segmented Executable Linker  Version 5.60.339 Dec  5 1994
   Copyright (C) Microsoft Corp 1984-1993.  All rights reserved.

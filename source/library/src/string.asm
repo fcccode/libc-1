@@ -1,6 +1,8 @@
 
   	.286								; CPU type
 	.model tiny							; Tiny memoy model
+	.data								; Data segment
+		temp_buffer db 128 dup(?)		; Temp var 
 	.code								; Start of code segment
 
 
@@ -169,36 +171,49 @@ _strlen PROC
 _strlen ENDP
 
 
- ; ------------------------------------------------------------------
-;int strchr(const char *str, int c)
-; ------------------------------------------------------------------
-; Get the length of the string
 
-_strchr PROC
+; ------------------------------------------------------------------
+; char *strchr(const char *str, int c)
+; ------------------------------------------------------------------
+; Searches for the first occurrence of the character c 
+; (an unsigned char) in the string pointed to, by the 
+; argument str. 
+
+_strchr PROC 
     push bp								; Save BP on stack
     mov bp, sp							; Set BP to SP   
 	mov si, [bp + 4]					; Point to param address str1
-	xor di, di
+
+	cld									; Clear the temp_buffer
+	lea di, temp_buffer
+	mov cx, 128							; Repeat 128 times
+	mov al, 0							; Clear with null (0)
+	rep stosb     
+
+	push di
+	mov di, offset temp_buffer
+
   @@loop:
 	lodsb								; Get character from string
 	or al, al							; End of string
 	jz @@done
 	cmp al, [bp + 6]
-	je @@found
-	jmp @@loop
-  
-   @@found:
+	jne @@loop
+	mov [di], byte ptr al
+	inc di
+
+  @@found:
    	lodsb								; Get character from string
 	or al, al							; End of string
 	jz @@done
-    	mov ah, 0eh							; Teletype output	
-	int     10h							; Video interupt
-	jmp @@loop
-
-
+	mov [di], byte ptr al
+	inc di
+	jmp @@found
 
   @@done:
-
+	pop di
+	mov ax, offset temp_buffer
+	
 	mov sp, bp							; Restore stack pointer
 	pop bp								; Restore BP register   
 	ret
