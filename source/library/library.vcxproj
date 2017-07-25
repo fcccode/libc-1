@@ -70,10 +70,12 @@
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>.\..\..\prog\VC152\ML.EXE /omf /c source\*.asm
+    <NMakeBuildCommandLine>.\..\..\prog\VC152\ML.EXE /omf /c src\*.asm
 .\..\..\prog\VC152\LIB.EXE /BATCH Succ -+stdio.obj -+ctype.obj -+conio.obj -+string.obj, Succ.lst, Succ.lib
 del *.obj
 del *.bak</NMakeBuildCommandLine>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)include;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakePreprocessorDefinitions>

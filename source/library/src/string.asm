@@ -139,4 +139,68 @@ _strncpy PROC
 	pop bp								; Restore BP register   
 	ret
 _strncpy ENDP
+
+
+; ------------------------------------------------------------------
+; size_t strlen(const char *str)
+; ------------------------------------------------------------------
+; Get the length of the string
+
+_strlen PROC
+    push bp								; Save BP on stack
+    mov bp, sp							; Set BP to SP   
+	mov di, [bp + 4]					; Point to param address str1
+	
+	xor cx, cx							; Store n in cx for loop
+
+  @@loop:
+	lodsb								; Get character from string
+	or al, al							; End of string
+	jz @@done
+	inc cx
+	jmp @@loop
+
+  @@done:
+    mov ax, cx
+
+	mov sp, bp							; Restore stack pointer
+	pop bp								; Restore BP register   
+	ret
+_strlen ENDP
+
+
+ ; ------------------------------------------------------------------
+;int strchr(const char *str, int c)
+; ------------------------------------------------------------------
+; Get the length of the string
+
+_strchr PROC
+    push bp								; Save BP on stack
+    mov bp, sp							; Set BP to SP   
+	mov si, [bp + 4]					; Point to param address str1
+	xor di, di
+  @@loop:
+	lodsb								; Get character from string
+	or al, al							; End of string
+	jz @@done
+	cmp al, [bp + 6]
+	je @@found
+	jmp @@loop
+  
+   @@found:
+   	lodsb								; Get character from string
+	or al, al							; End of string
+	jz @@done
+    	mov ah, 0eh							; Teletype output	
+	int     10h							; Video interupt
+	jmp @@loop
+
+
+
+  @@done:
+
+	mov sp, bp							; Restore stack pointer
+	pop bp								; Restore BP register   
+	ret
+_strchr ENDP
 END

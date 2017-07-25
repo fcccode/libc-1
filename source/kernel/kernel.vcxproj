@@ -89,13 +89,14 @@ del *.obj
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <IncludePath>.\..\lib\headers\;$(IncludePath)</IncludePath>
+    <IncludePath>.\..\library\include\;$(IncludePath)</IncludePath>
     <NMakeBuildCommandLine>SET PATH=
 .\..\..\prog\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c
 .\..\..\prog\VC152\ML.EXE /omf /c *.asm 
 .\..\..\prog\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\lib\Succ.lib, nul
 del *.obj</NMakeBuildCommandLine>
     <NMakeOutput>kernel.bin</NMakeOutput>
+    <LibraryPath>.\..\library\include\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>

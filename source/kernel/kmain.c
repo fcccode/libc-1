@@ -46,13 +46,16 @@ extern void kmain()
 {
 	char buffer[30];
 	char prompt[30]; 
-	
+	char * ret;
+
+
 	clrscr();
 	setbackground(0x1e);
 	puts("SuccOS [version 0.0.1]");
 	puts("Copyright (C) 2017 - 2018 Joshua Riek");
 	strcpy(prompt, "root@SuccOS:~$ ");
-
+	ret = strchr("I love memes", 'm');
+	printf("string after |%c| is - |%s|", 'm', ret);
 	for (;;)
 	{
 		cli(prompt, buffer);

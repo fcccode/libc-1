@@ -70,7 +70,7 @@
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>nasm -f bin bootload.asm -o bootload.bin </NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>.\..\..\prog\nasm -f bin bootload.asm -o bootload.bin </NMakeBuildCommandLine>
     <NMakeOutput>bootload.bin</NMakeOutput>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

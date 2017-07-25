@@ -277,3 +277,4 @@ __pycache__/
 *.lst
 /bak
 *.log
+*.bin
