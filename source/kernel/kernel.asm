@@ -12,9 +12,8 @@ extern _kmain:near				; Externel C kernel
 	org			  0				; Start of code
 ;------------------------------------------------------------
 
-
 main:
-	jmp short  main_kernel
+	jmp short main_kernel
 	nop		
 
 ; ------------------------------------------------------------------
