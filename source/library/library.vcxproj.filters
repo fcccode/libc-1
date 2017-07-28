@@ -28,13 +28,13 @@
     <ClInclude Include="include\stdio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\string.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\conio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ctype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

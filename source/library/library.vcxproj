@@ -82,8 +82,8 @@ del *.bak</NMakeBuildCommandLine>
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>.\..\..\prog\VC152\ML.EXE /omf /c src\*.asm
-for %%i in (*.obj) do .\..\..\prog\VC152\LIB.EXE /BATCH lib\\\Succ -+%%i,lib\\\Succ.lst,lib\\\Succ.lib
+    <NMakeBuildCommandLine>.\..\..\prog\VC152\ML.EXE /omf /c src\*.asm 
+.\..\..\prog\VC152\LIB.EXE /BATCH lib\\\Succ -+conio.obj -+ctype.obj -+stdio.obj -+string.obj,lib\\\Succ.lst,lib\\\Succ.lib
 move /Y *.obj bin
 </NMakeBuildCommandLine>
     <NMakeOutput>
@@ -103,7 +103,8 @@ move /Y *.obj bin
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <BuildLog>
-      <Path>lib\lib.log</Path>
+      <Path>
+      </Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>

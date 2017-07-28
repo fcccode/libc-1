@@ -103,7 +103,10 @@ del *.obj</NMakeBuildCommandLine>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
     <IncludePath>.\..\library\include\;$(IncludePath)</IncludePath>
-    <NMakeBuildCommandLine>SET PATH=
+    <NMakeBuildCommandLine>@echo off
+SET PATH=
+
+
 .\..\..\prog\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c
 .\..\..\prog\VC152\ML.EXE /omf /c *.asm 
 .\..\..\prog\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\library\lib\Succ.lib, nul

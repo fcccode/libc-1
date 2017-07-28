@@ -6,16 +6,7 @@
 	.code								; Start of code segment
 ; ------------------------------------------------------------------
 ; stdio libary
-;
-comment !
-  Supported functions:
-	int printf(const char *format, ...)
-	int scanf(const char *format, ...)
-	int getchar(void)
-	char *gets(char *str)
-	int putchar(int char)
-	int puts(const char *str)
-! comment
+
 
 ; ------------------------------------------------------------------
 ; int printf(const char *format, ...)

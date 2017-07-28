@@ -10,7 +10,7 @@
 ; ------------------------------------------------------------------
 ; This function checks whether the passed character 
 ; is alphanumeric or not. 
-							 ;
+							 
 _isalnum PROC uses si
     push bp								; Save BP on stack
     mov bp, sp							; Set BP to SP     
