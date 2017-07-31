@@ -24,15 +24,15 @@ char *strncat(char*, const char*, size_t);				// Append n chracters from string 
 char *strchr(const char*, int);							// Finds first occurance of a char
 int strcmp(const char*, const char*);					// Compaire two strings
 int strncmp(const char*, const char*, size_t);			// Compaire up to n chars in two strings
-int strcoll(const char *str1, const char *str2);		// Compaire two strings [!] DOES NOT USE LC_COLLATE [!]   
+int strcoll(const char *, const char*);					// Compaire two strings [!] DOES NOT USE LC_COLLATE [!]   
 char *strcpy(char*, const char*);						// Coppies string to dest
-char *strncpy(char*, const char*, size_t);				//Copies up to n chars in string
-// size_t strcspn(const char *str1, const char *str2);
+char *strncpy(char*, const char*, size_t);				// Copies up to n chars in string
+size_t strcspn(const char*, const char*);				// Length of str1 but entirely of characters not in str2
 // char *strerror(int errnum);
 size_t strlen(const char*);								// Return the length of the string
-// char *strpbrk(const char *str1, const char *str2);
-// char *strrchr(const char *str, int c);
-// size_t strspn(const char *str1, const char *str2);
+char *strpbrk(const char*, const char*);				// Finds first char in str1 that matches any char in str2
+char *strrchr(const char*, int);						// Finds last occurrence of char c in the string 
+size_t strspn(const char*, const char*);				//
 // char *strstr(const char *haystack, const char *needle);
 //char *strtok(char *str, const char *delim);
 //size_t strxfrm(char *dest, const char *src, size_t n);

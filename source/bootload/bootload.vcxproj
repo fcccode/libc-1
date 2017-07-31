@@ -78,9 +78,10 @@
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>.\..\..\prog\nasm -f bin bootload.asm -o bootload.bin </NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>.\..\..\prog\nasm.exe -f bin bootload.asm -o bootload.bin </NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>

@@ -30,7 +30,8 @@ main_kernel:
 	mov	ax, 2000h               ; Set segments to match where the kernel loaded 
 	mov	ds, ax
 	mov	es, ax
-	
+
+
 	mov	[BootDrive], dl         ; Save the boot drive number
 	call _kmain					; Call the C kernel
 	

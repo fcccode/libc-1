@@ -99,7 +99,8 @@ del *.obj</NMakeBuildCommandLine>
     <LibraryPath>.\..\library\include\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
     <IncludePath>.\..\library\include\;$(IncludePath)</IncludePath>
@@ -129,6 +130,7 @@ copy kernel.bin  B:
     <NMakeOutput>
     </NMakeOutput>
     <LibraryPath>.\..\library\include\;$(IncludePath)</LibraryPath>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);$(SolutionDir)prog;$(SolutionDir)prog\qemu;$(SolutionDir)prog\VC152;</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>

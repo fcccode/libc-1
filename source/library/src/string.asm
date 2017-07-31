@@ -2,7 +2,7 @@
   	.286								; CPU type
 	.model tiny							; Tiny memoy model
 	.data								; Data segment
-		temp_buffer db ?				; Temp var
+		return_buffer db ?				; Buffer for returning data
 	.code								; Start of code segment
 ; ------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ _strcmp PROC
 		mov ax, 0				    
 	.ELSEIF bh > ah						; Return 1 if str1 is greater than str2
 		mov ah, 1
-	.ELSEIF bh < ah						; Return -1 if str1 is less than str2
+    .ELSEIF bh < ah						; Return -1 if str1 is less than str2
 		mov ah, -1
 	.ENDIF
 
@@ -235,14 +235,14 @@ _strchr PROC
     mov bp, sp							; Set BP to SP   
 	mov si, [bp + 4]					; Point to param address str1
 
-	cld									; Clear the temp_buffer
-	lea di, temp_buffer
-	mov cx, 128							; Repeat 128 times
+	cld									; Clear the return_buffer
+	lea di, return_buffer
+	mov cx, 512							; Repeat 512 times
 	mov al, 0							; Clear with null (0)
 	rep stosb     
 
 	push di
-	mov di, offset temp_buffer
+	mov di, offset return_buffer
 
   @@loop:
 	lodsb								; Get character from string
@@ -263,7 +263,7 @@ _strchr PROC
 
   @@done:
 	pop di
-	mov ax, offset temp_buffer
+	mov ax, offset return_buffer
 	
 	mov sp, bp							; Restore stack pointer
 	pop bp								; Restore BP register   
@@ -478,14 +478,14 @@ _memchr PROC
     mov bp, sp							; Set BP to SP   
 	mov si, [bp + 4]					; Point to param address str1
 
-	cld									; Clear the temp_buffer
-	lea di, temp_buffer
-	mov cx, 512							; Repeat 128 times
+	cld									; Clear the return_buffer
+	lea di, return_buffer
+	mov cx, 512							; Repeat 512 times
 	mov al, 0							; Clear with null (0)
 	rep stosb     
 
 	push di
-	mov di, offset temp_buffer
+	mov di, offset return_buffer
 
   @@loop:
 	lodsb								; Get character from string
@@ -511,11 +511,200 @@ _memchr PROC
 
   @@done:
 	pop di
-	mov ax, offset temp_buffer
+	mov ax, offset return_buffer
 	
 	mov sp, bp							; Restore stack pointer
 	pop bp								; Restore BP register   
 	ret
 _memchr ENDP
+; ------------------------------------------------------------------
+; size_t strcspn(const char *str1, const char *str2);
+; ------------------------------------------------------------------
+; This function calculates the length of the initial 
+; segment of str1, which consists entirely of characters 
+; not in str2.
+
+_strcspn PROC
+    push bp								; Save BP on stack
+    mov bp, sp							; Set BP to SP   
+	mov si, [bp + 4]					; Point to str1 address
+	mov di, [bp + 6]					; Point to str2 address
+	
+	xor cx, cx
+
+  @@cmp:
+	mov al, [si]						; Byte from SI
+	push di								; Save DI
+
+  @@char:
+	mov bl, [di]						; Byte from DI
+	cmp al, bl							; If both bytes equal then exit
+	je @@done
+	inc di								; Increase DI untill zero
+	cmp bl, 0
+	jnz @@char
+	pop di								; Restore DI
+
+	cmp al, 0							; If no bytes left then exit 
+	jz @@done
+	inc si
+	inc cx
+	jmp @@cmp
+
+  @@done:
+	mov ax, cx
+
+	mov sp, bp							; Restore stack pointer
+	pop bp								; Restore BP register   
+	ret
+_strcspn ENDP
+
+
+; ------------------------------------------------------------------
+; char *strpbrk(const char *str1, const char *str2);
+; ------------------------------------------------------------------
+; This function finds the first character in the string str1
+; that matches any character specified in str2. This does 
+; not include the terminating null-characters.
+
+_strpbrk PROC
+    push bp								; Save BP on stack
+    mov bp, sp							; Set BP to SP   
+	mov si, [bp + 4]					; Point to str1 address
+	mov di, [bp + 6]					; Point to str2 address
+	
+  @@cmp:
+	mov al, [si]						; Byte from SI
+	push di								; Save DI
+
+  @@char:
+	mov bl, [di]						; Byte from DI
+	cmp al, bl							; If both bytes equal then exit
+	je @@equal
+	inc di								; Increase DI untill zero
+	cmp bl, 0
+	jnz @@char
+	pop di								; Restore DI
+
+	cmp al, 0							; If no bytes left then exit 
+	jz @@error
+	inc si
+	jmp @@cmp
+
+  @@equal:								; Found equal char
+	mov ax, di
+	jmp @@done
+
+  @@error:	
+	xor ax, ax							 ; Return null on char not found
+	
+  @@done:
+	mov sp, bp							; Restore stack pointer
+	pop bp								; Restore BP register   
+	ret
+_strpbrk ENDP
+
+
+; ------------------------------------------------------------------
+; char *strrchr(const char *str, int c);
+; ------------------------------------------------------------------
+; This function searches for the last occurrence of the 
+; character c (an unsigned char) in the string pointed 
+; to, by the argument str.
+
+_strrchr PROC 
+    push bp								; Save BP on stack
+    mov bp, sp							; Set BP to SP   
+	mov si, [bp + 4]					; Point to str1 address	
+		
+	cld									; Clear the return_buffer
+	lea di, return_buffer
+	mov cx, 512							; Repeat 512 times
+	mov al, 0							; Clear with null (0)
+	rep stosb     
+
+	push si								; Save SI
+	xor cx, cx							; Clear counter
+	xor bx, bx							; Clear counter storage
+
+  @@cmp:
+	mov al, [si]						; Byte from SI
+	cmp al, [bp + 6]
+	je @@found							; If equal store counter in BX
+	jne @@cont							; Else continue
+
+  @@found:
+	mov bx, cx							
+
+  @@cont:
+	or al, al							
+	jz @@fill							; If no more bytes left we need to now fill the buffer
+	inc si								; Increment string
+	inc cx								; Increment counter
+	jmp @@cmp
+	
+  @@fill:
+    pop si								; Restore the string
+    or bx, bx							; If stored counter is null return null
+    jz @@error
+    add si, bx							; Add offfset of counter and string
+    mov di, offset return_buffer		; Point DI to the offset of return_buffer
+
+  @@iterate:
+   	lodsb								; Get character from string
+	or al, al							; End of string
+	jz @@finished
+	mov [di], al						; Store char into DI
+	inc di								; Increase DI 
+	jmp @@iterate
+
+  @@error:
+    xor ax, ax
+	jmp @@done
+
+  @@finished:
+	mov ax, offset return_buffer
+	
+  @@done:
+	mov sp, bp							; Restore stack pointer
+	pop bp								; Restore BP register   
+	ret
+_strrchr ENDP
+
+
+; ------------------------------------------------------------------
+; size_t strspn(const char *str1, const char *str2);
+; ------------------------------------------------------------------
+; This function calculates the length of the initial 
+; segment of str1 which consists entirely of chars 
+; in str2.
+
+_strspn PROC
+    push bp								; Save BP on stack
+    mov bp, sp							; Set BP to SP   
+    mov si, [bp + 4]					; Point to str1 address
+	mov di, [bp + 6]					; Point to str2 address
+
+	xor cx, cx							; Clear counter
+   
+  @@cmp:
+	mov al, [si]						; Byte from S
+	mov bl, [di]						; Byte from DI
+	cmp al, bl							; If both bytes not equal then exit
+	jne @@done
+	cmp al, 0							; If no bytes left then exit 
+	jz @@done
+	inc di				
+	inc si
+	inc cx
+	jmp @@cmp
+ 
+  @@done:
+    mov ax, cx							; Return counter number
+
+	mov sp, bp							; Restore stack pointer
+	pop bp								; Restore BP register   
+	ret
+_strspn ENDP
 
 END

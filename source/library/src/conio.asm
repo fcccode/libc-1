@@ -79,6 +79,7 @@ _delay PROC
     mov bp, sp							; Set BP to SP     
 	mov cx, [bp + 4]					; ms delay
 
+	mov dx, 4240h
 	mov ah, 86h
 	int 15h
 

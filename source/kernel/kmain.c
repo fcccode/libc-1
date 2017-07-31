@@ -4,7 +4,6 @@
 #include <string.h>
 
 
-
 void clearbuff(char *var) {
 	while (var)	*var++ = '\0';
 }
@@ -48,9 +47,10 @@ extern void kmain()
 	char *prompt = "root@SuccOS:~$ ";
 
 	clrscr();
-	setbackground(0x1e);
+	setbackground(0x07);
 	puts("SuccOS [version 0.0.1]");
 	puts("Copyright (C) 2017 - 2018 Joshua Riek");
+
 
 	for (;;) cli(prompt, buffer);
 }
