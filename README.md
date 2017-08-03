@@ -1,3 +1,8 @@
+``libc11`` is a public domain implementation of the C11_ (ISO/IEC 9899:2011)
+standard library.
+.. _C11: http://en.wikipedia.org/wiki/C11_%28C_standard_revision%29
+
+
 SuccOS
 ======================================
 SuccOS is a minimal 16 bit, real mode DOS like operating system written in both C and MASM!
@@ -18,14 +23,14 @@ This table summarizes the C library features:
 | Header        | Description                       | Status        |
 | :------------ | :-------------------------------- | ------------: |
 <ctype.h>      | Character handling.               | Completed.
-<stdio.h>       | Input/output.                     | WIP [[2]]([2])
+<stdio.h>       | Input/output.                     | WIP [2]([2])
 <string.h>      | String handling.                  | WIP
 <conio.h>       | Date and time.                    | WIP
 
 Footnotes
 
 
-.. [2] Currently implemented only for the Clang and GCC compilers.
+[2] Currently implemented only for the Clang and GCC compilers.
 
 .. [3] Legacy wide-character support purposely omitted from the library.
 
