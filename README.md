@@ -18,14 +18,14 @@ This table summarizes the C library features:
 | Header        | Description                       | Status        |
 | :------------ | :-------------------------------- | ------------: |
 <ctype.h>      | Character handling.               | Completed.
-<stdio.h>       | Input/output.                     | WIP [create an anchor](#anchors-in-markdown)
+<stdio.h>       | Input/output.                     | WIP [create an anchor](anchors-in-markdown)
 <string.h>      | String handling.                  | WIP
 <conio.h>       | Date and time.                    | WIP
 
 
 Footnotes
 
-# Anchors in Markdown
+Anchors in Markdown
 
 [2] Currently implemented only for the Clang and GCC compilers.
 
