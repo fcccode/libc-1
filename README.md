@@ -18,13 +18,12 @@ This table summarizes the C library features:
 | Header        | Description                       | Status        |
 | :------------ | :-------------------------------- | ------------: |
 <ctype.h>      | Character handling.               | Completed.
-<stdio.h>       | Input/output.                     | WIP [Take me there](#there_you_go)
+<stdio.h>       | Input/output.                     | WIP [[2]]([2])
 <string.h>      | String handling.                  | WIP
 <conio.h>       | Date and time.                    | WIP
 
 Footnotes
 
-<a name="there_you_go"> PENIS</a>
 
 .. [2] Currently implemented only for the Clang and GCC compilers.
 
