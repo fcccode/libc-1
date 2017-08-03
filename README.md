@@ -1,5 +1,36 @@
-SuccOS - 16 bit C and MASM Operating System!
+SuccOS
 ======================================
+SuccOS is a minimal 16 bit, real mode DOS like operating system written in both C and MASM!
+
+
+
+Features
+========
+
+* Supports only Windows currently, Linux is on the todo list.
+* Extensive C library written in MASM and compatable with any 16 bit system.
+* Clean and modular design, most features can be omitted when building.
+
+Current Library Features
+--------------
+This table summarizes the C library features:
+
+| Header        | Description                       | Status        |
+| :------------ | :-------------------------------- | ------------: |
+<ctype.h>      | Character handling.               | Completed.
+<stdio.h>       | Input/output.                     | WIP [Take me there](#there_you_go)
+<string.h>      | String handling.                  | WIP
+<conio.h>       | Date and time.                    | WIP
+
+Footnotes
+
+<a name="there_you_go"> PENIS</a>
+
+.. [2] Currently implemented only for the Clang and GCC compilers.
+
+.. [3] Legacy wide-character support purposely omitted from the library.
+
+
 
 Installation
 --------------------------------------
