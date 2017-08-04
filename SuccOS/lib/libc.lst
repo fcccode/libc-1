@@ -42,7 +42,7 @@ stdio             Offset: 00000600H  Code and data size: 186H
   _getchar          _gets             _printf           _putchar
   _puts             _scanf          
 
-string            Offset: 00000840H  Code and data size: 3faH
+string            Offset: 00000840H  Code and data size: 3e1H
   _memchr           _memcmp           _memcpy           _memmove
   _memset           _strcat           _strchr           _strcmp
   _strcoll          _strcpy           _strcspn          _strlen

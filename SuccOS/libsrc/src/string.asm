@@ -782,7 +782,7 @@ _strstr PROC
 _strstr	ENDP			   
 
 ; ------------------------------------------------------------------
-; char *strtok(char *str, const char *delim)
+; char *strtok(char *str, const char *delim)	 
 ; ------------------------------------------------------------------
  _strtok PROC
     push bp								; Save BP on stack
@@ -794,43 +794,32 @@ _strstr	ENDP
 	mov cx, 512							; Repeat 512 times
 	mov al, 0							; Clear with null (0)
 	rep stosb  
-
+										; This function makes me wanta kill myself
 	.IF byte ptr [si] == 0
-    	mov sp, bp							; Restore stack pointer
-		pop bp								; Restore BP register   
+    	mov sp, bp						; Restore stack pointer
+		pop bp							; Restore BP register   
 		ret
 	.ELSE
-		cld									; Clear the return_buffer
+		cld								; Clear the return_buffer
 		lea di, strtok_buffer
-		mov cx, 512							; Repeat 512 times
-		mov al, 0							; Clear with null (0)
+		mov cx, 512						; Repeat 512 times
+		mov al, 0						; Clear with null (0)
 		rep stosb  
 
 		push di
-		mov di, offset strtok_buffer		; Point to buffer address
+		mov di, offset strtok_buffer	; Point to buffer address
 
 	  @@store:
-   		lodsb								; Get byte from SI into AL
-		stosb								; Store AL into DI
-		or al, al							; End of string?
+   		lodsb							; Get byte from SI into AL
+		stosb							; Store AL into DI
+		or al, al						; End of string?
 		jnz @@store
 
 	pop di
 
 	
 	.ENDIF
-			cld									; Clear the return_buffer
-		lea di, token_buffer
-		mov cx, 512							; Repeat 512 times
-		mov al, 0							; Clear with null (0)
-		rep stosb  
-	push si
-	mov si, offset strtok_buffer
-	mov di, offset token_buffer		; Point to buffer address
-	lodsb
-	stosb
-	pop si
-	mov ax, offset token_buffer
+
   @@done:
 	mov sp, bp							; Restore stack pointer
 	pop bp								; Restore BP register   

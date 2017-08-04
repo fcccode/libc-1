@@ -47,23 +47,11 @@ extern void kmain()
 {
 	char buffer[64];
 	char *prompt = "root@SuccOS:~$ ";
-	char *str = "This is - www.tutorialspoint.com - website";
-	const char *s = "-";
-	char *token;
 
 	clrscr();
 	setbackground(0x07);
 	puts("SuccOS [version 0.0.1]");
 	puts("Copyright (C) 2017 - 2018 Joshua Riek");
-	
-	/* get the first token */
-	token = strtok(str, s);
-	/* walk through other tokens */
-	{
-		printf(" %s\n", token);
-
-		token = strtok(NULL, s);
-	}
 
 	for (;;) cli(prompt, buffer);
 }
