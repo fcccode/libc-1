@@ -21,8 +21,8 @@ This table summarizes the C library features:
 <conio.h>       | Date and time.                    | WIP
 
 
-Footnotes
-[ge](>NOTE)
+#### Footnotes
+[ge](#footnotes)
 
 > NOTE: Do not change the file directorys or ordering because it will screw up Visual Studio.
 
