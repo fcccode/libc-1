@@ -31,13 +31,10 @@ This table summarizes the C library features:
 2) The rest should work by opening up the Visual Studio Solution and building with `Debug` and `x64` options.
 
 ## Resources
-While working on the development of this project I have sumbled uppon many resources 
-that would intrest any `Hobby OS` developer and in fact be very helpfull. I highly 
-recomend to use [OSDev] while working on this topic of operating system development,
-for it has an extensive ammount of help. On the other hand, to build this project
-you will need the following programs, [NASM] and [MASM] which are used for the
-bootloader, C library and kernel, [imdisk] and [dd] to write the os system files 
-to a virutal floppy disk and lastly [QEMU] image emulator.
+* [OSDev] Is a great website for any Hobby OS developer.
+* [NASM] & [MASM] Which are used for the bootloader, C library and kernel.
+* [imdisk] & [dd] To write the operating system files to a floppy image.
+* [QEMU] Image emulator for testing the os.
 
 [QEMU]:   http://www.qemu.org/
 [imdisk]: http://www.ltr-data.se/opencode.html/
