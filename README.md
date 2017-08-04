@@ -16,15 +16,14 @@ This table summarizes the C library features:
 | Header        | Description                       | Status        |
 | :------------ | :-------------------------------- | ------------: |
 <ctype.h>       | Character handling.               | Completed.
-<stdio.h>       | Input/output.                     | WIP 
+<stdio.h>       | Input/output.                     | WIP [[1]](#footnotes)
 <string.h>      | String handling.                  | WIP
 <conio.h>       | Date and time.                    | WIP
 
 
 #### Footnotes
-[ge](#footnotes)
 
-> NOTE: Do not change the file directorys or ordering because it will screw up Visual Studio.
+> **[1]** Do not change the file directorys or ordering because it will screw up Visual Studio.
 
 Programs used
 --------------------------------------
