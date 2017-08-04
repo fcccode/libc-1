@@ -1,7 +1,8 @@
-#include <stdio.h>
-#include <ctype.h>
-#include <conio.h>
-#include <string.h>
+#include ".\\..\\libsrc\\include\\stdio.h"
+#include ".\\..\\libsrc\\include\\ctype.h"
+#include ".\\..\\libsrc\\include\\conio.h"
+#include ".\\..\\libsrc\\include\\string.h"
+
 
 
 void clearbuff(char *var) {

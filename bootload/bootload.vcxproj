@@ -78,7 +78,7 @@
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>.\..\..\Tools\nasm.exe -f bin bootload.asm -o bootload.bin </NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build_bootload.bat</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
