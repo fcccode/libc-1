@@ -17,7 +17,7 @@ This table summarizes the C library features:
 <ctype.h>       | Character handling.               | Completed.
 <stdio.h>       | Input/output.                     | WIP [[1]](#footnotes)
 <string.h>      | String handling.                  | WIP
-<conio.h>       | Date and time.                    | WIP
+<conio.h>       | DOS like functions.               | WIP
 
 
 #### Footnotes
