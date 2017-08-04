@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="kernel.asm" />
+    <ClCompile Include="src\kmain.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="kmain.c" />
+    <None Include="src\kernel.asm" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -104,8 +104,8 @@ del *.obj</NMakeBuildCommandLine>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
     <IncludePath>.\..\..\Lib16\include;$(IncludePath)</IncludePath>
-    <NMakeBuildCommandLine>call build_kernel.bat
-call build_floppy.bat</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build_kernel.bat
+</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
     <LibraryPath>.\..\..\Lib16\include;$(IncludePath)</LibraryPath>
@@ -137,7 +137,7 @@ call build_floppy.bat</NMakeBuildCommandLine>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <BuildLog>
-      <Path />
+      <Path>bin\kernel.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

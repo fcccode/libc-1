@@ -1,7 +1,7 @@
-#include ".\\..\\libsrc\\include\\stdio.h"
-#include ".\\..\\libsrc\\include\\ctype.h"
-#include ".\\..\\libsrc\\include\\conio.h"
-#include ".\\..\\libsrc\\include\\string.h"
+#include ".\\..\\..\\libsrc\\include\\stdio.h"
+#include ".\\..\\..\\libsrc\\include\\ctype.h"
+#include ".\\..\\..\\libsrc\\include\\conio.h"
+#include ".\\..\\..\\libsrc\\include\\string.h"
 
 
 
