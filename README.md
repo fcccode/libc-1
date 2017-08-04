@@ -7,7 +7,6 @@ SuccOS is a minimal 16 bit, real mode DOS like operating system written in both 
 
 * Supports only Windows currently, Linux is on the todo list.
 * Extensive C library written in MASM and compatable with any 16 bit system.
-* Clean and modular design, most features can be omitted when building.
 
 ### Current Library Features
 
