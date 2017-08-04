@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="kernel.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="kmain.c" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{3CB80D1A-27E3-4587-8B9D-E8AC38687500}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <NMakeBuildCommandLine>SET PATH=
+.\..\..\prog\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c
+.\..\..\prog\VC152\ML.EXE /omf /c *.asm 
+.\..\..\prog\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\library\lib\Succ.lib, nul
+del *.obj
+</NMakeBuildCommandLine>
+    <NMakeOutput>
+    </NMakeOutput>
+    <ExecutablePath>C:\Users\jjrie\OneDrive\ssss\prog\VC152</ExecutablePath>
+    <IncludePath>.\..\library\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>.\..\library\include\;$(IncludePath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <IncludePath>.\..\library\include\;$(IncludePath)</IncludePath>
+    <NMakeBuildCommandLine>SET PATH=
+.\..\..\prog\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c
+.\..\..\prog\VC152\ML.EXE /omf /c *.asm 
+.\..\..\prog\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\lib\Succ.lib, nul
+del *.obj</NMakeBuildCommandLine>
+    <NMakeOutput>kernel.bin</NMakeOutput>
+    <LibraryPath>.\..\library\include\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <IncludePath>.\..\..\Lib16\include;$(IncludePath)</IncludePath>
+    <NMakeBuildCommandLine>@echo off
+SET PATH=
+
+.\..\..\Tools\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c
+.\..\..\Tools\VC152\ML.EXE /omf /c *.asm 
+.\..\..\Tools\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\lib\Lib16.lib, nul
+del *.obj
+
+IF NOT EXIST .\..\build\formatted_floppy.img GOTO floppy_error
+IF EXIST .\..\build\built_floppy.img GOTO remove_image
+GOTO copy_image
+:remove_image
+DEL .\..\build\built_floppy.img &gt; NUL
+:copy_image
+COPY .\..\build\formatted_floppy.img .\..\build\built_floppy.img &gt; NUL
+
+.\..\..\Tools\imdisk -a -f .\..\build\built_floppy.img -s 1440K -m B:
+
+copy kernel.bin  B:
+.\..\..\Tools\imdisk -D -m B:
+.\..\..\Tools\dd if=.\..\bootload\bootload.bin of=.\..\build\built_floppy.img bs=512
+
+.\..\..\Tools\qemu\qemu -fda .\..\build\built_floppy.img</NMakeBuildCommandLine>
+    <NMakeOutput>
+    </NMakeOutput>
+    <LibraryPath>.\..\..\Lib16\include;$(IncludePath)</LibraryPath>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);$(SolutionDir)prog;$(SolutionDir)prog\qemu;$(SolutionDir)prog\VC152;</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <NMakeBuildCommandLine>CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c</NMakeBuildCommandLine>
+    <NMakeOutput>kmain.obj</NMakeOutput>
+    <ExecutablePath>C:\Users\jjrie\OneDrive\ssss\prog\VC152</ExecutablePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <BuildLog>
+      <Path />
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <BuildLog>
+      <Path />
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <BuildLog>
+      <Path />
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <BuildLog>
+      <Path />
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

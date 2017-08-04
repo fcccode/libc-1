@@ -1,0 +1,51 @@
+_clrscr...........conio             _cursoroff........conio
+_cursoron.........conio             _delay............conio
+_drawline.........conio             _getch............conio
+_getchar..........stdio             _getche...........conio
+_gets.............stdio             _gotoxy...........conio
+_isalnum..........ctype             _isalpha..........ctype
+_iscntrl..........ctype             _isdigit..........ctype
+_isgraph..........ctype             _islower..........ctype
+_isprint..........ctype             _ispunct..........ctype
+_isspace..........ctype             _isupper..........ctype
+_isxdigit.........ctype             _memchr...........string
+_memcmp...........string            _memcpy...........string
+_memmove..........string            _memset...........string
+_newline..........conio             _printf...........stdio
+_putchar..........stdio             _puts.............stdio
+_scanf............stdio             _setbackground....conio
+_setcursortype....conio             _strcat...........string
+_strchr...........string            _strcmp...........string
+_strcoll..........string            _strcpy...........string
+_strcspn..........string            _strlen...........string
+_strncat..........string            _strncmp..........string
+_strncpy..........string            _strpbrk..........string
+_strrchr..........string            _strspn...........string
+_strstr...........string            _strtok...........string
+_strxfrm..........string            _tolower..........ctype
+_toupper..........ctype             _wherex...........conio
+_wherey...........conio             
+
+conio             Offset: 00000010H  Code and data size: e7H
+  _clrscr           _cursoroff        _cursoron         _delay
+  _drawline         _getch            _getche           _gotoxy
+  _newline          _setbackground    _setcursortype    _wherex
+  _wherey         
+
+ctype             Offset: 00000210H  Code and data size: 2d0H
+  _isalnum          _isalpha          _iscntrl          _isdigit
+  _isgraph          _islower          _isprint          _ispunct
+  _isspace          _isupper          _isxdigit         _tolower
+  _toupper        
+
+stdio             Offset: 00000600H  Code and data size: 186H
+  _getchar          _gets             _printf           _putchar
+  _puts             _scanf          
+
+string            Offset: 00000840H  Code and data size: 3faH
+  _memchr           _memcmp           _memcpy           _memmove
+  _memset           _strcat           _strchr           _strcmp
+  _strcoll          _strcpy           _strcspn          _strlen
+  _strncat          _strncmp          _strncpy          _strpbrk
+  _strrchr          _strspn           _strstr           _strtok
+  _strxfrm        

@@ -273,8 +273,7 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
-*.vcxproj
-*.lst
-/bak
+
+*.bak
 *.log
-*.bin
+
