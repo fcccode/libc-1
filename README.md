@@ -16,7 +16,7 @@ This table summarizes the C library features:
 <stdio.h>       | Input/output.                     | WIP 
 <string.h>      | String handling.                  | WIP
 <conio.h>       | DOS like functions.               | WIP
-
+<assert.h>      | Test functions and statements.    | WIP
 ## Download WIP
 * [Version X.Y](https://github.com/SpookyVerkauferin/SuccOS/archive/master.zip)
 * Other Versions
