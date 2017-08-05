@@ -1,3 +1,4 @@
+p.................assert            ssp...............assert
 _clrscr...........conio             _cursoroff........conio
 _cursoron.........conio             _delay............conio
 _drawline.........conio             _getch............conio
@@ -24,7 +25,8 @@ _strrchr..........string            _strspn...........string
 _strstr...........string            _strtok...........string
 _strxfrm..........string            _tolower..........ctype
 _toupper..........ctype             _wherex...........conio
-_wherey...........conio             
+_wherey...........conio             __assert..........assert
+
 
 conio             Offset: 00000010H  Code and data size: e7H
   _clrscr           _cursoroff        _cursoron         _delay
@@ -49,3 +51,6 @@ string            Offset: 00000840H  Code and data size: 3e1H
   _strncat          _strncmp          _strncpy          _strpbrk
   _strrchr          _strspn           _strstr           _strtok
   _strxfrm        
+
+assert            Offset: 00000de0H  Code and data size: a2H
+  p                 ssp               __assert        
