@@ -1,99 +1,37 @@
 ; ------------------------------------------------------------------
 	.286								; CPU type
 	.model tiny							; Tiny memoy model
+	extern _printf:near					; Externel _printf function
 	.data								; Data segment
-		error_msg db "Error: ", 0
-		error_end db " failed.", 0
-				temp db 10 dup(?)				; Temp var 
-
+		error_fmt db "Error: %s:%d: `%s` failed.", 10, 13, 0
 	.code								; Start of code segment
 ; ------------------------------------------------------------------
-  ssp proc	  uses si
 
- @@decimal:
-		mov ax, si
-		pusha
-		mov cx, 0
-		mov bx, 10						; Set BX 10, for division and mod
-		mov di, offset temp				; Get our temp var ready
-
-		@@push:
-			mov dx, 0
-			div bx						; Remainder in DX, quotient in AX
-			inc cx						; Increase pop loop counter
-			push dx						; Push remainder, so as to reverse order when popping
-			test ax, ax					; Is quotient zero?
-			jnz @@push					; If not, loop again
-
-		@@pop:
-			pop dx						; Pop off values in reverse order, and add 48 to make them digits
-			add dl, 48					; And save them in the string, increasing the pointer each time
-			mov [di], dl
-			inc di
-			dec cx
-			jnz @@pop
-			mov byte ptr [di], 0		; Zero-terminate string
-			popa
-			mov si, offset temp			; Return location of string
-	@@string:
-	lodsb
-	or al, al							; End of param string
-	jz @@done
-	mov ah, 0eh							; Teletype output	
-	int     10h							; Video interupt
-	jmp @@string
-
-  @@done:
-  ret
-ssp endp
-p proc	  uses si
-@@string:
-	lodsb
-	or al, al							; End of param string
-	jz @@done
-	mov ah, 0eh							; Teletype output	
-	int     10h							; Video interupt
-	jmp @@string
-  @@done:
-    ret
-p endp 
 ; ------------------------------------------------------------------
-;
+; void _assert(const char *file, int line, const char *e)
 ; ------------------------------------------------------------------
-;		printf("Error: %s:%d: `%s` failed.", file, line, e);
+; This function returns an assertion error if vaid, calls
+; to the _printf function within the library and uses
+; a string fmt method for producing the error msg in the
+; system console.
 
-__assert PROC 
+__assert PROC
     push bp								; Save BP on stack
     mov bp, sp							; Set BP to SP    
-	mov si, offset error_msg
-	call p
+	mov si, offset error_fmt			; Error string to format
+	mov ax, [bp + 4]					; Filename
+	mov bx, [bp + 6]					; Line number
+	mov cx, [bp + 8]					; Failed input
 
- 	mov si, [bp + 4]					; File name
-	call p
-	mov al, ':'
-	mov ah, 0eh							; Teletype output	
-	int     10h							; Video interupt
-
-	mov si, [bp + 6]					; Line number
-	call ssp
-	mov al, ':'
-	mov ah, 0eh							; Teletype output	
-	int     10h							; Video interupt
-	
-	mov al, ' '
-	mov ah, 0eh							; Teletype output	
-	int     10h							; Video interupt
-	mov al, '`'
-	mov ah, 0eh							; Teletype output	
-	int     10h							; Video interupt
-	mov si, [bp + 8]					; param
-	call p
-	mov al, '`'
-	mov ah, 0eh							; Teletype output	
-	int     10h							; Video interupt
-
-	mov si, offset error_end
-	call p
+	push cx
+	push bx
+	push ax
+	push si
+	call _printf
+	pop cx
+	pop bx
+	pop ax
+	pop si
 
 	mov sp, bp							; Restore stack pointer
 	pop bp								; Restore BP register   

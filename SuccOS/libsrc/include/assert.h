@@ -2,17 +2,21 @@
 #ifndef __ASSERT__
 #define __ASSERT__
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef NDEBUG
 # define assert (e) ((void) 0)
 #else
-#define assert(e) ((e) ? (void)(0) : _assert(__FILE__, __LINE__, #e))
+# define assert(e) ((e) ? (void)(0) : _assert(__FILE__, __LINE__, #e))
+
+void _assert(const char*, int, const char*);	// Raise assertion error in system console!
+
+#endif // NDEBUG
+
+#ifdef __cplusplus
+}
 #endif
-
-/* Definitions of the Standard C library assert header */
-void _assert(const char *file, int line, const char *e);
-
-
 
 #endif // __ASSERT__

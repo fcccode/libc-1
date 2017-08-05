@@ -52,7 +52,6 @@ extern void kmain()
 	setbackground(0x07);
 	puts("SuccOS [version 0.0.1]");
 	puts("Copyright (C) 2017 - 2018 Joshua Riek");
-	assert(1 != 1);
 
 	for (;;) cli(prompt, buffer);
 }
