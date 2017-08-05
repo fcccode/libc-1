@@ -21,6 +21,7 @@
   <ItemGroup>
     <None Include="..\bootload\build_bootload.bat" />
     <None Include="..\kernel\build_kernel.bat" />
+    <None Include="..\kernel\build_test.bat" />
     <None Include="..\libsrc\build_libc.bat" />
     <None Include="build_floppy.bat" />
   </ItemGroup>
@@ -50,6 +51,7 @@
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
+    <CLRSupport />
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -83,9 +85,18 @@
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakePreprocessorDefinitions>NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <NMakeBuildCommandLine>build_floppy.bat</NMakeBuildCommandLine>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <BuildLog>
+      <Path>bin\build.log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <BuildLog>
       <Path>bin\build.log</Path>
     </BuildLog>

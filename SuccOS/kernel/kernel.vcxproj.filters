@@ -4,15 +4,24 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{dee850b8-18f1-43a5-99ef-8a85f10614f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Files">
+      <UniqueIdentifier>{12ab250a-420c-439e-a87f-b734085049b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\kmain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test\ktest.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\kernel.asm">
       <Filter>Source Files</Filter>
+    </None>
+    <None Include="test\kernel.asm">
+      <Filter>Test Files</Filter>
     </None>
   </ItemGroup>
 </Project>

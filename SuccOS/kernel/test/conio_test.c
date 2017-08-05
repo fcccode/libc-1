@@ -1,5 +1,5 @@
-#include ".\..\include\conio.h"
-#include ".\..\include\string.h"
+#include ".\..\..\libsrc\include\conio.h"
+#include ".\..\..\libsrc\include\string.h"
 
 void iscntrl_test(void)
 {
@@ -7,6 +7,7 @@ void iscntrl_test(void)
 
 	for (i = 0; i <= 127; i++)
 	{
+
 		if (!iscntrl(i) && (i >= 0 && i <= 31) && i == 127)
 		{
 			printf("[Error][iscntrl] Returned: %d\r\n", i);
@@ -16,5 +17,5 @@ void iscntrl_test(void)
 
 void conio_tests(void)
 {
-
+	iscntrl_test();
 }

@@ -34,7 +34,7 @@
     <ClInclude Include="include\string.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test\conio_test.c" />
+    <ClCompile Include="..\kernel\test\conio_test.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -95,9 +95,18 @@
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <NMakePreprocessorDefinitions>NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <NMakeBuildCommandLine>build_libc.bat</NMakeBuildCommandLine>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <BuildLog>
+      <Path>bin\libc.log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <BuildLog>
       <Path>bin\libc.log</Path>
     </BuildLog>

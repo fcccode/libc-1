@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\kmain.c" />
+    <ClCompile Include="test\ktest.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\kernel.asm" />
+    <None Include="test\kernel.asm" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -73,12 +75,7 @@
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>SET PATH=
-.\..\..\prog\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c
-.\..\..\prog\VC152\ML.EXE /omf /c *.asm 
-.\..\..\prog\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\library\lib\Succ.lib, nul
-del *.obj
-</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build_kernel.bat</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
     <ExecutablePath>C:\Users\jjrie\OneDrive\ssss\prog\VC152</ExecutablePath>
@@ -86,16 +83,14 @@ del *.obj
     <LibraryPath>.\..\library\include\;$(IncludePath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
     <IncludePath>.\..\library\include\;$(IncludePath)</IncludePath>
-    <NMakeBuildCommandLine>SET PATH=
-.\..\..\prog\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl *.c
-.\..\..\prog\VC152\ML.EXE /omf /c *.asm 
-.\..\..\prog\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\lib\Succ.lib, nul
-del *.obj</NMakeBuildCommandLine>
-    <NMakeOutput>kernel.bin</NMakeOutput>
+    <NMakeBuildCommandLine>build_test.bat</NMakeBuildCommandLine>
+    <NMakeOutput>
+    </NMakeOutput>
     <LibraryPath>.\..\library\include\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,17 +122,17 @@ del *.obj</NMakeBuildCommandLine>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <BuildLog>
-      <Path />
+      <Path>bin\kernel.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <BuildLog>
-      <Path />
+      <Path>bin\kernel.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <BuildLog>
-      <Path>bin\kernel.log</Path>
+      <Path>bin\test.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
