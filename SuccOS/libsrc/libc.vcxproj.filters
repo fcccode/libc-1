@@ -51,7 +51,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\kernel\test\string_tests.c">
+    <ClCompile Include="tests\__string.c">
       <Filter>Test Files</Filter>
     </ClCompile>
   </ItemGroup>

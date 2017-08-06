@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Build|Win32">
+      <Configuration>Build</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Build|x64">
+      <Configuration>Build</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -37,12 +45,22 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
@@ -60,10 +78,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Build|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -88,23 +112,44 @@
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
     <IncludePath>.\..\libsrc\include;</IncludePath>
-    <NMakeBuildCommandLine>build_test.bat</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build_kernel.bat</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
     <LibraryPath>.\..\libsrc\include;</LibraryPath>
+    <ExecutablePath>.\..\libsrc\include;</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build|Win32'">
+    <NMakePreprocessorDefinitions />
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <IncludePath>.\..\libsrc\include;</IncludePath>
+    <NMakeBuildCommandLine>build_kernel.bat</NMakeBuildCommandLine>
+    <NMakeOutput />
+    <LibraryPath>.\..\libsrc\include;</LibraryPath>
+    <ExecutablePath>.\..\libsrc\include;</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakePreprocessorDefinitions>
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <IncludePath>.\..\..\Lib16\include;$(IncludePath)</IncludePath>
-    <NMakeBuildCommandLine>build_kernel.bat
-</NMakeBuildCommandLine>
+    <IncludePath>.\..\libsrc\include;</IncludePath>
+    <NMakeBuildCommandLine>build_test.bat</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
-    <LibraryPath>.\..\..\Lib16\include;$(IncludePath)</LibraryPath>
-    <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(FxCopDir);$(PATH);$(SolutionDir)prog;$(SolutionDir)prog\qemu;$(SolutionDir)prog\VC152;</ExecutablePath>
+    <LibraryPath>.\..\libsrc\include;</LibraryPath>
+    <ExecutablePath>.\..\..\Tools\VC152</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'">
+    <NMakePreprocessorDefinitions />
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <IncludePath>.\..\libsrc\include;</IncludePath>
+    <NMakeBuildCommandLine>build_kernel.bat
+</NMakeBuildCommandLine>
+    <NMakeOutput />
+    <LibraryPath>.\..\libsrc\include;</LibraryPath>
+    <ExecutablePath>.\..\..\Tools\VC152\;</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>
@@ -130,7 +175,17 @@
       <Path>bin\kernel.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build|Win32'">
+    <BuildLog>
+      <Path>bin\kernel.log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <BuildLog>
+      <Path>bin\test.log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'">
     <BuildLog>
       <Path>bin\test.log</Path>
     </BuildLog>

@@ -3,7 +3,7 @@
 	.model tiny							; Tiny memoy model
 	 _printf proto						; Externel _printf function
 	.data								; Data segment
-		error_fmt db "Error: %s:%d: `%s` failed.", 10, 13, 0
+		error_fmt db "Assertion failed: %s, file %s, line %d", 10, 13, 0
 	.code								; Start of code segment
 ; ------------------------------------------------------------------
 

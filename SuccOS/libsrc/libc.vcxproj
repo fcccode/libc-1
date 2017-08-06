@@ -34,7 +34,7 @@
     <ClInclude Include="include\string.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\kernel\test\string_tests.c" />
+    <ClCompile Include="tests\__string.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -87,6 +87,9 @@
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
     <NMakeBuildCommandLine>build_libc.bat</NMakeBuildCommandLine>
+    <ExecutablePath>.\..\..\Tools\VC152\;</ExecutablePath>
+    <IncludePath>.\..\libsrc\include;</IncludePath>
+    <LibraryPath>.\..\libsrc\include;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
@@ -102,6 +105,7 @@
     <NMakeBuildCommandLine>build_libc.bat</NMakeBuildCommandLine>
     <IncludePath>.\..\libsrc\include;</IncludePath>
     <LibraryPath>.\..\libsrc\include;</LibraryPath>
+    <ExecutablePath>.\..\..\Tools\VC152\;</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <BuildLog>

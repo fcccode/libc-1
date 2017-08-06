@@ -238,7 +238,7 @@ _strchr PROC
 	  
 	cli									; Clear interrupts
 	mov di, offset return_buffer
-	mov cx, (SIZEOF return_buffer)		; Repeat 512 times
+	mov cx, sizeof return_buffer		; Repeat for the length of the buffer
 	mov al, 0							; Clear with null (0)
 	rep stosb     
 	

@@ -10,25 +10,24 @@ SuccOS is a minimal 16 bit, real mode DOS like operating system written in both 
 ### Current Library Features
 This table summarizes the C library features:
 
-| Header        | Description                       | Status        |
-| :------------ | :-------------------------------- | :------------ |
-<ctype.h>       | Character handling.               | Completed.
-<stdio.h>       | Input/output.                     | WIP 
-<string.h>      | String handling.                  | WIP
-<conio.h>       | DOS like functions.               | WIP
+| Header        | Description                       | Status        | Test Cases
+| :------------ | :-------------------------------- | :------------ | :---------
+<ctype.h>       | Character handling.               | Completed.    | 
+<stdio.h>       | Input/output.                     | WIP           |
+<string.h>      | String handling.                  | WIP           | [__string.c](SuccOS/libsrc/tests/__string.c)  
+<conio.h>       | DOS like functions.               | WIP           |
 <assert.h>      | Verify statements.                | Completed.
 
-## Download WIP
-* [Version X.Y](https://github.com/SpookyVerkauferin/SuccOS/archive/master.zip)
-* Other Versions
+## Downloads
+* [Version 0.1.1](https://github.com/SpookyVerkauferin/SuccOS/archive/master.zip)
 
-## Updates
-* August 4th 2017: Its still early. Please kill me :)
+## Notable Updates
+* August 6th 2017: Set up test case kernel, started on string.h test cases.
 
 ## Installation 
 1) Please run the imdisk installer in `Tools\imdiskinst_2.0.6.exe` to install the imdisk virtual floppy disk drivers. 
 2) The rest should work by opening up the Visual Studio Solution and building with `Debug` and `x64` options.
-
+3) Please have Visual Studio 2017 installed for opening up the solution file included!
 ## Resources
 * [OSDev] Is a great website for any Hobby OS developer.
 * [NASM] & [MASM] Which are used for the bootloader, C library and kernel.

@@ -84,7 +84,7 @@
     <NMakeBuildCommandLine>build_bootload.bat</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
-    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>.\..\..\Tools\;.\..\..\Tools\qemu\;</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
@@ -95,6 +95,7 @@
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
     <NMakeBuildCommandLine>build_bootload.bat</NMakeBuildCommandLine>
+    <ExecutablePath>.\..\..\Tools\;.\..\..\Tools\qemu\;</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <BuildLog>
