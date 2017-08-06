@@ -90,6 +90,8 @@
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
     <NMakeBuildCommandLine>build_floppy.bat</NMakeBuildCommandLine>
+    <IncludePath>.\..\libsrc\include;</IncludePath>
+    <LibraryPath>.\..\libsrc\include;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <BuildLog>

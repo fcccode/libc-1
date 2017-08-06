@@ -87,11 +87,11 @@
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <IncludePath>.\..\library\include\;$(IncludePath)</IncludePath>
+    <IncludePath>.\..\libsrc\include;</IncludePath>
     <NMakeBuildCommandLine>build_test.bat</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
-    <LibraryPath>.\..\library\include\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>.\..\libsrc\include;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakePreprocessorDefinitions>

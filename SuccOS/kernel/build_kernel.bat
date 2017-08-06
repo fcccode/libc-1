@@ -2,7 +2,7 @@
 SET PATH=
 
 rem Compile all C files
-.\..\..\Tools\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl src\*.c
+.\..\..\Tools\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl /I ".\..\libsrc\include" src\*.c
 
 rem Compile all assembly files
 .\..\..\Tools\VC152\ML.EXE /omf /c src\*.asm 

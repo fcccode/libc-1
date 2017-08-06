@@ -1,5 +1,5 @@
-#include ".\..\..\libsrc\include\string.h"
-#include ".\..\..\libsrc\include\assert.h"
+#include <string.h>
+#include <assert.h>
 
 // Test case for string.h
 // 
@@ -20,7 +20,7 @@ void __strcmp(void)									// Run strcmp() assert tests
 }
 
 void __strncmp(void)								// Run strncmp() assert tests
-{
+{													
 	assert(strncmp("abcdEF", "ABCDEF", 4) > 0);		// Ensure 'abcdEF' is greater than 'ABCDEF'
 	assert(strncmp("ABCDEF", "adcDEF", 3) < 0);		// Ensure 'ABCDEF' is less than 'abcDEF'
 	assert(strncmp("ABCDEF", "ABcdef", 2) == 0);	// Ensure 'ABCDEF' is equal to 'ABcdef'
@@ -58,10 +58,33 @@ void __strncpy(void)								// Run strncpy() assert tests
 	// if (strcmp(dest, "abcdef"))					   { return -1; }
 }
 
-void conio_tests(void)
+void __strlen(void)									// Run strlen() assert tests
+{
+	int len = strlen("abcdef");						// Store length of the string in a var
+	assert(strlen("abcdef") == 6);					// Ensure return value is equal to 6
+	assert(len == 6);							    // Ensure len is equal to 6
+
+	// if (strlen("abcdef") != 6) { return -1; }
+	// if (len != 6)			  { return -1; }
+}
+
+void __strchr(void)									// Run strchr() assert tests
+{
+	char *ret = strchr("abcdef", 'd');				// Store output into a var
+	assert(strchr("abcdef", 'd') != "def");			// Ensure return is equal to 'def'
+	assert(ret != "def");							// Ensure ret is equl to 'def'
+	
+	// if (strcmp(strchr("abcdef", 'd'), "def")) { return -1; }
+	// if (strcmp(ret, "def"))					 { return -1; }
+}
+
+
+void string_tests(void)
 {
 	__strcmp();
 	__strncmp();
 	__strcpy();
 	__strncpy();
+	__strlen();
+	__strchr();
 }

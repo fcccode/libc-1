@@ -7,7 +7,7 @@ extern "C" {
 #endif
 
 #ifdef NDEBUG
-# define assert (e) ((void) 0)
+# define assert (e)		((void) 0)
 #else
 # define assert(e) ((e) ? (void)(0) : _assert(__FILE__, __LINE__, #e))
 

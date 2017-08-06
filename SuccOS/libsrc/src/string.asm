@@ -2,9 +2,9 @@
   	.286								; CPU type
 	.model tiny							; Tiny memoy model
 	.data								; Data segment
-		return_buffer db ?				; Buffer for returning data
-		strtok_buffer db ?				; Buffer for str token data
-		token_buffer db ?				; Buffer for str token data
+		return_buffer BYTE 64 dup(?)	; Buffer for returning data
+		strtok_buffer BYTE 64 dup(?)	; Buffer for str token data
+		token_buffer BYTE 64 dup(?)		; Buffer for str token data
 	.code								; Start of code segment
 ; ------------------------------------------------------------------
 
@@ -206,7 +206,7 @@ _strlen PROC
 	mov si, [bp + 4]					; Point to param address str1
 	
 	xor cx, cx							; Store n in cx for loop
-
+	
   @@loop:
 	lodsb								; Get character from string
 	or al, al							; End of string
@@ -215,7 +215,7 @@ _strlen PROC
 	jmp @@loop
 
   @@done:
-    mov ax, cx
+    mov ax, cx							; Return the length of the string
 
 	mov sp, bp							; Restore stack pointer
 	pop bp								; Restore BP register   
@@ -231,18 +231,17 @@ _strlen ENDP
 ; (an unsigned char) in the string pointed to, by the 
 ; argument str. 
 
-_strchr PROC 
+_strchr PROC
     push bp								; Save BP on stack
     mov bp, sp							; Set BP to SP   
 	mov si, [bp + 4]					; Point to param address str1
-
-	cld									; Clear the return_buffer
-	lea di, return_buffer
-	mov cx, 512							; Repeat 512 times
+	  
+	cli									; Clear interrupts
+	mov di, offset return_buffer
+	mov cx, (SIZEOF return_buffer)		; Repeat 512 times
 	mov al, 0							; Clear with null (0)
 	rep stosb     
-
-	push di
+	
 	mov di, offset return_buffer
 
   @@loop:
@@ -251,19 +250,16 @@ _strchr PROC
 	jz @@done
 	cmp al, [bp + 6]
 	jne @@loop
-	mov [di], byte ptr al
-	inc di
+	stosb
 
   @@found:
    	lodsb								; Get character from string
 	or al, al							; End of string
 	jz @@done
-	mov [di], byte ptr al
-	inc di
+	stosb
 	jmp @@found
 
   @@done:
-	pop di
 	mov ax, offset return_buffer
 	
 	mov sp, bp							; Restore stack pointer

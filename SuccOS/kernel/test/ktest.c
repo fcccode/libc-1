@@ -1,8 +1,8 @@
-#include ".\\..\\..\\libsrc\\include\\stdio.h"
-#include ".\\..\\..\\libsrc\\include\\ctype.h"
-#include ".\\..\\..\\libsrc\\include\\conio.h"
-#include ".\\..\\..\\libsrc\\include\\string.h"
-#include ".\\..\\..\\libsrc\\include\\assert.h"
+#include <stdio.h>
+#include <ctype.h>
+#include <conio.h>
+#include <string.h>
+#include <assert.h>
 
 
 extern void ktest()
@@ -14,6 +14,6 @@ extern void ktest()
 
 	puts("Testing 'string' functions...");
 
-	conio_tests();
+	string_tests();
 	for (;;);
 }

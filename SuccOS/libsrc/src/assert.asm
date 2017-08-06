@@ -1,7 +1,7 @@
 ; ------------------------------------------------------------------
 	.286								; CPU type
 	.model tiny							; Tiny memoy model
-	extern _printf:near					; Externel _printf function
+	 _printf proto						; Externel _printf function
 	.data								; Data segment
 		error_fmt db "Error: %s:%d: `%s` failed.", 10, 13, 0
 	.code								; Start of code segment
@@ -18,8 +18,8 @@
 
 __assert PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP    
-	mov si, offset error_fmt			; Error string to format
+    mov bp, sp							; Set BP to SP 
+	mov di, offset error_fmt			; Error string to format
 	mov ax, [bp + 4]					; Filename
 	mov bx, [bp + 6]					; Line number
 	mov cx, [bp + 8]					; Failed input
@@ -27,12 +27,12 @@ __assert PROC
 	push cx
 	push bx
 	push ax
-	push si
+	push di
 	call _printf
 	pop cx
 	pop bx
 	pop ax
-	pop si
+	pop di
 
 	mov sp, bp							; Restore stack pointer
 	pop bp								; Restore BP register   
