@@ -1,0 +1,64 @@
+; File test\conio_test.c
+; Line 5
+					_iscntrl_test:
+	*** 000000	c8 00 00 00 		enter	OFFSET L00164,OFFSET 0
+	*** 000004	56 			push	si
+	*** 000005	57 			push	di
+; i = fffc
+; Line 6
+; Line 8
+	*** 000006	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
+	*** 00000b	e9 00 00 		jmp	L00157
+					L00154:
+; Line 9
+; Line 11
+	*** 00000e	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 000011	e8 00 00 		call	_iscntrl
+	*** 000014	83 c4 02 		add	sp,OFFSET 2
+	*** 000017	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00001a	74 03 e9 00 00 		jne	L00159
+	*** 00001f	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000023	7d 03 e9 00 00 		jl	L00159
+	*** 000028	83 7e fc 1f 		cmp	WORD PTR -4[bp],OFFSET 31
+	*** 00002c	7e 03 e9 00 00 		jg	L00159
+	*** 000031	83 7e fc 7f 		cmp	WORD PTR -4[bp],OFFSET 127
+	*** 000035	74 03 e9 00 00 		jne	L00159
+; Line 12
+; Line 13
+	*** 00003a	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 00003d	68 00 00 		push	OFFSET L00161
+	*** 000040	e8 00 00 		call	_printf
+	*** 000043	83 c4 04 		add	sp,OFFSET 4
+; Line 14
+; Line 15
+					L00159:
+					L00155:
+; Line 15
+	*** 000046	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
+					L00157:
+	*** 00004a	83 7e fc 7f 		cmp	WORD PTR -4[bp],OFFSET 127
+	*** 00004e	7f 03 e9 bb ff 		jle	L00154
+					L00156:
+; Line 16
+; Line 16
+					L00152:
+	*** 000053	5f 			pop	di
+	*** 000054	5e 			pop	si
+	*** 000055	c9 			leave
+	*** 000056	c3 			ret	OFFSET 0
+; Local Size: 4
+; Line 19
+					_conio_tests:
+	*** 000058	c8 00 00 00 		enter	OFFSET L00165,OFFSET 0
+	*** 00005c	56 			push	si
+	*** 00005d	57 			push	di
+; Line 20
+	*** 00005e	e8 9f ff 		call	_iscntrl_test
+; Line 21
+; Line 21
+					L00163:
+	*** 000061	5f 			pop	di
+	*** 000062	5e 			pop	si
+	*** 000063	c9 			leave
+	*** 000064	c3 			ret	OFFSET 0
+; Local Size: 2

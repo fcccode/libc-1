@@ -4,6 +4,7 @@
 #include ".\\..\\..\\libsrc\\include\\string.h"
 #include ".\\..\\..\\libsrc\\include\\assert.h"
 
+
 extern void ktest()
 {
 	clrscr();
@@ -12,6 +13,7 @@ extern void ktest()
 	puts("Copyright (C) 2017 - 2018 Joshua Riek\n");
 
 	puts("Testing 'string' functions...");
+
+	conio_tests();
 	for (;;);
 }
-

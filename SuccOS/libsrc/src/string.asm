@@ -41,11 +41,10 @@ _strcmp PROC
 	.IF bh == ah						; Return 0 if both str inputs equal
 		mov ax, 0				    
 	.ELSEIF bh > ah						; Return 1 if str1 is greater than str2
-		mov ah, 1
+		mov ax, 1
     .ELSEIF bh < ah						; Return -1 if str1 is less than str2
-		mov ah, -1
+		mov ax, -1
 	.ENDIF
-
 	mov sp, bp							; Restore stack pointer
 	pop bp								; Restore BP register   
 	ret

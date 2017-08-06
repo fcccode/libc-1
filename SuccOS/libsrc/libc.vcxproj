@@ -34,7 +34,7 @@
     <ClInclude Include="include\string.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\kernel\test\conio_test.c" />
+    <ClCompile Include="..\kernel\test\string_tests.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

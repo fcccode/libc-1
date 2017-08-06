@@ -7,6 +7,7 @@
 	.code								; Start of code segment
 ; ------------------------------------------------------------------
 
+
 ; ------------------------------------------------------------------
 ; void _assert(const char *file, int line, const char *e)
 ; ------------------------------------------------------------------
@@ -22,7 +23,7 @@ __assert PROC
 	mov ax, [bp + 4]					; Filename
 	mov bx, [bp + 6]					; Line number
 	mov cx, [bp + 8]					; Failed input
-
+	
 	push cx
 	push bx
 	push ax

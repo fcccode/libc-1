@@ -11,6 +11,7 @@ void clearbuff(char *var) {
 
 void cli(char * prompt, char buffer[])
 {
+
 	newline();								// Print new console line	
 	printf(prompt);							// Print cmd prompt
 	gets(buffer);							// Get user input and store in buffer

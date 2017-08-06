@@ -51,7 +51,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\kernel\test\conio_test.c">
+    <ClCompile Include="..\kernel\test\string_tests.c">
       <Filter>Test Files</Filter>
     </ClCompile>
   </ItemGroup>

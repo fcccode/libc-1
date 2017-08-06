@@ -2,8 +2,6 @@
 #ifndef __ERRNO__
 #define __ERRNO__
 
-// TODO: Make system error numbers
-
 #ifdef __cplusplus
 extern "C" {
 #endif
