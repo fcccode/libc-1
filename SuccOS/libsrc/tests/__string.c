@@ -16,10 +16,10 @@ void __strcmp(void)										// Run strcmp() assert tests
 	if (!strcmp("abcdef", "ABCDEF") > 0)				// Ensure 'abcdef' is greater than 'ABCDEF'	using a function 
 		_assert("Function Error", __FILE__, __LINE__);
 
-	if (!strcmp("ABCDEF", "abcdef") < 0)			    // Ensure 'ABCDEF' is less than 'abcdef' using a function 
+	if (!strcmp("ABCDEF", "abcdef") < 0)				// Ensure 'ABCDEF' is less than 'abcdef' using a function 
 		_assert("Function Error", __FILE__, __LINE__);
 
-	if (strcmp("ABCDEF", "ABCDEF") != 0) 			    // Ensure 'ABCDEF' is equal to 'ABCDEF'	using a function 
+	if (strcmp("ABCDEF", "ABCDEF") != 0)				// Ensure 'ABCDEF' is equal to 'ABCDEF'	using a function 
 		_assert("Function Error", __FILE__, __LINE__);
 }
 
@@ -30,13 +30,13 @@ void __strncmp(void)									// strncmp() tests
 	assert(strncmp("ABCDEF", "adcDEF", 3) < 0);			// Ensure 'ABCDEF' is less than 'abcDEF' using assert 
 	assert(strncmp("ABCDEF", "ABcdef", 2) == 0);		// Ensure 'ABCDEF' is equal to 'ABcdef' using assert 
 
-	if (!strncmp("abcdEF", "ABCDEF", 4) > 0) 		    // Ensure 'abcdEF' is greater than 'ABCDEF'	using a function 
+	if (!strncmp("abcdEF", "ABCDEF", 4) > 0)			// Ensure 'abcdEF' is greater than 'ABCDEF'	using a function 
 		_assert("Function Error", __FILE__, __LINE__);
 
-	if (!strncmp("ABCDEF", "adcDEF", 3) < 0)		    // Ensure 'ABCDEF' is less than 'abcDEF' using a function 
+	if (!strncmp("ABCDEF", "adcDEF", 3) < 0)			// Ensure 'ABCDEF' is less than 'abcDEF' using a function 
 		_assert("Function Error", __FILE__, __LINE__);
 
-	if (strncmp("ABCDEF", "ABcdef", 2) != 0)		    // Ensure 'ABCDEF' is equal to 'ABcdef' using a function 
+	if (strncmp("ABCDEF", "ABcdef", 2) != 0)			// Ensure 'ABCDEF' is equal to 'ABcdef' using a function 
 		_assert("Function Error", __FILE__, __LINE__);
 }
 
