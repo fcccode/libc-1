@@ -53,13 +53,13 @@ void __strcpy(void)										// strcpy() tests
 	memset(src, '\0', sizeof(src));						// Clear src the buffer 
 	memset(dest, '\0', sizeof(dest));					// Clear dest the buffer 
 
-	if (strcmp(strcpy(src, "abcdef"), "abcdef") != 0)   // Ensure return value is equal to'abcdef' using a function 
+	if (strcmp(strcpy(src, "abcdef"), "abcdef") != 0)	// Ensure return value is equal to'abcdef' using a function 
 		_assert("Function Error", __FILE__, __LINE__);
 	
-	if (strcmp(strcpy(dest, src), "abcdef") != 0)	 	// Ensure return value is equal to 'abcdef' using a function
+	if (strcmp(strcpy(dest, src), "abcdef") != 0)		// Ensure return value is equal to 'abcdef' using a function
 		_assert("Function Error", __FILE__, __LINE__);
 	
-	if (strcmp(src, "abcdef") != 0)					    // Ensure src is equal to 'abcdef' using a function
+	if (strcmp(src, "abcdef") != 0)						// Ensure src is equal to 'abcdef' using a function
 		_assert("Function Error", __FILE__, __LINE__);
 
 	if (strcmp(dest, "abcdef") != 0)					// Ensure dest is equal to 'abcdef' using a function 
@@ -86,10 +86,10 @@ void __strncpy(void)									// strncpy() tests
 		_assert("Function Error", __FILE__, __LINE__);  
 
 	if (strcmp(src, "abcde") != 0)	
-		_assert("Function Error", __FILE__, __LINE__); // Ensure src is equal to 'abcde' using a function
+		_assert("Function Error", __FILE__, __LINE__);	// Ensure src is equal to 'abcde' using a function
 
 	if (strcmp(dest, "abcd") != 0)	
-	_assert("Function Error", __FILE__, __LINE__);	   // Ensure dest is equal to 'abcd' using a function
+	_assert("Function Error", __FILE__, __LINE__);		// Ensure dest is equal to 'abcd' using a function
 }
 
 
@@ -103,7 +103,7 @@ void __strlen(void)										// strlen() tests
 	if (strlen("abcdef") != 6)							// Ensure return value is equal to 6 using a function
 		_assert("Function Error", __FILE__, __LINE__);
 
-	if (len != 6) 										// Ensure len is equal to 6 using a function
+	if (len != 6)										// Ensure len is equal to 6 using a function
 		_assert("Function Error", __FILE__, __LINE__);
 }
 
