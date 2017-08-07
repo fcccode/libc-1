@@ -1,11 +1,13 @@
 # SuccOS
 SuccOS is a minimal 16 bit, real mode DOS like operating system written in both C and MASM!
 
-## Features
-* Supports only Windows currently, Linux is on the todo list.
-* Extensive C library written in MASM and compatable with any 16 bit system.
-* Library refrences work in both MASM and C, examples on the todo list.
-* Working Bootloader and kernel entry point.
+## Features & Goals
+* [x] Working Bootloader and kernel entry point.
+* [ ] Standard C library written in MASM and compatable with any 16 bit system.
+* [x] Library refrences work in both MASM and C.
+* [ ] Write test cases that work within [gcc](https://gcc.gnu.org/) and the 16 bit C library.
+* [ ] Implement standard kernel features. 
+* [ ] Building in cross platform environments.
 
 ### Current Library Features
 This table summarizes the C library features:
@@ -20,6 +22,7 @@ This table summarizes the C library features:
 
 ## Downloads
 * [Version 0.1.1](https://github.com/SpookyVerkauferin/SuccOS/archive/master.zip)
+* [Version 0.1](https://github.com/SpookyVerkauferin/SuccOS-0.1) 
 
 ## Notable Updates
 * August 6th 2017: Set up test case kernel, started on string.h test cases.
@@ -27,7 +30,7 @@ This table summarizes the C library features:
 ## Installation 
 1) Please run the imdisk installer in `Tools\imdiskinst_2.0.6.exe` to install the imdisk virtual floppy disk drivers. 
 2) The rest should work by opening up the Visual Studio Solution and building with `Debug` and `x64` options.
-3) Please have Visual Studio 2017 installed for opening up the solution file included!
+
 ## Resources
 * [OSDev] Is a great website for any Hobby OS developer.
 * [NASM] & [MASM] Which are used for the bootloader, C library and kernel.
