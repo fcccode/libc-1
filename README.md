@@ -27,9 +27,10 @@ This table summarizes the C library features:
 ## Notable Updates
 * August 6th 2017: Set up test case kernel, started on string.h test cases.
 
-## Installation 
-1) Please run the imdisk installer in `Tools\imdiskinst_2.0.6.exe` to install the imdisk virtual floppy disk drivers. 
-2) The rest should work by opening up the Visual Studio Solution and building with `Debug` and `x64` options.
+## Installation
+1) Extract the `Tools.zip` to the current folder, build scripts depend on it's path.
+2) Please run the imdisk installer in `Tools\imdiskinst_2.0.6.exe` to install the imdisk virtual floppy disk drivers. 
+3) The rest should work by opening up the Visual Studio Solution and building with `Debug` and `x64` options.
 
 ## Resources
 * [OSDev] Is a great website for any Hobby OS developer.
@@ -39,7 +40,7 @@ This table summarizes the C library features:
 
 [QEMU]:   http://www.qemu.org/
 [imdisk]: http://www.ltr-data.se/opencode.html/
-[dd]:	  http://uranus.chrysocome.net/linux/rawwrite/dd-old.htm
+[dd]:	    http://uranus.chrysocome.net/linux/rawwrite/dd-old.htm
 [OSDev]:  http://wiki.osdev.org/Main_Page
 [MASM]:   http://www.masm32.com/download.htm
 [NASM]:   http://www.nasm.us/index.php
