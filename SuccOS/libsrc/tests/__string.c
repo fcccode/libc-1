@@ -7,39 +7,28 @@
 //	strcmp(), strncmp(), strcpy(), strncpy()
 //	strlen(), strchr(), strcat()
 
-// ERROR: ALL OF THE __FILE__ DIRECTIVES USE ALOT OF MEMORY! MAKE A GLOBAL VAR FOR IT
 
 void __strcmp(void)						// Run strcmp() assert tests
 {
-    assert(strcmp("abcdef", "ABCDEF") > 0);			// Ensure 'abcdef' is greater than 'ABCDEF' using assert
-    assert(strcmp("ABCDEF", "abcdef") < 0);			// Ensure 'ABCDEF' is less than 'abcdef' using assert
-    assert(strcmp("ABCDEF", "ABCDEF") == 0);			// Ensure 'ABCDEF' is equal to 'ABCDEF'	using assert
+    assert(strcmp("abcdef", "ABCDEF") > 0);			// Ensure 'abcdef' is greater than 'ABCDEF'
+    assert(strcmp("ABCDEF", "abcdef") < 0);			// Ensure 'ABCDEF' is less than 'abcdef'
+    assert(strcmp("ABCDEF", "ABCDEF") == 0);			// Ensure 'ABCDEF' is equal to 'ABCDEF'
 
-    if (!strcmp("abcdef", "ABCDEF") > 0)			// Ensure 'abcdef' is greater than 'ABCDEF' using a function
-	_assert("Function Error", __FILE__, __LINE__);
-
-    if (!strcmp("ABCDEF", "abcdef") < 0)			// Ensure 'ABCDEF' is less than 'abcdef' using a function
-	_assert("Function Error", __FILE__, __LINE__);
-
-    if (strcmp("ABCDEF", "ABCDEF") != 0)			// Ensure 'ABCDEF' is equal to 'ABCDEF'	using a function
-	_assert("Function Error", __FILE__, __LINE__);
+    assert(strcmp("abcdef", "AbCdEf") > 0);			// Ensure 'abcdef' is greater than 'AbCdEf'
+    assert(strcmp("AbCdEf", "abcdef") < 0);			// Ensure 'AbCdEf' is less than 'abcdef'
+    assert(strcmp("AbCdEf", "AbCdEf") == 0);			// Ensure 'AbCdEf' is equal to 'AbCdEf'
 }
 
 
 void __strncmp(void)                                            // strncmp() tests
 {
-    assert(strncmp("abcdEF", "ABCDEF", 4) > 0);			// Ensure 'abcdEF' is greater than 'ABCDEF'	using assert
-    assert(strncmp("ABCDEF", "adcDEF", 3) < 0);			// Ensure 'ABCDEF' is less than 'abcDEF' using assert
-    assert(strncmp("ABCDEF", "ABcdef", 2) == 0);                // Ensure 'ABCDEF' is equal to 'ABcdef' using assert
+    assert(strncmp("abcdEF", "ABCDEF", 4) > 0);			// Ensure 'abcdEF' is greater than 'ABCDEF'
+    assert(strncmp("ABCDEF", "adcDEF", 3) < 0);			// Ensure 'ABCDEF' is less than 'abcDEF'
+    assert(strncmp("ABCDEF", "ABcdef", 2) == 0);                // Ensure 'ABCDEF' is equal to 'ABcdef'
 
-    if (!strncmp("abcdEF", "ABCDEF", 4) > 0)			// Ensure 'abcdEF' is greater than 'ABCDEF'	using a function
-	_assert("Function Error", __FILE__, __LINE__);
-
-    if (!strncmp("ABCDEF", "adcDEF", 3) < 0)			// Ensure 'ABCDEF' is less than 'abcDEF' using a function
-	_assert("Function Error", __FILE__, __LINE__);
-
-    if (strncmp("ABCDEF", "ABcdef", 2) != 0)			// Ensure 'ABCDEF' is equal to 'ABcdef' using a function
-	_assert("Function Error", __FILE__, __LINE__);
+    assert(strncmp("AbcdEF", "ABCDEF", 4) > 0);			// Ensure 'AbcdEF' is greater than 'ABCDEF'
+    assert(strncmp("ABCDEF", "AdcDEF", 3) < 0);			// Ensure 'ABCDEF' is less than 'AdcDEF' using a function
+    assert(strncmp("aBcdef", "aBCDEF", 2) == 0);		// Ensure 'aBcdef' is equal to 'aBCDEF' using a function
 }
 
 
@@ -47,25 +36,21 @@ void __strcpy(void)                                             // strcpy() test
 {
     char src[10], dest[10];					// String buffers
 
-    assert(!strcmp(pstrcpy(src, "abcdef"), "abcdef"));		// Ensure return value is equal to 'abcdef'
-    assert(!strcmp(strcpy(dest, src), "abcdef"));		// Ensure return value is equal to 'abcdef'
+    memset(src, '\0', sizeof(src));				// Clear src the buffer
+    memset(dest, '\0', sizeof(dest));				// Clear dest the buffer
+
+    assert(!strcmp(strcpy(src, "abcdef"), "abcdef"));		// Ensure return value is equal to 'abcdef'
+    assert(!strcmp(strcpy(dest, src), "abcdef"));		// Ensure return value is equal to'abcdef'
     assert(!strcmp(src, "abcdef"));				// Ensure src is equal to 'abcdef'
     assert(!strcmp(dest, "abcdef"));				// Ensure dest is equal to 'abcdef'
 
     memset(src, '\0', sizeof(src));				// Clear src the buffer
     memset(dest, '\0', sizeof(dest));				// Clear dest the buffer
 
-    if (strcmp(strcpy(src, "abcdef"), "abcdef") != 0)		// Ensure return value is equal to'abcdef' using a function
-	_assert("Function Error", __FILE__, __LINE__);
-
-    if (strcmp(strcpy(dest, src), "abcdef") != 0)		// Ensure return value is equal to 'abcdef' using a function
-	_assert("Function Error", __FILE__, __LINE__);
-
-    if (strcmp(src, "abcdef") != 0)				// Ensure src is equal to 'abcdef' using a function
-	_assert("Function Error", __FILE__, __LINE__);
-
-    if (strcmp(dest, "abcdef") != 0)				// Ensure dest is equal to 'abcdef' using a function
-	_assert("Function Error", __FILE__, __LINE__);
+    assert(!strcmp(strcpy(src, "ABCDEF"), "ABCDEF"));		// Ensure return value is equal to 'ABCDEF'
+    assert(!strcmp(strcpy(dest, src), "ABCDEF"));		// Ensure return value is equal to 'ABCDEF'
+    assert(!strcmp(src, "ABCDEF"));				// Ensure src is equal to 'ABCDEF'
+    assert(!strcmp(dest, "ABCDEF"));				// Ensure src is equal to 'ABCDEF'
 }
 
 
@@ -234,7 +219,7 @@ void string_tests(void)
     __strlen();
     __strchr();
     __strcat();
-    __strncat();
+    // __strncat();
     __memset();
     __memmove();
     __memcpy();
