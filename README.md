@@ -1,7 +1,7 @@
-# SuccOS
+# <img src="Docs/SuccOS logo.png?raw=true" width="30%"/>
 SuccOS is a minimal 16 bit, real mode DOS like operating system written in both C and MASM!
 
-## Features & Goals
+## <img src="Docs/Features & Goals.png?raw=true" width="40%"/>
 * [x] Working Bootloader and kernel entry point.
 * [ ] Standard C library written in MASM and compatable with any 16 bit system.
 * [x] Library refrences work in both MASM and C.
@@ -9,7 +9,7 @@ SuccOS is a minimal 16 bit, real mode DOS like operating system written in both 
 * [ ] Implement standard kernel features. 
 * [ ] Building in cross platform environments.
 
-### Current Library Features
+## <img src="Docs/Current Library Features.png?raw=true" width="55%"/>
 This table summarizes the C library features:
 
 | Header        | Description                       | Status        | Test Cases
@@ -20,19 +20,19 @@ This table summarizes the C library features:
 <conio.h>       | DOS like functions.               | WIP           |
 <assert.h>      | Verify statements.                | Completed.
 
-## Downloads
+## <img src="Docs/Downloads.png?raw=true" width="25%"/>
 * [Version 0.1.1](https://github.com/SpookyVerkauferin/SuccOS/archive/master.zip)
 * [Version 0.1](https://github.com/SpookyVerkauferin/SuccOS-0.1) 
 
-## Notable Updates
+## <img src="Docs/Notable Updates.png?raw=true" width="40%"/>
 * August 6th 2017: Set up test case kernel, started on string.h test cases.
 
-## Installation
+## <img src="Docs/Installation.png?raw=true" width="25%"/>
 1) Extract the `Tools.zip` to the current folder, build scripts depend on it's path.
 2) Please run the imdisk installer in `Tools\imdiskinst_2.0.6.exe` to install the imdisk virtual floppy disk drivers. 
 3) The rest should work by opening up the Visual Studio Solution and building with `Debug` and `x64` options.
 
-## Resources
+## <img src="Docs/Resources.png?raw=true" width="25%"/>
 * [OSDev] Is a great website for any Hobby OS developer.
 * [NASM] & [MASM] Which are used for the bootloader, C library and kernel.
 * [imdisk] & [dd] To write the operating system files to a floppy image.

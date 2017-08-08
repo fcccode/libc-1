@@ -201,14 +201,52 @@ void __memcmp(void)						// memcmp() testing
 }
 
 
-void __memchr(void)						// memchr() tests
+void __memchr(void)						// memchr() testing
 {
-    char *ret = memchr("abcdef", 'd', 7);			// Store return with memchr output
+    char *ret1 = memchr("abcdef", 'd', 7);			// Store return with memchr output
+    char *ret2 = memchr("abcdef", 'd', 7);			// Store return with memchr output
 
     assert(!strcmp(memchr("abcdef", 'd', 7), "def"));		// Ensure return is equal to 'def'
-    assert(!strcmp(ret, "def"));				// Ensure return is equal to 'def'
+    assert(!strcmp(ret1, "def"));				// Ensure ret1 is equal to 'def'
+
+    assert(!strcmp(memchr("abcdef", 'f', 7), "f"));		// Ensure return is equal to 'f'
+    assert(!strcmp(ret2, "f"));					// Ensure ret2 is equal to 'f'
+}
+
+
+void __strcspn(void)						// strcspn() testing
+{
+    int len;							// Length var
+
+    len = strcspn("abcdef", "de");				// Store strcspn in len
+    assert((strcspn("abcdef", "de") + 1) == 4);		// Ensure return is equal to 4
+    assert((len + 1) == 4);					// Ensure len is equal to 4
+
+    len = strcspn("abcdef", "fedcb");				// Store strcspn in len
+    assert((strcspn("abcdef", "fedcb") + 1) == 2);		// Ensure return is equal to 2
+    assert((len + 1) == 2);					// Ensure len is equal to 2
 
 }
+
+
+void __strpbrk(void)
+{
+    const char *str1 = "abcde2fghi3jk4l";
+    const char *str2 = "34";
+    char *ret;
+
+    ret = strpbrk(str1, str2);
+    assert(!strcmp(*ret, "3"));
+    if (ret)
+    {
+	printf("First matching character: %s\n", ret);
+    }
+    else
+    {
+	printf("Character not found");
+    }
+}
+
 
 void string_tests(void)
 {
@@ -225,4 +263,6 @@ void string_tests(void)
     __memcpy();
     __memcmp();
     __memchr();
+    __strcspn();
+    __strpbrk();
 }

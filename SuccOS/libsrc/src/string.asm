@@ -569,40 +569,40 @@ _strcspn ENDP
 ; not include the terminating null-characters.
 
 _strpbrk PROC
-    push bp								; Save BP on stack
+    push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
-	mov si, [bp + 4]					; Point to str1 address
-	mov di, [bp + 6]					; Point to str2 address
+    mov si, [bp + 4]						; Point to str1 address
+    mov di, [bp + 6]						; Point to str2 address
 
   @@cmp:
-	mov al, [si]						; Byte from SI
-	push di								; Save DI
+    mov al, [si]						; Byte from SI
+    push di							; Save DI
 
   @@char:
-	mov bl, [di]						; Byte from DI
-	cmp al, bl							; If both bytes equal then exit
-	je @@equal
-	inc di								; Increase DI untill zero
-	cmp bl, 0
-	jnz @@char
-	pop di								; Restore DI
+    mov bl, [di]						; Byte from DI
+    cmp al, bl							; If both bytes equal then exit
+    je @@equal
+    inc di							; Increase DI untill zero
+    cmp bl, 0
+    jnz @@char
+    pop di							; Restore DI
 
-	cmp al, 0							; If no bytes left then exit
-	jz @@error
-	inc si
-	jmp @@cmp
+    cmp al, 0							; If no bytes left then exit
+    jz @@error
+    inc si
+    jmp @@cmp
 
-  @@equal:								; Found equal char
-	mov ax, di
-	jmp @@done
+  @@equal:							; Found equal char
+    mov ax, di
+    jmp @@done
 
   @@error:
-	xor ax, ax							 ; Return null on char not found
+    mov ax, 0							 ; Return null on char not found
 
   @@done:
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
+    mov sp, bp							; Restore stack pointer
+    pop bp							; Restore BP register
+    ret
 _strpbrk ENDP
 
 
