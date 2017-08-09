@@ -1,4 +1,4 @@
-# <img src="Docs/SuccOS logoblue.png?raw=true" height=60/>
+# <img src="Docs/succOS logoblue.png?raw=true" height=60/>
 SuccOS is a minimal 16 bit, real mode DOS like operating system written in both C and MASM!
 
 ## <img src="Docs/Features & Goalsblue.png?raw=true" height=40/>
