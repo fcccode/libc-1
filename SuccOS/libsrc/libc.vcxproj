@@ -86,7 +86,7 @@
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>build_libc.bat</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build_libc.bat debug</NMakeBuildCommandLine>
     <ExecutablePath>.\..\..\Tools\VC152\;</ExecutablePath>
     <IncludePath>.\..\libsrc\include;</IncludePath>
     <LibraryPath>.\..\libsrc\include;</LibraryPath>

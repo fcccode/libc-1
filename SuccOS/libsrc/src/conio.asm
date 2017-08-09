@@ -1,7 +1,7 @@
 ; ------------------------------------------------------------------
-	.286								; CPU type
-	.model tiny							; Tiny memoy model
-	.code								; Start of code segment
+  	.286					; CPU type
+	.model tiny				; Tiny memoy model
+	.code					; Start of code segment
 ; ------------------------------------------------------------------
 ; conio libary
 
@@ -9,19 +9,19 @@
 ; ------------------------------------------------------------------
 ; int clrscr(int c)
 ; ------------------------------------------------------------------
-; This function checks whether the passed character 
+; This function checks whether the passed character
 ; is a hexadecimal digit.
 
-_clrscr PROC 
+_clrscr PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov al, 02h
 	mov ah, 00h
     int		10h
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _clrscr ENDP
 
@@ -32,17 +32,17 @@ _clrscr ENDP
 ; ------------------------------------------------------------------
 ; This function turns the cursor off
 
-_cursoroff PROC 
+_cursoroff PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov ch, 32
 	mov ah, 1
 	mov al, 3
-	int 10h				
+	int 10h
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _cursoroff ENDP
 
@@ -53,30 +53,30 @@ _cursoroff ENDP
 ; ------------------------------------------------------------------
 ; This function turns the cursor on
 
-_cursoron PROC 
+_cursoron PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov ch, 6
 	mov cl, 7
 	mov ah, 1
 	mov al, 3
-	int 10h	
+	int 10h
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _cursoron ENDP
 
-																			 
+
 ; ------------------------------------------------------------------
 ; void delay(int ms)
 ; ------------------------------------------------------------------
 ; This function delays the program
 
-_delay PROC 
+_delay PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 	mov cx, [bp + 4]					; ms delay
 
 	mov dx, 4240h
@@ -84,7 +84,7 @@ _delay PROC
 	int 15h
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _delay ENDP
 
@@ -94,16 +94,16 @@ _delay ENDP
 ; ------------------------------------------------------------------
 ; This function moves the cursor to a new pos
 
-_drawline PROC 
+_drawline PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 
 	push [bp + 4]						; Xpos
 	push [bp + 6]						; Ypos
 	call _gotoxy
 
-    mov ah, 09h							
+    mov ah, 09h
 	mov bh, 0
 	mov cx, [bp + 8]
 	mov bl, 70h							; Black text on white background
@@ -111,12 +111,12 @@ _drawline PROC
 	int 10h
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _drawline ENDP
 
 
-	 
+
 ; ------------------------------------------------------------------
 ; int getch(void)
 ; ------------------------------------------------------------------
@@ -124,19 +124,19 @@ _drawline ENDP
 
 _getch PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov ah, 0
 	int		16h							; Keybord interupt
 	xor ah, ah							; Clear higher-half of ax
 
     mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _getch ENDP
 
 
-	 
+
 ; ------------------------------------------------------------------
 ; int getche(void)
 ; ------------------------------------------------------------------
@@ -144,15 +144,15 @@ _getch ENDP
 
 _getche PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov ah, 0
 	int		16h							; Keybord interupt
-	mov ah, 0eh							; Teletype output	
+	mov ah, 0eh							; Teletype output
 	int     10h							; Video interupt
 
     mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _getche ENDP
 
@@ -164,9 +164,9 @@ _getche ENDP
 ; ------------------------------------------------------------------
 ; This function moves the cursor to a new pos
 
-_gotoxy PROC 
+_gotoxy PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov dl, [bp + 4]					; xpos
 	mov dh, [bp + 6]					; ypos
@@ -175,7 +175,7 @@ _gotoxy PROC
 	int 10h								; BIOS interrupt to move cursor
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _gotoxy ENDP
 
@@ -186,22 +186,22 @@ _gotoxy ENDP
 ; ------------------------------------------------------------------
 ; This function writes a new line
 
-_newline PROC 
+_newline PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
-    mov ah, 0eh							; Teletype output	
+    mov ah, 0eh							; Teletype output
     mov al, 0dh							; Carriage return
     int		10h							; Video interupt
-    mov al, 0ah							; Line feed 
+    mov al, 0ah							; Line feed
     int		10h							; Video interupt
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _newline ENDP
 
-																	 
+
 ; ------------------------------------------------------------------
 ; void setbackground(int color)
 ; ------------------------------------------------------------------
@@ -209,10 +209,10 @@ _newline ENDP
 
 _setbackground PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
-	
+    mov bp, sp							; Set BP to SP
+
 	mov	dx, 0							 ; Set screen colors
-	mov	ah, 09h 
+	mov	ah, 09h
 	mov	al, ' '
 	mov	bh, 0
 	mov	bl, [bp + 4]	                ; Bg | sText color
@@ -220,7 +220,7 @@ _setbackground PROC
 	int     10h							; Video interupt
 
     mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _setbackground ENDP
 
@@ -234,7 +234,7 @@ _setbackground ENDP
 
 _setcursortype PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov ch,  [bp + 4]
 	mov cl, 7
@@ -244,7 +244,7 @@ _setcursortype PROC
 
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _setcursortype ENDP
 
@@ -256,17 +256,17 @@ _setcursortype ENDP
 
 _wherex PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov bh, 0
 	mov ah, 3
 	int		10h							; Video interupt
-	
+
 	mov ah, 0
 	mov al, dl
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _wherex ENDP
 
@@ -276,9 +276,9 @@ _wherex ENDP
 ; ------------------------------------------------------------------
 ; This function returns the cursor y pos
 
-_wherey PROC 
+_wherey PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov bh, 0
 	mov ah, 3
@@ -288,7 +288,7 @@ _wherey PROC
 	mov al, dh
 
 	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _wherey ENDP
 

@@ -28,11 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\kmain.c" />
-    <ClCompile Include="test\ktest.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\kernel.asm" />
-    <None Include="test\kernel.asm" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -134,7 +132,7 @@
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
     <IncludePath>.\..\libsrc\include;</IncludePath>
-    <NMakeBuildCommandLine>build_test.bat</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>build_kernel.bat debug</NMakeBuildCommandLine>
     <NMakeOutput>
     </NMakeOutput>
     <LibraryPath>.\..\libsrc\include;</LibraryPath>

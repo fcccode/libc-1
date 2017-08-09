@@ -1,10 +1,10 @@
 ; ------------------------------------------------------------------
-	.286								; CPU type
-	.model tiny							; Tiny memoy model
+	.286							; CPU type
+	.model tiny						; Tiny memoy model
 	 _printf proto						; Externel _printf function
-	.data								; Data segment
-		error_fmt db "Assertion failed: %s, file %s, line %d", 10, 13, 0
-	.code								; Start of code segment
+	.data							; Data segment
+	    error_fmt db "Assertion failed: %s, file %s, line %d", 10, 13, 0
+	.code							; Start of code segment
 ; ------------------------------------------------------------------
 
 
@@ -17,13 +17,13 @@
 ; system console.
 
 __assert PROC
-    push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP 
-	mov di, offset error_fmt			; Error string to format
+    push bp							; Save BP on stack
+    mov bp, sp							; Set BP to SP
+	mov di, offset error_fmt				; Error string to format
 	mov ax, [bp + 4]					; Filename
 	mov bx, [bp + 6]					; Line number
 	mov cx, [bp + 8]					; Failed input
-	
+
 	push cx
 	push bx
 	push ax
@@ -34,8 +34,8 @@ __assert PROC
 	pop ax
 	pop di
 
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	mov sp, bp						; Restore stack pointer
+	pop bp							; Restore BP register
 	ret
 __assert ENDP
 

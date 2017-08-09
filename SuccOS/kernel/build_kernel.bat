@@ -1,11 +1,13 @@
 @echo off
 SET PATH=
 
+if "%1"=="debug" goto done
+
 rem Compile all C files
 .\..\..\Tools\VC152\CL.EXE /AT /G2 /Gs /Gx /c /Zl /I ".\..\libsrc\include" src\*.c
 
 rem Compile all assembly files
-.\..\..\Tools\VC152\ML.EXE /omf /c src\*.asm 
+.\..\..\Tools\VC152\ML.EXE /omf /c src\*.asm
 
 rem Link together all files and include the libary
 .\..\..\Tools\VC152\LINK.EXE /T /NOD kernel.obj kmain.obj, kernel.bin, nul, .\..\lib\libc.lib, nul
@@ -15,3 +17,5 @@ move /Y *.obj bin > nul
 
 rem Move kernel image into bin dir
 move /Y *.bin bin > nul
+
+:done
