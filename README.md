@@ -5,7 +5,8 @@ SuccOS is a minimal 16 bit, real mode DOS like operating system written in both 
 * [x] Working Bootloader and kernel entry point.
 * [ ] Standard C library written in MASM and compatable with any 16 bit system.
 * [x] Library refrences work in both MASM and C.
-* [ ] Write test cases that work within [gcc](https://gcc.gnu.org/) and the 16 bit C library.
+* [ ] Write test cases that work within [gcc](https://gcc.gnu.org/) and my 16 bit C library.
+* [ ] Write tutorials on how to use the library within your own 16 bit system.
 * [ ] Implement standard kernel features. 
 * [ ] Building in cross platform environments.
 
