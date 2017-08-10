@@ -18,7 +18,7 @@ int isprint(int c);						// Checks whether the passed character is printable
 int ispunct(int c);						// Checks whether the passed character is a punctuation character
 int isspace(int c);						// Checks whether the passed character is white-space
 int isupper(int c);						// Checks whether the passed character is an uppercase letter
-int isxdigit(int c);					// Checks whether the passed character is a hexadecimal digit
+int isxdigit(int c);						// Checks whether the passed character is a hexadecimal digit
 int tolower(int c);						// This function converts uppercase letters to lowercase.
 int toupper(int c);						// This function converts lowercase letters to uppercase.
 

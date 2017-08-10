@@ -797,49 +797,102 @@ _strstr PROC
     ret
 _strstr	ENDP
 
+
+clearBuff MACRO arg
+    push di
+    push cx
+    push ax
+    cld
+    mov di, offset arg
+    mov cx, sizeof arg				; Repeat for the length of the buffer
+    mov al, 0							; Clear with null (0)
+    rep stosb
+    pop di
+    pop cx
+    pop ax
+ENDM
 ; ------------------------------------------------------------------
 ; char *strtok(char *str, const char *delim)
 ; ------------------------------------------------------------------
  _strtok PROC
-    push bp								; Save BP on stack
+    push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
-	mov si, [bp + 4]					; Point to haystack address
+    mov si, [bp + 4]						; Point to haystack address
+    mov di, [bp + 4]						; This function makes me wanta kill myself
 
-	cld									; Clear the return_buffer
-	lea di, token_buffer
-	mov cx, 512							; Repeat 512 times
-	mov al, 0							; Clear with null (0)
-	rep stosb
-										; This function makes me wanta kill myself
-	.IF byte ptr [si] == 0
-    	mov sp, bp						; Restore stack pointer
-		pop bp							; Restore BP register
-		ret
-	.ELSE
-		cld								; Clear the return_buffer
-		lea di, strtok_buffer
-		mov cx, 512						; Repeat 512 times
-		mov al, 0						; Clear with null (0)
-		rep stosb
+    clearBuff return_buffer
 
-		push di
-		mov di, offset strtok_buffer	; Point to buffer address
+    mov bl, [di]						; Byte from DI
+    cmp bl, 0
+    jz @@s
+    jmp @@f
 
-	  @@store:
-   		lodsb							; Get byte from SI into AL
-		stosb							; Store AL into DI
-		or al, al						; End of string?
-		jnz @@store
+  @@s:
+    mov si, offset strtok_buffer
+    mov di, offset return_buffer
 
-	pop di
+  @@s_fill_return:
+    lodsb							; Get byte from SI into AL
+    stosb							; Store AL into DI
+    cmp al, [bp + 6]
+    je @@s_found_delim
+    or al, al							; End of string?
+    jnz @@s_fill_return
 
+  @@s_found_delim:
+    mov di, offset token_buffer
 
-	.ENDIF
+  @@s_fill_token:
+    lodsb							; Get byte from SI into AL
+    stosb							; Store AL into DI
+    or al, al							; End of string?
+    jnz @@s_fill_token
+
+    clearBuff strtok_buffer
+
+    mov di, offset strtok_buffer
+    mov si, offset token_buffer
+
+  @@s_fill_strtok:
+    lodsb							; Get byte from SI into AL
+    stosb							; Store AL into DI
+    or al, al							; End of string?
+    jnz @@s_fill_strtok
+
+    clearBuff token_buffer
+
+    mov ax, offset return_buffer
+    mov sp, bp							; Restore stack pointer
+    pop bp							; Restore BP register
+    ret
+
+  @@f:
+    clearBuff strtok_buffer
+    mov di, offset return_buffer	; Point to buffer address
+
+  @@f_fill_return:
+    lodsb							; Get byte from SI into AL
+    stosb							; Store AL into DI
+    cmp al, [bp + 6]
+    je @@f_found_delim
+    or al, al						; End of string?
+    jnz @@f_fill_return
+
+  @@f_found_delim:
+    mov di, offset strtok_buffer
+
+  @@f_fill_strtok:
+    lodsb							; Get byte from SI into AL
+    stosb							; Store AL into DI
+    or al, al						; End of string?
+    jnz @@f_fill_strtok
 
   @@done:
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
+    mov ax, offset return_buffer
+
+    mov sp, bp							; Restore stack pointer
+    pop bp								; Restore BP register
+    ret
 _strtok ENDP
 
 ; ------------------------------------------------------------------

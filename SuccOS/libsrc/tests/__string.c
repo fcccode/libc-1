@@ -325,9 +325,21 @@ void __strcoll(void)						// strcoll() testing
 }
 
 
+void __strtok(void)
+{
+    char *str = "ssh | -f 127. | 0.0.1";
+    char *token;
+
+    token = strtok(str, '|');
+    printf("First token: %s\r\n", token);
+    token = strtok(0, '|');
+    printf("Second token: %s\r\n", token);
+    token = strtok(0, '|');
+    printf("Third token: %s\r\n", token);
+}
+
 void string_tests(void)
 {
-
     __strcmp();
     __strncmp();
     __strcpy();
@@ -348,4 +360,5 @@ void string_tests(void)
     // __strstr();
     __strxfrm();
     __strcoll();
+    __strtok();
 }

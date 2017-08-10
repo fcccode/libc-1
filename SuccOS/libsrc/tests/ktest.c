@@ -7,13 +7,13 @@
 
 extern void ktest()
 {
-	clrscr();
-	setbackground(0x9f);
-	puts("SuccOS [version i don't fucking know]");
-	puts("Copyright (C) 2017 - 2018 Joshua Riek\n");
+    clrscr();
+    setbackground(0x9f);
+    puts("SuccOS [version i don't fucking know]");
+    puts("Copyright (C) 2017 - 2018 Joshua Riek\n");
 
-	puts("Testing 'string' functions...");
+    puts("Testing 'string' functions...");
 
-	string_tests();
-	for (;;);
+    string_tests();
+    for (;;);
 }

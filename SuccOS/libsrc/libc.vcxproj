@@ -34,6 +34,8 @@
     <ClInclude Include="include\string.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="tests\ktest.c" />
+    <ClCompile Include="tests\__ctype.c" />
     <ClCompile Include="tests\__string.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
