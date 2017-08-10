@@ -17,27 +17,26 @@
 
 _strcmp PROC
 	push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
+	mov bp, sp						; Set BP to SP
 	mov di, [bp + 4]					; Point to param address
 	mov si, [bp + 6]					; Point to param address
 
 	xor ah, ah						; Char number total for SI
 	xor bh, bh						; Char number total for DI
 
-  	.REPEAT
-		mov al, [si]					; Byte from SI
-		add ah, al					; Total ascii char number
-		mov bl, [di]					; Byte from DI
-		add bh, bl					; Total ascii char number
-		.IF al != bl					; Both bytes equal before null?
-			.BREAK
-		.ELSEIF !al
-			.BREAK
-		.ENDIF
-		inc di
-		inc si
-	.UNTIL 0
-
+  @@cmp:
+    mov al, [si]					; Byte from SI
+    add ah, al					; Total ascii char number
+    mov bl, [di]					; Byte from DI
+    add bh, bl					; Total ascii char number
+    cmp al, bl
+    jne @@done
+    cmp al, 0
+    je @@done
+    inc di
+    inc si
+    jmp @@cmp
+  @@done:
 	.IF bh == ah						; Return 0 if both str inputs equal
 		mov ax, 0
 	.ELSEIF bh > ah						; Return 1 if str1 is greater than str2
@@ -830,12 +829,17 @@ ENDM
   @@s:
     mov si, offset strtok_buffer
     mov di, offset return_buffer
+    mov al, [si]
+    or al, al
+    jnz @@s_fill_return
+    mov ax, 0
+    jmp @@done
 
   @@s_fill_return:
     lodsb							; Get byte from SI into AL
-    stosb							; Store AL into DI
     cmp al, [bp + 6]
     je @@s_found_delim
+    stosb							; Store AL into DI
     or al, al							; End of string?
     jnz @@s_fill_return
 
@@ -872,9 +876,9 @@ ENDM
 
   @@f_fill_return:
     lodsb							; Get byte from SI into AL
-    stosb							; Store AL into DI
     cmp al, [bp + 6]
     je @@f_found_delim
+    stosb							; Store AL into DI
     or al, al						; End of string?
     jnz @@f_fill_return
 
@@ -886,10 +890,9 @@ ENDM
     stosb							; Store AL into DI
     or al, al						; End of string?
     jnz @@f_fill_strtok
-
-  @@done:
     mov ax, offset return_buffer
 
+  @@done:
     mov sp, bp							; Restore stack pointer
     pop bp								; Restore BP register
     ret

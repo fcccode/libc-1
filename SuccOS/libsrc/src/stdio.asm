@@ -2,7 +2,7 @@
 	.286								; CPU type
 	.model tiny							; Tiny memoy model
 	.data								; Data segment
-		temp db 10 dup(?)				; Temp var 
+		temp db 10 dup(?)				; Temp var
 	.code								; Start of code segment
 ; ------------------------------------------------------------------
 ; stdio libary
@@ -12,12 +12,12 @@
 ; ------------------------------------------------------------------
 ; Sends formatted output to stdout.
 
-_printf PROC uses ax 
+_printf PROC uses ax
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP      
+    mov bp, sp							; Set BP to SP
 	mov di, 6
     mov si, [bp + di]					; Point to param address
-	
+
   @@loop:
 	lodsb								; Get character from string
 	or al, al							; End of string
@@ -28,7 +28,7 @@ _printf PROC uses ax
 	int     10h							; Otherwise, print it
 	jmp @@loop
 
-	@@switch:		
+	@@switch:
 		lodsb
 		push si							; Store current string
 		add di, 2						; Add to param offset
@@ -40,25 +40,25 @@ _printf PROC uses ax
 		je @@char
 		cmp al, 'd'						; Decimal integer
 		je @@decimal
-	  
+
 	  @@switch_end:
-	  	pop si				
+	  	pop si
 		jmp @@loop
-	
+
 	  @@string:
 		lodsb
 		or al, al						; End of param string
 		jz @@switch_end
-		mov ah, 0eh						; Teletype output	
+		mov ah, 0eh						; Teletype output
 		int     10h						; Video interupt
 		jmp @@string
 
 	  @@char:
 		mov ax,  si
-		mov ah, 0eh						; Teletype output	
+		mov ah, 0eh						; Teletype output
 		int     10h						; Video interupt
 		jmp @@switch_end
-	  
+
 	  @@decimal:
 		mov ax, si
 		pusha
@@ -84,27 +84,27 @@ _printf PROC uses ax
 			mov byte ptr [di], 0		; Zero-terminate string
 			popa
 			mov si, offset temp			; Return location of string
-			jmp @@string				; Print temp 
+			jmp @@string				; Print temp
 
-  @@done: 
+  @@done:
     mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
-_printf ENDP 
+_printf ENDP
 
 
 ; ------------------------------------------------------------------
-; int scanf(const char *format, ...);		
+; int scanf(const char *format, ...);
 ; ------------------------------------------------------------------
 ; Reads formatted input from stdin.
 
 _scanf PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP  
+    mov bp, sp							; Set BP to SP
 	mov si, [bp + 4]					; Point to param address
 
 	.IF BYTE PTR [si] == '%'
-		.IF BYTE PTR [si + 1] == 's'	
+		.IF BYTE PTR [si + 1] == 's'
 			jmp @@string
 		.ELSEIF BYTE PTR [si + 1] == 'c'
 			jmp @@char
@@ -122,13 +122,13 @@ _scanf PROC
 		xor cl, cl
       @@input_loop:
 		mov ah, 0
-		int		16h						; Wait for keypress 
+		int		16h						; Wait for keypress
 		cmp al, 08h						; Handle backspace
-		je @@backspace		  
+		je @@backspace
 		cmp al, 0dh						; Handle enter
-		je @@done      
+		je @@done
 		cmp cl, 3fh						; Handle max input buffer
-		je @@done      
+		je @@done
 
 		mov ah, 0eh						; Teletype output
 		int		10h						; Video interupt
@@ -139,7 +139,7 @@ _scanf PROC
 
 	  @@backspace:
 		cmp cl, 0						; Start of string
-		je @@input_loop		
+		je @@input_loop
 		dec di
 		mov BYTE PTR [di], 0			; Remove char
 		dec cl							; Decrease char counter
@@ -147,10 +147,10 @@ _scanf PROC
 		mov al, 08h						; Backspace
 		int		10h						; Video interupt
 		mov al, ' '						; Fill with blank char
-		int     10h						; Video interupt 
+		int     10h						; Video interupt
 		mov al, 08h						; Backspace
-		int     10h						; Video interupt 
-		jmp @@input_loop		
+		int     10h						; Video interupt
+		jmp @@input_loop
 
 	@@char:
 		mov di, [bp + 6]				; Point to param address
@@ -163,15 +163,15 @@ _scanf PROC
 
 	@@decimal:
 
-  @@done: 
-    mov ah, 0eh							; Teletype output	
+  @@done:
+    mov ah, 0eh							; Teletype output
     mov al, 0dh							; Carriage return
     int		10h							; Video interupt
-    mov al, 0ah							; Line feed 
+    mov al, 0ah							; Line feed
     int		10h							; Video interupt
 
     mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _scanf ENDP
 
@@ -183,41 +183,41 @@ _scanf ENDP
 
 _getchar PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
 	mov ah, 0
 	int		16h							; Keybord interupt
 	xor ah, ah							; Clear higher-half of ax
 
     mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _getchar ENDP
 
-	
+
 ; ------------------------------------------------------------------
 ; char *gets(char *str)
 ; ------------------------------------------------------------------
-; Reads a line from stdin and stores it into the 
-; string pointed to by, str. It stops when either 
-; the newline character is read or when the end-of-file 
+; Reads a line from stdin and stores it into the
+; string pointed to by, str. It stops when either
+; the newline character is read or when the end-of-file
 ; is reached, whichever comes first.
 
 _gets PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
     mov di, [bp + 4]					; Point to param address
 
 	xor cl, cl
   @@input_loop:
     mov ah, 0
-    int		16h							; Wait for keypress 
+    int		16h							; Wait for keypress
     cmp al, 08h							; Handle backspace
-    je @@backspace		  
+    je @@backspace
     cmp al, 0dh							; Handle enter
-    je @@done      
+    je @@done
     cmp cl, 3fh							; Handle max input buffer
-    je @@done      
+    je @@done
 
 	mov ah, 0eh							; Teletype output
 	int		10h							; Video interupt
@@ -228,7 +228,7 @@ _gets PROC
 
   @@backspace:
     cmp cl, 0							; Start of string
-    je @@input_loop		
+    je @@input_loop
 	dec di
     mov byte ptr [di], 0				; Remove char
     dec cl								; Decrease char counter
@@ -236,21 +236,21 @@ _gets PROC
     mov al, 08h							; Backspace
     int		10h							; Video interupt
     mov al, ' '							; Fill with blank char
-    int     10h							; Video interupt 
+    int     10h							; Video interupt
     mov al, 08h							; Backspace
-    int     10h							; Video interupt 
-    jmp @@input_loop		
+    int     10h							; Video interupt
+    jmp @@input_loop
 
-  @@done: 
+  @@done:
 
-    mov ah, 0eh							; Teletype output	
+    mov ah, 0eh							; Teletype output
     mov al, 0dh							; Carriage return
     int		10h							; Video interupt
-    mov al, 0ah							; Line feed 
+    mov al, 0ah							; Line feed
     int		10h							; Video interupt
 
     mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _gets ENDP
 
@@ -258,19 +258,19 @@ _gets ENDP
 ; ------------------------------------------------------------------
 ; int putchar(int char)
 ; ------------------------------------------------------------------
-; Writes a character (an unsigned char) specified 
+; Writes a character (an unsigned char) specified
 ; by the argument char to stdout.
 
 _putchar PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
+    mov bp, sp							; Set BP to SP
 
-	mov ax, [bp + 4]					; Move char into ax 
+	mov ax, [bp + 4]					; Move char into ax
 	mov ah, 0eh							; Teletype output
 	int	 10h							; Video interupt
 
     mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _putchar ENDP
 
@@ -278,32 +278,33 @@ _putchar ENDP
 ; ------------------------------------------------------------------
 ; int puts(const char *str)
 ; ------------------------------------------------------------------
-; Writes a string to stdout up to but not including 
-; the null character. A newline character is appended 
+; Writes a string to stdout up to but not including
+; the null character. A newline character is appended
 ; to the output.
 
-_puts PROC uses si
+_puts PROC
     push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP     
-	mov si, [bp + 6]					; Point to param address
-	
+    mov bp, sp
+    pusha; Set BP to SP
+	mov si, [bp + 4]					; Point to param address
+
   @@string:
 	lodsb
 	or al, al							; End of param string
 	jz @@done
-	mov ah, 0eh							; Teletype output	
+	mov ah, 0eh							; Teletype output
 	int     10h							; Video interupt
 	jmp @@string
 
   @@done:
-    mov ah, 0eh							; Teletype output	
+    mov ah, 0eh							; Teletype output
     mov al, 0dh							; Carriage return
     int		10h							; Video interupt
-    mov al, 0ah							; Line feed 
+    mov al, 0ah							; Line feed
     int		10h							; Video interupt
-
+    popa
     mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register   
+	pop bp								; Restore BP register
 	ret
 _puts ENDP
 

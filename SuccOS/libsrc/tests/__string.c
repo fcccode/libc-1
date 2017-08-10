@@ -325,17 +325,11 @@ void __strcoll(void)						// strcoll() testing
 }
 
 
-void __strtok(void)
+void __strtok(void)						// strtok() testing [!] Warning: this function is very glitchy!
 {
-    char *str = "ssh | -f 127. | 0.0.1";
-    char *token;
-
-    token = strtok(str, '|');
-    printf("First token: %s\r\n", token);
-    token = strtok(0, '|');
-    printf("Second token: %s\r\n", token);
-    token = strtok(0, '|');
-    printf("Third token: %s\r\n", token);
+    char *str = "ml /omf /c";					// String to split into tokens
+    char *token = strtok(str, '-');				// Get first token
+    while (token != NULL) token = strtok(NULL, '-');		// Iterate tokens untill null
 }
 
 void string_tests(void)

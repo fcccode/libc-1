@@ -17,26 +17,28 @@
 ; system console.
 
 __assert PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-	mov di, offset error_fmt				; Error string to format
-	mov ax, [bp + 4]					; Filename
-	mov bx, [bp + 6]					; Line number
-	mov cx, [bp + 8]					; Failed input
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+    pusha
+    mov di, offset error_fmt				    ; Error string to format
+    mov ax, [bp + 4]					    ; Filename
+    mov bx, [bp + 6]					    ; Line number
+    mov cx, [bp + 8]					    ; Failed input
 
-	push cx
-	push bx
-	push ax
-	push di
-	call _printf
-	pop cx
-	pop bx
-	pop ax
-	pop di
+    push cx
+    push bx
+    push ax
+    push di
+    call _printf
+    pop cx
+    pop bx
+    pop ax
+    pop di
 
-	mov sp, bp						; Restore stack pointer
-	pop bp							; Restore BP register
-	ret
+    popa
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
 __assert ENDP
 
 end

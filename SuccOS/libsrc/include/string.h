@@ -34,7 +34,7 @@ char *strpbrk(const char*, const char*);			// Finds first char in str1 that matc
 char *strrchr(const char*, int);				// Finds last occurrence of char c in the string
 size_t strspn(const char*, const char*);			// Finds the length of the start of str1 which consists entirely of chars in str2
 char *strstr(const char*, const char*);				// Finds first occurance of an entire string in a larger string set
-char *strtok(char*, const char*);				//
+char *strtok(char*, const char);				//
 size_t strxfrm(char*, const char*, size_t);			// Transforms the first n chars of src into locale and puts them into the dest
 
 #ifdef __cplusplus
