@@ -21,7 +21,7 @@ rem Compile all assembly files
 ML.EXE /omf /c tests\*.asm
 
 rem Link together all files and include the libary
-LINK.EXE /T /NOD kernel.obj ktest.obj __string.obj, kernel.bin, nul, %libpath%\libc.lib, nul
+LINK.EXE /T /NOD kernel.obj ktest.obj __string.obj __ctype.obj, kernel.bin, nul, %libpath%\libc.lib, nul
 
 rem Move kernel image into bin dir
 move /Y *.bin .\..\kernel\bin > nul

@@ -15,5 +15,6 @@ extern void ktest()
     puts("Testing 'string' functions...");
 
     string_tests();
+    ctype_tests();
     for (;;);
 }

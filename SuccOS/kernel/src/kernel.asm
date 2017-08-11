@@ -14,29 +14,29 @@ extern _kmain:near				; Externel C kernel
 
 main:
 	jmp short main_kernel
-	nop		
+	nop
 
 ; ------------------------------------------------------------------
-; main_kernel -- The main MASM kernel 
+; main_kernel -- The main MASM kernel
 ; IN/OUT: Nothing
-   
+
 main_kernel:
 	cli                         ; Clear interrupts
-	mov	ax, 0   
+	mov	ax, 0
 	mov	ss, ax                  ; Set stack pointer
 	mov	sp, 0FFFFh
 	sti                         ; Restore interrupts
 
-	mov	ax, 2000h               ; Set segments to match where the kernel loaded 
+	mov	ax, 2000h               ; Set segments to match where the kernel loaded
 	mov	ds, ax
 	mov	es, ax
 
 
 	mov	[BootDrive], dl         ; Save the boot drive number
 	call _kmain					; Call the C kernel
-	
-	hlt							; Halt the system 
-	
+
+	hlt							; Halt the system
+
 END main
 
 END

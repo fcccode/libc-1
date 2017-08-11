@@ -21,7 +21,6 @@
   <ItemGroup>
     <None Include="..\bootload\build_bootload.bat" />
     <None Include="..\kernel\build_kernel.bat" />
-    <None Include="..\kernel\build_test.bat" />
     <None Include="..\libsrc\build_libc.bat" />
     <None Include="build_floppy.bat" />
   </ItemGroup>

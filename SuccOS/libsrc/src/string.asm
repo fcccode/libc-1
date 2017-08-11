@@ -8,6 +8,19 @@
 	.code					; Start of code segment
 ; ------------------------------------------------------------------
 
+clearBuff MACRO arg
+    push di
+    push cx
+    push ax
+    cld
+    mov di, offset arg
+    mov cx, sizeof arg				; Repeat for the length of the buffer
+    mov al, 0							; Clear with null (0)
+    rep stosb
+    pop di
+    pop cx
+    pop ax
+ENDM
 
 ; ------------------------------------------------------------------
 ; int strcmp(const char *str1, const char *str2)
@@ -736,14 +749,16 @@ _strstr PROC
     push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
     mov si, [bp + 4]						; Point to haystack address
+    mov di, [bp + 6]						; Point to needle address
 
+    pusha
     cld
     mov di, offset return_buffer
     mov cx, sizeof return_buffer				; Repeat for the length of the buffer
     mov al, 0							; Clear with null (0)
     rep stosb
+    popa
 
-    mov di, [bp + 6]						; Point to needle address
     xor cx, cx							; Store n in cx for loop
 
   @@cmp:
@@ -796,20 +811,6 @@ _strstr PROC
     ret
 _strstr	ENDP
 
-
-clearBuff MACRO arg
-    push di
-    push cx
-    push ax
-    cld
-    mov di, offset arg
-    mov cx, sizeof arg				; Repeat for the length of the buffer
-    mov al, 0							; Clear with null (0)
-    rep stosb
-    pop di
-    pop cx
-    pop ax
-ENDM
 ; ------------------------------------------------------------------
 ; char *strtok(char *str, const char *delim)
 ; ------------------------------------------------------------------

@@ -1,11 +1,6 @@
 #include <string.h>
 #include <assert.h>
 
-// Test case for string.h
-//
-// Completed tests:
-//
-
 
 void __strcmp(void)						// Run strcmp() assert tests
 {
@@ -272,23 +267,15 @@ void __strspn(void)						// strspn() testing
 }
 
 
-// WARNING MEMORY ERROR!
-// This is a known issue and is currently being worked on...
 void __strstr(void)						// strstr() testing
 {
     char *ret = strstr("www.examexample.com", "example");	// Store ret as var
-    // char *ret2;
-    assert(!strcmp(ret, "example.com"));			// Ensure ret is equal to '.com'
-    assert(!strcmp(strstr("abcdef", "de"), "def"));		// Ensure return is equal to '.com'
+    assert(!strcmp(ret, "example.com"));			// Ensure ret is equal to 'example.com'
+    assert(!strcmp(strstr("abcdef", "de"), "def"));		// Ensure return is equal to 'def'
 
-
-    // This would raise an error, for some reason 'def' overwrites the ret var.
-    // assert(!strcmp(strstr("abcdef", "de"), "def"));
-    // assert(!strcmp(ret, "example.com"));
-    //
-    // Causes screen to flash for some fucking reason.
-    // ret2 = strstr("www.examexample.com", "example");
-    // assert(!strcmp(ret2, "example.com"));
+    ret = strstr("www.cuck.com", "cuck");			// Store ret as var
+    assert(!strcmp(ret, "cuck.com"));				// Ensure ret is equal to 'cuck.com'
+    assert(!strcmp(strstr("www.cuck.com", "cuck"), "cuck.com"));// Ensure return is equal to 'cuck.com'
 }
 
 
@@ -328,8 +315,11 @@ void __strcoll(void)						// strcoll() testing
 void __strtok(void)						// strtok() testing [!] Warning: this function is very glitchy!
 {
     char *str = "ml /omf /c";					// String to split into tokens
-    char *token = strtok(str, '-');				// Get first token
-    while (token != NULL) token = strtok(NULL, '-');		// Iterate tokens untill null
+    char *token = strtok(str, ' ');				// Get first token
+    while (token != NULL)
+    {
+	token = strtok(NULL, ' ');		// Iterate tokens untill null
+    }
 }
 
 void string_tests(void)
@@ -351,8 +341,9 @@ void string_tests(void)
     __strpbrk();
     __strrchr();
     __strspn();
-    // __strstr();
+    __strstr();
     __strxfrm();
     __strcoll();
     __strtok();
+    return;
 }

@@ -17,7 +17,7 @@ This table summarizes the C library features:
 | :------------ | :-------------------------------- | :------------ | :---------
 <ctype.h>       | Character handling.               | Completed.    | 
 <stdio.h>       | Input/output.                     | WIP           |
-<string.h>      | String handling.                  | WIP           | [__string.c](SuccOS/libsrc/tests/__string.c)  
+<string.h>      | String handling.                  | Completed.    | [__string.c](SuccOS/libsrc/tests/__string.c)  
 <conio.h>       | DOS like functions.               | WIP           |
 <assert.h>      | Verify statements.                | Completed.
 

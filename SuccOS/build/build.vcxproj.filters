@@ -19,8 +19,5 @@
     <None Include="..\bootload\build_bootload.bat">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="..\kernel\build_test.bat">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
 </Project>
