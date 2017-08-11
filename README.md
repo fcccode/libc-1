@@ -15,7 +15,7 @@ This table summarizes the C library features:
 
 | Header        | Description                       | Status        | Test Cases
 | :------------ | :-------------------------------- | :------------ | :---------
-<ctype.h>       | Character handling.               | Completed.    | 
+<ctype.h>       | Character handling.               | Completed.    | [__ctype.c](SuccOS/libsrc/tests/__ctype.c)  
 <stdio.h>       | Input/output.                     | WIP           |
 <string.h>      | String handling.                  | Completed.    | [__string.c](SuccOS/libsrc/tests/__string.c)  
 <conio.h>       | DOS like functions.               | WIP           |
@@ -26,7 +26,11 @@ This table summarizes the C library features:
 * [Version 0.1](https://github.com/SpookyVerkauferin/SuccOS-0.1) 
 
 ## <img src="Docs/Notable Updatesblue.png?raw=true" height=40/>
-* August 6th 2017: Set up test case kernel, started on string.h test cases.
+* August 11th 2017: Finished the *ctype* test case.
+* August 10th 2017: Finished the *string* test case.
+* August 9th 2017: Completed all standard *string.h* functions.
+* August 7th 2017: Completed the standard *ctype.h* functions.
+* August 6th 2017: Set up test case kernel, started on the *string* test cases.
 
 ## <img src="Docs/Installationblue.png?raw=true" height=40/>
 1) Extract the `Tools.zip` to the current folder, build scripts depend on it's path.
