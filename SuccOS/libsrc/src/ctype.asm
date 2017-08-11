@@ -239,22 +239,22 @@ _ispunct ENDP
 ; ------------------------------------------------------------------
 ; This function checks whether the passed character is white-space.
 
-_isspace PROC uses si
-    push bp								; Save BP on stack
+_isspace PROC
+    push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
-	mov ax, [bp + 6]
+    mov ax, [bp + 4]
 
-	.IF ax >= 9 && ax <= 13				; If input is white-space return 16
-		mov ax, 8
-	.ELSEIF ax == 32					; If input is white-space return 16
-		mov ax, 8
-	.ELSE
-		mov ax, 0						; Return 0 on non printable char
-	.ENDIF
+    .IF ax >= 9 && ax <= 13					; If input is white-space return 16
+	mov ax, 8
+    .ELSEIF ax == 32						; If input is white-space return 16
+	mov ax, 8
+    .ELSE
+	mov ax, 0						; Return 0 on non printable char
+    .ENDIF
 
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
+    mov sp, bp							; Restore stack pointer
+    pop bp							; Restore BP register
+    ret
 _isspace ENDP
 
 
@@ -265,20 +265,20 @@ _isspace ENDP
 ; This function checks whether the passed character
 ; is an uppercase letter.
 
-_isupper PROC uses si
-    push bp								; Save BP on stack
+_isupper PROC
+    push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
-	mov ax, [bp + 6]
+    mov ax, [bp + 4]
 
-	.IF ax >= 65 && ax <= 90			; If input is uppercase char return 1
-		mov ax, 1
-	.ELSE
-		mov ax, 0						; Return 0 on non uppercase
-	.ENDIF
+    .IF ax >= 65 && ax <= 90					; If input is uppercase char return 1
+	mov ax, 1
+    .ELSE
+	mov ax, 0						; Return 0 on non uppercase
+    .ENDIF
 
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
+    mov sp, bp							; Restore stack pointer
+    pop bp							; Restore BP register
+    ret
 _isupper ENDP
 
 
@@ -289,24 +289,24 @@ _isupper ENDP
 ; This function checks whether the passed character
 ; is a hexadecimal digit.
 
-_isxdigit PROC uses si
-    push bp								; Save BP on stack
+_isxdigit PROC
+    push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
-	mov ax, [bp + 6]
+    mov ax, [bp + 4]
 
-	.IF ax >= 48 && ax <= 57			; If input is a hexadecimal digit return 128
-		mov ax, 128
-	.ELSEIF ax >= 65 && ax <= 70		; If input is a hexadecimal digit return 128
-		mov ax, 128
-	.ELSEIF ax >= 97 && ax <= 102		; If input is a hexadecimal digit return 128
-		mov ax, 128
-	.ELSE
-		mov ax, 0						; Return 0 on non uppercase
-	.ENDIF
+    .IF ax >= 48 && ax <= 57					; If input is a hexadecimal digit return 128
+    	mov ax, 128
+    .ELSEIF ax >= 65 && ax <= 70				; If input is a hexadecimal digit return 128
+    	mov ax, 128
+    .ELSEIF ax >= 97 && ax <= 102				; If input is a hexadecimal digit return 128
+    	mov ax, 128
+    .ELSE
+    	mov ax, 0						; Return 0 on non uppercase
+    .ENDIF
 
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
+    mov sp, bp							; Restore stack pointer
+    pop bp							; Restore BP register
+    ret
 _isxdigit ENDP
 
 
@@ -316,18 +316,18 @@ _isxdigit ENDP
 ; ------------------------------------------------------------------
 ; This function converts uppercase letters to lowercase.
 
-_tolower PROC uses si
-    push bp								; Save BP on stack
+_tolower PROC
+    push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
-	mov ax, [bp + 6]
+    mov ax, [bp + 4]
 
-	.IF ax >= 65 && ax <= 90
-		add ax, 32
-	.ENDIF
+    .IF ax >= 65 && ax <= 90
+	add ax, 32
+    .ENDIF
 
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
+    mov sp, bp							; Restore stack pointer
+    pop bp							; Restore BP register
+    ret
 _tolower  ENDP
 
 
@@ -337,18 +337,18 @@ _tolower  ENDP
 ; ------------------------------------------------------------------
 ; This function converts lowercase letters to uppercase .
 
-_toupper PROC uses si
-    push bp								; Save BP on stack
+_toupper PROC
+    push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
-	mov ax, [bp + 6]
+    mov ax, [bp + 4]
 
-	.IF ax >= 97 && ax <= 122
-		sub ax, 32
-	.ENDIF
+    .IF ax >= 97 && ax <= 122
+	sub ax, 32
+    .ENDIF
 
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
+    mov sp, bp							; Restore stack pointer
+    pop bp							; Restore BP register
+    ret
 _toupper  ENDP
 
 

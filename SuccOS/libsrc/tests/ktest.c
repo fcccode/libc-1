@@ -12,9 +12,9 @@ extern void ktest()
     puts("SuccOS [version i don't fucking know]");
     puts("Copyright (C) 2017 - 2018 Joshua Riek\n");
 
-    puts("Testing 'string' functions...");
-
+    puts("Testing 'string' C functions...\n");
     string_tests();
+    puts("Testing 'ctype' C functions...\n");
     ctype_tests();
     for (;;);
 }

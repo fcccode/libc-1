@@ -33,17 +33,17 @@ conio             Offset: 00000010H  Code and data size: e7H
   _newline          _setbackground    _setcursortype    _wherex
   _wherey         
 
-ctype             Offset: 00000210H  Code and data size: 2c0H
+ctype             Offset: 00000210H  Code and data size: 2b6H
   _isalnum          _isalpha          _iscntrl          _isdigit
   _isgraph          _islower          _isprint          _ispunct
   _isspace          _isupper          _isxdigit         _tolower
   _toupper        
 
-stdio             Offset: 000005f0H  Code and data size: 186H
+stdio             Offset: 000005e0H  Code and data size: 186H
   _getchar          _gets             _printf           _putchar
   _puts             _scanf          
 
-string            Offset: 00000830H  Code and data size: 521H
+string            Offset: 00000820H  Code and data size: 521H
   _memchr           _memcmp           _memcpy           _memmove
   _memset           _strcat           _strchr           _strcmp
   _strcoll          _strcpy           _strcspn          _strlen
@@ -51,5 +51,5 @@ string            Offset: 00000830H  Code and data size: 521H
   _strrchr          _strspn           _strstr           _strtok
   _strxfrm        
 
-assert            Offset: 00000eb0H  Code and data size: 49H
+assert            Offset: 00000ea0H  Code and data size: 49H
   __assert        

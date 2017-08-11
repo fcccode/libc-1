@@ -318,9 +318,10 @@ void __strtok(void)						// strtok() testing [!] Warning: this function is very 
     char *token = strtok(str, ' ');				// Get first token
     while (token != NULL)
     {
-	token = strtok(NULL, ' ');		// Iterate tokens untill null
+	token = strtok(NULL, ' ');				// Iterate tokens untill null
     }
 }
+
 
 void string_tests(void)
 {
@@ -345,5 +346,4 @@ void string_tests(void)
     __strxfrm();
     __strcoll();
     __strtok();
-    return;
 }

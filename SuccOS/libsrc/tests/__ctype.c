@@ -2,7 +2,8 @@
 #include <assert.h>
 #include <stdio.h>
 
-void __isalnum(void)
+
+void __isalnum(void)						// isalnum() testing
 {
     int i, ret;
     for (i = 0; i <= 256; i++)
@@ -16,7 +17,7 @@ void __isalnum(void)
 }
 
 
-void __isalpha(void)
+void __isalpha(void)						// isalpha() testing
 {
     int i, ret;
     for (i = 0; i <= 256; i++)
@@ -29,7 +30,7 @@ void __isalpha(void)
 }
 
 
-void __iscntrl(void)
+void __iscntrl(void)						// iscntrl() testing
 {
     int i, ret;
     for (i = 0; i <= 256; i++)
@@ -42,7 +43,7 @@ void __iscntrl(void)
 }
 
 
-void __isdigit(void)
+void __isdigit(void)						// isdigit() testing
 {
     int i, ret;
     for (i = 0; i <= 256; i++)
@@ -54,7 +55,7 @@ void __isdigit(void)
 }
 
 
-void __isgraph(void)
+void __isgraph(void)						// isgraph() testing
 {
     int i, ret;
     for (i = 0; i <= 256; i++)
@@ -66,7 +67,7 @@ void __isgraph(void)
 }
 
 
-void __islower(void)
+void __islower(void)						// islower() testing
 {
     int i, ret;
     for (i = 0; i <= 256; i++)
@@ -76,7 +77,7 @@ void __islower(void)
 	else assert(!ret);
     }
 }
-void __isprint(void)
+void __isprint(void)						// isprint() testing
 {
     int i, ret;
     for (i = 0; i <= 256; i++)
@@ -88,7 +89,7 @@ void __isprint(void)
 }
 
 
-void __ispunct(void)
+void __ispunct(void)						// ispunct() testing
 {
     int i, ret;
     for (i = 0; i <= 256; i++)
@@ -100,9 +101,69 @@ void __ispunct(void)
 	else if (i >= 123 && i <= 126) assert(ret);		// Punctuation?
 	else assert(!ret);
     }
+}
 
 
-}void ctype_tests(void)
+void __isspace(void)						// isspace() testing
+{
+    int i, ret;
+    for (i = 0; i <= 256; i++)
+    {
+	ret = isspace(i);
+	if (i >= 9 && i <= 13) assert(ret);			// White space?
+	else if (i == 32) assert(ret);				// White space?
+	else assert(!ret);
+    }
+}
+
+
+void __isupper(void)						// isupper() testing
+{
+    int i, ret;
+    for (i = 0; i <= 256; i++)
+    {
+	ret = isupper(i);
+	if (i >= 65 && i <= 90) assert(ret);			// Uppercase?
+	else assert(!ret);
+    }
+}
+
+
+void __isxdigit(void)						// isxdigit() testing
+{
+    int i, ret;
+    for (i = 0; i <= 256; i++)
+    {
+	ret = isxdigit(i);
+	if (i >= 48 && i <= 57) assert(ret);			// Hexadecimal?
+	else if (i >= 65 && i <= 70) assert(ret);		// Hexadecimal?
+	else if (i >= 97 && i <= 102) assert(ret);		// Hexadecimal?
+	else assert(!ret);
+    }
+}
+
+
+void __tolower(void)						// tolower() testing
+{
+    int i;
+    for (i = 0; i <= 256; i++)
+    {
+	if (isupper(i)) assert(islower(tolower(i)));		// Convert to lower
+    }
+}
+
+
+void __toupper(void)						// toupper() testing
+{
+    int i;
+    for (i = 0; i <= 256; i++)
+    {
+	if (islower(i)) assert(isupper(toupper(i)));		// Convert to upper
+    }
+}
+
+
+void ctype_tests(void)
 {
     __isalnum();
     __isalpha();
@@ -112,4 +173,9 @@ void __ispunct(void)
     __islower();
     __isprint();
     __ispunct();
+    __isspace();
+    __isupper();
+    __isxdigit();
+    __tolower();
+    __toupper();
 }
