@@ -3,10 +3,17 @@
 #include <conio.h>
 #include <string.h>
 #include <assert.h>
+#include <signal.h>
 
 
+void signal_catchfunc(int signal)
+{
+    printf("!! signal caught !!\n");
+}
 extern void ktest()
 {
+    int ret = signal(SIGINT, signal_catchfunc);
+
     clrscr();
     setbackground(0x9f);
     puts("SuccOS [version i don't fucking know]");

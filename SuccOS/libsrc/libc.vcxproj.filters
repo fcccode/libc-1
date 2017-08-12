@@ -29,6 +29,9 @@
     <None Include="src\assert.asm">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="src\signal.asm">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\stdio.h">
@@ -50,6 +53,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\stdbool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\signal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

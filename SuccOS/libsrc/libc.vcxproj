@@ -22,6 +22,7 @@
     <None Include="src\assert.asm" />
     <None Include="src\conio.asm" />
     <None Include="src\ctype.asm" />
+    <None Include="src\signal.asm" />
     <None Include="src\stdio.asm" />
     <None Include="src\string.asm" />
   </ItemGroup>
@@ -30,6 +31,7 @@
     <ClInclude Include="include\conio.h" />
     <ClInclude Include="include\ctype.h" />
     <ClInclude Include="include\errno.h" />
+    <ClInclude Include="include\signal.h" />
     <ClInclude Include="include\stdbool.h" />
     <ClInclude Include="include\stdio.h" />
     <ClInclude Include="include\string.h" />
