@@ -30,6 +30,7 @@
     <ClInclude Include="include\conio.h" />
     <ClInclude Include="include\ctype.h" />
     <ClInclude Include="include\errno.h" />
+    <ClInclude Include="include\stdbool.h" />
     <ClInclude Include="include\stdio.h" />
     <ClInclude Include="include\string.h" />
   </ItemGroup>
