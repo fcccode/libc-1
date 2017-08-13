@@ -15,11 +15,11 @@ This table summarizes the C library features:
 
 | Header        | Description                       | Status        | Test Cases
 | :------------ | :-------------------------------- | :------------ | :---------
-<assert.h>      | Verify statements.                | Completed.    | *NULL*
+<assert.h>      | Diagnostics.           | Completed.    | *NULL*
 <ctype.h>       | Character handling.               | Completed.    | [__ctype.c](SuccOS/libsrc/tests/__ctype.c)  
 <errno.h>       | Error Events.			                | WIP	          | 
 <limits.h>      | Variable limits.		              | WIP	          |  
-<signal.h>      | Handle signal events.		          | WIP	          |  
+<signal.h>      | Signal handling.  	              | WIP	          |  
 <stdio.h>       | Input/output.                     | WIP           |
 <string.h>      | String handling.                  | Completed.    | [__string.c](SuccOS/libsrc/tests/__string.c)  
 <conio.h>       | Low level I/O functions.          | WIP           |
