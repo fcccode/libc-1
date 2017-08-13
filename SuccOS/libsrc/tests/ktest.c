@@ -11,10 +11,9 @@ extern void ktest()
     clrscr();
     puts("SuccOS [version i don't fucking know]");
     puts("Copyright (C) 2017 - 2018 Joshua Riek\n");
-    textbackground(4);
-    textcolor(14);
+    lowvideo();
     cputs("STRINGGGGGGG|\r\n");
-    cprintf("Number: %s\r\n", "7 - 2018 Joshua Riek");
+    cprintf("N\r\number: %s = %d hi", "7 - 2018 Joshua Riek", 1222);
 
     puts("Testing 'string' C functions...\n");
     string_tests();

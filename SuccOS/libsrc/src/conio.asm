@@ -2,13 +2,32 @@
   	.286					; CPU type
 	.model tiny				; Tiny memoy model
 	.data					; Start of data segment
-	    txtc  db 1				; Text color
+	    txtc  db 15				; Text color
 	    txtbg db 0				; Text background
 	.code					; Start of code segment
 ; ------------------------------------------------------------------
 ; conio libary
 
+ ColorAL MACRO
+    pusha
+   .IF !(al >= 09h && al <= 0dh)			    ; Ignore line feed and newline
+	mov bl, txtbg					    ; Attribute (color)
+	rol bl, 4					    ; Rotate left 4 bits
+	or bl, txtc
+	mov cx, 1					    ; Chars to print
+	mov ah, 09h
+	int	    10h					    ; Video interupt
 
+	mov bh, 0
+	mov ah, 3					    ; Get cursor x and y
+	int	    10h					    ; Video interupt
+
+	inc dl						    ; Increase x
+	mov ah, 2					    ; Set cursor pos
+	int	    10h					    ; Video interupt
+    .ENDIF
+     popa
+ ENDM
 ; ------------------------------------------------------------------
 ; int getch(void)
 ; ------------------------------------------------------------------
@@ -116,6 +135,90 @@ _ungetch ENDP
 
 
 ; ------------------------------------------------------------------
+; int clrscr(int c)
+; ------------------------------------------------------------------
+; This function clears the screen.
+
+_clrscr PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov al, 02h
+    mov ah, 00h
+    int	10h						    ; Video interupt
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_clrscr ENDP
+
+
+; ------------------------------------------------------------------
+; void gotoxy(int x, int y)
+; ------------------------------------------------------------------
+; This function moves the cursor to a new pos.
+
+_gotoxy PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov dl, [bp + 4]					    ; xpos
+    mov dh, [bp + 6]					    ; ypos
+    mov bh, 0
+    mov ah, 2
+    int 10h						    ; Video interupt
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_gotoxy ENDP
+
+
+; ------------------------------------------------------------------
+; void highvideo(void)
+; ------------------------------------------------------------------
+; This function sets high intensity bits for the current
+; foreground color.
+
+_highvideo PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+    mov	al, txtc					    ; Get text color
+
+    .IF al <= 7						    ; Set to high intensity bit if less than or equal to 7
+	add al, 8
+    .ENDIF
+
+    mov	txtc, al					    ; Store text color
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_highvideo ENDP
+
+
+; ------------------------------------------------------------------
+; void lowvideo(void)
+; ------------------------------------------------------------------
+; This function sets low intensity bits for the current
+; foreground color.
+
+_lowvideo PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+    mov	al, txtc					    ; Get text color
+
+    .IF al >= 7						    ; Set to low intensity bit if greater than or equal to 7
+	sub al, 8
+    .ENDIF
+
+    mov	txtc, al					    ; Store text color
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_lowvideo ENDP
+; ------------------------------------------------------------------
 ; int cputs(const char * str)
 ; ------------------------------------------------------------------
 ; Returns a string to the screen.
@@ -125,33 +228,19 @@ _cputs PROC
     mov bp, sp						    ; Set BP to SP
     mov si, [bp + 4]					    ; Point to param address
 
-    xor cx, cx						    ; Store len of string in cx
-
-  @@len:
+  @@puts:
     lodsb						    ; Get character from string
     or al, al						    ; End of string
-    jz @@puts
-    inc cx
-    jmp @@len
+    jz @@done
+    ColorAL
+    jmp @@puts
 
-  @@puts:
-    push bp						    ; Preserve bp
-    mov al, 1						    ; Assign all characters the attribute in BL, update cursor
-;    mov bh, page					    ; Page
-    mov bl, txtbg					    ; Attribute (color)
-    rol bl, 4						    ; Rotate left 4 bits
-    or bl, txtc						    ; Bitwise or
-;    mov dl, column					    ; Column
-;    mov dh, row					    ; Row
-    mov bp, [bp + 4]					    ; String
-    mov	ah, 13h						    ; Write string
-    int     10h						    ; Video interupt
-    pop bp						    ; Restore destroyed bp
-
+  @@done:
     mov sp, bp						    ; Restore stack pointer
     pop bp						    ; Restore BP register
     ret
 _cputs ENDP
+
 
 ; ------------------------------------------------------------------
 ; int cprintf(const char *format, ...)
@@ -165,9 +254,7 @@ _cprintf PROC uses ax
     mov si, [bp + di]					    ; Point to param address
     .REPEAT						    ; Iterate over string
 	lodsb						    ; Get character from string
-	.IF !al						    ; Break if not al
-	    .BREAK
-	.ENDIF
+	.BREAK .IF !al					    ; Break if not al
 	.IF al == '%'					    ; Format string identifyer
 	    lodsb
 	    push si					    ; Store current string
@@ -176,21 +263,18 @@ _cprintf PROC uses ax
 	    .IF al == 's'				    ; Format string
 		.REPEAT
 		    lodsb
-		    .IF !al
-			pop si
-			.BREAK
-		    .ENDIF
-		    mov ah, 0eh				    ; Teletype output
-		    int     10h				    ; Video interupt
+		    .BREAK .IF !al
+		    ColorAL
 		.UNTIL 0
+		pop si
+		.CONTINUE
 	    .ELSEIF al == 'c'				    ; Format char
 		mov ax,  si
-		mov ah, 0eh				    ; Teletype output
-		int     10h				    ; Video interupt
+		ColorAL
 		pop si
+	    	.CONTINUE
 	    .ELSEIF al == 'd'				    ; Format decimal
-		mov ax, si
-		pusha
+	       	mov ax,  si
 		mov cx, 0
 		mov bx, 10				    ; Set BX 10, for division and mod
 		.REPEAT
@@ -203,15 +287,13 @@ _cprintf PROC uses ax
 		    pop dx				    ; Pop off values in reverse order, and add 48 to make them digits
 		    add dl, 48				    ; And save them in the string, increasing the pointer each time
 		    mov al, dl				    ; Print out the number
-		    mov ah, 0eh				    ; Teletype output
-		    int     10h				    ; Video interupt
+		    ColorAL
 		.UNTILCXZ
-		popa
 		pop si
+		.CONTINUE
 	    .ENDIF
 	.ENDIF
-	mov ah, 0eh					    ; Teletype output
-	int     10h					    ; Video interupt
+	ColorAL
     .UNTIL 0
     mov sp, bp						    ; Restore stack pointer
     pop bp						    ; Restore BP register
@@ -257,24 +339,6 @@ _textcolor ENDP
 ; MOVE BELOW FUNCTIONS TO A FILE CALLED BIOS.ASM & BIOS.H
 
 
-; ------------------------------------------------------------------
-; int clrscr(int c)
-; ------------------------------------------------------------------
-; This function checks whether the passed character
-; is a hexadecimal digit.
-
-_clrscr PROC
-    push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP
-
-	mov al, 02h
-	mov ah, 00h
-    int		10h
-
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
-_clrscr ENDP
 
 
 
@@ -371,25 +435,7 @@ _drawline ENDP
 
 
 
-; ------------------------------------------------------------------
-; void gotoxy(char x, char y)
-; ------------------------------------------------------------------
-; This function moves the cursor to a new pos
 
-_gotoxy PROC
-    push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP
-
-	mov dl, [bp + 4]					; xpos
-	mov dh, [bp + 6]					; ypos
-	mov bh, 0
-	mov ah, 2
-	int 10h								; BIOS interrupt to move cursor
-
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
-_gotoxy ENDP
 
 
 

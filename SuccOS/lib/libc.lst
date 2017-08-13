@@ -4,12 +4,13 @@ _cursoron.........conio             _delay............conio
 _drawline.........conio             _getch............conio
 _getchar..........stdio             _getche...........conio
 _gets.............stdio             _gotoxy...........conio
-_isalnum..........ctype             _isalpha..........ctype
-_iscntrl..........ctype             _isdigit..........ctype
-_isgraph..........ctype             _islower..........ctype
-_isprint..........ctype             _ispunct..........ctype
-_isspace..........ctype             _isupper..........ctype
-_isxdigit.........ctype             _kbhit............conio
+_highvideo........conio             _isalnum..........ctype
+_isalpha..........ctype             _iscntrl..........ctype
+_isdigit..........ctype             _isgraph..........ctype
+_islower..........ctype             _isprint..........ctype
+_ispunct..........ctype             _isspace..........ctype
+_isupper..........ctype             _isxdigit.........ctype
+_kbhit............conio             _lowvideo.........conio
 _memchr...........string            _memcmp...........string
 _memcpy...........string            _memmove..........string
 _memset...........string            _newline..........conio
@@ -30,24 +31,25 @@ _ungetch..........conio             _wherex...........conio
 _wherey...........conio             __assert..........assert
 
 
-conio             Offset: 00000010H  Code and data size: 1bcH
+conio             Offset: 00000010H  Code and data size: 289H
   _clrscr           _cprintf          _cputs            _cursoroff
   _cursoron         _delay            _drawline         _getch
-  _getche           _gotoxy           _kbhit            _newline
-  _putch            _setcursortype    _textbackground   _textcolor
-  _ungetch          _wherex           _wherey         
+  _getche           _gotoxy           _highvideo        _kbhit
+  _lowvideo         _newline          _putch            _setcursortype
+  _textbackground   _textcolor        _ungetch          _wherex
+  _wherey         
 
-ctype             Offset: 00000350H  Code and data size: 2b6H
+ctype             Offset: 00000480H  Code and data size: 2b6H
   _isalnum          _isalpha          _iscntrl          _isdigit
   _isgraph          _islower          _isprint          _ispunct
   _isspace          _isupper          _isxdigit         _tolower
   _toupper        
 
-stdio             Offset: 00000720H  Code and data size: 180H
+stdio             Offset: 00000850H  Code and data size: 180H
   _getchar          _gets             _printf           _putchar
   _puts             _scanf          
 
-string            Offset: 00000950H  Code and data size: 521H
+string            Offset: 00000a80H  Code and data size: 521H
   _memchr           _memcmp           _memcpy           _memmove
   _memset           _strcat           _strchr           _strcmp
   _strcoll          _strcpy           _strcspn          _strlen
@@ -55,5 +57,5 @@ string            Offset: 00000950H  Code and data size: 521H
   _strrchr          _strspn           _strstr           _strtok
   _strxfrm        
 
-assert            Offset: 00000fd0H  Code and data size: 49H
+assert            Offset: 00001100H  Code and data size: 49H
   __assert        
