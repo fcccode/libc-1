@@ -153,6 +153,71 @@ _cputs PROC
     ret
 _cputs ENDP
 
+; ------------------------------------------------------------------
+; int cprintf(const char *format, ...)
+; ------------------------------------------------------------------
+; Sends formatted output to stdout.
+
+_cprintf PROC uses ax
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+    mov di, 6
+    mov si, [bp + di]					    ; Point to param address
+    .REPEAT						    ; Iterate over string
+	lodsb						    ; Get character from string
+	.IF !al						    ; Break if not al
+	    .BREAK
+	.ENDIF
+	.IF al == '%'					    ; Format string identifyer
+	    lodsb
+	    push si					    ; Store current string
+	    add di, 2					    ; Add to param offset
+	    mov si, [bp + di]				    ; Point to param address
+	    .IF al == 's'				    ; Format string
+		.REPEAT
+		    lodsb
+		    .IF !al
+			pop si
+			.BREAK
+		    .ENDIF
+		    mov ah, 0eh				    ; Teletype output
+		    int     10h				    ; Video interupt
+		.UNTIL 0
+	    .ELSEIF al == 'c'				    ; Format char
+		mov ax,  si
+		mov ah, 0eh				    ; Teletype output
+		int     10h				    ; Video interupt
+		pop si
+	    .ELSEIF al == 'd'				    ; Format decimal
+		mov ax, si
+		pusha
+		mov cx, 0
+		mov bx, 10				    ; Set BX 10, for division and mod
+		.REPEAT
+	    	    mov dx, 0
+		    div bx				    ; Remainder in DX, quotient in AX
+		    inc cx				    ; Increase pop loop counter
+		    push dx				    ; Push remainder, so as to reverse order when popping
+		.UNTIL !ax
+		.REPEAT
+		    pop dx				    ; Pop off values in reverse order, and add 48 to make them digits
+		    add dl, 48				    ; And save them in the string, increasing the pointer each time
+		    mov al, dl				    ; Print out the number
+		    mov ah, 0eh				    ; Teletype output
+		    int     10h				    ; Video interupt
+		.UNTILCXZ
+		popa
+		pop si
+	    .ENDIF
+	.ENDIF
+	mov ah, 0eh					    ; Teletype output
+	int     10h					    ; Video interupt
+    .UNTIL 0
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_cprintf ENDP
+
 
 ; ------------------------------------------------------------------
 ; void textbackground(int color)

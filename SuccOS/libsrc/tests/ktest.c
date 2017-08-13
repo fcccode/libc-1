@@ -14,6 +14,8 @@ extern void ktest()
     textbackground(4);
     textcolor(14);
     cputs("STRINGGGGGGG|\r\n");
+    cprintf("Number: %s\r\n", "7 - 2018 Joshua Riek");
+
     puts("Testing 'string' C functions...\n");
     string_tests();
     puts("Testing 'ctype' C functions...\n");

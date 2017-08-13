@@ -64,7 +64,6 @@ _printf PROC uses ax
 		pusha
 		mov cx, 0
 		mov bx, 10						; Set BX 10, for division and mod
-		mov di, offset temp				; Get our temp var ready
 
 		@@push:
 			mov dx, 0
@@ -77,14 +76,13 @@ _printf PROC uses ax
 		@@pop:
 			pop dx						; Pop off values in reverse order, and add 48 to make them digits
 			add dl, 48					; And save them in the string, increasing the pointer each time
-			mov [di], dl
-			inc di
+			mov al, dl
+			mov ah, 0eh						; Teletype output
+			int     10h
 			dec cx
 			jnz @@pop
-			mov byte ptr [di], 0		; Zero-terminate string
 			popa
-			mov si, offset temp			; Return location of string
-			jmp @@string				; Print temp
+			jmp @@switch_end				; Print temp
 
   @@done:
     mov sp, bp							; Restore stack pointer

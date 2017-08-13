@@ -17,14 +17,16 @@ extern "C" {
 /* Low level console I/O functions */
 
 char *cgets(char *__buf);    //
-int cputs(const char*);			   // Make text go to current window
-int cprintf(const char *__fmt, ...);   //
+int cputs(const char*);				// [!] Make text go to current window
+int cprintf(const char*, ...); 			// [!] Make colored text! Prints formatted output to the screen.
+
 int cscanf(const char *__fmt, ...); //
-int getch(void);
-int getche(void);
-int kbhit(void);
-int putch(int);
-int ungetch(int);
+int getch(void);				// Get keyboard keypress
+int getche(void);				// Get keyboard keypress and echo
+int kbhit(void);				// Is keyboard hit?
+int putch(int);					// Print char on the screen
+int ungetch(int);				// Pushes a char back into the keyboard buffer
+
 
 
 void textbackground(int color);
