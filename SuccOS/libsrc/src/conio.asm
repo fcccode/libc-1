@@ -7,6 +7,113 @@
 
 
 ; ------------------------------------------------------------------
+; int getch(void)
+; ------------------------------------------------------------------
+; Gets a character (an unsigned char) input.
+
+_getch PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov ah, 0
+    int	    16h						    ; Keybord interupt
+    xor ah, ah						    ; Clear higher-half of ax
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_getch ENDP
+
+
+; ------------------------------------------------------------------
+; int getche(void)
+; ------------------------------------------------------------------
+; Gets a character (an unsigned char) input and echo output.
+
+_getche PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov ah, 0
+    int	    16h						    ; Keybord interupt
+    mov ah, 0eh						    ; Teletype output
+    int     10h						    ; Video interupt
+    xor ah, ah						    ; Clear higher-half of ax
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_getche ENDP
+
+
+; ------------------------------------------------------------------
+; int kbhit(void);
+; ------------------------------------------------------------------
+; Gets a character (an unsigned char) input and echo output.
+
+_kbhit PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov ah, 0
+    int	    16h						    ; Keybord interupt
+    mov ax, 1						    ; Return true
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_kbhit ENDP
+
+
+; ------------------------------------------------------------------
+; int putch(int c)
+; ------------------------------------------------------------------
+; Writes a character (an unsigned char) specified
+; by the argument char to stdout.
+
+_putch PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov ax, [bp + 4]					    ; Move char into ax
+    mov ah, 0eh						    ; Teletype output
+
+    .IF al == 0dh					    ; Newline on enter
+	int	10h					    ; Video interupt
+	mov al, 0ah					    ; Line feed
+	int	10h					    ; Video interupt
+    .ELSE
+	int	10h					    ; Video interupt
+    .ENDIF
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_putch ENDP
+
+
+; ------------------------------------------------------------------
+; int ungetch(int c)
+; ------------------------------------------------------------------
+; Pushes a character back into the keyboard buffer.
+
+_ungetch PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov ax, [bp + 4]					    ; Move char into ax
+    mov ah, 5						    ; Keybord buffer write
+    mov cl, al						    ; Char to write into buffer
+    int	    16h						    ; Keyboard interupt
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_ungetch ENDP
+; MOVE BELOW FUNCTIONS TO A FILE CALLED BIOS.ASM & BIOS.H
+
+
+; ------------------------------------------------------------------
 ; int clrscr(int c)
 ; ------------------------------------------------------------------
 ; This function checks whether the passed character
@@ -116,45 +223,6 @@ _drawline PROC
 _drawline ENDP
 
 
-
-; ------------------------------------------------------------------
-; int getch(void)
-; ------------------------------------------------------------------
-; Gets a character (an unsigned char) from stdin.
-
-_getch PROC
-    push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP
-
-	mov ah, 0
-	int		16h							; Keybord interupt
-	xor ah, ah							; Clear higher-half of ax
-
-    mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
-_getch ENDP
-
-
-
-; ------------------------------------------------------------------
-; int getche(void)
-; ------------------------------------------------------------------
-; Gets a character (an unsigned char) from stdin and echo.
-
-_getche PROC
-    push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP
-
-	mov ah, 0
-	int		16h							; Keybord interupt
-	mov ah, 0eh							; Teletype output
-	int     10h							; Video interupt
-
-    mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
-_getche ENDP
 
 
 
