@@ -16,9 +16,8 @@ extern "C" {
 
 /* Low level console I/O functions */
 
-
 char *cgets(char *__buf);    //
-int cputs(const char *__buf);	//
+int cputs(const char*);			   // Make text go to current window
 int cprintf(const char *__fmt, ...);   //
 int cscanf(const char *__fmt, ...); //
 int getch(void);
@@ -26,6 +25,10 @@ int getche(void);
 int kbhit(void);
 int putch(int);
 int ungetch(int);
+
+
+void textbackground(int color);
+void textcolor(int color);
 
 /* misc done    */
 void clrscr(void);
@@ -36,7 +39,6 @@ void delay(int ms);
 int wherex(void);
 int wherey(void);
 void drawline(int x, int y, int len);
-void setbackground(int color);
 void newline(void);
 void setcursortype(int type);
 

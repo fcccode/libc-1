@@ -9,10 +9,11 @@ extern void ktest()
     int i = 0;
     char ch;
     clrscr();
-    setbackground(0x9f);
     puts("SuccOS [version i don't fucking know]");
     puts("Copyright (C) 2017 - 2018 Joshua Riek\n");
-
+    textbackground(4);
+    textcolor(14);
+    cputs("STRINGGGGGGG|\r\n");
     puts("Testing 'string' C functions...\n");
     string_tests();
     puts("Testing 'ctype' C functions...\n");

@@ -1,6 +1,9 @@
 ; ------------------------------------------------------------------
   	.286					; CPU type
 	.model tiny				; Tiny memoy model
+	.data					; Start of data segment
+	    txtc  db 1				; Text color
+	    txtbg db 0				; Text background
 	.code					; Start of code segment
 ; ------------------------------------------------------------------
 ; conio libary
@@ -110,6 +113,82 @@ _ungetch PROC
     pop bp						    ; Restore BP register
     ret
 _ungetch ENDP
+
+
+; ------------------------------------------------------------------
+; int cputs(const char * str)
+; ------------------------------------------------------------------
+; Returns a string to the screen.
+
+_cputs PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+    mov si, [bp + 4]					    ; Point to param address
+
+    xor cx, cx						    ; Store len of string in cx
+
+  @@len:
+    lodsb						    ; Get character from string
+    or al, al						    ; End of string
+    jz @@puts
+    inc cx
+    jmp @@len
+
+  @@puts:
+    push bp						    ; Preserve bp
+    mov al, 1						    ; Assign all characters the attribute in BL, update cursor
+;    mov bh, page					    ; Page
+    mov bl, txtbg					    ; Attribute (color)
+    rol bl, 4						    ; Rotate left 4 bits
+    or bl, txtc						    ; Bitwise or
+;    mov dl, column					    ; Column
+;    mov dh, row					    ; Row
+    mov bp, [bp + 4]					    ; String
+    mov	ah, 13h						    ; Write string
+    int     10h						    ; Video interupt
+    pop bp						    ; Restore destroyed bp
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_cputs ENDP
+
+
+; ------------------------------------------------------------------
+; void textbackground(int color)
+; ------------------------------------------------------------------
+; Change of current background color in text mode.
+
+_textbackground PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov al, [bp + 4]					    ; Move color to al
+    mov	txtbg, al					    ; Set text background color to al
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_textbackground ENDP
+
+
+; ------------------------------------------------------------------
+; void textcolor(int color)
+; ------------------------------------------------------------------
+; change the color of drawing text where color is a integer variable.
+
+_textcolor PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov al, [bp + 4]					    ; Move color to al
+    mov	txtc, al					    ; Set text color to al
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_textcolor ENDP
+
 ; MOVE BELOW FUNCTIONS TO A FILE CALLED BIOS.ASM & BIOS.H
 
 
@@ -270,27 +349,7 @@ _newline PROC
 _newline ENDP
 
 
-; ------------------------------------------------------------------
-; void setbackground(int color)
-; ------------------------------------------------------------------
-; Gets a character (an unsigned char) from stdin and echo.
 
-_setbackground PROC
-    push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP
-
-	mov	dx, 0							 ; Set screen colors
-	mov	ah, 09h
-	mov	al, ' '
-	mov	bh, 0
-	mov	bl, [bp + 4]	                ; Bg | sText color
-	mov	cx, 2400
-	int     10h							; Video interupt
-
-    mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
-_setbackground ENDP
 
 
 
