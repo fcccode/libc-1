@@ -15,15 +15,15 @@ This table summarizes the C library features:
 
 | Header        | Description                       | Status        | Test Cases
 | :------------ | :-------------------------------- | :------------ | :---------
-<assert.h>      | Diagnostics.           | Completed.    | *NULL*
+<assert.h>      | Diagnostics.			    | Completed.    | 
 <ctype.h>       | Character handling.               | Completed.    | [__ctype.c](SuccOS/libsrc/tests/__ctype.c)  
-<errno.h>       | Error Events.			                | WIP	          | 
-<limits.h>      | Variable limits.		              | WIP	          |  
-<signal.h>      | Signal handling.  	              | WIP	          |  
+<errno.h>       | Error Events.			    | WIP	    | 
+<limits.h>      | Variable limits.		    | Completed.    |  
+<signal.h>      | Signal handling.  	            | WIP	    |  
 <stdio.h>       | Input/output.                     | WIP           |
 <string.h>      | String handling.                  | Completed.    | [__string.c](SuccOS/libsrc/tests/__string.c)  
-<conio.h>       | Low level I/O functions.          | WIP           |
-<stdbool.h>     | Boolean statements.		            | Completed.    | *NULL*
+<conio.h>       | Low level I/O functions.          | WIP           | [__conio.c](SuccOS/libsrc/tests/__conio.c)  
+<stdbool.h>     | Boolean statements.		    | Completed.    |
 
 ## <img src="Docs/Downloadsblue.png?raw=true" height=40/>
 * [Version 0.1.1](https://github.com/SpookyVerkauferin/SuccOS/archive/master.zip)

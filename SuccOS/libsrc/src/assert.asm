@@ -3,13 +3,13 @@
 	.model tiny						; Tiny memoy model
 	 _printf proto						; Externel _printf function
 	.data							; Data segment
-	    error_fmt db "Assertion failed: %s, file %s, line %d", 10, 13, 0
+	    error_fmt db "    [-] Assertion failed: file %s, line %d", 10, 13, 0
 	.code							; Start of code segment
 ; ------------------------------------------------------------------
 
 
 ; ------------------------------------------------------------------
-; void _assert(const char *file, int line, const char *e)
+; void _assert(const char *e ,const char *file, int line)
 ; ------------------------------------------------------------------
 ; This function returns an assertion error if vaid, calls
 ; to the _printf function within the library and uses
@@ -20,6 +20,13 @@ __assert PROC
     push bp						    ; Save BP on stack
     mov bp, sp						    ; Set BP to SP
     pusha
+
+    mov	ah, 09h
+    mov	al, ' '
+    mov	bl, 0ch						    ; Format text red
+    mov	cx, 84
+    int	10h
+
     mov di, offset error_fmt				    ; Error string to format
     mov ax, [bp + 4]					    ; Filename
     mov bx, [bp + 6]					    ; Line number
@@ -27,12 +34,10 @@ __assert PROC
 
     push cx
     push bx
-    push ax
     push di
     call _printf
     pop cx
     pop bx
-    pop ax
     pop di
 
     popa

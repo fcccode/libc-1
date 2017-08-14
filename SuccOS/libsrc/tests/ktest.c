@@ -3,21 +3,27 @@
 #include <conio.h>
 #include <string.h>
 #include <assert.h>
+#include <bios.h>
 
 extern void ktest()
 {
     int i = 0;
     char ch;
-    clrscr();
-    puts("SuccOS [version i don't fucking know]");
-    puts("Copyright (C) 2017 - 2018 Joshua Riek\n");
-    lowvideo();
-    cputs("STRINGGGGGGG|\r\n");
-    cprintf("N\r\number: %s = %d hi", "7 - 2018 Joshua Riek", 1222);
 
-    puts("Testing 'string' C functions...\n");
+    clrscr();
+    textcolor(LIGHTGREEN);
+    cprintf("SuccOS Test Kernel startup...\r\n\n");
+
+    textcolor(YELLOW);
+    cprintf("[!] Testing 'string' C functions...\r\n");
     string_tests();
-    puts("Testing 'ctype' C functions...\n");
+
+    cprintf("[!] Testing 'ctype' C functions...\r\n");
     ctype_tests();
+
+    cprintf("[!] Testing 'conio' C functions...\r\n");
+    conio_tests();
+    conio_input_tests();
+
     for (;;);
 }

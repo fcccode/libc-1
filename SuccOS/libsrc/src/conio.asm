@@ -8,6 +8,7 @@
 ; ------------------------------------------------------------------
 ; conio libary
 
+
  ColorAL MACRO
     pusha
    .IF !(al >= 09h && al <= 0dh)			    ; Ignore line feed and newline
@@ -16,15 +17,18 @@
 	or bl, txtc
 	mov cx, 1					    ; Chars to print
 	mov ah, 09h
-	int	    10h					    ; Video interupt
+	int	10h					    ; Video interupt
 
 	mov bh, 0
 	mov ah, 3					    ; Get cursor x and y
-	int	    10h					    ; Video interupt
+	int	10h					    ; Video interupt
 
 	inc dl						    ; Increase x
 	mov ah, 2					    ; Set cursor pos
-	int	    10h					    ; Video interupt
+	int	10h					    ; Video interupt
+    .ELSE
+         mov ah, 0eh
+	 int	10h
     .ENDIF
      popa
  ENDM
@@ -218,6 +222,52 @@ _lowvideo PROC
     pop bp						    ; Restore BP register
     ret
 _lowvideo ENDP
+
+
+; ------------------------------------------------------------------
+; int wherex(void)
+; ------------------------------------------------------------------
+; This function returns the cursor x pos.
+
+_wherex PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov bh, 0
+    mov ah, 3
+    int	    10h						    ; Video interupt
+
+    mov ah, 0
+    mov al, dl
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_wherex ENDP
+
+
+; ------------------------------------------------------------------
+; int wherey(void)
+; ------------------------------------------------------------------
+; This function returns the cursor y pos.
+
+_wherey PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov bh, 0
+    mov ah, 3
+    int	    10h						    ; Video interupt
+
+    mov ah, 0
+    mov al, dh
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_wherey ENDP
+
+
 ; ------------------------------------------------------------------
 ; int cputs(const char * str)
 ; ------------------------------------------------------------------
@@ -226,6 +276,7 @@ _lowvideo ENDP
 _cputs PROC
     push bp						    ; Save BP on stack
     mov bp, sp						    ; Set BP to SP
+    pusha
     mov si, [bp + 4]					    ; Point to param address
 
   @@puts:
@@ -236,6 +287,7 @@ _cputs PROC
     jmp @@puts
 
   @@done:
+    popa
     mov sp, bp						    ; Restore stack pointer
     pop bp						    ; Restore BP register
     ret
@@ -486,49 +538,6 @@ _setcursortype PROC
 	ret
 _setcursortype ENDP
 
-
-; ------------------------------------------------------------------
-; int wherex(void)
-; ------------------------------------------------------------------
-; This function moves the cursor to a new pos
-
-_wherex PROC
-    push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP
-
-	mov bh, 0
-	mov ah, 3
-	int		10h							; Video interupt
-
-	mov ah, 0
-	mov al, dl
-
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
-_wherex ENDP
-
-
-; ------------------------------------------------------------------
-; int wherey(void)
-; ------------------------------------------------------------------
-; This function returns the cursor y pos
-
-_wherey PROC
-    push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP
-
-	mov bh, 0
-	mov ah, 3
-	int		10h							; Video interupt
-
-	mov ah, 0
-	mov al, dh
-
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
-_wherey ENDP
 
 
 

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\assert.asm" />
+    <None Include="src\bios.asm" />
     <None Include="src\conio.asm" />
     <None Include="src\ctype.asm" />
     <None Include="src\signal.asm" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\assert.h" />
+    <ClInclude Include="include\bios.h" />
     <ClInclude Include="include\conio.h" />
     <ClInclude Include="include\ctype.h" />
     <ClInclude Include="include\errno.h" />
@@ -39,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests\ktest.c" />
+    <ClCompile Include="tests\__conio.c" />
     <ClCompile Include="tests\__ctype.c" />
     <ClCompile Include="tests\__string.c" />
   </ItemGroup>

@@ -32,6 +32,9 @@
     <None Include="src\signal.asm">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="src\bios.asm">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\stdio.h">
@@ -61,6 +64,9 @@
     <ClInclude Include="include\limits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\bios.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests\__string.c">
@@ -70,6 +76,9 @@
       <Filter>Test Files</Filter>
     </ClCompile>
     <ClCompile Include="tests\__ctype.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\__conio.c">
       <Filter>Test Files</Filter>
     </ClCompile>
   </ItemGroup>
