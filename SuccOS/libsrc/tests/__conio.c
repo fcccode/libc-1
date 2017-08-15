@@ -22,7 +22,7 @@ void __getche(void)					        // getche() testing
 }
 
 
-void __ungetch(void)
+void __ungetch(void)						// ungetch() testing
 {
     int i;
     char ch;
@@ -33,6 +33,15 @@ void __ungetch(void)
 
     printf("\r\n\tNext in buffer is '%c'", getch());
     puts("\n");
+}
+
+
+void __cscanf(void)						// cscanf() testing
+{
+    char string[80];
+    cprintf("\tEnter a string :");
+    cscanf("%s", string);
+    cprintf("\tyour string: %s\r\n\n", string);
 }
 
 
@@ -60,7 +69,7 @@ void __gotoxy(void)						// gotoxy() testing
 }
 
 
-void __wherex(void)
+void __wherex(void)						// wherex() testing
 {
     int x = wherex();						// Save current x pos
 
@@ -72,7 +81,7 @@ void __wherex(void)
 }
 
 
-void __wherey(void)
+void __wherey(void)						// wherey() testing
 {
     int y = wherey();						// Save current y pos
 
@@ -138,6 +147,8 @@ void conio_input_tests(void)
     __highvideo();
     cprintf("\t[!] Testing 'lowvideo()'\r\n");
     __lowvideo();
+    cprintf("\t[!] Testing 'cscanf()'\r\n");
+    __cscanf();
     cprintf("\t[!] Testing 'getch()'\r\n");
     __getch();
     cprintf("\t[!] Testing 'getche()'\r\n");
@@ -146,4 +157,5 @@ void conio_input_tests(void)
     __ungetch();
     cprintf("\t[!] Testing 'kbhit()'\r\n");
     __kbhit();
+
 }

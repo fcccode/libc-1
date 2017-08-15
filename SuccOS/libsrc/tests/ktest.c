@@ -7,9 +7,6 @@
 
 extern void ktest()
 {
-    int i = 0;
-    char ch;
-
     clrscr();
     textcolor(LIGHTGREEN);
     cprintf("SuccOS Test Kernel startup...\r\n\n");

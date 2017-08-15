@@ -1,5 +1,5 @@
 ; ------------------------------------------------------------------
-  	.286					; CPU type
+	.286					; CPU type
 	.model tiny				; Tiny memoy model
 	.data					; Start of data segment
 	    txtc  db 15				; Text color
@@ -225,6 +225,28 @@ _lowvideo ENDP
 
 
 ; ------------------------------------------------------------------
+; void insline(void)
+; ------------------------------------------------------------------
+; A blank line is inserted at the current cursor position.
+; The previous line and lines below it scroll down.
+
+
+_insline PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+
+    mov ah, 0eh						    ; Teletype output
+    mov al, 0dh						    ; Carriage return
+    int	    10h						    ; Video interupt
+    mov al, 0ah						    ; Line feed
+    int	    10h
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_insline ENDP
+
+; ------------------------------------------------------------------
 ; int wherex(void)
 ; ------------------------------------------------------------------
 ; This function returns the cursor x pos.
@@ -294,6 +316,39 @@ _cputs PROC
 _cputs ENDP
 
 
+ ; ------------------------------------------------------------------
+; int cputsxy(int x, int y, const char * str)
+; ------------------------------------------------------------------
+; Returns a string to the screen at the specified pos
+
+_cputsxy PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+    pusha
+    mov ax, [bp + 4]
+    mov bx, [bp + 6]
+    push bx
+    push ax
+    call _gotoxy
+    pop ax
+    pop bx
+    mov si, [bp + 8]					    ; Point to string address
+
+  @@puts:
+    lodsb						    ; Get character from string
+    or al, al						    ; End of string
+    jz @@done
+    ColorAL
+    jmp @@puts
+
+  @@done:
+    popa
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_cputsxy ENDP
+
+
 ; ------------------------------------------------------------------
 ; int cprintf(const char *format, ...)
 ; ------------------------------------------------------------------
@@ -351,6 +406,66 @@ _cprintf PROC uses ax
     pop bp						    ; Restore BP register
     ret
 _cprintf ENDP
+
+  ; ------------------------------------------------------------------
+; int cscanf(const char *format, ...);
+; ------------------------------------------------------------------
+; Reads formatted input from stdin.
+
+_cscanf PROC
+    push bp						    ; Save BP on stack
+    mov bp, sp						    ; Set BP to SP
+    mov si, [bp + 4]					    ; Point to param address
+    .IF BYTE PTR [si] == '%'
+	.IF BYTE PTR [si + 1] == 's'
+	    mov di, [bp + 6]				    ; Point to param address
+	    xor cl, cl
+	    .REPEAT
+		mov ah, 0
+		int	16h				    ; Wait for keypress
+		.IF al == 08h				    ; Handle backspace
+		    .CONTINUE .IF !cl			    ; No overwrite prompt
+		    dec di				    ; Move back a char
+		    mov BYTE PTR [di], 0		    ; Remove char
+		    dec cl				    ; Decrease char counter
+		    mov ah, 0eh				    ; Teletype output
+		    mov al, 08h				    ; Backspace
+		    int	    10h				    ; Video interupt
+		    mov al, ' '				    ; Fill with blank char
+		    int     10h				    ; Video interupt
+		    mov al, 08h				    ; Backspace
+		    int     10h				    ; Video interupt
+		    .CONTINUE
+		.ELSEIF al == 0dh			    ; Handle enter
+		    .BREAK
+		.ELSEIF cl == 3dh			    ; Max input allowed
+		    .BREAK
+		.ENDIF
+		ColorAL
+		stosb					    ; Store string
+		inc cl
+	    .UNTIL 0
+	.ELSEIF BYTE PTR [si + 1] == 'c'
+	    mov di, [bp + 6]				    ; Point to param address
+	    mov ah, 0
+	    int	16h					    ; Wait for keypress
+	    mov ah, 0eh					    ; Teletype output
+	    int	10h					    ; Video interupt
+	    stosb					    ; Store string
+	.ELSEIF BYTE PTR [si + 1] == 'd'
+	.ENDIF
+    .ENDIF
+
+    mov ah, 0eh						    ; Teletype output
+    mov al, 0dh						    ; Carriage return
+    int	    10h						    ; Video interupt
+    mov al, 0ah						    ; Line feed
+    int	    10h						    ; Video interupt
+
+    mov sp, bp						    ; Restore stack pointer
+    pop bp						    ; Restore BP register
+    ret
+_cscanf ENDP
 
 
 ; ------------------------------------------------------------------

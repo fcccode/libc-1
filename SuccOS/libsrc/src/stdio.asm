@@ -1,5 +1,5 @@
 ; ------------------------------------------------------------------
-	.286								; CPU type
+	.286							; CPU type
 	.model tiny							; Tiny memoy model
 	.data								; Data segment
 		temp db 10 dup(?)				; Temp var

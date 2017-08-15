@@ -1,5 +1,5 @@
 ; ------------------------------------------------------------------
-  	.286					; CPU type
+	.286							; CPU type
 	.model tiny				; Tiny memoy model
 	.data					; Data segment
 		return_buffer BYTE 64 dup(?)	; Buffer for returning data
