@@ -21,7 +21,7 @@ This table summarizes the C library features:
 <limits.h>      | Variable limits.		    | Completed.    |  
 <signal.h>      | Signal handling.  	            | WIP	    |  
 <stdio.h>       | Input/output.                     | WIP           |
-[<string.h>](SuccOS/Docs/string.md)        | String handling.                  | Completed.    | [__string.c](SuccOS/libsrc/tests/__string.c)  
+[<string.h>](Docs/string.md)        | String handling.                  | Completed.    | [__string.c](SuccOS/libsrc/tests/__string.c)  
 <conio.h>       | Low level I/O functions.          | WIP           | [__conio.c](SuccOS/libsrc/tests/__conio.c)  
 <stdbool.h>     | Boolean statements.		    | Completed.    |
 
