@@ -18,7 +18,7 @@ rem Compile all C files
 CL.EXE /AT /G2 /Gs /Gx /c /Zl /I ".\..\libsrc\include" tests\*.c
 
 rem Compile all assembly files
-ML.EXE /omf /c tests\*.asm
+ML.EXE /omf /c  tests\*.asm
 
 rem Link together all files and include the libary
 LINK.EXE /T /NOD kernel.obj ktest.obj __string.obj __ctype.obj __conio.obj, kernel.bin, nul, %libpath%\libc.lib, nul

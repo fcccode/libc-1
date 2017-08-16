@@ -60,7 +60,6 @@ void delay(int);				// Pause for a time
 /* misc done    */
 void cursoron(void);
 void cursoroff(void);
-
 void drawline(int x, int y, int len);
 void newline(void);
 void setcursortype(int type);

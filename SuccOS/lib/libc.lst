@@ -30,8 +30,8 @@ _strtok...........string            _strxfrm..........string
 _textbackground...conio             _textcolor........conio
 _tolower..........ctype             _toupper..........ctype
 _ungetch..........conio             _wherex...........conio
-_wherey...........conio             __assert..........assert
-
+_wherey...........conio             __acrtused........bios
+__assert..........assert            
 
 conio             Offset: 00000010H  Code and data size: 3b3H
   _clrscr           _cprintf          _cputs            _cputsxy
@@ -63,4 +63,4 @@ assert            Offset: 00001260H  Code and data size: 56H
   __assert        
 
 bios              Offset: 00001360H  Code and data size: eH
-  _setpage        
+  _setpage          __acrtused      
