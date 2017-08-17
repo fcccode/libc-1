@@ -5,7 +5,7 @@
 .data							; Data segment
  BootDrive db  0					; Store bootdrive number
 .code							; Start of code segment
-; ------------------------------------------------------------------
+ ; ------------------------------------------------------------------
 
 start:
     cli					; Clear interrupts

@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\stdio.inc" />
     <None Include="src\assert.asm" />
     <None Include="src\bios.asm" />
     <None Include="src\conio.asm" />
@@ -98,8 +97,8 @@
     <IntDir>.</IntDir>
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
     <ExecutablePath>.\..\..\Tools\VC152\;</ExecutablePath>
-    <IncludePath>include\</IncludePath>
-    <LibraryPath>include\</LibraryPath>
+    <IncludePath>..\include\</IncludePath>
+    <LibraryPath>..\include\</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
@@ -119,7 +118,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <BuildLog>
-      <Path>$(SolutionDir)bin\libc.log</Path>
+      <Path>$(SolutionDir)libsrc\bin\libc.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

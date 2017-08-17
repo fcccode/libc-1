@@ -12,9 +12,6 @@
     <Filter Include="Test Files">
       <UniqueIdentifier>{916c50b2-4a4a-424d-b39d-6ab28f1f9c8d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Include Files">
-      <UniqueIdentifier>{fb718c6c-783d-4928-8065-c74507dda7a3}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\stdio.asm">
@@ -37,9 +34,6 @@
     </None>
     <None Include="src\bios.asm">
       <Filter>Source Files</Filter>
-    </None>
-    <None Include="include\stdio.inc">
-      <Filter>Include Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
