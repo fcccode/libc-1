@@ -72,13 +72,13 @@
     <ClCompile Include="tests\__string.c">
       <Filter>Test Files</Filter>
     </ClCompile>
-    <ClCompile Include="tests\ktest.c">
-      <Filter>Test Files</Filter>
-    </ClCompile>
     <ClCompile Include="tests\__ctype.c">
       <Filter>Test Files</Filter>
     </ClCompile>
     <ClCompile Include="tests\__conio.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\__kernel.c">
       <Filter>Test Files</Filter>
     </ClCompile>
   </ItemGroup>

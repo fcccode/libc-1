@@ -19,19 +19,43 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\bootload.asm" />
+    <None Include="src\assert.asm" />
+    <None Include="src\bios.asm" />
+    <None Include="src\conio.asm" />
+    <None Include="src\ctype.asm" />
+    <None Include="src\signal.asm" />
+    <None Include="src\stdio.asm" />
+    <None Include="src\string.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\assert.h" />
+    <ClInclude Include="include\bios.h" />
+    <ClInclude Include="include\conio.h" />
+    <ClInclude Include="include\ctype.h" />
+    <ClInclude Include="include\errno.h" />
+    <ClInclude Include="include\limits.h" />
+    <ClInclude Include="include\signal.h" />
+    <ClInclude Include="include\stdbool.h" />
+    <ClInclude Include="include\stdio.h" />
+    <ClInclude Include="include\string.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tests\__conio.c" />
+    <ClCompile Include="tests\__ctype.c" />
+    <ClCompile Include="tests\__kernel.c" />
+    <ClCompile Include="tests\__string.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{47E38B7E-BDA5-46FB-B147-B9DDDDB425A5}</ProjectGuid>
+    <ProjectGuid>{BE830F7A-EA49-4933-AC9C-6673828C4C18}</ProjectGuid>
     <Keyword>MakeFileProj</Keyword>
+    <ProjectName>libsrc</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CLRSupport />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
@@ -47,7 +71,6 @@
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CLRSupport />
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -67,24 +90,18 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <NMakePreprocessorDefinitions>
-    </NMakePreprocessorDefinitions>
-    <OutDir>.</OutDir>
-    <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>build_bootload.bat</NMakeBuildCommandLine>
-    <NMakeOutput>
-    </NMakeOutput>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakePreprocessorDefinitions>
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>build_bootload.bat</NMakeBuildCommandLine>
-    <NMakeOutput>
-    </NMakeOutput>
-    <ExecutablePath>.\..\..\Tools\;.\..\..\Tools\qemu\;</ExecutablePath>
+    <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
+    <ExecutablePath>.\..\..\Tools\VC152\;</ExecutablePath>
+    <IncludePath>include\</IncludePath>
+    <LibraryPath>include\</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
@@ -94,22 +111,19 @@
     </NMakePreprocessorDefinitions>
     <OutDir>.</OutDir>
     <IntDir>.</IntDir>
-    <NMakeBuildCommandLine>build_bootload.bat</NMakeBuildCommandLine>
-    <ExecutablePath>.\..\..\Tools\;.\..\..\Tools\qemu\;</ExecutablePath>
+    <NMakeBuildCommandLine>build_libc.bat</NMakeBuildCommandLine>
+    <IncludePath>.\..\libsrc\include;</IncludePath>
+    <LibraryPath>.\..\libsrc\include;</LibraryPath>
+    <ExecutablePath>.\..\..\Tools\VC152\;</ExecutablePath>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <BuildLog>
-      <Path>bin\bootload.log</Path>
-    </BuildLog>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <BuildLog>
-      <Path>$(SolutionDir)build\bin\bootload.log</Path>
+      <Path>$(SolutionDir)bin\libc.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <BuildLog>
-      <Path>$(SolutionDir)build\bin\bootload.log</Path>
+      <Path>$(SolutionDir)build\bin\\libc.log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

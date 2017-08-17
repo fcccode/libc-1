@@ -7,10 +7,8 @@
 
 extern void main()
 {
-    textcolor(LIGHTGREEN);
-    cprintf("SuccOS Test Kernel startup...\r\n\n");
-
-    textcolor(YELLOW);
+        clrscr();
+textcolor(YELLOW);
     cprintf("[!] Testing 'string' C functions...\r\n");
     string_tests();
     cprintf("[!] Testing 'ctype' C functions...\r\n");

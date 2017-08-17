@@ -3,22 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bootload", "bootload\bootload.vcxproj", "{47E38B7E-BDA5-46FB-B147-B9DDDDB425A5}"
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libc", "libc.vcxproj", "{BE830F7A-EA49-4933-AC9C-6673828C4C18}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kernel", "kernel\kernel.vcxproj", "{3CB80D1A-27E3-4587-8B9D-E8AC38687500}"
-	ProjectSection(ProjectDependencies) = postProject
-		{BE830F7A-EA49-4933-AC9C-6673828C4C18} = {BE830F7A-EA49-4933-AC9C-6673828C4C18}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsrc", "libsrc\libc.vcxproj", "{BE830F7A-EA49-4933-AC9C-6673828C4C18}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "build", "build\build.vcxproj", "{40EA4022-9EEB-400B-A3F7-084EB78AA009}"
-	ProjectSection(ProjectDependencies) = postProject
-		{3CB80D1A-27E3-4587-8B9D-E8AC38687500} = {3CB80D1A-27E3-4587-8B9D-E8AC38687500}
-		{BE830F7A-EA49-4933-AC9C-6673828C4C18} = {BE830F7A-EA49-4933-AC9C-6673828C4C18}
-		{47E38B7E-BDA5-46FB-B147-B9DDDDB425A5} = {47E38B7E-BDA5-46FB-B147-B9DDDDB425A5}
-	EndProjectSection
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Build|x64 = Build|x64
