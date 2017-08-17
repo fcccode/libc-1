@@ -1,5 +1,5 @@
 @echo off
-SET PATH=Tools\VC152\;Tools\;Tools\qemu\
+SET PATH=.\..\Tools\VC152\;.\..\Tools\;.\..\Tools\qemu\
 
 :build_library
     rem Compile all source assembly files
