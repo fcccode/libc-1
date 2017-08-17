@@ -1,10 +1,10 @@
 ; ------------------------------------------------------------------
-	.286							; CPU type
-	.model tiny						; Tiny memoy model
-	 extern _main:near					; Externel C kernel
-	.data							; Data segment
-	  BootDrive db  0					; Store bootdrive number
-	.code							; Start of code segment
+.286							; CPU type
+.model tiny						; Tiny memoy model
+ extern _main:near					; Externel C kernel
+.data							; Data segment
+ BootDrive db  0					; Store bootdrive number
+.code							; Start of code segment
 ; ------------------------------------------------------------------
 
 start:

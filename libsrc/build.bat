@@ -6,17 +6,17 @@ SET PATH=.\..\Tools\VC152\;.\..\Tools\;.\..\Tools\qemu\
     ML /omf /c src\*.asm
 
     rem Link all object files to libary
-    LIB lib\libc -+conio.obj -+ctype.obj -+stdio.obj -+string.obj -+assert.obj -+bios.obj, lib\libc.lst, lib\libc.lib
+    LIB ..\lib\libc -+conio.obj -+ctype.obj -+stdio.obj -+string.obj -+assert.obj -+bios.obj, ..\lib\libc.lst, ..\lib\libc.lib
 
 :build_tests
     rem Compile all C files
-    CL /AT /G2 /Gs /Gx /c /Zl /I "include" tests\*.c
+    CL /AT /G2 /Gs /Gx /c /Zl /I "..\include" tests\*.c
 
     rem Compile all assembly files
     ML /omf /c  tests\*.asm
 
     rem Link together all files and include the libary
-    LINK /T /NOD kernel.obj __kernel.obj __string.obj __ctype.obj __conio.obj, bin\kernel.bin, nul, lib\libc.lib, nul
+    LINK /T /NOD kernel.obj __kernel.obj __string.obj __ctype.obj __conio.obj, bin\kernel.bin, nul, ..\lib\libc.lib, nul
 
     move /Y *.obj bin\obj > nul
 

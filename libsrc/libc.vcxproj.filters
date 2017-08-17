@@ -12,6 +12,9 @@
     <Filter Include="Test Files">
       <UniqueIdentifier>{916c50b2-4a4a-424d-b39d-6ab28f1f9c8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include Files">
+      <UniqueIdentifier>{fb718c6c-783d-4928-8065-c74507dda7a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\stdio.asm">
@@ -35,36 +38,39 @@
     <None Include="src\bios.asm">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="include\stdio.inc">
+      <Filter>Include Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\stdio.h">
+    <ClInclude Include="..\include\string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\string.h">
+    <ClInclude Include="..\include\stdio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\conio.h">
+    <ClInclude Include="..\include\stdbool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ctype.h">
+    <ClInclude Include="..\include\signal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\assert.h">
+    <ClInclude Include="..\include\limits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\errno.h">
+    <ClInclude Include="..\include\errno.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\stdbool.h">
+    <ClInclude Include="..\include\ctype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\signal.h">
+    <ClInclude Include="..\include\conio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\limits.h">
+    <ClInclude Include="..\include\bios.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\bios.h">
+    <ClInclude Include="..\include\assert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

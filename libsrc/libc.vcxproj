@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <None Include="include\stdio.inc" />
     <None Include="src\assert.asm" />
     <None Include="src\bios.asm" />
     <None Include="src\conio.asm" />
@@ -28,16 +29,16 @@
     <None Include="src\string.asm" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\assert.h" />
-    <ClInclude Include="include\bios.h" />
-    <ClInclude Include="include\conio.h" />
-    <ClInclude Include="include\ctype.h" />
-    <ClInclude Include="include\errno.h" />
-    <ClInclude Include="include\limits.h" />
-    <ClInclude Include="include\signal.h" />
-    <ClInclude Include="include\stdbool.h" />
-    <ClInclude Include="include\stdio.h" />
-    <ClInclude Include="include\string.h" />
+    <ClInclude Include="..\include\assert.h" />
+    <ClInclude Include="..\include\bios.h" />
+    <ClInclude Include="..\include\conio.h" />
+    <ClInclude Include="..\include\ctype.h" />
+    <ClInclude Include="..\include\errno.h" />
+    <ClInclude Include="..\include\limits.h" />
+    <ClInclude Include="..\include\signal.h" />
+    <ClInclude Include="..\include\stdbool.h" />
+    <ClInclude Include="..\include\stdio.h" />
+    <ClInclude Include="..\include\string.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests\__conio.c" />
