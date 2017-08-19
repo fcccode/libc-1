@@ -3,14 +3,14 @@ SET PATH=.\..\Tools\VC152\;.\..\Tools\;.\..\Tools\qemu\
 
 :build_library
     rem Compile all source assembly files
-    ML /omf /c src\*.asm
+    ML /omf /c /I "..\inc" src\*.asm
 
     rem Link all object files to libary
     LIB ..\lib\libc -+conio.obj -+ctype.obj -+stdio.obj -+string.obj -+assert.obj -+bios.obj, ..\lib\libc.lst, ..\lib\libc.lib
 
 :build_tests
     rem Compile all C files
-    CL /AT /G2 /Gs /Gx /c /Zl /I "..\include" tests\*.c
+    CL /AT /G2 /Gs /Gx /c /Zl /I "..\h" tests\*.c
 
     rem Compile all assembly files
     ML /omf /c  tests\*.asm

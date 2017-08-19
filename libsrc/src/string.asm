@@ -1,11 +1,10 @@
 ; ------------------------------------------------------------------
-	.286							; CPU type
-	.model tiny				; Tiny memoy model
-	.data					; Data segment
-		return_buffer BYTE 64 dup(?)	; Buffer for returning data
-		strtok_buffer BYTE 64 dup(?)	; Buffer for str token data
-		token_buffer BYTE 64 dup(?)	; Buffer for str token data
-	.code					; Start of code segment
+include libc.inc						; Include library headers
+.data								; Data segment
+ return_buffer BYTE 64 dup(?)					; Buffer for returning data
+ strtok_buffer BYTE 64 dup(?)					; Buffer for str token data
+ token_buffer BYTE 64 dup(?)					; Buffer for str token data
+.code								; Start of code segment
 ; ------------------------------------------------------------------
 
 clearBuff MACRO arg
@@ -28,15 +27,12 @@ ENDM
 ; Compares the string pointed to, by str1 to the string
 ; pointed to by str2.
 
-_strcmp PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    push bx							; Fixes video mem error	with conio.h
-    mov di, [bp + 4]						; Point to param address
-    mov si, [bp + 6]						; Point to param address
+strcmp PROC uses si di bx str1:WORD, str2:WORD
+    mov di, str1						; Point to param address
+    mov si, str2						; Point to param address
 
-    xor ah, ah							; Char number total for SI
-    xor bh, bh							; Char number total for DI
+    xor ax, ax							; Char number total for SI
+    xor bx, bx							; Char number total for DI
 
   @@cmp:
     mov al, [si]						; Byte from SI
@@ -50,8 +46,8 @@ _strcmp PROC
     inc di
     inc si
     jmp @@cmp
-  @@done:
 
+  @@done:
     .IF bh == ah						; Return 0 if both str inputs equal
 	mov ax, 0
     .ELSEIF bh > ah						; Return 1 if str1 is greater than str2
@@ -59,11 +55,9 @@ _strcmp PROC
     .ELSEIF bh < ah						; Return -1 if str1 is less than str2
 	mov ax, -1
     .ENDIF
-    pop bx
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
+
     ret
-_strcmp ENDP
+strcmp ENDP
 
 
 ; ------------------------------------------------------------------
@@ -71,18 +65,15 @@ _strcmp ENDP
 ; ------------------------------------------------------------------
 ; Compares at most the first n bytes of str1 and str2.
 
-_strncmp PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    push bx							; Fixes video mem error	with conio.h
-    mov di, [bp + 4]						; Point to param address str1
-    mov si, [bp + 6]						; Point to param address str2
+strncmp PROC uses si di bx cx str1:WORD, str2:WORD, n:PTR BYTE
+    mov di, str1						; Point to param address str1
+    mov si, str2						; Point to param address str2
+    mov cx, n							; Store n in cx for loop
 
-    xor cx, cx							; Store n in cx for loop
-    xor ah, ah							; Char number total for SI
-    xor bh, bh							; Char number total for DI
+    xor ax, ax							; Char number total for SI
+    xor bx, bx							; Char number total for DI
 
-    .WHILE cx != [bp + 8]
+    .REPEAT
 	mov al, [si]						; Byte from S
 	add ah, al
 	mov bl, [di]						; Byte from DI
@@ -94,8 +85,8 @@ _strncmp PROC
 	.ENDIF
 	inc di
 	inc si
-	inc cx
-    .ENDW
+	dec cx
+    .UNTILCXZ
 
     .IF bh == ah						; Return 0 if both str inputs equal
 	mov ax, 0
@@ -105,11 +96,8 @@ _strncmp PROC
 	mov ah, -1
     .ENDIF
 
-    pop bx
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strncmp ENDP
+strncmp ENDP
 
 
 ; ------------------------------------------------------------------
@@ -118,15 +106,12 @@ _strncmp ENDP
 ; Compares the string pointed to, by str1 to the string
 ; pointed to by str2.
 
-_strcoll PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    push bx							; Fixes video mem error	with conio.h
-    mov di, [bp + 4]						; Point to param address
-    mov si, [bp + 6]						; Point to param address
+strcoll PROC uses si di bx str1:WORD, str2:WORD
+    mov di, str1						; Point to str1
+    mov si, str2						; Point to str2
 
-    xor ah, ah							; Char number total for SI
-    xor bh, bh							; Char number total for DI
+    xor ax, ax							; Char number total for SI
+    xor bx, bx							; Char number total for DI
 
    .REPEAT
 	mov al, [si]						; Byte from SI
@@ -150,11 +135,8 @@ _strcoll PROC
     	mov ah, -1
     .ENDIF
 
-    pop bx
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strcoll ENDP
+strcoll ENDP
 
 
 ; ------------------------------------------------------------------
@@ -162,25 +144,18 @@ _strcoll ENDP
 ; ------------------------------------------------------------------
 ; Coppy string in src to dest
 
-_strcpy PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov di, [bp + 4]						; Point to dest address
-    mov si, [bp + 6]						; Point to src address
+strcpy PROC uses si di ax bx dest:WORD, src:WORD
+    mov di, dest						; Point to dest address
+    mov si, src							; Point to src address
 
   @@cpy:
-    mov al, [si]						; Transfer contents (at least one byte terminator)
-    mov [di], al
-    inc si
-    inc di
-    cmp byte ptr al, 0						; If source string is empty, quit out
+    lodsb
+    stosb							; Transfer contents
+    or al, al							; If source string is empty, quit out
     jne @@cpy
 
-    mov ax, [bp + 4]						; Return dest address
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strcpy ENDP
+strcpy ENDP
 
 
 ; ------------------------------------------------------------------
@@ -188,30 +163,21 @@ _strcpy ENDP
 ; ------------------------------------------------------------------
 ; Coppy string in src to dest up to n chars.
 
-_strncpy PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov di, [bp + 4]						; Point to dest address
-    mov si, [bp + 6]						; Point to src address
+strncpy PROC uses si di ax bx dest:WORD, src:WORD, n:PTR BYTE
+    mov di, dest						; Point to dest address
+    mov si, src							; Point to src address
+    mov cx, n							; Times to iterate
 
-    xor cx, cx							; Store n in cx for loop
+  @@cpy:
+    lodsb
+    stosb							; Transfer contents
+    or al, al							; If source string is empty, quit out
+    jz @@done
+    loop @@cpy
 
-    .WHILE cx != [bp + 8]
-    	mov al, [si]						; Transfer contents (at least one byte terminator)
-    	mov [di], al
-    	inc si
-    	inc di
-    	inc cx
-    	.IF !al
-    	    .BREAK
-    	.ENDIF
-    .ENDW
-
-    mov ax, [bp + 4]						; Return dest address
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
+  @@done:
     ret
-_strncpy ENDP
+strncpy ENDP
 
 
 ; ------------------------------------------------------------------
@@ -219,10 +185,8 @@ _strncpy ENDP
 ; ------------------------------------------------------------------
 ; Get the length of the string.
 
-_strlen PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov si, [bp + 4]						; Point to param address str1
+strlen PROC uses si cx string:WORD
+    mov si, string						; Point to string address
 
     xor cx, cx							; Store n in cx for loop
 
@@ -236,54 +200,44 @@ _strlen PROC
   @@done:
     mov ax, cx							; Return the length of the string
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strlen ENDP
+strlen ENDP
 
 
 ; ------------------------------------------------------------------
-; char *strchr(const char *str, int c)
+; char *strchr(const char *str, int n)
 ; ------------------------------------------------------------------
 ; Searches for the first occurrence of the character c
 ; (an unsigned char) in the string pointed to, by the
 ; argument str.
 
-_strchr PROC
-    push bp								; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov si, [bp + 4]					; Point to param address str1
+strchr PROC uses si di cx string:WORD, n:BYTE
+    clearBuff return_buffer
 
-	cli									; Clear interrupts
-	mov di, offset return_buffer
-	mov cx, sizeof return_buffer		; Repeat for the length of the buffer
-	mov al, 0							; Clear with null (0)
-	rep stosb
-
-	mov di, offset return_buffer
+    mov si, string						; Point to param address str1
+    mov di, offset return_buffer				; Point to param ret str1
+    mov cl, n
 
   @@loop:
-	lodsb								; Get character from string
-	or al, al							; End of string
-	jz @@done
-	cmp al, [bp + 6]
-	jne @@loop
-	stosb
+    lodsb							; Get character from string
+    or al, al							; End of string
+    jz @@done
+    cmp al, cl
+    jne @@loop
+    stosb
 
   @@found:
-   	lodsb								; Get character from string
-	or al, al							; End of string
-	jz @@done
-	stosb
-	jmp @@found
+    lodsb							; Get character from string
+    or al, al							; End of string
+    jz @@done
+    stosb
+    jmp @@found
 
   @@done:
-	mov ax, offset return_buffer
+    mov ax, offset return_buffer
 
-	mov sp, bp							; Restore stack pointer
-	pop bp								; Restore BP register
-	ret
-_strchr ENDP
+    ret
+strchr ENDP
 
 
 ; ------------------------------------------------------------------
@@ -293,31 +247,26 @@ _strchr ENDP
 ; All characters from src are copied including the
 ; terminating null character.
 
-_strcat PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov di, [bp + 4]					    ; Point to dest address
-    mov si, [bp + 6]					    ; Point to source address
+strcat PROC uses si di ax dest:WORD, src:WORD
+    mov di, dest					    ; Point to dest address
+    mov si, src						    ; Point to source address
 
-  @@inc:							; Find the end of the dest string
+  @@inc:						    ; Find the end of the dest string
     inc di
     mov al, [di]
     or al, al
     jnz @@inc
 
   @@append:
-    mov al, [si]						; Transfer contents of source to dest
+    mov al, [si]					    ; Transfer contents of source to dest
     mov [di], al
     inc si
     inc di
     or al, al
     jne @@append
 
-    mov ax, [bp + 4]						; Return value points to dest address
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strcat ENDP
+strcat ENDP
 
 
 ; ------------------------------------------------------------------
@@ -327,31 +276,26 @@ _strcat ENDP
 ; from src to dest. All characters from src are copied including
 ; the terminating null character.
 
-_strncat PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov di, [bp + 4]						; Point to dest address
-    mov si, [bp + 6]						; Point to source address
-    mov cx, [bp + 8]						; Point to n address
+strncat PROC uses si di ax dest:WORD, src:WORD, n:PTR BYTE
+    mov di, dest					    ; Point to dest address
+    mov si, src						    ; Point to source address
+    mov cx, n						    ; Point to n address
 
-  @@inc:							; Find the end of the dest
+  @@inc:						    ; Find the end of the dest
     inc di
     mov al, [di]
     or al, al
     jnz @@inc
 
   @@append:
-    mov al, [si]						; Transfer contents of source to dest up to n
+    mov al, [si]					    ; Transfer contents of source to dest up to n
     mov [di], al
     inc si
     inc di
     loop @@append
 
-    mov ax, [bp + 4]						; Return value points to dest address
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strncat ENDP
+strncat ENDP
 
 
 ; ------------------------------------------------------------------
@@ -360,23 +304,18 @@ _strncat ENDP
 ; Copies the character c (an unsigned char) to the first n
 ; characters of the string pointed to, by the argument str.
 
-_memset PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov di, [bp + 4]						; Point to str address
-    mov cx, [bp + 8]						; Point to n address
+memset PROC uses si di ax cx string:WORD, char:BYTE, n:PTR BYTE
+    mov di, string					    ; Point to str address
+    mov cx, n						    ; Point to n address
 
   @@append:
-    mov al, [bp + 6]						; Move c into str n times
+    mov al, char					    ; Move c into str n times
     mov [di], al
     inc di
     loop @@append
 
-    mov ax, [bp + 4]						; Return value points to dest address
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_memset ENDP
+memset ENDP
 
 
 ; ------------------------------------------------------------------
@@ -384,12 +323,10 @@ _memset ENDP
 ; ------------------------------------------------------------------
 ; Copies n characters from src to dest.
 
-_memmove PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov di, [bp + 4]						; Point to dest address
-    mov si, [bp + 6]						; Point to src address
-    mov cx, [bp + 8]						; Point to n address
+memmove PROC uses si di ax cx dest:WORD, src:WORD, n:PTR BYTE
+    mov di, dest						; Point to dest address
+    mov si, src							; Point to src address
+    mov cx, n							; Point to n address
 
   @@append:
     mov al, [si]						; Char from src to al
@@ -398,12 +335,8 @@ _memmove PROC
     inc si
     loop @@append
 
-    mov ax, [bp + 4]						; Return value points to dest address
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_memmove ENDP
-
+memmove ENDP
 
 
 ; ------------------------------------------------------------------
@@ -412,17 +345,15 @@ _memmove ENDP
 ; This function copies n characters from memory at src to the
 ; memory area at the dest.
 
-_memcpy PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov di, [bp + 4]						; Point to str1 address
-    mov si, [bp + 6]						; Point to str2 address
-    mov cx, [bp + 8]						; Point to n address
+memcpy PROC uses si di ax cx dest:WORD, src:WORD, n:PTR BYTE
+    mov di, dest					    ; Point to str1 address
+    mov si, src						    ; Point to str2 address
+    mov cx, n						    ; Point to n address
 
   @@cpy:
-    mov al, [si]						; Transfer contents (at least one byte terminator)
+    mov al, [si]					    ; Transfer contents (at least one byte terminator)
     mov [di], al
-    cmp al, 0
+    or al, al
     je @@done
     inc si
     inc di
@@ -430,27 +361,22 @@ _memcpy PROC
     loop @@cpy
 
   @@done:
-    mov ax, [bp + 4]						; Return value points to dest address
-
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_memcpy ENDP
+memcpy ENDP
+
 
 ; ------------------------------------------------------------------
 ; int memcmp(const void *str1, const void *str2, size_t n)
 ; ------------------------------------------------------------------
 ; Compares at most the first n bytes of str1 and str2.
 
-_memcmp PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov di, [bp + 4]						; Point to str1 address
-    mov si, [bp + 6]						; Point to str2 address
-    mov cx, [bp + 8]						; Point to n addres
+memcmp PROC uses si di bx cx str1:WORD, str2:WORD, n:PTR BYTE
+    mov di, str1						; Point to str1 address
+    mov si, str2						; Point to str2 address
+    mov cx, n							; Point to n addres
 
-    xor ah, ah							; Char number total for SI
-    xor bh, bh							; Char number total for DI
+    xor ax, ax							; Char number total for SI
+    xor bx, bx							; Char number total for DI
 
   @@cmp:
     mov al, [si]						; Byte from S
@@ -459,7 +385,7 @@ _memcmp PROC
     add bh, bl							; Add byte value to bh
     cmp al, bl							; If both bytes not equal then exit
     jne @@done
-    cmp al, 0							; If no bytes left then exit
+    or al, al							; If no bytes left then exit
     jz @@done
     inc di
     inc si
@@ -474,10 +400,8 @@ _memcmp PROC
     	mov ah, -1
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_memcmp ENDP
+memcmp ENDP
 
 
 ; ------------------------------------------------------------------
@@ -487,36 +411,28 @@ _memcmp ENDP
 ; (an unsigned char) in the first n bytes of the string
 ; pointed to, by the argument str.
 
-_memchr PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov si, [bp + 4]						; Point to param address str1
+memchr PROC uses si di bx cx string:WORD, char:BYTE, n:PTR BYTE
+    clearBuff return_buffer
 
-    ; cli
-    cld
-    mov di, offset return_buffer
-    mov cx, sizeof return_buffer				; Repeat for the length of the buffer
-    mov al, 0							; Clear with null (0)
-    rep stosb
-
+    mov si, string						; Point to param address str
     mov di, offset return_buffer
 
   @@loop:
     lodsb							; Get character from string
     or al, al							; End of string
     jz @@done
-    cmp al, [bp + 6]
+    cmp al, char
     jne @@loop
 
     mov [di], al						; Add n to buffer and increase
     inc di
 
-    mov cx, [bp + 8]						; Times to iterate
-    cmp cx, 0
+    mov cx, n						; Times to iterate
+    or cx, cx
     jz @@done
 
   @@iterate:
-   lodsb							; Get character from string
+    lodsb							; Get character from string
     or al, al							; End of string
     jz @@done
     mov [di], al
@@ -526,10 +442,8 @@ _memchr PROC
   @@done:
     mov ax, offset return_buffer
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_memchr ENDP
+memchr ENDP
 
 
 ; ------------------------------------------------------------------
@@ -539,40 +453,37 @@ _memchr ENDP
 ; segment of str1, which consists entirely of characters
 ; not in str2.
 
-_strcspn PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov si, [bp + 4]						; Point to str1 address
-    mov di, [bp + 6]						; Point to str2 address
+strcspn PROC uses si di bx cx str1:WORD, str2:WORD
+    mov si, str1					    ; Point to str1 address
+    mov di, str2					    ; Point to str2 address
 
     xor cx, cx
 
   @@cmp:
-    mov al, [si]						; Byte from SI
-    push di							; Save DI
+    mov al, [si]					    ; Byte from SI
+    push di						    ; Save DI
 
   @@char:
-    mov bl, [di]						; Byte from DI
-    cmp al, bl							; If both bytes equal then exit
-    je @@done
-    inc di							; Increase DI untill zero
-    cmp bl, 0
+    mov bl, [di]					    ; Byte from DI
+    cmp al, bl						    ; If both bytes equal then exit
+    je @@exit
+    inc di						    ; Increase DI untill zero
+    or bl, bl
     jnz @@char
-    pop di							; Restore DI
-
-    cmp al, 0							; If no bytes left then exit
+    pop di						    ; Restore DI
+    or al, al						    ; If no bytes left then exit
     jz @@done
     inc si
     inc cx
     jmp @@cmp
 
+  @@exit:
+     pop di						    ; Restore DI
+
   @@done:
     mov ax, cx
-
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strcspn ENDP
+strcspn ENDP
 
 
 ; ------------------------------------------------------------------
@@ -582,18 +493,11 @@ _strcspn ENDP
 ; that matches any character specified in str2. This does
 ; not include the terminating null-characters.
 
-_strpbrk PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov si, [bp + 4]						; Point to str1 address
+strpbrk PROC uses si di bx str1:WORD, str2:WORD
+    clearBuff return_buffer
 
-    cld
-    mov di, offset return_buffer
-    mov cx, sizeof return_buffer				; Repeat for the length of the buffer
-    mov al, 0							; Clear with null (0)
-    rep stosb
-
-    mov di, [bp + 6]						; Point to str2 address
+    mov si, str1						; Point to str1 address
+    mov di, str2						; Point to str2 address
 
   @@cmp:
     mov al, [si]						; Byte from SI
@@ -604,11 +508,11 @@ _strpbrk PROC
     cmp al, bl							; If both bytes equal then exit
     je @@equal
     inc di							; Increase DI untill zero
-    cmp bl, 0
+    or bl, bl
     jnz @@char
     pop di							; Restore DI
 
-    cmp al, 0							; If no bytes left then exit
+    or al, al							; If no bytes left then exit
     jz @@error
     inc si
     jmp @@cmp
@@ -620,7 +524,7 @@ _strpbrk PROC
   @@fill:
     mov al, [si]
     mov [di], al
-    cmp al, 0							; If no bytes left then exit
+    or al, al							; If no bytes left then exit
     jz @@buff
     inc si
     inc di
@@ -629,42 +533,34 @@ _strpbrk PROC
   @@buff:
     mov ax, offset return_buffer
     jmp @@done
+
   @@error:
     mov ax, 0							 ; Return null on char not found
 
   @@done:
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strpbrk ENDP
+strpbrk ENDP
 
 
 ; ------------------------------------------------------------------
-; char *strrchr(const char *str, int c);
+; char *strrchr(const char *str, int n);
 ; ------------------------------------------------------------------
 ; This function searches for the last occurrence of the
 ; character c (an unsigned char) in the string pointed
 ; to, by the argument str.
 
-_strrchr PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov si, [bp + 4]						; Point to str1 address
+strrchr PROC uses si di bx cx str1:WORD, n:BYTE
+    clearBuff return_buffer
 
-    cld
-    mov di, offset return_buffer
-    mov cx, sizeof return_buffer				; Repeat for the length of the buffer
-    mov al, 0							; Clear with null (0)
-    rep stosb
-
-
+    mov si, str1						; Point to str1 address
     push si							; Save SI
+
     xor cx, cx							; Clear counter
     xor bx, bx							; Clear counter storage
 
   @@cmp:
     mov al, [si]						; Byte from SI
-    cmp al, [bp + 6]
+    cmp al, n
     je @@found							; If equal store counter in BX
     jne @@cont							; Else continue
 
@@ -701,10 +597,8 @@ _strrchr PROC
     mov ax, offset return_buffer
 
   @@done:
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strrchr ENDP
+strrchr ENDP
 
 
 ; ------------------------------------------------------------------
@@ -714,11 +608,9 @@ _strrchr ENDP
 ; segment of str1 which consists entirely of chars
 ; in str2.
 
-_strspn PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov si, [bp + 4]						; Point to str1 address
-    mov di, [bp + 6]						; Point to str2 address
+strspn PROC uses di si cx str1:PTR WORD, str2:WORD
+    mov si, str1						; Point to str1 address
+    mov di, str2						; Point to str2 address
 
     xor cx, cx							; Clear counter
 
@@ -727,7 +619,7 @@ _strspn PROC
     mov bl, [di]						; Byte from DI
     cmp al, bl							; If both bytes not equal then exit
     jne @@done
-    cmp al, 0							; If no bytes left then exit
+    or al, al							; If no bytes left then exit
     jz @@done
     inc di
     inc si
@@ -736,11 +628,8 @@ _strspn PROC
 
   @@done:
     mov ax, cx							; Return counter number
-
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strspn ENDP
+strspn ENDP
 
 
 ; ------------------------------------------------------------------
@@ -750,19 +639,11 @@ _strspn ENDP
 ; needle in the string haystack. The terminating '\0'
 ; characters are not compared.
 
-_strstr PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov si, [bp + 4]						; Point to haystack address
-    mov di, [bp + 6]						; Point to needle address
+strstr PROC uses si di bx cx haystack:WORD, needle:WORD
+    clearBuff return_buffer
 
-    pusha
-    cld
-    mov di, offset return_buffer
-    mov cx, sizeof return_buffer				; Repeat for the length of the buffer
-    mov al, 0							; Clear with null (0)
-    rep stosb
-    popa
+    mov si, haystack						; Point to haystack address
+    mov di, needle						; Point to needle address
 
     xor cx, cx							; Store n in cx for loop
 
@@ -776,7 +657,7 @@ _strstr PROC
   @@cmpstr:
     mov al, [si]						; Byte from SI
     mov bl, [di]						; Byte from DI
-    cmp bl, 0							; If end of needle return true
+    or bl, bl							; If end of needle return true
     je @@equal
     cmp al, bl							; Test if equal
     jne @@notequal						; If not equal continue @@cmp loop
@@ -788,7 +669,7 @@ _strstr PROC
     popa
 
   @@cont:
-    cmp al, 0							; If no bytes left then exit
+    or al, al							; If no bytes left then exit
     jz @@done
     inc si
     inc cx
@@ -797,7 +678,7 @@ _strstr PROC
  @@equal:
     popa
     mov di, offset return_buffer				; Point DI to the offset of return_buffer
-    mov si, [bp + 4]						; Point to haystack address
+    mov si, haystack						; Point to haystack address
     add si, cx
 
  @@iterate:
@@ -810,25 +691,20 @@ _strstr PROC
 
   @@done:
     mov ax, offset return_buffer				; Return the buffer
-
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_strstr	ENDP
+strstr	ENDP
 
 ; ------------------------------------------------------------------
 ; char *strtok(char *str, const char *delim)
 ; ------------------------------------------------------------------
- _strtok PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov si, [bp + 4]						; Point to haystack address
-    mov di, [bp + 4]						; This function makes me wanta kill myself
+strtok PROC uses si di bx string:WORD, delim:WORD
+    mov si, string						; Point to haystack address
+    mov di, string						; This function makes me wanta kill myself
 
     clearBuff return_buffer
 
     mov bl, [di]						; Byte from DI
-    cmp bl, 0
+    or bl, bl
     jz @@s
     jmp @@f
 
@@ -872,8 +748,6 @@ _strstr	ENDP
     clearBuff token_buffer
 
     mov ax, offset return_buffer
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
 
   @@f:
@@ -882,7 +756,7 @@ _strstr	ENDP
 
   @@f_fill_return:
     lodsb							; Get byte from SI into AL
-    cmp al, [bp + 6]
+    cmp al, [bp+4]
     je @@f_found_delim
     stosb							; Store AL into DI
     or al, al						; End of string?
@@ -899,10 +773,8 @@ _strstr	ENDP
     mov ax, offset return_buffer
 
   @@done:
-    mov sp, bp							; Restore stack pointer
-    pop bp								; Restore BP register
     ret
-_strtok ENDP
+strtok ENDP
 
 ; ------------------------------------------------------------------
 ; size_t strxfrm(char *dest, const char *src, size_t n)
@@ -910,11 +782,9 @@ _strtok ENDP
 ; This function transforms the first n chars of src
 ; into the locale and puts them into the dest.
 
-_strxfrm PROC
-    push bp								; Save BP on stack
-    mov bp, sp								; Set BP to SP
-    mov di, [bp + 4]							; Point to str1 address
-    mov si, [bp + 6]							; Point to str2 address
+strxfrm PROC uses di si cx dest:WORD, src:WORD, n:PTR BYTE
+    mov di, dest							; Point to str1 address
+    mov si, src							; Point to str2 address
 
     xor cx, cx
 
@@ -927,8 +797,8 @@ _strxfrm PROC
 
   @@cont:
     push cx								; Save length of SI
-    mov cx, [bp + 8]							; Point to n addres
-    mov si, [bp + 6]							; Point to str2 address
+    mov cx, n							; Point to n addres
+    mov si, src							; Point to str2 address
 
   @@append:
     mov al, [si]							; Transfer contents of source to dest up to n
@@ -940,8 +810,6 @@ _strxfrm PROC
   @@done:
     pop cx
     mov ax, cx
-    mov sp, bp								; Restore stack pointer
-    pop bp								; Restore BP register
     ret
-_strxfrm ENDP
+strxfrm ENDP
 END

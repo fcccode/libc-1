@@ -2,56 +2,56 @@ _clrscr...........conio             _cprintf..........conio
 _cputs............conio             _cputsxy..........conio
 _cscanf...........conio             _cursoroff........conio
 _cursoron.........conio             _delay............conio
-_drawline.........conio             _getch............conio
-_getchar..........stdio             _getche...........conio
-_gets.............stdio             _gotoxy...........conio
-_highvideo........conio             _insline..........conio
-_isalnum..........ctype             _isalpha..........ctype
-_iscntrl..........ctype             _isdigit..........ctype
-_isgraph..........ctype             _islower..........ctype
-_isprint..........ctype             _ispunct..........ctype
-_isspace..........ctype             _isupper..........ctype
-_isxdigit.........ctype             _kbhit............conio
-_lowvideo.........conio             _memchr...........string
-_memcmp...........string            _memcpy...........string
-_memmove..........string            _memset...........string
-_newline..........conio             _printf...........stdio
-_putch............conio             _putchar..........stdio
-_puts.............stdio             _scanf............stdio
-_setcursortype....conio             _setpage..........bios
-_strcat...........string            _strchr...........string
-_strcmp...........string            _strcoll..........string
-_strcpy...........string            _strcspn..........string
-_strlen...........string            _strncat..........string
-_strncmp..........string            _strncpy..........string
-_strpbrk..........string            _strrchr..........string
-_strspn...........string            _strstr...........string
-_strtok...........string            _strxfrm..........string
-_textbackground...conio             _textcolor........conio
-_tolower..........ctype             _toupper..........ctype
-_ungetch..........conio             _wherex...........conio
-_wherey...........conio             __acrtused........bios
-__assert..........assert            
+_getch............conio             _getchar..........stdio
+_getche...........conio             _gets.............stdio
+_gotoxy...........conio             _highvideo........conio
+_insline..........conio             _isalnum..........ctype
+_isalpha..........ctype             _iscntrl..........ctype
+_isdigit..........ctype             _isgraph..........ctype
+_islower..........ctype             _isprint..........ctype
+_ispunct..........ctype             _isspace..........ctype
+_isupper..........ctype             _isxdigit.........ctype
+_kbhit............conio             _lowvideo.........conio
+_memchr...........string            _memcmp...........string
+_memcpy...........string            _memmove..........string
+_memset...........string            _newline..........conio
+_printf...........stdio             _putch............conio
+_putchar..........stdio             _puts.............stdio
+_scanf............stdio             _setcursortype....conio
+_setpage..........bios              _strcat...........string
+_strchr...........string            _strcmp...........string
+_strcoll..........string            _strcpy...........string
+_strcspn..........string            _strlen...........string
+_strncat..........string            _strncmp..........string
+_strncpy..........string            _strpbrk..........string
+_strrchr..........string            _strspn...........string
+_strstr...........string            _strtok...........string
+_strxfrm..........string            _textbackground...conio
+_textcolor........conio             _tolower..........ctype
+_toupper..........ctype             _ungetch..........conio
+_wherex...........conio             _wherey...........conio
+__acrtused........bios              __assert..........assert
 
-conio             Offset: 00000010H  Code and data size: 3b3H
+
+conio             Offset: 00000010H  Code and data size: 393H
   _clrscr           _cprintf          _cputs            _cputsxy
   _cscanf           _cursoroff        _cursoron         _delay
-  _drawline         _getch            _getche           _gotoxy
-  _highvideo        _insline          _kbhit            _lowvideo
-  _newline          _putch            _setcursortype    _textbackground
-  _textcolor        _ungetch          _wherex           _wherey
+  _getch            _getche           _gotoxy           _highvideo
+  _insline          _kbhit            _lowvideo         _newline
+  _putch            _setcursortype    _textbackground   _textcolor
+  _ungetch          _wherex           _wherey         
 
-ctype             Offset: 000005e0H  Code and data size: 2b6H
+ctype             Offset: 000005c0H  Code and data size: 29cH
   _isalnum          _isalpha          _iscntrl          _isdigit
   _isgraph          _islower          _isprint          _ispunct
   _isspace          _isupper          _isxdigit         _tolower
   _toupper        
 
-stdio             Offset: 000009b0H  Code and data size: 180H
+stdio             Offset: 00000970H  Code and data size: 17eH
   _getchar          _gets             _printf           _putchar
   _puts             _scanf          
 
-string            Offset: 00000be0H  Code and data size: 527H
+string            Offset: 00000ba0H  Code and data size: 57cH
   _memchr           _memcmp           _memcpy           _memmove
   _memset           _strcat           _strchr           _strcmp
   _strcoll          _strcpy           _strcspn          _strlen
@@ -59,8 +59,8 @@ string            Offset: 00000be0H  Code and data size: 527H
   _strrchr          _strspn           _strstr           _strtok
   _strxfrm        
 
-assert            Offset: 00001260H  Code and data size: 56H
+assert            Offset: 00001270H  Code and data size: 57H
   __assert        
 
-bios              Offset: 00001360H  Code and data size: eH
+bios              Offset: 00001370H  Code and data size: eH
   _setpage          __acrtused      

@@ -7,7 +7,7 @@
 
 extern void main()
 {
-        clrscr();
+    clrscr();
     textcolor(YELLOW);
     cprintf("[!] Testing 'string' C functions...\r\n");
     string_tests();

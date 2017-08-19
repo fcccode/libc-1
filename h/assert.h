@@ -8,7 +8,7 @@ extern "C" {
 
 #ifdef NDEBUG
 # define assert (e)		((void) 0)
-#else	
+#else
 # define assert(e) ((e) ? (void)(0) : _assert(#e, __FILE__, __LINE__))
 
 void _assert(const char*, const char*, int);	// Raise assertion error in system console!

@@ -1,8 +1,9 @@
 ; ------------------------------------------------------------------
-	.286					; CPU type
-	.model tiny				; Tiny memoy model
-	.code					; Start of code segment
+include libc.inc						; Include library headers
+.data								; Data segment
+.code								; Start of code segment
 ; ------------------------------------------------------------------
+
 
 ; ------------------------------------------------------------------
 ; int isalnum(int c)
@@ -10,10 +11,8 @@
 ; This function checks whether the passed character
 ; is alphanumeric or not.
 
-_isalnum PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+isalnum PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 48 && ax <= 57 					; If input is a digit return 4
    	mov ax, 4
@@ -25,10 +24,8 @@ _isalnum PROC
 	mov ax, 0						; Return 0 on non alphanumeric
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_isalnum ENDP
+isalnum ENDP
 
 
 ; ------------------------------------------------------------------
@@ -36,10 +33,8 @@ _isalnum ENDP
 ; ------------------------------------------------------------------
 ; This function checks whether the passed character is alphabetic.
 
-_isalpha PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+isalpha PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 65 && ax <= 90					; If input is uppercase char return 1
     	mov ax, 1
@@ -49,11 +44,8 @@ _isalpha PROC
     	mov ax, 0						; Return 0 on non alphanumeric
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_isalpha ENDP
-
+isalpha ENDP
 
 
 ; ------------------------------------------------------------------
@@ -61,26 +53,21 @@ _isalpha ENDP
 ; ------------------------------------------------------------------
 ; This function checks whether the passed character is control character.
 
-_iscntrl PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-	mov ax, [bp + 4]
+iscntrl PROC var:PTR BYTE
+    mov ax, var
 
-	.IF ax >= 0 && ax <= 31					; If input is control character return 32
-		mov ax, 32
-	.ELSEIF ax == 127					; If input is control character return 32
-		mov ax, 32
-	.ELSEIF ax == 256					; If input is control character return 32
-		mov ax, 32
-	.ELSE
-		mov ax, 0					; Return 0 on non control character
-	.ENDIF
+    .IF ax >= 0 && ax <= 31					; If input is control character return 32
+	mov ax, 32
+    .ELSEIF ax == 127						; If input is control character return 32
+	mov ax, 32
+    .ELSEIF ax == 256						; If input is control character return 32
+	mov ax, 32
+    .ELSE
+	mov ax, 0						; Return 0 on non control character
+    .ENDIF
 
-	mov sp, bp						; Restore stack pointer
-	pop bp							; Restore BP register
-	ret
-_iscntrl ENDP
-
+    ret
+iscntrl ENDP
 
 
 ; ------------------------------------------------------------------
@@ -88,10 +75,8 @@ _iscntrl ENDP
 ; ------------------------------------------------------------------
 ; This function checks whether the passed character is decimal digit.
 
-_isdigit PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+isdigit PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 48 && ax <= 57					; If input is a digits 1
 	mov ax, 1
@@ -99,11 +84,8 @@ _isdigit PROC
 	mov ax, 0						; Return 0 on non control character
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
-	ret
-_isdigit ENDP
-
+    ret
+isdigit ENDP
 
 
 ; ------------------------------------------------------------------
@@ -111,10 +93,8 @@ _isdigit ENDP
 ; ------------------------------------------------------------------
 ; This function checks whether the passed character has a graphical represatation
 
-_isgraph PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+isgraph PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 33 && ax <= 47
 	mov ax, 16
@@ -134,11 +114,8 @@ _isgraph PROC
 	mov ax, 0
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_isgraph ENDP
-
+isgraph ENDP
 
 
 ; ------------------------------------------------------------------
@@ -147,10 +124,8 @@ _isgraph ENDP
 ; This function checks whether the passed character is
 ; a lowercase letter.
 
-_islower PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+islower PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 97 && ax <= 122					; If input is lowercase char return 2
 	mov ax, 2
@@ -158,23 +133,18 @@ _islower PROC
 	mov ax, 0						; Return 0 on non lowercase
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_islower ENDP
-
+islower ENDP
 
 
 ; ------------------------------------------------------------------
 ; int isprint(int c)
 ; ------------------------------------------------------------------
 ; This function checks whether the passed character
-; is \is a printable char
+; is a printable char
 
-_isprint PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+isprint PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax == 32						; If input is a special char return 32
 	mov ax, 64
@@ -196,11 +166,8 @@ _isprint PROC
 	mov ax, 0						; Return 0 on non printable char
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_isprint ENDP
-
+isprint ENDP
 
 
 ; ------------------------------------------------------------------
@@ -209,10 +176,8 @@ _isprint ENDP
 ; This function checks whether the passed character
 ; is a punctuation character.
 
-_ispunct PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+ispunct PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 33 && ax <= 47					; If input is punctuation return 16
 	mov ax, 16
@@ -226,11 +191,8 @@ _ispunct PROC
 	mov ax, 0						; Return 0 on non printable char
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_ispunct ENDP
-
+ispunct ENDP
 
 
 ; ------------------------------------------------------------------
@@ -238,10 +200,8 @@ _ispunct ENDP
 ; ------------------------------------------------------------------
 ; This function checks whether the passed character is white-space.
 
-_isspace PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+isspace PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 9 && ax <= 13					; If input is white-space return 16
 	mov ax, 8
@@ -251,11 +211,8 @@ _isspace PROC
 	mov ax, 0						; Return 0 on non printable char
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_isspace ENDP
-
+isspace ENDP
 
 
 ; ------------------------------------------------------------------
@@ -264,10 +221,8 @@ _isspace ENDP
 ; This function checks whether the passed character
 ; is an uppercase letter.
 
-_isupper PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+isupper PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 65 && ax <= 90					; If input is uppercase char return 1
 	mov ax, 1
@@ -275,11 +230,8 @@ _isupper PROC
 	mov ax, 0						; Return 0 on non uppercase
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_isupper ENDP
-
+isupper ENDP
 
 
 ; ------------------------------------------------------------------
@@ -288,10 +240,8 @@ _isupper ENDP
 ; This function checks whether the passed character
 ; is a hexadecimal digit.
 
-_isxdigit PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+isxdigit PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 48 && ax <= 57					; If input is a hexadecimal digit return 128
     	mov ax, 128
@@ -303,11 +253,8 @@ _isxdigit PROC
     	mov ax, 0						; Return 0 on non uppercase
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_isxdigit ENDP
-
+isxdigit ENDP
 
 
 ; ------------------------------------------------------------------
@@ -315,20 +262,15 @@ _isxdigit ENDP
 ; ------------------------------------------------------------------
 ; This function converts uppercase letters to lowercase.
 
-_tolower PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+tolower PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 65 && ax <= 90
 	add ax, 32
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_tolower  ENDP
-
+tolower  ENDP
 
 
 ; ------------------------------------------------------------------
@@ -336,20 +278,14 @@ _tolower  ENDP
 ; ------------------------------------------------------------------
 ; This function converts lowercase letters to uppercase .
 
-_toupper PROC
-    push bp							; Save BP on stack
-    mov bp, sp							; Set BP to SP
-    mov ax, [bp + 4]
+toupper PROC var:PTR BYTE
+    mov ax, var
 
     .IF ax >= 97 && ax <= 122
 	sub ax, 32
     .ENDIF
 
-    mov sp, bp							; Restore stack pointer
-    pop bp							; Restore BP register
     ret
-_toupper  ENDP
-
-
+toupper  ENDP
 
 END

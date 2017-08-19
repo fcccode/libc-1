@@ -12,6 +12,9 @@
     <Filter Include="Test Files">
       <UniqueIdentifier>{916c50b2-4a4a-424d-b39d-6ab28f1f9c8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include Files">
+      <UniqueIdentifier>{98c2a651-3bd7-4472-b06b-39143b4ca1b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\stdio.asm">
@@ -35,38 +38,21 @@
     <None Include="src\bios.asm">
       <Filter>Source Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\string.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\stdio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\stdbool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\signal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\limits.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\errno.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\ctype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\conio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\bios.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\assert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="..\inc\string.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="..\inc\ctype.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="..\inc\libc.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="..\inc\conio.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="..\inc\stdio.inc">
+      <Filter>Include Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests\__string.c">
@@ -81,5 +67,37 @@
     <ClCompile Include="tests\__kernel.c">
       <Filter>Test Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\h\limits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\signal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\stdbool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\stdio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\assert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\bios.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\conio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\ctype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\h\errno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

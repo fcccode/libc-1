@@ -1,6 +1,6 @@
 ; ------------------------------------------------------------------
-	.286							; CPU type
-	.model tiny						; Tiny memoy model
+.model small, C
+.386
 	.data							; Data segment
 	.code							; Start of code segment
 ; ------------------------------------------------------------------

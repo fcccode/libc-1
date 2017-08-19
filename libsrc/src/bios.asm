@@ -1,18 +1,17 @@
 ; ------------------------------------------------------------------
-	.286							; CPU type
-	.model tiny						; Tiny memoy model
-	.code							; Start of code segment
+include libc.inc						; Include library headers
+.data								; Data segment
+.code								; Start of code segment
 ; ------------------------------------------------------------------
 
-__acrtused PROC
-__acrtused ENDP
-
+_acrtused PROC
+_acrtused ENDP
 ; ------------------------------------------------------------------
 ; void setpage(int page)
 ; ------------------------------------------------------------------
 ; This function sets the active page number.
 
-_setpage PROC
+setpage PROC
     push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
 
@@ -23,6 +22,6 @@ _setpage PROC
     mov sp, bp							; Restore stack pointer
     pop bp							; Restore BP register
     ret
-_setpage ENDP
+setpage ENDP
 
 END
