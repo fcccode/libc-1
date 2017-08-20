@@ -1,24 +1,29 @@
 @echo off
-SET PATH=.\..\Tools\VC152\;.\..\Tools\;.\..\Tools\qemu\
+SET PATH=Tools\VC152\;Tools\;Tools\qemu\
 
 :build_library
     rem Compile all source assembly files
-    ML /omf /c /I "..\inc" src\*.asm
+    ML /omf /c /Fl /Zi /I include src\*.asm
 
     rem Link all object files to libary
-    LIB ..\lib\libc -+conio.obj -+ctype.obj -+stdio.obj -+string.obj -+assert.obj -+bios.obj, ..\lib\libc.lst, ..\lib\libc.lib
+    LIB lib\libc -+conio.obj -+ctype.obj -+stdio.obj -+string.obj -+assert.obj -+bios.obj, lib\libc.lst, lib\libc.lib
+
+    move /Y *.obj src\obj > nul
+    move /Y *.lst src\lst > nul   
 
 :build_tests
     rem Compile all C files
-    CL /AT /G2 /Gs /Gx /c /Zl /I "..\h" tests\*.c
+    CL /AT /G2 /Gs /Gx /c /Fl /Zi /Zl /I include tests\*.c
 
     rem Compile all assembly files
     ML /omf /c  tests\*.asm
 
     rem Link together all files and include the libary
-    LINK /T /NOD kernel.obj __kernel.obj __string.obj __ctype.obj __conio.obj, bin\kernel.bin, nul, ..\lib\libc.lib, nul
+    LINK /T /NOD kernel.obj __kernel.obj __string.obj __ctype.obj __conio.obj, bin\kernel.bin, nul, lib\libc.lib, nul
 
-    move /Y *.obj bin\obj > nul
+    move /Y *.obj tests\obj > nul
+    move /Y *.cod tests\cod > nul   
+    del  *.pdb > nul
 
 :build_floppy
     rem Copy and replace the the old image with the formatted floppy image1

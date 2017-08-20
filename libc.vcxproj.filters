@@ -38,19 +38,22 @@
     <None Include="src\bios.asm">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="..\inc\string.inc">
+    <None Include="include\libc.inc">
       <Filter>Include Files</Filter>
     </None>
-    <None Include="..\inc\ctype.inc">
+    <None Include="include\stdio.inc">
       <Filter>Include Files</Filter>
     </None>
-    <None Include="..\inc\libc.inc">
+    <None Include="include\string.inc">
       <Filter>Include Files</Filter>
     </None>
-    <None Include="..\inc\conio.inc">
+    <None Include="include\assert.inc">
       <Filter>Include Files</Filter>
     </None>
-    <None Include="..\inc\stdio.inc">
+    <None Include="include\conio.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="include\ctype.inc">
       <Filter>Include Files</Filter>
     </None>
   </ItemGroup>

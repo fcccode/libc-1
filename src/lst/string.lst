@@ -1,0 +1,1180 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\string.asm						     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				include libc.inc						; Include library headers
+			      C .NOLIST								; Supress listing of header
+			      C .LIST
+			      C 
+			      C include string.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include ctype.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include conio.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include assert.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C 
+			      C ENDIF
+			      C .LIST								; Enable listing again
+			      C 
+ 0000				.data								; Data segment
+ 0000  0040 [			 return_buffer BYTE 64 dup(?)					; Buffer for returning data
+        00
+       ]
+ 0040  0040 [			 strtok_buffer BYTE 64 dup(?)					; Buffer for str token data
+        00
+       ]
+ 0080  0040 [			 token_buffer BYTE 64 dup(?)					; Buffer for str token data
+        00
+       ]
+ 0000				.code								; Start of code segment
+				; ------------------------------------------------------------------
+
+				clearBuff MACRO arg
+				    push di
+				    push cx
+				    push ax
+				    cld
+				    mov di, offset arg
+				    mov cx, sizeof arg						; Repeat for the length of the buffer
+				    mov al, 0							; Clear with null (0)
+				    rep stosb
+				    pop di
+				    pop cx
+				    pop ax
+				ENDM
+
+				; ------------------------------------------------------------------
+				; int strcmp(const char *str1, const char *str2)
+				; ------------------------------------------------------------------
+				; Compares the string pointed to, by str1 to the string
+				; pointed to by str2.
+
+ 0000				strcmp PROC uses si di bx str1:WORD, str2:WORD
+ 0006  8B 7E 04			    mov di, str1						; Point to param address
+ 0009  8B 76 06			    mov si, str2						; Point to param address
+
+ 000C  33 C0			    xor ax, ax							; Char number total for SI
+ 000E  33 DB			    xor bx, bx							; Char number total for DI
+
+ 0010				  @@cmp:
+ 0010  8A 04			    mov al, [si]						; Byte from SI
+ 0012  02 E0			    add ah, al							; Total ascii char number
+ 0014  8A 1D			    mov bl, [di]						; Byte from DI
+ 0016  02 FB			    add bh, bl							; Total ascii char number
+ 0018  38 D8			    cmp al, bl
+ 001A  75 08			    jne @@done
+ 001C  3C 00			    cmp al, 0
+ 001E  74 04			    je @@done
+ 0020  47			    inc di
+ 0021  46			    inc si
+ 0022  EB EC			    jmp @@cmp
+
+ 0024				  @@done:
+				    .IF bh == ah						; Return 0 if both str inputs equal
+ 0028  B8 0000				mov ax, 0
+				    .ELSEIF bh > ah						; Return 1 if str1 is greater than str2
+ 0031  B8 0001				mov ax, 1
+				    .ELSEIF bh < ah						; Return -1 if str1 is less than str2
+ 003A  B8 FFFF				mov ax, -1
+				    .ENDIF
+
+				    ret
+ 0042				strcmp ENDP
+
+
+				; ------------------------------------------------------------------
+				; int strncmp(const char *str1, const char *str2, size_t n)
+				; ------------------------------------------------------------------
+				; Compares at most the first n bytes of str1 and str2.
+
+ 0042				strncmp PROC uses si di bx cx str1:WORD, str2:WORD, n:PTR BYTE
+ 0049  8B 7E 04			    mov di, str1						; Point to param address str1
+ 004C  8B 76 06			    mov si, str2						; Point to param address str2
+ 004F  8B 4E 08			    mov cx, n							; Store n in cx for loop
+
+ 0052  33 C0			    xor ax, ax							; Char number total for SI
+ 0054  33 DB			    xor bx, bx							; Char number total for DI
+
+				    .REPEAT
+ 0056  8A 04				mov al, [si]						; Byte from S
+ 0058  02 E0				add ah, al
+ 005A  8A 1D				mov bl, [di]						; Byte from DI
+ 005C  02 FB				add bh, bl
+					.IF al != bl						; Both bytes equal before null?
+					    .BREAK
+					.ELSEIF !al
+					    .BREAK
+					.ENDIF
+ 006C  47				inc di
+ 006D  46				inc si
+ 006E  49				dec cx
+				    .UNTILCXZ
+
+				    .IF bh == ah						; Return 0 if both str inputs equal
+ 0075  B8 0000				mov ax, 0
+				    .ELSEIF bh > ah						; Return 1 if str1 is greater than str2
+ 007E  B4 01				mov ah, 1
+				    .ELSEIF bh < ah						; Return -1 if str1 is less than str2
+ 0086  B4 FF				mov ah, -1
+				    .ENDIF
+
+				    ret
+ 008E				strncmp ENDP
+
+
+				; ------------------------------------------------------------------
+				; int strcoll(const char *str1, const char *str2)
+				; ------------------------------------------------------------------
+				; Compares the string pointed to, by str1 to the string
+				; pointed to by str2.
+
+ 008E				strcoll PROC uses si di bx str1:WORD, str2:WORD
+ 0094  8B 7E 04			    mov di, str1						; Point to str1
+ 0097  8B 76 06			    mov si, str2						; Point to str2
+
+ 009A  33 C0			    xor ax, ax							; Char number total for SI
+ 009C  33 DB			    xor bx, bx							; Char number total for DI
+
+				   .REPEAT
+ 009E  8A 04				mov al, [si]						; Byte from SI
+ 00A0  02 E0				add ah, al						; Total ascii char number
+ 00A2  8A 1D				mov bl, [di]						; Byte from DI
+ 00A4  02 FB				add bh, bl						; Total ascii char number
+					.IF al != bl						; Both bytes equal before null?
+					    .BREAK
+					.ELSEIF !al
+					    .BREAK
+					.ENDIF
+ 00B4  47				inc di
+ 00B5  46				inc si
+				    .UNTIL 0
+
+				    .IF bh == ah						; Return 0 if both str inputs equal
+ 00BC  B8 0000			    	mov ax, 0
+				    .ELSEIF bh > ah						; Return 1 if str1 is greater than str2
+ 00C5  B4 01			    	mov ah, 1
+				    .ELSEIF bh < ah						; Return -1 if str1 is less than str2
+ 00CD  B4 FF			    	mov ah, -1
+				    .ENDIF
+
+				    ret
+ 00D4				strcoll ENDP
+
+
+				; ------------------------------------------------------------------
+				; char *strcpy(char *dest, const char *src)
+				; ------------------------------------------------------------------
+				; Coppy string in src to dest
+
+ 00D4				strcpy PROC uses si di ax bx dest:WORD, src:WORD
+ 00DB  8B 7E 04			    mov di, dest						; Point to dest address
+ 00DE  8B 76 06			    mov si, src							; Point to src address
+
+ 00E1				  @@cpy:
+ 00E1  AC			    lodsb
+ 00E2  AA			    stosb							; Transfer contents
+ 00E3  0A C0			    or al, al							; If source string is empty, quit out
+ 00E5  75 FA			    jne @@cpy
+
+				    ret
+ 00ED				strcpy ENDP
+
+
+				; ------------------------------------------------------------------
+				; char *strncpy(char *dest, const char *src, size_t n)
+				; ------------------------------------------------------------------
+				; Coppy string in src to dest up to n chars.
+
+ 00ED				strncpy PROC uses si di ax bx dest:WORD, src:WORD, n:PTR BYTE
+ 00F4  8B 7E 04			    mov di, dest						; Point to dest address
+ 00F7  8B 76 06			    mov si, src							; Point to src address
+ 00FA  8B 4E 08			    mov cx, n							; Times to iterate
+
+ 00FD				  @@cpy:
+ 00FD  AC			    lodsb
+ 00FE  AA			    stosb							; Transfer contents
+ 00FF  0A C0			    or al, al							; If source string is empty, quit out
+ 0101  74 02			    jz @@done
+ 0103  E2 F8			    loop @@cpy
+
+ 0105				  @@done:
+				    ret
+ 010B				strncpy ENDP
+
+
+				; ------------------------------------------------------------------
+				; size_t strlen(const char *str)
+				; ------------------------------------------------------------------
+				; Get the length of the string.
+
+ 010B				strlen PROC uses si cx string:WORD
+ 0110  8B 76 04			    mov si, string						; Point to string address
+
+ 0113  33 C9			    xor cx, cx							; Store n in cx for loop
+
+ 0115				  @@loop:
+ 0115  AC			    lodsb							; Get character from string
+ 0116  0A C0			    or al, al							; End of string
+ 0118  74 03			    jz @@done
+ 011A  41			    inc cx
+ 011B  EB F8			    jmp @@loop
+
+ 011D				  @@done:
+ 011D  8B C1			    mov ax, cx							; Return the length of the string
+
+				    ret
+ 0123				strlen ENDP
+
+
+				; ------------------------------------------------------------------
+				; char *strchr(const char *str, int n)
+				; ------------------------------------------------------------------
+				; Searches for the first occurrence of the character c
+				; (an unsigned char) in the string pointed to, by the
+				; argument str.
+
+ 0123				strchr PROC uses si di cx string:WORD, n:BYTE
+				    clearBuff return_buffer
+ 0129  57		     1	    push di
+ 012A  51		     1	    push cx
+ 012B  50		     1	    push ax
+ 012C  FC		     1	    cld
+ 012D  BF 0000 R	     1	    mov di, offset return_buffer
+ 0130  B9 0040		     1	    mov cx, sizeof return_buffer						; Repeat for the length of the buffer
+ 0133  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 0135  F3/ AA		     1	    rep stosb
+ 0137  5F		     1	    pop di
+ 0138  59		     1	    pop cx
+ 0139  58		     1	    pop ax
+
+ 013A  8B 76 04			    mov si, string						; Point to param address str1
+ 013D  BF 0000 R		    mov di, offset return_buffer				; Point to param ret str1
+ 0140  8A 4E 06			    mov cl, n
+
+ 0143				  @@loop:
+ 0143  AC			    lodsb							; Get character from string
+ 0144  0A C0			    or al, al							; End of string
+ 0146  74 0D			    jz @@done
+ 0148  38 C8			    cmp al, cl
+ 014A  75 F7			    jne @@loop
+ 014C  AA			    stosb
+
+ 014D				  @@found:
+ 014D  AC			    lodsb							; Get character from string
+ 014E  0A C0			    or al, al							; End of string
+ 0150  74 03			    jz @@done
+ 0152  AA			    stosb
+ 0153  EB F8			    jmp @@found
+
+ 0155				  @@done:
+ 0155  B8 0000 R		    mov ax, offset return_buffer
+
+				    ret
+ 015D				strchr ENDP
+
+
+				; ------------------------------------------------------------------
+				; char *strcat(char *dest, const char *src)
+				; ------------------------------------------------------------------
+				; The strcat function concatenates or appends src to dest.
+				; All characters from src are copied including the
+				; terminating null character.
+
+ 015D				strcat PROC uses si di ax dest:WORD, src:WORD
+ 0163  8B 7E 04			    mov di, dest					    ; Point to dest address
+ 0166  8B 76 06			    mov si, src						    ; Point to source address
+
+ 0169				  @@inc:						    ; Find the end of the dest string
+ 0169  47			    inc di
+ 016A  8A 05			    mov al, [di]
+ 016C  0A C0			    or al, al
+ 016E  75 F9			    jnz @@inc
+
+ 0170				  @@append:
+ 0170  8A 04			    mov al, [si]					    ; Transfer contents of source to dest
+ 0172  88 05			    mov [di], al
+ 0174  46			    inc si
+ 0175  47			    inc di
+ 0176  0A C0			    or al, al
+ 0178  75 F6			    jne @@append
+
+				    ret
+ 017F				strcat ENDP
+
+
+				; ------------------------------------------------------------------
+				; char *strncat(char *dest, const char *src, size_t n)
+				; ------------------------------------------------------------------
+				; The strncat function concatenates or appends first n characters
+				; from src to dest. All characters from src are copied including
+				; the terminating null character.
+
+ 017F				strncat PROC uses si di ax dest:WORD, src:WORD, n:PTR BYTE
+ 0185  8B 7E 04			    mov di, dest					    ; Point to dest address
+ 0188  8B 76 06			    mov si, src						    ; Point to source address
+ 018B  8B 4E 08			    mov cx, n						    ; Point to n address
+
+ 018E				  @@inc:						    ; Find the end of the dest
+ 018E  47			    inc di
+ 018F  8A 05			    mov al, [di]
+ 0191  0A C0			    or al, al
+ 0193  75 F9			    jnz @@inc
+
+ 0195				  @@append:
+ 0195  8A 04			    mov al, [si]					    ; Transfer contents of source to dest up to n
+ 0197  88 05			    mov [di], al
+ 0199  46			    inc si
+ 019A  47			    inc di
+ 019B  E2 F8			    loop @@append
+
+				    ret
+ 01A2				strncat ENDP
+
+
+				; ------------------------------------------------------------------
+				; void *memset(void *str, int c, size_t n)
+				; ------------------------------------------------------------------
+				; Copies the character c (an unsigned char) to the first n
+				; characters of the string pointed to, by the argument str.
+
+ 01A2				memset PROC uses si di ax cx string:WORD, char:BYTE, n:PTR BYTE
+ 01A9  8B 7E 04			    mov di, string					    ; Point to str address
+ 01AC  8B 4E 08			    mov cx, n						    ; Point to n address
+
+ 01AF				  @@append:
+ 01AF  8A 46 06			    mov al, char					    ; Move c into str n times
+ 01B2  88 05			    mov [di], al
+ 01B4  47			    inc di
+ 01B5  E2 F8			    loop @@append
+
+				    ret
+ 01BD				memset ENDP
+
+
+				; ------------------------------------------------------------------
+				; void *memmove(void *dest, const void *src, size_t n)
+				; ------------------------------------------------------------------
+				; Copies n characters from src to dest.
+
+ 01BD				memmove PROC uses si di ax cx dest:WORD, src:WORD, n:PTR BYTE
+ 01C4  8B 7E 04			    mov di, dest						; Point to dest address
+ 01C7  8B 76 06			    mov si, src							; Point to src address
+ 01CA  8B 4E 08			    mov cx, n							; Point to n address
+
+ 01CD				  @@append:
+ 01CD  8A 04			    mov al, [si]						; Char from src to al
+ 01CF  88 05			    mov [di], al						; Char from al moves into dest
+ 01D1  47			    inc di
+ 01D2  46			    inc si
+ 01D3  E2 F8			    loop @@append
+
+				    ret
+ 01DB				memmove ENDP
+
+
+				; ------------------------------------------------------------------
+				; void *memcpy(void *dest, const void *src, size_t n)
+				; ------------------------------------------------------------------
+				; This function copies n characters from memory at src to the
+				; memory area at the dest.
+
+ 01DB				memcpy PROC uses si di ax cx dest:WORD, src:WORD, n:PTR BYTE
+ 01E2  8B 7E 04			    mov di, dest					    ; Point to str1 address
+ 01E5  8B 76 06			    mov si, src						    ; Point to str2 address
+ 01E8  8B 4E 08			    mov cx, n						    ; Point to n address
+
+ 01EB				  @@cpy:
+ 01EB  8A 04			    mov al, [si]					    ; Transfer contents (at least one byte terminator)
+ 01ED  88 05			    mov [di], al
+ 01EF  0A C0			    or al, al
+ 01F1  74 05			    je @@done
+ 01F3  46			    inc si
+ 01F4  47			    inc di
+ 01F5  41			    inc cx
+ 01F6  E2 F3			    loop @@cpy
+
+ 01F8				  @@done:
+				    ret
+ 01FE				memcpy ENDP
+
+
+				; ------------------------------------------------------------------
+				; int memcmp(const void *str1, const void *str2, size_t n)
+				; ------------------------------------------------------------------
+				; Compares at most the first n bytes of str1 and str2.
+
+ 01FE				memcmp PROC uses si di bx cx str1:WORD, str2:WORD, n:PTR BYTE
+ 0205  8B 7E 04			    mov di, str1						; Point to str1 address
+ 0208  8B 76 06			    mov si, str2						; Point to str2 address
+ 020B  8B 4E 08			    mov cx, n							; Point to n addres
+
+ 020E  33 C0			    xor ax, ax							; Char number total for SI
+ 0210  33 DB			    xor bx, bx							; Char number total for DI
+
+ 0212				  @@cmp:
+ 0212  8A 04			    mov al, [si]						; Byte from S
+ 0214  02 E0			    add ah, al							; Add byte value to ah
+ 0216  8A 1D			    mov bl, [di]						; Byte from DI
+ 0218  02 FB			    add bh, bl							; Add byte value to bh
+ 021A  38 D8			    cmp al, bl							; If both bytes not equal then exit
+ 021C  75 08			    jne @@done
+ 021E  0A C0			    or al, al							; If no bytes left then exit
+ 0220  74 04			    jz @@done
+ 0222  47			    inc di
+ 0223  46			    inc si
+ 0224  E2 EC			    loop @@cmp
+
+ 0226				  @@done:
+				    .IF bh == ah						; Return 0 if both str inputs equal
+ 022A  B8 0000			    	mov ax, 0
+				    .ELSEIF bh > ah						; Return 1 if str1 is greater than str2
+ 0233  B4 01			    	mov ah, 1
+				    .ELSEIF bh < ah						; Return -1 if str1 is less than str2
+ 023B  B4 FF			    	mov ah, -1
+				    .ENDIF
+
+				    ret
+ 0243				memcmp ENDP
+
+
+				; ------------------------------------------------------------------
+				; void *memchr(const void *str, int c, size_t n)
+				; ------------------------------------------------------------------
+				; Searches for the first occurrence of the character c
+				; (an unsigned char) in the first n bytes of the string
+				; pointed to, by the argument str.
+
+ 0243				memchr PROC uses si di bx cx string:WORD, char:BYTE, n:PTR BYTE
+				    clearBuff return_buffer
+ 024A  57		     1	    push di
+ 024B  51		     1	    push cx
+ 024C  50		     1	    push ax
+ 024D  FC		     1	    cld
+ 024E  BF 0000 R	     1	    mov di, offset return_buffer
+ 0251  B9 0040		     1	    mov cx, sizeof return_buffer						; Repeat for the length of the buffer
+ 0254  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 0256  F3/ AA		     1	    rep stosb
+ 0258  5F		     1	    pop di
+ 0259  59		     1	    pop cx
+ 025A  58		     1	    pop ax
+
+ 025B  8B 76 04			    mov si, string						; Point to param address str
+ 025E  BF 0000 R		    mov di, offset return_buffer
+
+ 0261				  @@loop:
+ 0261  AC			    lodsb							; Get character from string
+ 0262  0A C0			    or al, al							; End of string
+ 0264  74 19			    jz @@done
+ 0266  3A 46 06			    cmp al, char
+ 0269  75 F6			    jne @@loop
+
+ 026B  88 05			    mov [di], al						; Add n to buffer and increase
+ 026D  47			    inc di
+
+ 026E  8B 4E 08			    mov cx, n						; Times to iterate
+ 0271  0B C9			    or cx, cx
+ 0273  74 0A			    jz @@done
+
+ 0275				  @@iterate:
+ 0275  AC			    lodsb							; Get character from string
+ 0276  0A C0			    or al, al							; End of string
+ 0278  74 05			    jz @@done
+ 027A  88 05			    mov [di], al
+ 027C  47			    inc di
+ 027D  E2 F6			    loop @@iterate
+
+ 027F				  @@done:
+ 027F  B8 0000 R		    mov ax, offset return_buffer
+
+				    ret
+ 0288				memchr ENDP
+
+
+				; ------------------------------------------------------------------
+				; size_t strcspn(const char *str1, const char *str2);
+				; ------------------------------------------------------------------
+				; This function calculates the length of the initial
+				; segment of str1, which consists entirely of characters
+				; not in str2.
+
+ 0288				strcspn PROC uses si di bx cx str1:WORD, str2:WORD
+ 028F  8B 76 04			    mov si, str1					    ; Point to str1 address
+ 0292  8B 7E 06			    mov di, str2					    ; Point to str2 address
+
+ 0295  33 C9			    xor cx, cx
+
+ 0297				  @@cmp:
+ 0297  8A 04			    mov al, [si]					    ; Byte from SI
+ 0299  57			    push di						    ; Save DI
+
+ 029A				  @@char:
+ 029A  8A 1D			    mov bl, [di]					    ; Byte from DI
+ 029C  38 D8			    cmp al, bl						    ; If both bytes equal then exit
+ 029E  74 0E			    je @@exit
+ 02A0  47			    inc di						    ; Increase DI untill zero
+ 02A1  0A DB			    or bl, bl
+ 02A3  75 F5			    jnz @@char
+ 02A5  5F			    pop di						    ; Restore DI
+ 02A6  0A C0			    or al, al						    ; If no bytes left then exit
+ 02A8  74 05			    jz @@done
+ 02AA  46			    inc si
+ 02AB  41			    inc cx
+ 02AC  EB E9			    jmp @@cmp
+
+ 02AE				  @@exit:
+ 02AE  5F			     pop di						    ; Restore DI
+
+ 02AF				  @@done:
+ 02AF  8B C1			    mov ax, cx
+				    ret
+ 02B7				strcspn ENDP
+
+
+				; ------------------------------------------------------------------
+				; char *strpbrk(const char *str1, const char *str2);
+				; ------------------------------------------------------------------
+				; This function finds the first character in the string str1
+				; that matches any character specified in str2. This does
+				; not include the terminating null-characters.
+
+ 02B7				strpbrk PROC uses si di bx str1:WORD, str2:WORD
+				    clearBuff return_buffer
+ 02BD  57		     1	    push di
+ 02BE  51		     1	    push cx
+ 02BF  50		     1	    push ax
+ 02C0  FC		     1	    cld
+ 02C1  BF 0000 R	     1	    mov di, offset return_buffer
+ 02C4  B9 0040		     1	    mov cx, sizeof return_buffer						; Repeat for the length of the buffer
+ 02C7  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 02C9  F3/ AA		     1	    rep stosb
+ 02CB  5F		     1	    pop di
+ 02CC  59		     1	    pop cx
+ 02CD  58		     1	    pop ax
+
+ 02CE  8B 76 04			    mov si, str1						; Point to str1 address
+ 02D1  8B 7E 06			    mov di, str2						; Point to str2 address
+
+ 02D4				  @@cmp:
+ 02D4  8A 04			    mov al, [si]						; Byte from SI
+ 02D6  57			    push di							; Save DI
+
+ 02D7				  @@char:
+ 02D7  8A 1D			    mov bl, [di]						; Byte from DI
+ 02D9  38 D8			    cmp al, bl							; If both bytes equal then exit
+ 02DB  74 0D			    je @@equal
+ 02DD  47			    inc di							; Increase DI untill zero
+ 02DE  0A DB			    or bl, bl
+ 02E0  75 F5			    jnz @@char
+ 02E2  5F			    pop di							; Restore DI
+
+ 02E3  0A C0			    or al, al							; If no bytes left then exit
+ 02E5  74 18			    jz @@error
+ 02E7  46			    inc si
+ 02E8  EB EA			    jmp @@cmp
+
+ 02EA				  @@equal:
+ 02EA  5F			    pop di
+ 02EB  BF 0000 R		    mov di, offset return_buffer				; Found equal char
+
+ 02EE				  @@fill:
+ 02EE  8A 04			    mov al, [si]
+ 02F0  88 05			    mov [di], al
+ 02F2  0A C0			    or al, al							; If no bytes left then exit
+ 02F4  74 04			    jz @@buff
+ 02F6  46			    inc si
+ 02F7  47			    inc di
+ 02F8  EB F4			    jmp @@fill
+
+ 02FA				  @@buff:
+ 02FA  B8 0000 R		    mov ax, offset return_buffer
+ 02FD  EB 03			    jmp @@done
+
+ 02FF				  @@error:
+ 02FF  B8 0000			    mov ax, 0							 ; Return null on char not found
+
+ 0302				  @@done:
+				    ret
+ 0307				strpbrk ENDP
+
+
+				; ------------------------------------------------------------------
+				; char *strrchr(const char *str, int n);
+				; ------------------------------------------------------------------
+				; This function searches for the last occurrence of the
+				; character c (an unsigned char) in the string pointed
+				; to, by the argument str.
+
+ 0307				strrchr PROC uses si di bx cx str1:WORD, n:BYTE
+				    clearBuff return_buffer
+ 030E  57		     1	    push di
+ 030F  51		     1	    push cx
+ 0310  50		     1	    push ax
+ 0311  FC		     1	    cld
+ 0312  BF 0000 R	     1	    mov di, offset return_buffer
+ 0315  B9 0040		     1	    mov cx, sizeof return_buffer						; Repeat for the length of the buffer
+ 0318  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 031A  F3/ AA		     1	    rep stosb
+ 031C  5F		     1	    pop di
+ 031D  59		     1	    pop cx
+ 031E  58		     1	    pop ax
+
+ 031F  8B 76 04			    mov si, str1						; Point to str1 address
+ 0322  56			    push si							; Save SI
+
+ 0323  33 C9			    xor cx, cx							; Clear counter
+ 0325  33 DB			    xor bx, bx							; Clear counter storage
+
+ 0327				  @@cmp:
+ 0327  8A 04			    mov al, [si]						; Byte from SI
+ 0329  3A 46 06			    cmp al, n
+ 032C  74 02			    je @@found							; If equal store counter in BX
+ 032E  75 02			    jne @@cont							; Else continue
+
+ 0330				  @@found:
+ 0330  8B D9			    mov bx, cx
+
+ 0332				  @@cont:
+ 0332  0A C0			    or al, al
+ 0334  74 04			    jz @@fill							; If no more bytes left we need to now fill the buffer
+ 0336  46			    inc si							; Increment string
+ 0337  41			    inc cx							; Increment counter
+ 0338  EB ED			    jmp @@cmp
+
+ 033A				  @@fill:
+ 033A  5E			    pop si							; Restore the string
+ 033B  0B DB			    or bx, bx							; If stored counter is null return null
+ 033D  74 0F			    jz @@error
+ 033F  03 F3			    add si, bx							; Add offfset of counter and string
+ 0341  BF 0000 R		    mov di, offset return_buffer				; Point DI to the offset of return_buffer
+
+ 0344				  @@iterate:
+ 0344  AC			    lodsb							; Get character from string
+ 0345  0A C0			    or al, al							; End of string
+ 0347  74 09			    jz @@finished
+ 0349  88 05			    mov [di], al						; Store char into DI
+ 034B  47			    inc di							; Increase DI
+ 034C  EB F6			    jmp @@iterate
+
+ 034E				  @@error:
+ 034E  33 C0			    xor ax, ax
+ 0350  EB 03			    jmp @@done
+
+ 0352				  @@finished:
+ 0352  B8 0000 R		    mov ax, offset return_buffer
+
+ 0355				  @@done:
+				    ret
+ 035B				strrchr ENDP
+
+
+				; ------------------------------------------------------------------
+				; size_t strspn(const char *str1, const char *str2);
+				; ------------------------------------------------------------------
+				; This function calculates the length of the initial
+				; segment of str1 which consists entirely of chars
+				; in str2.
+
+ 035B				strspn PROC uses di si cx str1:PTR WORD, str2:WORD
+ 0361  8B 76 04			    mov si, str1						; Point to str1 address
+ 0364  8B 7E 06			    mov di, str2						; Point to str2 address
+
+ 0367  33 C9			    xor cx, cx							; Clear counter
+
+ 0369				  @@cmp:
+ 0369  8A 04			    mov al, [si]						; Byte from S
+ 036B  8A 1D			    mov bl, [di]						; Byte from DI
+ 036D  38 D8			    cmp al, bl							; If both bytes not equal then exit
+ 036F  75 09			    jne @@done
+ 0371  0A C0			    or al, al							; If no bytes left then exit
+ 0373  74 05			    jz @@done
+ 0375  47			    inc di
+ 0376  46			    inc si
+ 0377  41			    inc cx
+ 0378  EB EF			    jmp @@cmp
+
+ 037A				  @@done:
+ 037A  8B C1			    mov ax, cx							; Return counter number
+				    ret
+ 0381				strspn ENDP
+
+
+				; ------------------------------------------------------------------
+				; char *strstr(const char *haystack, const char *needle)
+				; ------------------------------------------------------------------
+				; This function finds the first occurrence of the substring
+				; needle in the string haystack. The terminating '\0'
+				; characters are not compared.
+
+ 0381				strstr PROC uses si di bx cx haystack:WORD, needle:WORD
+				    clearBuff return_buffer
+ 0388  57		     1	    push di
+ 0389  51		     1	    push cx
+ 038A  50		     1	    push ax
+ 038B  FC		     1	    cld
+ 038C  BF 0000 R	     1	    mov di, offset return_buffer
+ 038F  B9 0040		     1	    mov cx, sizeof return_buffer						; Repeat for the length of the buffer
+ 0392  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 0394  F3/ AA		     1	    rep stosb
+ 0396  5F		     1	    pop di
+ 0397  59		     1	    pop cx
+ 0398  58		     1	    pop ax
+
+ 0399  8B 76 04			    mov si, haystack						; Point to haystack address
+ 039C  8B 7E 06			    mov di, needle						; Point to needle address
+
+ 039F  33 C9			    xor cx, cx							; Store n in cx for loop
+
+ 03A1				  @@cmp:
+ 03A1  8A 04			    mov al, [si]						; Byte from SI
+ 03A3  8A 1D			    mov bl, [di]						; Byte from DI
+ 03A5  38 D8			    cmp al, bl							; If not equal continue to iterate
+ 03A7  75 12			    jne @@cont
+ 03A9  60			    pusha
+
+ 03AA				  @@cmpstr:
+ 03AA  8A 04			    mov al, [si]						; Byte from SI
+ 03AC  8A 1D			    mov bl, [di]						; Byte from DI
+ 03AE  0A DB			    or bl, bl							; If end of needle return true
+ 03B0  74 11			    je @@equal
+ 03B2  38 D8			    cmp al, bl							; Test if equal
+ 03B4  75 04			    jne @@notequal						; If not equal continue @@cmp loop
+ 03B6  47			    inc di
+ 03B7  46			    inc si
+ 03B8  EB F0			    jmp @@cmpstr
+
+ 03BA				  @@notequal:
+ 03BA  61			    popa
+
+ 03BB				  @@cont:
+ 03BB  0A C0			    or al, al							; If no bytes left then exit
+ 03BD  74 17			    jz @@done
+ 03BF  46			    inc si
+ 03C0  41			    inc cx
+ 03C1  EB DE			    jmp @@cmp
+
+ 03C3				 @@equal:
+ 03C3  61			    popa
+ 03C4  BF 0000 R		    mov di, offset return_buffer				; Point DI to the offset of return_buffer
+ 03C7  8B 76 04			    mov si, haystack						; Point to haystack address
+ 03CA  03 F1			    add si, cx
+
+ 03CC				 @@iterate:
+ 03CC  AC			   lodsb							; Get character from string
+ 03CD  0A C0			   or al, al							; End of string
+ 03CF  74 05			   jz @@done
+ 03D1  88 05			   mov [di], al							; Store char into DI
+ 03D3  47			   inc di							; Increase DI
+ 03D4  EB F6			   jmp @@iterate
+
+ 03D6				  @@done:
+ 03D6  B8 0000 R		    mov ax, offset return_buffer				; Return the buffer
+				    ret
+ 03DF				strstr	ENDP
+
+				; ------------------------------------------------------------------
+				; char *strtok(char *str, const char *delim)
+				; ------------------------------------------------------------------
+ 03DF				strtok PROC uses si di bx string:WORD, delim:WORD
+ 03E5  8B 76 04			    mov si, string						; Point to haystack address
+ 03E8  8B 7E 04			    mov di, string						; This function makes me wanta kill myself
+
+				    clearBuff return_buffer
+ 03EB  57		     1	    push di
+ 03EC  51		     1	    push cx
+ 03ED  50		     1	    push ax
+ 03EE  FC		     1	    cld
+ 03EF  BF 0000 R	     1	    mov di, offset return_buffer
+ 03F2  B9 0040		     1	    mov cx, sizeof return_buffer						; Repeat for the length of the buffer
+ 03F5  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 03F7  F3/ AA		     1	    rep stosb
+ 03F9  5F		     1	    pop di
+ 03FA  59		     1	    pop cx
+ 03FB  58		     1	    pop ax
+
+ 03FC  8A 1D			    mov bl, [di]						; Byte from DI
+ 03FE  0A DB			    or bl, bl
+ 0400  74 02			    jz @@s
+ 0402  EB 5B			    jmp @@f
+
+ 0404				  @@s:
+ 0404  BE 0040 R		    mov si, offset strtok_buffer
+ 0407  BF 0000 R		    mov di, offset return_buffer
+ 040A  8A 04			    mov al, [si]
+ 040C  0A C0			    or al, al
+ 040E  75 05			    jnz @@s_fill_return
+ 0410  B8 0000			    mov ax, 0
+ 0413  EB 75			    jmp @@done
+
+ 0415				  @@s_fill_return:
+ 0415  AC			    lodsb							; Get byte from SI into AL
+ 0416  3A 46 06			    cmp al, [bp + 6]
+ 0419  74 05			    je @@s_found_delim
+ 041B  AA			    stosb							; Store AL into DI
+ 041C  0A C0			    or al, al							; End of string?
+ 041E  75 F5			    jnz @@s_fill_return
+
+ 0420				  @@s_found_delim:
+ 0420  BF 0080 R		    mov di, offset token_buffer
+
+ 0423				  @@s_fill_token:
+ 0423  AC			    lodsb							; Get byte from SI into AL
+ 0424  AA			    stosb							; Store AL into DI
+ 0425  0A C0			    or al, al							; End of string?
+ 0427  75 FA			    jnz @@s_fill_token
+
+				    clearBuff strtok_buffer
+ 0429  57		     1	    push di
+ 042A  51		     1	    push cx
+ 042B  50		     1	    push ax
+ 042C  FC		     1	    cld
+ 042D  BF 0040 R	     1	    mov di, offset strtok_buffer
+ 0430  B9 0040		     1	    mov cx, sizeof strtok_buffer						; Repeat for the length of the buffer
+ 0433  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 0435  F3/ AA		     1	    rep stosb
+ 0437  5F		     1	    pop di
+ 0438  59		     1	    pop cx
+ 0439  58		     1	    pop ax
+
+ 043A  BF 0040 R		    mov di, offset strtok_buffer
+ 043D  BE 0080 R		    mov si, offset token_buffer
+
+ 0440				  @@s_fill_strtok:
+ 0440  AC			    lodsb							; Get byte from SI into AL
+ 0441  AA			    stosb							; Store AL into DI
+ 0442  0A C0			    or al, al							; End of string?
+ 0444  75 FA			    jnz @@s_fill_strtok
+
+				    clearBuff token_buffer
+ 0446  57		     1	    push di
+ 0447  51		     1	    push cx
+ 0448  50		     1	    push ax
+ 0449  FC		     1	    cld
+ 044A  BF 0080 R	     1	    mov di, offset token_buffer
+ 044D  B9 0040		     1	    mov cx, sizeof token_buffer						; Repeat for the length of the buffer
+ 0450  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 0452  F3/ AA		     1	    rep stosb
+ 0454  5F		     1	    pop di
+ 0455  59		     1	    pop cx
+ 0456  58		     1	    pop ax
+
+ 0457  B8 0000 R		    mov ax, offset return_buffer
+				    ret
+
+ 045F				  @@f:
+				    clearBuff strtok_buffer
+ 045F  57		     1	    push di
+ 0460  51		     1	    push cx
+ 0461  50		     1	    push ax
+ 0462  FC		     1	    cld
+ 0463  BF 0040 R	     1	    mov di, offset strtok_buffer
+ 0466  B9 0040		     1	    mov cx, sizeof strtok_buffer						; Repeat for the length of the buffer
+ 0469  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 046B  F3/ AA		     1	    rep stosb
+ 046D  5F		     1	    pop di
+ 046E  59		     1	    pop cx
+ 046F  58		     1	    pop ax
+ 0470  BF 0000 R		    mov di, offset return_buffer	; Point to buffer address
+
+ 0473				  @@f_fill_return:
+ 0473  AC			    lodsb							; Get byte from SI into AL
+ 0474  3A 46 04			    cmp al, [bp+4]
+ 0477  74 05			    je @@f_found_delim
+ 0479  AA			    stosb							; Store AL into DI
+ 047A  0A C0			    or al, al						; End of string?
+ 047C  75 F5			    jnz @@f_fill_return
+
+ 047E				  @@f_found_delim:
+ 047E  BF 0040 R		    mov di, offset strtok_buffer
+
+ 0481				  @@f_fill_strtok:
+ 0481  AC			    lodsb							; Get byte from SI into AL
+ 0482  AA			    stosb							; Store AL into DI
+ 0483  0A C0			    or al, al						; End of string?
+ 0485  75 FA			    jnz @@f_fill_strtok
+ 0487  B8 0000 R		    mov ax, offset return_buffer
+
+ 048A				  @@done:
+				    ret
+ 048F				strtok ENDP
+
+				; ------------------------------------------------------------------
+				; size_t strxfrm(char *dest, const char *src, size_t n)
+				; ------------------------------------------------------------------
+				; This function transforms the first n chars of src
+				; into the locale and puts them into the dest.
+
+ 048F				strxfrm PROC uses di si cx dest:WORD, src:WORD, n:PTR BYTE
+ 0495  8B 7E 04			    mov di, dest							; Point to str1 address
+ 0498  8B 76 06			    mov si, src							; Point to str2 address
+
+ 049B  33 C9			    xor cx, cx
+
+ 049D				  @@loop:								; Get length of SI
+ 049D  AC			    lodsb								; Get character from string
+ 049E  0A C0			    or al, al								; End of string
+ 04A0  74 03			    jz @@cont
+ 04A2  41			    inc cx
+ 04A3  EB F8			    jmp @@loop
+
+ 04A5				  @@cont:
+ 04A5  51			    push cx								; Save length of SI
+ 04A6  8B 4E 08			    mov cx, n							; Point to n addres
+ 04A9  8B 76 06			    mov si, src							; Point to str2 address
+
+ 04AC				  @@append:
+ 04AC  8A 04			    mov al, [si]							; Transfer contents of source to dest up to n
+ 04AE  88 05			    mov [di], al
+ 04B0  46			    inc si
+ 04B1  47			    inc di
+ 04B2  E2 F8			    loop @@append
+
+ 04B4				  @@done:
+ 04B4  59			    pop cx
+ 04B5  8B C1			    mov ax, cx
+				    ret
+ 04BC				strxfrm ENDP
+				END
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\string.asm						     Symbols 2 - 1
+
+
+
+
+Macros:
+
+                N a m e                 Type
+
+clearBuff  . . . . . . . . . . .	Proc
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 04BC	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 00C0	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+_assert  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+clrscr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cprintf  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cputsxy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cputs  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cscanf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cursoroff  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cursoron . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+delay  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+drawline . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getche . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+gets . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+gotoxy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+highvideo  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+insline  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isalnum  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isalpha  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+iscntrl  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isdigit  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isgraph  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+islower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isprint  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+ispunct  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isspace  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isxdigit . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+kbhit  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+lowvideo . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memchr . . . . . . . . . . . . .	P Near	 0243	  _TEXT	Length= 0045 Public C
+  string . . . . . . . . . . . .	Word	 bp + 0004
+  char . . . . . . . . . . . . .	Byte	 bp + 0006
+  n  . . . . . . . . . . . . . .	Word	 bp + 0008
+  @@loop . . . . . . . . . . . .	L Near	 0261	  _TEXT	
+  @@iterate  . . . . . . . . . .	L Near	 0275	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 027F	  _TEXT	
+memcmp . . . . . . . . . . . . .	P Near	 01FE	  _TEXT	Length= 0045 Public C
+  str1 . . . . . . . . . . . . .	Word	 bp + 0004
+  str2 . . . . . . . . . . . . .	Word	 bp + 0006
+  n  . . . . . . . . . . . . . .	Word	 bp + 0008
+  @@cmp  . . . . . . . . . . . .	L Near	 0212	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 0226	  _TEXT	
+memcpy . . . . . . . . . . . . .	P Near	 01DB	  _TEXT	Length= 0023 Public C
+  dest . . . . . . . . . . . . .	Word	 bp + 0004
+  src  . . . . . . . . . . . . .	Word	 bp + 0006
+  n  . . . . . . . . . . . . . .	Word	 bp + 0008
+  @@cpy  . . . . . . . . . . . .	L Near	 01EB	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 01F8	  _TEXT	
+memmove  . . . . . . . . . . . .	P Near	 01BD	  _TEXT	Length= 001E Public C
+  dest . . . . . . . . . . . . .	Word	 bp + 0004
+  src  . . . . . . . . . . . . .	Word	 bp + 0006
+  n  . . . . . . . . . . . . . .	Word	 bp + 0008
+  @@append . . . . . . . . . . .	L Near	 01CD	  _TEXT	
+memset . . . . . . . . . . . . .	P Near	 01A2	  _TEXT	Length= 001B Public C
+  string . . . . . . . . . . . .	Word	 bp + 0004
+  char . . . . . . . . . . . . .	Byte	 bp + 0006
+  n  . . . . . . . . . . . . . .	Word	 bp + 0008
+  @@append . . . . . . . . . . .	L Near	 01AF	  _TEXT	
+newline  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+printf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+setcursortype  . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcat . . . . . . . . . . . . .	P Near	 015D	  _TEXT	Length= 0022 Public C
+  dest . . . . . . . . . . . . .	Word	 bp + 0004
+  src  . . . . . . . . . . . . .	Word	 bp + 0006
+  @@inc  . . . . . . . . . . . .	L Near	 0169	  _TEXT	
+  @@append . . . . . . . . . . .	L Near	 0170	  _TEXT	
+strchr . . . . . . . . . . . . .	P Near	 0123	  _TEXT	Length= 003A Public C
+  string . . . . . . . . . . . .	Word	 bp + 0004
+  n  . . . . . . . . . . . . . .	Byte	 bp + 0006
+  @@loop . . . . . . . . . . . .	L Near	 0143	  _TEXT	
+  @@found  . . . . . . . . . . .	L Near	 014D	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 0155	  _TEXT	
+strcmp . . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0042 Public C
+  str1 . . . . . . . . . . . . .	Word	 bp + 0004
+  str2 . . . . . . . . . . . . .	Word	 bp + 0006
+  @@cmp  . . . . . . . . . . . .	L Near	 0010	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 0024	  _TEXT	
+strcoll  . . . . . . . . . . . .	P Near	 008E	  _TEXT	Length= 0046 Public C
+  str1 . . . . . . . . . . . . .	Word	 bp + 0004
+  str2 . . . . . . . . . . . . .	Word	 bp + 0006
+strcpy . . . . . . . . . . . . .	P Near	 00D4	  _TEXT	Length= 0019 Public C
+  dest . . . . . . . . . . . . .	Word	 bp + 0004
+  src  . . . . . . . . . . . . .	Word	 bp + 0006
+  @@cpy  . . . . . . . . . . . .	L Near	 00E1	  _TEXT	
+strcspn  . . . . . . . . . . . .	P Near	 0288	  _TEXT	Length= 002F Public C
+  str1 . . . . . . . . . . . . .	Word	 bp + 0004
+  str2 . . . . . . . . . . . . .	Word	 bp + 0006
+  @@cmp  . . . . . . . . . . . .	L Near	 0297	  _TEXT	
+  @@char . . . . . . . . . . . .	L Near	 029A	  _TEXT	
+  @@exit . . . . . . . . . . . .	L Near	 02AE	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 02AF	  _TEXT	
+strlen . . . . . . . . . . . . .	P Near	 010B	  _TEXT	Length= 0018 Public C
+  string . . . . . . . . . . . .	Word	 bp + 0004
+  @@loop . . . . . . . . . . . .	L Near	 0115	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 011D	  _TEXT	
+strncat  . . . . . . . . . . . .	P Near	 017F	  _TEXT	Length= 0023 Public C
+  dest . . . . . . . . . . . . .	Word	 bp + 0004
+  src  . . . . . . . . . . . . .	Word	 bp + 0006
+  n  . . . . . . . . . . . . . .	Word	 bp + 0008
+  @@inc  . . . . . . . . . . . .	L Near	 018E	  _TEXT	
+  @@append . . . . . . . . . . .	L Near	 0195	  _TEXT	
+strncmp  . . . . . . . . . . . .	P Near	 0042	  _TEXT	Length= 004C Public C
+  str1 . . . . . . . . . . . . .	Word	 bp + 0004
+  str2 . . . . . . . . . . . . .	Word	 bp + 0006
+  n  . . . . . . . . . . . . . .	Word	 bp + 0008
+strncpy  . . . . . . . . . . . .	P Near	 00ED	  _TEXT	Length= 001E Public C
+  dest . . . . . . . . . . . . .	Word	 bp + 0004
+  src  . . . . . . . . . . . . .	Word	 bp + 0006
+  n  . . . . . . . . . . . . . .	Word	 bp + 0008
+  @@cpy  . . . . . . . . . . . .	L Near	 00FD	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 0105	  _TEXT	
+strpbrk  . . . . . . . . . . . .	P Near	 02B7	  _TEXT	Length= 0050 Public C
+  str1 . . . . . . . . . . . . .	Word	 bp + 0004
+  str2 . . . . . . . . . . . . .	Word	 bp + 0006
+  @@cmp  . . . . . . . . . . . .	L Near	 02D4	  _TEXT	
+  @@char . . . . . . . . . . . .	L Near	 02D7	  _TEXT	
+  @@equal  . . . . . . . . . . .	L Near	 02EA	  _TEXT	
+  @@fill . . . . . . . . . . . .	L Near	 02EE	  _TEXT	
+  @@buff . . . . . . . . . . . .	L Near	 02FA	  _TEXT	
+  @@error  . . . . . . . . . . .	L Near	 02FF	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 0302	  _TEXT	
+strrchr  . . . . . . . . . . . .	P Near	 0307	  _TEXT	Length= 0054 Public C
+  str1 . . . . . . . . . . . . .	Word	 bp + 0004
+  n  . . . . . . . . . . . . . .	Byte	 bp + 0006
+  @@cmp  . . . . . . . . . . . .	L Near	 0327	  _TEXT	
+  @@found  . . . . . . . . . . .	L Near	 0330	  _TEXT	
+  @@cont . . . . . . . . . . . .	L Near	 0332	  _TEXT	
+  @@fill . . . . . . . . . . . .	L Near	 033A	  _TEXT	
+  @@iterate  . . . . . . . . . .	L Near	 0344	  _TEXT	
+  @@error  . . . . . . . . . . .	L Near	 034E	  _TEXT	
+  @@finished . . . . . . . . . .	L Near	 0352	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 0355	  _TEXT	
+strspn . . . . . . . . . . . . .	P Near	 035B	  _TEXT	Length= 0026 Public C
+  str1 . . . . . . . . . . . . .	Word	 bp + 0004
+  str2 . . . . . . . . . . . . .	Word	 bp + 0006
+  @@cmp  . . . . . . . . . . . .	L Near	 0369	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 037A	  _TEXT	
+strstr . . . . . . . . . . . . .	P Near	 0381	  _TEXT	Length= 005E Public C
+  haystack . . . . . . . . . . .	Word	 bp + 0004
+  needle . . . . . . . . . . . .	Word	 bp + 0006
+  @@cmp  . . . . . . . . . . . .	L Near	 03A1	  _TEXT	
+  @@cmpstr . . . . . . . . . . .	L Near	 03AA	  _TEXT	
+  @@notequal . . . . . . . . . .	L Near	 03BA	  _TEXT	
+  @@cont . . . . . . . . . . . .	L Near	 03BB	  _TEXT	
+  @@equal  . . . . . . . . . . .	L Near	 03C3	  _TEXT	
+  @@iterate  . . . . . . . . . .	L Near	 03CC	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 03D6	  _TEXT	
+strtok . . . . . . . . . . . . .	P Near	 03DF	  _TEXT	Length= 00B0 Public C
+  string . . . . . . . . . . . .	Word	 bp + 0004
+  delim  . . . . . . . . . . . .	Word	 bp + 0006
+  @@s  . . . . . . . . . . . . .	L Near	 0404	  _TEXT	
+  @@s_fill_return  . . . . . . .	L Near	 0415	  _TEXT	
+  @@s_found_delim  . . . . . . .	L Near	 0420	  _TEXT	
+  @@s_fill_token . . . . . . . .	L Near	 0423	  _TEXT	
+  @@s_fill_strtok  . . . . . . .	L Near	 0440	  _TEXT	
+  @@f  . . . . . . . . . . . . .	L Near	 045F	  _TEXT	
+  @@f_fill_return  . . . . . . .	L Near	 0473	  _TEXT	
+  @@f_found_delim  . . . . . . .	L Near	 047E	  _TEXT	
+  @@f_fill_strtok  . . . . . . .	L Near	 0481	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 048A	  _TEXT	
+strxfrm  . . . . . . . . . . . .	P Near	 048F	  _TEXT	Length= 002D Public C
+  dest . . . . . . . . . . . . .	Word	 bp + 0004
+  src  . . . . . . . . . . . . .	Word	 bp + 0006
+  n  . . . . . . . . . . . . . .	Word	 bp + 0008
+  @@loop . . . . . . . . . . . .	L Near	 049D	  _TEXT	
+  @@cont . . . . . . . . . . . .	L Near	 04A5	  _TEXT	
+  @@append . . . . . . . . . . .	L Near	 04AC	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 04B4	  _TEXT	
+textbackground . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+textcolor  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+tolower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+toupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+ungetch  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+wherex . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+wherey . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+LIBC_INC . . . . . . . . . . . .	Text   	 1
+_ASSERT_ . . . . . . . . . . . .	Text   	 1
+_CONIO_  . . . . . . . . . . . .	Text   	 1
+_CTYPE_  . . . . . . . . . . . .	Text   	 1
+_STDIO_  . . . . . . . . . . . .	Text   	 1
+_STRING_ . . . . . . . . . . . .	Text   	 1
+return_buffer  . . . . . . . . .	Byte	 0000	  _DATA	
+strtok_buffer  . . . . . . . . .	Byte	 0040	  _DATA	
+token_buffer . . . . . . . . . .	Byte	 0080	  _DATA	
+
+	   0 Warnings
+	   0 Errors

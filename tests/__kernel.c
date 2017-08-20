@@ -9,6 +9,7 @@ extern void main()
 {
     clrscr();
     textcolor(YELLOW);
+
     cprintf("[!] Testing 'string' C functions...\r\n");
     string_tests();
     cprintf("[!] Testing 'ctype' C functions...\r\n");

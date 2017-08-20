@@ -33,7 +33,7 @@ _wherex...........conio             _wherey...........conio
 __acrtused........bios              __assert..........assert
 
 
-conio             Offset: 00000010H  Code and data size: 393H
+conio             Offset: 00000010H  Code and data size: 10d8H
   _clrscr           _cprintf          _cputs            _cputsxy
   _cscanf           _cursoroff        _cursoron         _delay
   _getch            _getche           _gotoxy           _highvideo
@@ -41,17 +41,17 @@ conio             Offset: 00000010H  Code and data size: 393H
   _putch            _setcursortype    _textbackground   _textcolor
   _ungetch          _wherex           _wherey         
 
-ctype             Offset: 000005c0H  Code and data size: 29cH
+ctype             Offset: 000019d0H  Code and data size: fa0H
   _isalnum          _isalpha          _iscntrl          _isdigit
   _isgraph          _islower          _isprint          _ispunct
   _isspace          _isupper          _isxdigit         _tolower
   _toupper        
 
-stdio             Offset: 00000970H  Code and data size: 17eH
+stdio             Offset: 00003070H  Code and data size: a65H
   _getchar          _gets             _printf           _putchar
   _puts             _scanf          
 
-string            Offset: 00000ba0H  Code and data size: 57cH
+string            Offset: 000040c0H  Code and data size: 1799H
   _memchr           _memcmp           _memcpy           _memmove
   _memset           _strcat           _strchr           _strcmp
   _strcoll          _strcpy           _strcspn          _strlen
@@ -59,8 +59,8 @@ string            Offset: 00000ba0H  Code and data size: 57cH
   _strrchr          _strspn           _strstr           _strtok
   _strxfrm        
 
-assert            Offset: 00001270H  Code and data size: 57H
+assert            Offset: 00006540H  Code and data size: 686H
   __assert        
 
-bios              Offset: 00001370H  Code and data size: eH
+bios              Offset: 00006e30H  Code and data size: 653H
   _setpage          __acrtused      

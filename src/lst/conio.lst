@@ -1,0 +1,742 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\conio.asm						     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				include libc.inc						; Include library headers
+			      C .NOLIST								; Supress listing of header
+			      C .LIST
+			      C 
+			      C include string.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include ctype.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include conio.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include assert.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C 
+			      C ENDIF
+			      C .LIST								; Enable listing again
+			      C 
+ 0000				.data								; Data segment
+ 0000 0F			 txtc  db 15							; Text color
+ 0001 00			 txtbg db 0							; Text background
+ 0000				.code								; Start of code segment
+				; ------------------------------------------------------------------
+
+
+
+				 ColorAL MACRO
+				    pusha
+				   .IF !(al >= 09h && al <= 0dh)			    ; Ignore line feed and newline
+					mov bl, txtbg					    ; Attribute (color)
+					rol bl, 4					    ; Rotate left 4 bits
+					or bl, txtc
+					mov cx, 1					    ; Chars to print
+					mov ah, 09h
+					int	10h					    ; Video interupt
+
+					mov bh, 0
+					mov ah, 3					    ; Get cursor x and y
+					int	10h					    ; Video interupt
+
+					inc dl						    ; Increase x
+					mov ah, 2					    ; Set cursor pos
+					int	10h					    ; Video interupt
+				    .ELSE
+				         mov ah, 0eh
+					 int	10h
+				    .ENDIF
+				     popa
+				 ENDM
+
+
+				; ------------------------------------------------------------------
+				; int getch(void)
+				; ------------------------------------------------------------------
+				; Gets a character (an unsigned char) input.
+
+ 0000				getch PROC
+ 0000  B4 00			    mov ah, 0
+ 0002  CD 16			    int	    16h						    ; Keybord interupt
+ 0004  32 E4			    xor ah, ah						    ; Clear higher-half of ax
+
+ 0006  C3			    ret
+ 0007				getch ENDP
+
+
+				; ------------------------------------------------------------------
+				; int getche(void)
+				; ------------------------------------------------------------------
+				; Gets a character (an unsigned char) input and echo output.
+
+ 0007				getche PROC
+ 0007  B4 00			    mov ah, 0
+ 0009  CD 16			    int	    16h						    ; Keybord interupt
+ 000B  B4 0E			    mov ah, 0eh						    ; Teletype output
+ 000D  CD 10			    int     10h						    ; Video interupt
+ 000F  32 E4			    xor ah, ah						    ; Clear higher-half of ax
+
+ 0011  C3			    ret
+ 0012				getche ENDP
+
+
+				; ------------------------------------------------------------------
+				; int kbhit(void);
+				; ------------------------------------------------------------------
+				; Gets a character (an unsigned char) input and echo output.
+
+ 0012				kbhit PROC
+ 0012  B4 00			    mov ah, 0
+ 0014  CD 16			    int	    16h						    ; Keybord interupt
+ 0016  B8 0001			    mov ax, 1						    ; Return true
+
+ 0019  C3			    ret
+ 001A				kbhit ENDP
+
+
+				; ------------------------------------------------------------------
+				; int putch(int n)
+				; ------------------------------------------------------------------
+				; Writes a character (an unsigned char) specified
+				; by the argument char to stdout.
+
+ 001A				putch PROC n:PTR BYTE
+ 001D  8B 46 04			    mov ax, n						    ; Move char into ax
+ 0020  B4 0E			    mov ah, 0eh						    ; Teletype output
+
+				    .IF al == 0dh					    ; Newline on enter
+ 0026  CD 10				int	10h					    ; Video interupt
+ 0028  B0 0A				mov al, 0ah					    ; Line feed
+ 002A  CD 10				int	10h					    ; Video interupt
+				    .ELSE
+ 002E  CD 10				int	10h					    ; Video interupt
+				    .ENDIF
+
+				    ret
+ 0032				putch ENDP
+
+
+				; ------------------------------------------------------------------
+				; int ungetch(int n)
+				; ------------------------------------------------------------------
+				; Pushes a character back into the keyboard buffer.
+
+ 0032				ungetch PROC uses cx n:PTR BYTE
+ 0036  8B 46 04			    mov ax, n						    ; Move char into ax
+ 0039  B4 05			    mov ah, 5						    ; Keybord buffer write
+ 003B  8A C8			    mov cl, al						    ; Char to write into buffer
+ 003D  CD 16			    int	    16h						    ; Keyboard interupt
+
+				    ret
+ 0042				ungetch ENDP
+
+
+				; ------------------------------------------------------------------
+				; int clrscr()
+				; ------------------------------------------------------------------
+				; This function clears the screen.
+
+ 0042				clrscr PROC
+ 0042  B0 02			    mov al, 02h
+ 0044  B4 00			    mov ah, 00h
+ 0046  CD 10			    int	    10h						    ; Video interupt
+
+ 0048  C3			    ret
+ 0049				clrscr ENDP
+
+
+				; ------------------------------------------------------------------
+				; void gotoxy(int x, int y)
+				; ------------------------------------------------------------------
+				; This function moves the cursor to a new pos.
+
+ 0049				gotoxy PROC x:BYTE, y:BYTE
+ 004C  8A 56 04			    mov dl, x						    ; xpos
+ 004F  8A 76 06			    mov dh, y						    ; ypos
+ 0052  B7 00			    mov bh, 0
+ 0054  B4 02			    mov ah, 2
+ 0056  CD 10			    int	    10h						    ; Video interupt
+
+				    ret
+ 005A				gotoxy ENDP
+
+
+				; ------------------------------------------------------------------
+				; void highvideo(void)
+				; ------------------------------------------------------------------
+				; This function sets high intensity bits for the current
+				; foreground color.
+
+ 005A				highvideo PROC
+ 005A  A0 0000 R		    mov	al, txtc					    ; Get text color
+
+				    .IF al <= 7						    ; Set to high intensity bit if less than or equal to 7
+ 0061  04 08				add al, 8
+				    .ENDIF
+
+ 0063  A2 0000 R		    mov	txtc, al					    ; Store text color
+
+ 0066  C3			    ret
+ 0067				highvideo ENDP
+
+
+				; ------------------------------------------------------------------
+				; void lowvideo(void)
+				; ------------------------------------------------------------------
+				; This function sets low intensity bits for the current
+				; foreground color.
+
+ 0067				lowvideo PROC
+ 0067  A0 0000 R		    mov	al, txtc					    ; Get text color
+
+				    .IF al >= 7						    ; Set to low intensity bit if greater than or equal to 7
+ 006E  2C 08				sub al, 8
+				    .ENDIF
+
+ 0070  A2 0000 R		    mov	txtc, al					    ; Store text color
+
+ 0073  C3			    ret
+ 0074				lowvideo ENDP
+
+
+				; ------------------------------------------------------------------
+				; void insline(void)
+				; ------------------------------------------------------------------
+				; A blank line is inserted at the current cursor position.
+				; The previous line and lines below it scroll down.
+
+
+ 0074				insline PROC
+ 0074  B4 0E			    mov ah, 0eh						    ; Teletype output
+ 0076  B0 0D			    mov al, 0dh						    ; Carriage return
+ 0078  CD 10			    int	    10h						    ; Video interupt
+ 007A  B0 0A			    mov al, 0ah						    ; Line feed
+ 007C  CD 10			    int	    10h
+
+ 007E  C3			    ret
+ 007F				insline ENDP
+
+				; ------------------------------------------------------------------
+				; int wherex(void)
+				; ------------------------------------------------------------------
+				; This function returns the cursor x pos.
+
+ 007F				wherex PROC uses bx dx
+ 0081  B7 00			    mov bh, 0
+ 0083  B4 03			    mov ah, 3
+ 0085  CD 10			    int	    10h						    ; Video interupt
+
+ 0087  B4 00			    mov ah, 0
+ 0089  8A C2			    mov al, dl
+
+				    ret
+ 008E				wherex ENDP
+
+
+				; ------------------------------------------------------------------
+				; int wherey(void)
+				; ------------------------------------------------------------------
+				; This function returns the cursor y pos.
+
+ 008E				wherey PROC uses bx dx
+ 0090  B7 00			    mov bh, 0
+ 0092  B4 03			    mov ah, 3
+ 0094  CD 10			    int	    10h						    ; Video interupt
+
+ 0096  B4 00			    mov ah, 0
+ 0098  8A C6			    mov al, dh
+
+				    ret
+ 009D				wherey ENDP
+
+
+				; ------------------------------------------------------------------
+				; int cputs(const char * str)
+				; ------------------------------------------------------------------
+				; Returns a string to the screen.
+
+ 009D				cputs PROC uses si string:WORD
+ 00A1  8B 76 04			    mov si, string					    ; Point to param address
+
+ 00A4				  @@puts:
+ 00A4  AC			    lodsb						    ; Get character from string
+ 00A5  0A C0			    or al, al						    ; End of string
+ 00A7  74 30			    jz @@done
+				    ColorAL
+ 00A9  60		     1	    pusha
+ 00B2  8A 1E 0001 R	     1		mov bl, txtbg					    ; Attribute (color)
+ 00B6  C0 C3 04		     1		rol bl, 4					    ; Rotate left 4 bits
+ 00B9  0A 1E 0000 R	     1		or bl, txtc
+ 00BD  B9 0001		     1		mov cx, 1					    ; Chars to print
+ 00C0  B4 09		     1		mov ah, 09h
+ 00C2  CD 10		     1		int	10h					    ; Video interupt
+ 00C4  B7 00		     1		mov bh, 0
+ 00C6  B4 03		     1		mov ah, 3					    ; Get cursor x and y
+ 00C8  CD 10		     1		int	10h					    ; Video interupt
+ 00CA  FE C2		     1		inc dl						    ; Increase x
+ 00CC  B4 02		     1		mov ah, 2					    ; Set cursor pos
+ 00CE  CD 10		     1		int	10h					    ; Video interupt
+ 00D2  B4 0E		     1	         mov ah, 0eh
+ 00D4  CD 10		     1		 int	10h
+ 00D6  61		     1	     popa
+ 00D7  EB CB			    jmp @@puts
+
+ 00D9				  @@done:
+				    ret
+ 00DC				cputs ENDP
+
+
+				 ; ------------------------------------------------------------------
+				; int cputsxy(int x, int y, const char * str)
+				; ------------------------------------------------------------------
+				; Returns a string to the screen at the specified pos
+
+ 00DC				cputsxy PROC x:BYTE, y:BYTE, string:WORD
+				    invoke gotoxy, x, y					    ; Move cursor to pos
+				    invoke cputs, string				    ; Print colored text
+
+				    ret
+ 00F8				cputsxy ENDP
+
+
+				; ------------------------------------------------------------------
+				; int cprintf(const char *format, ...)
+				; ------------------------------------------------------------------
+				; Sends formatted output to stdout.
+
+ 00F8				cprintf PROC uses di si ax bx cx dx format:WORD, args:VARARG
+ 0101  BF 0004			    mov di, 4
+ 0104  8B 76 04			    mov si, format					    ; Point to param address
+				    .REPEAT						    ; Iterate over string
+ 0107  AC				lodsb						    ; Get character from string
+					.BREAK .IF !al					    ; Break if not al
+					.IF al == '%'					    ; Format string identifyer
+ 0114  AC				    lodsb
+ 0115  56				    push si					    ; Store current string
+ 0116  83 C7 02				    add di, 2					    ; Add to param offset
+ 0119  8B 33				    mov si, [bp + di]				    ; Point to param address
+					    .IF al == 's'				    ; Format string
+						.REPEAT
+ 011F  AC					    lodsb
+						    .BREAK .IF !al
+						    ColorAL
+ 0124  60		     1	    pusha
+ 012D  8A 1E 0001 R	     1		mov bl, txtbg					    ; Attribute (color)
+ 0131  C0 C3 04		     1		rol bl, 4					    ; Rotate left 4 bits
+ 0134  0A 1E 0000 R	     1		or bl, txtc
+ 0138  B9 0001		     1		mov cx, 1					    ; Chars to print
+ 013B  B4 09		     1		mov ah, 09h
+ 013D  CD 10		     1		int	10h					    ; Video interupt
+ 013F  B7 00		     1		mov bh, 0
+ 0141  B4 03		     1		mov ah, 3					    ; Get cursor x and y
+ 0143  CD 10		     1		int	10h					    ; Video interupt
+ 0145  FE C2		     1		inc dl						    ; Increase x
+ 0147  B4 02		     1		mov ah, 2					    ; Set cursor pos
+ 0149  CD 10		     1		int	10h					    ; Video interupt
+ 014D  B4 0E		     1	         mov ah, 0eh
+ 014F  CD 10		     1		 int	10h
+ 0151  61		     1	     popa
+						.UNTIL 0
+ 0154  5E					pop si
+						.CONTINUE
+					    .ELSEIF al == 'c'				    ; Format char
+ 015F  8B C6					mov ax,  si
+						ColorAL
+ 0161  60		     1	    pusha
+ 016A  8A 1E 0001 R	     1		mov bl, txtbg					    ; Attribute (color)
+ 016E  C0 C3 04		     1		rol bl, 4					    ; Rotate left 4 bits
+ 0171  0A 1E 0000 R	     1		or bl, txtc
+ 0175  B9 0001		     1		mov cx, 1					    ; Chars to print
+ 0178  B4 09		     1		mov ah, 09h
+ 017A  CD 10		     1		int	10h					    ; Video interupt
+ 017C  B7 00		     1		mov bh, 0
+ 017E  B4 03		     1		mov ah, 3					    ; Get cursor x and y
+ 0180  CD 10		     1		int	10h					    ; Video interupt
+ 0182  FE C2		     1		inc dl						    ; Increase x
+ 0184  B4 02		     1		mov ah, 2					    ; Set cursor pos
+ 0186  CD 10		     1		int	10h					    ; Video interupt
+ 018A  B4 0E		     1	         mov ah, 0eh
+ 018C  CD 10		     1		 int	10h
+ 018E  61		     1	     popa
+ 018F  5E					pop si
+					    	.CONTINUE
+					    .ELSEIF al == 'd'				    ; Format decimal
+ 0199  8B C6				       	mov ax,  si
+ 019B  B9 0000					mov cx, 0
+ 019E  BB 000A					mov bx, 10				    ; Set BX 10, for division and mod
+						.REPEAT
+ 01A1  BA 0000				    	    mov dx, 0
+ 01A4  F7 F3					    div bx				    ; Remainder in DX, quotient in AX
+ 01A6  41					    inc cx				    ; Increase pop loop counter
+ 01A7  52					    push dx				    ; Push remainder, so as to reverse order when popping
+						.UNTIL !ax
+						.REPEAT
+ 01AC  5A					    pop dx				    ; Pop off values in reverse order, and add 48 to make them digits
+ 01AD  80 C2 30					    add dl, 48				    ; And save them in the string, increasing the pointer each time
+ 01B0  8A C2					    mov al, dl				    ; Print out the number
+						    ColorAL
+ 01B2  60		     1	    pusha
+ 01BB  8A 1E 0001 R	     1		mov bl, txtbg					    ; Attribute (color)
+ 01BF  C0 C3 04		     1		rol bl, 4					    ; Rotate left 4 bits
+ 01C2  0A 1E 0000 R	     1		or bl, txtc
+ 01C6  B9 0001		     1		mov cx, 1					    ; Chars to print
+ 01C9  B4 09		     1		mov ah, 09h
+ 01CB  CD 10		     1		int	10h					    ; Video interupt
+ 01CD  B7 00		     1		mov bh, 0
+ 01CF  B4 03		     1		mov ah, 3					    ; Get cursor x and y
+ 01D1  CD 10		     1		int	10h					    ; Video interupt
+ 01D3  FE C2		     1		inc dl						    ; Increase x
+ 01D5  B4 02		     1		mov ah, 2					    ; Set cursor pos
+ 01D7  CD 10		     1		int	10h					    ; Video interupt
+ 01DB  B4 0E		     1	         mov ah, 0eh
+ 01DD  CD 10		     1		 int	10h
+ 01DF  61		     1	     popa
+						.UNTILCXZ
+ 01E2  5E					pop si
+						.CONTINUE
+					    .ENDIF
+					.ENDIF
+					ColorAL
+ 01E5  60		     1	    pusha
+ 01EE  8A 1E 0001 R	     1		mov bl, txtbg					    ; Attribute (color)
+ 01F2  C0 C3 04		     1		rol bl, 4					    ; Rotate left 4 bits
+ 01F5  0A 1E 0000 R	     1		or bl, txtc
+ 01F9  B9 0001		     1		mov cx, 1					    ; Chars to print
+ 01FC  B4 09		     1		mov ah, 09h
+ 01FE  CD 10		     1		int	10h					    ; Video interupt
+ 0200  B7 00		     1		mov bh, 0
+ 0202  B4 03		     1		mov ah, 3					    ; Get cursor x and y
+ 0204  CD 10		     1		int	10h					    ; Video interupt
+ 0206  FE C2		     1		inc dl						    ; Increase x
+ 0208  B4 02		     1		mov ah, 2					    ; Set cursor pos
+ 020A  CD 10		     1		int	10h					    ; Video interupt
+ 020E  B4 0E		     1	         mov ah, 0eh
+ 0210  CD 10		     1		 int	10h
+ 0212  61		     1	     popa
+				    .UNTIL 0
+				    ret
+ 021E				cprintf ENDP
+
+
+				  ; ------------------------------------------------------------------
+				; int cscanf(const char *format, ...);
+				; ------------------------------------------------------------------
+				; Reads formatted input from stdin.
+
+ 021E				cscanf PROC uses di si ax bx cx dx format:WORD, args:VARARG
+ 0227  8B 76 04			    mov si, format					    ; Point to param address
+				    .IF BYTE PTR [si] == '%'
+					.IF BYTE PTR [si + 1] == 's'
+ 0237  8B 7E 06				    mov di, [bp + 6]				    ; Point to param address
+ 023A  32 C9				    xor cl, cl
+					    .REPEAT
+ 023C  B4 00					mov ah, 0
+ 023E  CD 16					int	16h				    ; Wait for keypress
+						.IF al == 08h				    ; Handle backspace
+						    .CONTINUE .IF !cl			    ; No overwrite prompt
+ 0248  4F					    dec di				    ; Move back a char
+ 0249  C6 05 00					    mov BYTE PTR [di], 0		    ; Remove char
+ 024C  FE C9					    dec cl				    ; Decrease char counter
+ 024E  B4 0E					    mov ah, 0eh				    ; Teletype output
+ 0250  B0 08					    mov al, 08h				    ; Backspace
+ 0252  CD 10					    int	    10h				    ; Video interupt
+ 0254  B0 20					    mov al, ' '				    ; Fill with blank char
+ 0256  CD 10					    int     10h				    ; Video interupt
+ 0258  B0 08					    mov al, 08h				    ; Backspace
+ 025A  CD 10					    int     10h				    ; Video interupt
+						    .CONTINUE
+						.ELSEIF al == 0dh			    ; Handle enter
+						    .BREAK
+						.ELSEIF cl == 3dh			    ; Max input allowed
+						    .BREAK
+						.ENDIF
+						ColorAL
+ 026F  60		     1	    pusha
+ 0278  8A 1E 0001 R	     1		mov bl, txtbg					    ; Attribute (color)
+ 027C  C0 C3 04		     1		rol bl, 4					    ; Rotate left 4 bits
+ 027F  0A 1E 0000 R	     1		or bl, txtc
+ 0283  B9 0001		     1		mov cx, 1					    ; Chars to print
+ 0286  B4 09		     1		mov ah, 09h
+ 0288  CD 10		     1		int	10h					    ; Video interupt
+ 028A  B7 00		     1		mov bh, 0
+ 028C  B4 03		     1		mov ah, 3					    ; Get cursor x and y
+ 028E  CD 10		     1		int	10h					    ; Video interupt
+ 0290  FE C2		     1		inc dl						    ; Increase x
+ 0292  B4 02		     1		mov ah, 2					    ; Set cursor pos
+ 0294  CD 10		     1		int	10h					    ; Video interupt
+ 0298  B4 0E		     1	         mov ah, 0eh
+ 029A  CD 10		     1		 int	10h
+ 029C  61		     1	     popa
+ 029D  AA					stosb					    ; Store string
+ 029E  FE C1					inc cl
+					    .UNTIL 0
+					.ELSEIF BYTE PTR [si + 1] == 'c'
+ 02AA  8B 7E 06				    mov di, [bp + 6]				    ; Point to param address
+ 02AD  B4 00				    mov ah, 0
+ 02AF  CD 16				    int	16h					    ; Wait for keypress
+ 02B1  B4 0E				    mov ah, 0eh					    ; Teletype output
+ 02B3  CD 10				    int	10h					    ; Video interupt
+ 02B5  AA				    stosb					    ; Store string
+					.ELSEIF BYTE PTR [si + 1] == 'd'
+					.ENDIF
+				    .ENDIF
+
+ 02BE  B4 0E			    mov ah, 0eh						    ; Teletype output
+ 02C0  B0 0D			    mov al, 0dh						    ; Carriage return
+ 02C2  CD 10			    int	    10h						    ; Video interupt
+ 02C4  B0 0A			    mov al, 0ah						    ; Line feed
+ 02C6  CD 10			    int	    10h						    ; Video interupt
+
+				    ret
+ 02D0				cscanf ENDP
+
+
+				; ------------------------------------------------------------------
+				; void textbackground(int color)
+				; ------------------------------------------------------------------
+				; Change of current background color in text mode.
+
+ 02D0				textbackground PROC uses ax color:BYTE
+ 02D4  8A 46 04			    mov al, color					    ; Move color to al
+ 02D7  A2 0001 R		    mov	txtbg, al					    ; Set text background color to al
+
+				    ret
+ 02DD				textbackground ENDP
+
+
+				; ------------------------------------------------------------------
+				; void textcolor(int color)
+				; ------------------------------------------------------------------
+				; change the color of drawing text where color is a integer variable.
+
+ 02DD				textcolor PROC uses ax color:BYTE
+ 02E1  8A 46 04			    mov al, color					    ; Move color to al
+ 02E4  A2 0000 R		    mov	txtc, al					    ; Set text color to al
+
+				    ret
+ 02EA				textcolor ENDP
+
+
+				; ------------------------------------------------------------------
+				; void cursoroff(void)
+				; ------------------------------------------------------------------
+				; This function turns the cursor off
+
+ 02EA				cursoroff PROC uses ax cx
+ 02EC  B5 20			    mov ch, 32
+ 02EE  B4 01			    mov ah, 1
+ 02F0  B0 03			    mov al, 3
+ 02F2  CD 10			    int	    10h
+
+				    ret
+ 02F7				cursoroff ENDP
+
+
+				; ------------------------------------------------------------------
+				; void cursoron(void)
+				; ------------------------------------------------------------------
+				; This function turns the cursor on
+
+ 02F7				cursoron PROC uses ax cx
+ 02F9  B5 06			    mov ch, 6
+ 02FB  B1 07			    mov cl, 7
+ 02FD  B4 01			    mov ah, 1
+ 02FF  B0 03			    mov al, 3
+ 0301  CD 10			    int	    10h
+
+				    ret
+ 0306				cursoron ENDP
+
+
+				; ------------------------------------------------------------------
+				; void delay(int ms)
+				; ------------------------------------------------------------------
+				; This function delays the program
+
+ 0306				delay PROC uses ax cx dx ms:PTR BYTE
+ 030C  8B 4E 04			    mov cx, ms						    ; ms delay
+ 030F  BA 4240			    mov dx, 4240h
+ 0312  B4 86			    mov ah, 86h
+ 0314  CD 15			    int 15h
+
+				    ret
+ 031B				delay ENDP
+
+
+				; ------------------------------------------------------------------
+				; void newline(void)
+				; ------------------------------------------------------------------
+				; This function writes a new line
+
+ 031B				newline PROC uses ax
+ 031C  B4 0E			    mov ah, 0eh						    ; Teletype output
+ 031E  B0 0D			    mov al, 0dh						    ; Carriage return
+ 0320  CD 10			    int	    10h						    ; Video interupt
+ 0322  B0 0A			    mov al, 0ah						    ; Line feed
+ 0324  CD 10			    int	    10h						    ; Video interupt
+
+				    ret
+ 0328				newline ENDP
+
+
+				; ------------------------------------------------------------------
+				; void setcursortype(int cur)
+				; ------------------------------------------------------------------
+				; This function moves the cursor to a new pos
+
+ 0328				setcursortype PROC uses ax cx cur:BYTE
+ 032D  8A 6E 04			    mov ch, cur						; Cursor type
+ 0330  B1 07			    mov cl, 7
+ 0332  B4 01			    mov ah, 1
+ 0334  B0 03			    mov al, 3
+ 0336  CD 10			    int	    10h
+
+				    ret
+ 033C				setcursortype ENDP
+
+				END
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\conio.asm						     Symbols 2 - 1
+
+
+
+
+Macros:
+
+                N a m e                 Type
+
+ColorAL  . . . . . . . . . . . .	Proc
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 033C	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0002	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+_assert  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+clrscr . . . . . . . . . . . . .	P Near	 0042	  _TEXT	Length= 0007 Public C
+cprintf  . . . . . . . . . . . .	P Near	 00F8	  _TEXT	Length= 0126 Public C
+  format . . . . . . . . . . . .	Word	 bp + 0004
+  args . . . . . . . . . . . . .		 bp + 0006
+cputsxy  . . . . . . . . . . . .	P Near	 00DC	  _TEXT	Length= 001C Public C
+  x  . . . . . . . . . . . . . .	Byte	 bp + 0004
+  y  . . . . . . . . . . . . . .	Byte	 bp + 0006
+  string . . . . . . . . . . . .	Word	 bp + 0008
+cputs  . . . . . . . . . . . . .	P Near	 009D	  _TEXT	Length= 003F Public C
+  string . . . . . . . . . . . .	Word	 bp + 0004
+  @@puts . . . . . . . . . . . .	L Near	 00A4	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 00D9	  _TEXT	
+cscanf . . . . . . . . . . . . .	P Near	 021E	  _TEXT	Length= 00B2 Public C
+  format . . . . . . . . . . . .	Word	 bp + 0004
+  args . . . . . . . . . . . . .		 bp + 0006
+cursoroff  . . . . . . . . . . .	P Near	 02EA	  _TEXT	Length= 000D Public C
+cursoron . . . . . . . . . . . .	P Near	 02F7	  _TEXT	Length= 000F Public C
+delay  . . . . . . . . . . . . .	P Near	 0306	  _TEXT	Length= 0015 Public C
+  ms . . . . . . . . . . . . . .	Word	 bp + 0004
+drawline . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getche . . . . . . . . . . . . .	P Near	 0007	  _TEXT	Length= 000B Public C
+getch  . . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0007 Public C
+gets . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+gotoxy . . . . . . . . . . . . .	P Near	 0049	  _TEXT	Length= 0011 Public C
+  x  . . . . . . . . . . . . . .	Byte	 bp + 0004
+  y  . . . . . . . . . . . . . .	Byte	 bp + 0006
+highvideo  . . . . . . . . . . .	P Near	 005A	  _TEXT	Length= 000D Public C
+insline  . . . . . . . . . . . .	P Near	 0074	  _TEXT	Length= 000B Public C
+isalnum  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isalpha  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+iscntrl  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isdigit  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isgraph  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+islower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isprint  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+ispunct  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isspace  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isxdigit . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+kbhit  . . . . . . . . . . . . .	P Near	 0012	  _TEXT	Length= 0008 Public C
+lowvideo . . . . . . . . . . . .	P Near	 0067	  _TEXT	Length= 000D Public C
+memchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memcpy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memmove  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memset . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+newline  . . . . . . . . . . . .	P Near	 031B	  _TEXT	Length= 000D Public C
+printf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putch  . . . . . . . . . . . . .	P Near	 001A	  _TEXT	Length= 0018 Public C
+  n  . . . . . . . . . . . . . .	Word	 bp + 0004
+puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+setcursortype  . . . . . . . . .	P Near	 0328	  _TEXT	Length= 0014 Public C
+  cur  . . . . . . . . . . . . .	Byte	 bp + 0004
+strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcoll  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcpy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcspn  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strlen . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncat  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncmp  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncpy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strpbrk  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strrchr  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strspn . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strstr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strtok . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strxfrm  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+textbackground . . . . . . . . .	P Near	 02D0	  _TEXT	Length= 000D Public C
+  color  . . . . . . . . . . . .	Byte	 bp + 0004
+textcolor  . . . . . . . . . . .	P Near	 02DD	  _TEXT	Length= 000D Public C
+  color  . . . . . . . . . . . .	Byte	 bp + 0004
+tolower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+toupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+ungetch  . . . . . . . . . . . .	P Near	 0032	  _TEXT	Length= 0010 Public C
+  n  . . . . . . . . . . . . . .	Word	 bp + 0004
+wherex . . . . . . . . . . . . .	P Near	 007F	  _TEXT	Length= 000F Public C
+wherey . . . . . . . . . . . . .	P Near	 008E	  _TEXT	Length= 000F Public C
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+LIBC_INC . . . . . . . . . . . .	Text   	 1
+_ASSERT_ . . . . . . . . . . . .	Text   	 1
+_CONIO_  . . . . . . . . . . . .	Text   	 1
+_CTYPE_  . . . . . . . . . . . .	Text   	 1
+_STDIO_  . . . . . . . . . . . .	Text   	 1
+_STRING_ . . . . . . . . . . . .	Text   	 1
+txtbg  . . . . . . . . . . . . .	Byte	 0001	  _DATA	
+txtc . . . . . . . . . . . . . .	Byte	 0000	  _DATA	
+
+	   0 Warnings
+	   0 Errors

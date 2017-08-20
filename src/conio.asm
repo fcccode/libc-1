@@ -39,15 +39,10 @@ include libc.inc						; Include library headers
 ; Gets a character (an unsigned char) input.
 
 getch PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
     mov ah, 0
     int	    16h						    ; Keybord interupt
     xor ah, ah						    ; Clear higher-half of ax
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 getch ENDP
 
@@ -58,17 +53,12 @@ getch ENDP
 ; Gets a character (an unsigned char) input and echo output.
 
 getche PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
     mov ah, 0
     int	    16h						    ; Keybord interupt
     mov ah, 0eh						    ; Teletype output
     int     10h						    ; Video interupt
     xor ah, ah						    ; Clear higher-half of ax
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 getche ENDP
 
@@ -79,30 +69,22 @@ getche ENDP
 ; Gets a character (an unsigned char) input and echo output.
 
 kbhit PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
     mov ah, 0
     int	    16h						    ; Keybord interupt
     mov ax, 1						    ; Return true
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 kbhit ENDP
 
 
 ; ------------------------------------------------------------------
-; int putch(int c)
+; int putch(int n)
 ; ------------------------------------------------------------------
 ; Writes a character (an unsigned char) specified
 ; by the argument char to stdout.
 
-putch PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
-    mov ax, [bp + 4]					    ; Move char into ax
+putch PROC n:PTR BYTE
+    mov ax, n						    ; Move char into ax
     mov ah, 0eh						    ; Teletype output
 
     .IF al == 0dh					    ; Newline on enter
@@ -113,28 +95,21 @@ putch PROC
 	int	10h					    ; Video interupt
     .ENDIF
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 putch ENDP
 
 
 ; ------------------------------------------------------------------
-; int ungetch(int c)
+; int ungetch(int n)
 ; ------------------------------------------------------------------
 ; Pushes a character back into the keyboard buffer.
 
-ungetch PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
-    mov ax, [bp + 4]					    ; Move char into ax
+ungetch PROC uses cx n:PTR BYTE
+    mov ax, n						    ; Move char into ax
     mov ah, 5						    ; Keybord buffer write
     mov cl, al						    ; Char to write into buffer
     int	    16h						    ; Keyboard interupt
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 ungetch ENDP
 
@@ -145,15 +120,10 @@ ungetch ENDP
 ; This function clears the screen.
 
 clrscr PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
     mov al, 02h
     mov ah, 00h
-    int	10h						    ; Video interupt
+    int	    10h						    ; Video interupt
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 clrscr ENDP
 
@@ -163,18 +133,13 @@ clrscr ENDP
 ; ------------------------------------------------------------------
 ; This function moves the cursor to a new pos.
 
-gotoxy PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
-    mov dl, [bp + 4]					    ; xpos
-    mov dh, [bp + 6]					    ; ypos
+gotoxy PROC x:BYTE, y:BYTE
+    mov dl, x						    ; xpos
+    mov dh, y						    ; ypos
     mov bh, 0
     mov ah, 2
-    int 10h						    ; Video interupt
+    int	    10h						    ; Video interupt
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 gotoxy ENDP
 
@@ -186,8 +151,6 @@ gotoxy ENDP
 ; foreground color.
 
 highvideo PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
     mov	al, txtc					    ; Get text color
 
     .IF al <= 7						    ; Set to high intensity bit if less than or equal to 7
@@ -196,8 +159,6 @@ highvideo PROC
 
     mov	txtc, al					    ; Store text color
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 highvideo ENDP
 
@@ -209,8 +170,6 @@ highvideo ENDP
 ; foreground color.
 
 lowvideo PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
     mov	al, txtc					    ; Get text color
 
     .IF al >= 7						    ; Set to low intensity bit if greater than or equal to 7
@@ -219,8 +178,6 @@ lowvideo PROC
 
     mov	txtc, al					    ; Store text color
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 lowvideo ENDP
 
@@ -233,17 +190,12 @@ lowvideo ENDP
 
 
 insline PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
     mov ah, 0eh						    ; Teletype output
     mov al, 0dh						    ; Carriage return
     int	    10h						    ; Video interupt
     mov al, 0ah						    ; Line feed
     int	    10h
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 insline ENDP
 
@@ -252,10 +204,7 @@ insline ENDP
 ; ------------------------------------------------------------------
 ; This function returns the cursor x pos.
 
-wherex PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
+wherex PROC uses bx dx
     mov bh, 0
     mov ah, 3
     int	    10h						    ; Video interupt
@@ -263,8 +212,6 @@ wherex PROC
     mov ah, 0
     mov al, dl
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 wherex ENDP
 
@@ -274,10 +221,7 @@ wherex ENDP
 ; ------------------------------------------------------------------
 ; This function returns the cursor y pos.
 
-wherey PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
+wherey PROC uses bx dx
     mov bh, 0
     mov ah, 3
     int	    10h						    ; Video interupt
@@ -285,8 +229,6 @@ wherey PROC
     mov ah, 0
     mov al, dh
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 wherey ENDP
 
@@ -296,11 +238,8 @@ wherey ENDP
 ; ------------------------------------------------------------------
 ; Returns a string to the screen.
 
-cputs PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-    pusha
-    mov si, [bp + 4]					    ; Point to param address
+cputs PROC uses si string:WORD
+    mov si, string					    ; Point to param address
 
   @@puts:
     lodsb						    ; Get character from string
@@ -310,9 +249,6 @@ cputs PROC
     jmp @@puts
 
   @@done:
-    popa
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 cputs ENDP
 
@@ -322,30 +258,10 @@ cputs ENDP
 ; ------------------------------------------------------------------
 ; Returns a string to the screen at the specified pos
 
-cputsxy PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-    pusha
-    mov ax, [bp + 4]
-    mov bx, [bp + 6]
-    push bx
-    push ax
-    call gotoxy
-    pop ax
-    pop bx
-    mov si, [bp + 8]					    ; Point to string address
+cputsxy PROC x:BYTE, y:BYTE, string:WORD
+    invoke gotoxy, x, y					    ; Move cursor to pos
+    invoke cputs, string				    ; Print colored text
 
-  @@puts:
-    lodsb						    ; Get character from string
-    or al, al						    ; End of string
-    jz @@done
-    ColorAL
-    jmp @@puts
-
-  @@done:
-    popa
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 cputsxy ENDP
 
@@ -355,11 +271,9 @@ cputsxy ENDP
 ; ------------------------------------------------------------------
 ; Sends formatted output to stdout.
 
-cprintf PROC uses ax
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-    mov di, 6
-    mov si, [bp + di]					    ; Point to param address
+cprintf PROC uses di si ax bx cx dx format:WORD, args:VARARG
+    mov di, 4
+    mov si, format					    ; Point to param address
     .REPEAT						    ; Iterate over string
 	lodsb						    ; Get character from string
 	.BREAK .IF !al					    ; Break if not al
@@ -403,20 +317,17 @@ cprintf PROC uses ax
 	.ENDIF
 	ColorAL
     .UNTIL 0
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 cprintf ENDP
+
 
   ; ------------------------------------------------------------------
 ; int cscanf(const char *format, ...);
 ; ------------------------------------------------------------------
 ; Reads formatted input from stdin.
 
-cscanf PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-    mov si, [bp + 4]					    ; Point to param address
+cscanf PROC uses di si ax bx cx dx format:WORD, args:VARARG
+    mov si, format					    ; Point to param address
     .IF BYTE PTR [si] == '%'
 	.IF BYTE PTR [si + 1] == 's'
 	    mov di, [bp + 6]				    ; Point to param address
@@ -463,8 +374,6 @@ cscanf PROC
     mov al, 0ah						    ; Line feed
     int	    10h						    ; Video interupt
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 cscanf ENDP
 
@@ -474,15 +383,10 @@ cscanf ENDP
 ; ------------------------------------------------------------------
 ; Change of current background color in text mode.
 
-textbackground PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
-    mov al, [bp + 4]					    ; Move color to al
+textbackground PROC uses ax color:BYTE
+    mov al, color					    ; Move color to al
     mov	txtbg, al					    ; Set text background color to al
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 textbackground ENDP
 
@@ -492,15 +396,10 @@ textbackground ENDP
 ; ------------------------------------------------------------------
 ; change the color of drawing text where color is a integer variable.
 
-textcolor PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
-    mov al, [bp + 4]					    ; Move color to al
+textcolor PROC uses ax color:BYTE
+    mov al, color					    ; Move color to al
     mov	txtc, al					    ; Set text color to al
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 textcolor ENDP
 
@@ -510,17 +409,12 @@ textcolor ENDP
 ; ------------------------------------------------------------------
 ; This function turns the cursor off
 
-cursoroff PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
+cursoroff PROC uses ax cx
     mov ch, 32
     mov ah, 1
     mov al, 3
     int	    10h
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 cursoroff ENDP
 
@@ -530,18 +424,13 @@ cursoroff ENDP
 ; ------------------------------------------------------------------
 ; This function turns the cursor on
 
-cursoron PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
+cursoron PROC uses ax cx
     mov ch, 6
     mov cl, 7
     mov ah, 1
     mov al, 3
     int	    10h
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 cursoron ENDP
 
@@ -551,17 +440,12 @@ cursoron ENDP
 ; ------------------------------------------------------------------
 ; This function delays the program
 
-delay PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-    mov cx, [bp + 4]					    ; ms delay
-
+delay PROC uses ax cx dx ms:PTR BYTE
+    mov cx, ms						    ; ms delay
     mov dx, 4240h
     mov ah, 86h
     int 15h
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 delay ENDP
 
@@ -571,39 +455,29 @@ delay ENDP
 ; ------------------------------------------------------------------
 ; This function writes a new line
 
-newline PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-
+newline PROC uses ax
     mov ah, 0eh						    ; Teletype output
     mov al, 0dh						    ; Carriage return
     int	    10h						    ; Video interupt
     mov al, 0ah						    ; Line feed
     int	    10h						    ; Video interupt
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 newline ENDP
 
 
 ; ------------------------------------------------------------------
-; void setcursortype(int type)
+; void setcursortype(int cur)
 ; ------------------------------------------------------------------
 ; This function moves the cursor to a new pos
 
-setcursortype PROC
-    push bp						    ; Save BP on stack
-    mov bp, sp						    ; Set BP to SP
-    mov ch,  [bp + 4]					    ; Cursor type
-
+setcursortype PROC uses ax cx cur:BYTE
+    mov ch, cur						; Cursor type
     mov cl, 7
     mov ah, 1
     mov al, 3
     int	    10h
 
-    mov sp, bp						    ; Restore stack pointer
-    pop bp						    ; Restore BP register
     ret
 setcursortype ENDP
 

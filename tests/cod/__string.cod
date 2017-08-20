@@ -1,0 +1,2442 @@
+; File tests\__string.c
+; Line 6
+					___strcmp:
+	*** 000000	c8 00 00 00 		enter	OFFSET L00573,OFFSET 0
+	*** 000004	56 			push	si
+	*** 000005	57 			push	di
+; Line 7
+	*** 000006	68 00 00 		push	OFFSET L00125
+	*** 000009	68 00 00 		push	OFFSET L00126
+	*** 00000c	e8 00 00 		call	_strcmp
+	*** 00000f	83 c4 04 		add	sp,OFFSET 4
+	*** 000012	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000015	7f 03 e9 00 00 		jle	L00575
+	*** 00001a	b8 00 00 		mov	ax,OFFSET 0
+	*** 00001d	e9 00 00 		jmp	L00574
+					L00575:
+	*** 000020	6a 07 			push	OFFSET 7
+	*** 000022	68 00 00 		push	OFFSET L00127
+	*** 000025	68 00 00 		push	OFFSET L00128
+	*** 000028	e8 00 00 		call	__assert
+	*** 00002b	83 c4 06 		add	sp,OFFSET 6
+					L00574:
+; Line 8
+	*** 00002e	68 00 00 		push	OFFSET L00129
+	*** 000031	68 00 00 		push	OFFSET L00130
+	*** 000034	e8 00 00 		call	_strcmp
+	*** 000037	83 c4 04 		add	sp,OFFSET 4
+	*** 00003a	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00003d	7c 03 e9 00 00 		jge	L00577
+	*** 000042	b8 00 00 		mov	ax,OFFSET 0
+	*** 000045	e9 00 00 		jmp	L00576
+					L00577:
+	*** 000048	6a 08 			push	OFFSET 8
+	*** 00004a	68 00 00 		push	OFFSET L00131
+	*** 00004d	68 00 00 		push	OFFSET L00132
+	*** 000050	e8 00 00 		call	__assert
+	*** 000053	83 c4 06 		add	sp,OFFSET 6
+					L00576:
+; Line 9
+	*** 000056	68 00 00 		push	OFFSET L00133
+	*** 000059	68 00 00 		push	OFFSET L00134
+	*** 00005c	e8 00 00 		call	_strcmp
+	*** 00005f	83 c4 04 		add	sp,OFFSET 4
+	*** 000062	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000065	74 03 e9 00 00 		jne	L00579
+	*** 00006a	b8 00 00 		mov	ax,OFFSET 0
+	*** 00006d	e9 00 00 		jmp	L00578
+					L00579:
+	*** 000070	6a 09 			push	OFFSET 9
+	*** 000072	68 00 00 		push	OFFSET L00135
+	*** 000075	68 00 00 		push	OFFSET L00136
+	*** 000078	e8 00 00 		call	__assert
+	*** 00007b	83 c4 06 		add	sp,OFFSET 6
+					L00578:
+; Line 11
+	*** 00007e	68 00 00 		push	OFFSET L00137
+	*** 000081	68 00 00 		push	OFFSET L00138
+	*** 000084	e8 00 00 		call	_strcmp
+	*** 000087	83 c4 04 		add	sp,OFFSET 4
+	*** 00008a	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00008d	7f 03 e9 00 00 		jle	L00581
+	*** 000092	b8 00 00 		mov	ax,OFFSET 0
+	*** 000095	e9 00 00 		jmp	L00580
+					L00581:
+	*** 000098	6a 0b 			push	OFFSET 11
+	*** 00009a	68 00 00 		push	OFFSET L00139
+	*** 00009d	68 00 00 		push	OFFSET L00140
+	*** 0000a0	e8 00 00 		call	__assert
+	*** 0000a3	83 c4 06 		add	sp,OFFSET 6
+					L00580:
+; Line 12
+	*** 0000a6	68 00 00 		push	OFFSET L00141
+	*** 0000a9	68 00 00 		push	OFFSET L00142
+	*** 0000ac	e8 00 00 		call	_strcmp
+	*** 0000af	83 c4 04 		add	sp,OFFSET 4
+	*** 0000b2	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0000b5	7c 03 e9 00 00 		jge	L00583
+	*** 0000ba	b8 00 00 		mov	ax,OFFSET 0
+	*** 0000bd	e9 00 00 		jmp	L00582
+					L00583:
+	*** 0000c0	6a 0c 			push	OFFSET 12
+	*** 0000c2	68 00 00 		push	OFFSET L00143
+	*** 0000c5	68 00 00 		push	OFFSET L00144
+	*** 0000c8	e8 00 00 		call	__assert
+	*** 0000cb	83 c4 06 		add	sp,OFFSET 6
+					L00582:
+; Line 13
+	*** 0000ce	68 00 00 		push	OFFSET L00145
+	*** 0000d1	68 00 00 		push	OFFSET L00146
+	*** 0000d4	e8 00 00 		call	_strcmp
+	*** 0000d7	83 c4 04 		add	sp,OFFSET 4
+	*** 0000da	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0000dd	74 03 e9 00 00 		jne	L00585
+	*** 0000e2	b8 00 00 		mov	ax,OFFSET 0
+	*** 0000e5	e9 00 00 		jmp	L00584
+					L00585:
+	*** 0000e8	6a 0d 			push	OFFSET 13
+	*** 0000ea	68 00 00 		push	OFFSET L00147
+	*** 0000ed	68 00 00 		push	OFFSET L00148
+	*** 0000f0	e8 00 00 		call	__assert
+	*** 0000f3	83 c4 06 		add	sp,OFFSET 6
+					L00584:
+; Line 14
+; Line 14
+					L00124:
+	*** 0000f6	5f 			pop	di
+	*** 0000f7	5e 			pop	si
+	*** 0000f8	c9 			leave
+	*** 0000f9	c3 			ret	OFFSET 0
+; Local Size: 2
+; Line 18
+					___strncmp:
+	*** 0000fa	c8 00 00 00 		enter	OFFSET L00586,OFFSET 0
+	*** 0000fe	56 			push	si
+	*** 0000ff	57 			push	di
+; Line 19
+	*** 000100	6a 04 			push	OFFSET 4
+	*** 000102	68 00 00 		push	OFFSET L00151
+	*** 000105	68 00 00 		push	OFFSET L00152
+	*** 000108	e8 00 00 		call	_strncmp
+	*** 00010b	83 c4 06 		add	sp,OFFSET 6
+	*** 00010e	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000111	7f 03 e9 00 00 		jle	L00588
+	*** 000116	b8 00 00 		mov	ax,OFFSET 0
+	*** 000119	e9 00 00 		jmp	L00587
+					L00588:
+	*** 00011c	6a 13 			push	OFFSET 19
+	*** 00011e	68 00 00 		push	OFFSET L00153
+	*** 000121	68 00 00 		push	OFFSET L00154
+	*** 000124	e8 00 00 		call	__assert
+	*** 000127	83 c4 06 		add	sp,OFFSET 6
+					L00587:
+; Line 20
+	*** 00012a	6a 03 			push	OFFSET 3
+	*** 00012c	68 00 00 		push	OFFSET L00155
+	*** 00012f	68 00 00 		push	OFFSET L00156
+	*** 000132	e8 00 00 		call	_strncmp
+	*** 000135	83 c4 06 		add	sp,OFFSET 6
+	*** 000138	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00013b	7c 03 e9 00 00 		jge	L00590
+	*** 000140	b8 00 00 		mov	ax,OFFSET 0
+	*** 000143	e9 00 00 		jmp	L00589
+					L00590:
+	*** 000146	6a 14 			push	OFFSET 20
+	*** 000148	68 00 00 		push	OFFSET L00157
+	*** 00014b	68 00 00 		push	OFFSET L00158
+	*** 00014e	e8 00 00 		call	__assert
+	*** 000151	83 c4 06 		add	sp,OFFSET 6
+					L00589:
+; Line 21
+	*** 000154	6a 02 			push	OFFSET 2
+	*** 000156	68 00 00 		push	OFFSET L00159
+	*** 000159	68 00 00 		push	OFFSET L00160
+	*** 00015c	e8 00 00 		call	_strncmp
+	*** 00015f	83 c4 06 		add	sp,OFFSET 6
+	*** 000162	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000165	74 03 e9 00 00 		jne	L00592
+	*** 00016a	b8 00 00 		mov	ax,OFFSET 0
+	*** 00016d	e9 00 00 		jmp	L00591
+					L00592:
+	*** 000170	6a 15 			push	OFFSET 21
+	*** 000172	68 00 00 		push	OFFSET L00161
+	*** 000175	68 00 00 		push	OFFSET L00162
+	*** 000178	e8 00 00 		call	__assert
+	*** 00017b	83 c4 06 		add	sp,OFFSET 6
+					L00591:
+; Line 23
+	*** 00017e	6a 04 			push	OFFSET 4
+	*** 000180	68 00 00 		push	OFFSET L00163
+	*** 000183	68 00 00 		push	OFFSET L00164
+	*** 000186	e8 00 00 		call	_strncmp
+	*** 000189	83 c4 06 		add	sp,OFFSET 6
+	*** 00018c	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00018f	7f 03 e9 00 00 		jle	L00594
+	*** 000194	b8 00 00 		mov	ax,OFFSET 0
+	*** 000197	e9 00 00 		jmp	L00593
+					L00594:
+	*** 00019a	6a 17 			push	OFFSET 23
+	*** 00019c	68 00 00 		push	OFFSET L00165
+	*** 00019f	68 00 00 		push	OFFSET L00166
+	*** 0001a2	e8 00 00 		call	__assert
+	*** 0001a5	83 c4 06 		add	sp,OFFSET 6
+					L00593:
+; Line 24
+	*** 0001a8	6a 03 			push	OFFSET 3
+	*** 0001aa	68 00 00 		push	OFFSET L00167
+	*** 0001ad	68 00 00 		push	OFFSET L00168
+	*** 0001b0	e8 00 00 		call	_strncmp
+	*** 0001b3	83 c4 06 		add	sp,OFFSET 6
+	*** 0001b6	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0001b9	7c 03 e9 00 00 		jge	L00596
+	*** 0001be	b8 00 00 		mov	ax,OFFSET 0
+	*** 0001c1	e9 00 00 		jmp	L00595
+					L00596:
+	*** 0001c4	6a 18 			push	OFFSET 24
+	*** 0001c6	68 00 00 		push	OFFSET L00169
+	*** 0001c9	68 00 00 		push	OFFSET L00170
+	*** 0001cc	e8 00 00 		call	__assert
+	*** 0001cf	83 c4 06 		add	sp,OFFSET 6
+					L00595:
+; Line 25
+	*** 0001d2	6a 02 			push	OFFSET 2
+	*** 0001d4	68 00 00 		push	OFFSET L00171
+	*** 0001d7	68 00 00 		push	OFFSET L00172
+	*** 0001da	e8 00 00 		call	_strncmp
+	*** 0001dd	83 c4 06 		add	sp,OFFSET 6
+	*** 0001e0	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0001e3	74 03 e9 00 00 		jne	L00598
+	*** 0001e8	b8 00 00 		mov	ax,OFFSET 0
+	*** 0001eb	e9 00 00 		jmp	L00597
+					L00598:
+	*** 0001ee	6a 19 			push	OFFSET 25
+	*** 0001f0	68 00 00 		push	OFFSET L00173
+	*** 0001f3	68 00 00 		push	OFFSET L00174
+	*** 0001f6	e8 00 00 		call	__assert
+	*** 0001f9	83 c4 06 		add	sp,OFFSET 6
+					L00597:
+; Line 26
+; Line 26
+					L00150:
+	*** 0001fc	5f 			pop	di
+	*** 0001fd	5e 			pop	si
+	*** 0001fe	c9 			leave
+	*** 0001ff	c3 			ret	OFFSET 0
+; Local Size: 2
+; Line 30
+					___strcpy:
+	*** 000200	c8 00 00 00 		enter	OFFSET L00599,OFFSET 0
+	*** 000204	56 			push	si
+	*** 000205	57 			push	di
+; src = fff4
+; dest = ffea
+; Line 31
+; Line 33
+	*** 000206	6a 0a 			push	OFFSET 10
+	*** 000208	6a 00 			push	OFFSET 0
+	*** 00020a	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00020d	50 			push	ax
+	*** 00020e	e8 00 00 		call	_memset
+	*** 000211	83 c4 06 		add	sp,OFFSET 6
+; Line 34
+	*** 000214	6a 0a 			push	OFFSET 10
+	*** 000216	6a 00 			push	OFFSET 0
+	*** 000218	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 00021b	50 			push	ax
+	*** 00021c	e8 00 00 		call	_memset
+	*** 00021f	83 c4 06 		add	sp,OFFSET 6
+; Line 36
+	*** 000222	68 00 00 		push	OFFSET L00179
+	*** 000225	68 00 00 		push	OFFSET L00180
+	*** 000228	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00022b	50 			push	ax
+	*** 00022c	e8 00 00 		call	_strcpy
+	*** 00022f	83 c4 04 		add	sp,OFFSET 4
+	*** 000232	50 			push	ax
+	*** 000233	e8 00 00 		call	_strcmp
+	*** 000236	83 c4 04 		add	sp,OFFSET 4
+	*** 000239	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00023c	74 03 e9 00 00 		jne	L00601
+	*** 000241	b8 00 00 		mov	ax,OFFSET 0
+	*** 000244	e9 00 00 		jmp	L00600
+					L00601:
+	*** 000247	6a 24 			push	OFFSET 36
+	*** 000249	68 00 00 		push	OFFSET L00181
+	*** 00024c	68 00 00 		push	OFFSET L00182
+	*** 00024f	e8 00 00 		call	__assert
+	*** 000252	83 c4 06 		add	sp,OFFSET 6
+					L00600:
+; Line 37
+	*** 000255	68 00 00 		push	OFFSET L00183
+	*** 000258	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00025b	50 			push	ax
+	*** 00025c	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 00025f	50 			push	ax
+	*** 000260	e8 00 00 		call	_strcpy
+	*** 000263	83 c4 04 		add	sp,OFFSET 4
+	*** 000266	50 			push	ax
+	*** 000267	e8 00 00 		call	_strcmp
+	*** 00026a	83 c4 04 		add	sp,OFFSET 4
+	*** 00026d	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000270	74 03 e9 00 00 		jne	L00603
+	*** 000275	b8 00 00 		mov	ax,OFFSET 0
+	*** 000278	e9 00 00 		jmp	L00602
+					L00603:
+	*** 00027b	6a 25 			push	OFFSET 37
+	*** 00027d	68 00 00 		push	OFFSET L00184
+	*** 000280	68 00 00 		push	OFFSET L00185
+	*** 000283	e8 00 00 		call	__assert
+	*** 000286	83 c4 06 		add	sp,OFFSET 6
+					L00602:
+; Line 38
+	*** 000289	68 00 00 		push	OFFSET L00186
+	*** 00028c	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00028f	50 			push	ax
+	*** 000290	e8 00 00 		call	_strcmp
+	*** 000293	83 c4 04 		add	sp,OFFSET 4
+	*** 000296	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000299	74 03 e9 00 00 		jne	L00605
+	*** 00029e	b8 00 00 		mov	ax,OFFSET 0
+	*** 0002a1	e9 00 00 		jmp	L00604
+					L00605:
+	*** 0002a4	6a 26 			push	OFFSET 38
+	*** 0002a6	68 00 00 		push	OFFSET L00187
+	*** 0002a9	68 00 00 		push	OFFSET L00188
+	*** 0002ac	e8 00 00 		call	__assert
+	*** 0002af	83 c4 06 		add	sp,OFFSET 6
+					L00604:
+; Line 39
+	*** 0002b2	68 00 00 		push	OFFSET L00189
+	*** 0002b5	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0002b8	50 			push	ax
+	*** 0002b9	e8 00 00 		call	_strcmp
+	*** 0002bc	83 c4 04 		add	sp,OFFSET 4
+	*** 0002bf	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0002c2	74 03 e9 00 00 		jne	L00607
+	*** 0002c7	b8 00 00 		mov	ax,OFFSET 0
+	*** 0002ca	e9 00 00 		jmp	L00606
+					L00607:
+	*** 0002cd	6a 27 			push	OFFSET 39
+	*** 0002cf	68 00 00 		push	OFFSET L00190
+	*** 0002d2	68 00 00 		push	OFFSET L00191
+	*** 0002d5	e8 00 00 		call	__assert
+	*** 0002d8	83 c4 06 		add	sp,OFFSET 6
+					L00606:
+; Line 41
+	*** 0002db	6a 0a 			push	OFFSET 10
+	*** 0002dd	6a 00 			push	OFFSET 0
+	*** 0002df	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0002e2	50 			push	ax
+	*** 0002e3	e8 00 00 		call	_memset
+	*** 0002e6	83 c4 06 		add	sp,OFFSET 6
+; Line 42
+	*** 0002e9	6a 0a 			push	OFFSET 10
+	*** 0002eb	6a 00 			push	OFFSET 0
+	*** 0002ed	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0002f0	50 			push	ax
+	*** 0002f1	e8 00 00 		call	_memset
+	*** 0002f4	83 c4 06 		add	sp,OFFSET 6
+; Line 44
+	*** 0002f7	68 00 00 		push	OFFSET L00192
+	*** 0002fa	68 00 00 		push	OFFSET L00193
+	*** 0002fd	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000300	50 			push	ax
+	*** 000301	e8 00 00 		call	_strcpy
+	*** 000304	83 c4 04 		add	sp,OFFSET 4
+	*** 000307	50 			push	ax
+	*** 000308	e8 00 00 		call	_strcmp
+	*** 00030b	83 c4 04 		add	sp,OFFSET 4
+	*** 00030e	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000311	74 03 e9 00 00 		jne	L00609
+	*** 000316	b8 00 00 		mov	ax,OFFSET 0
+	*** 000319	e9 00 00 		jmp	L00608
+					L00609:
+	*** 00031c	6a 2c 			push	OFFSET 44
+	*** 00031e	68 00 00 		push	OFFSET L00194
+	*** 000321	68 00 00 		push	OFFSET L00195
+	*** 000324	e8 00 00 		call	__assert
+	*** 000327	83 c4 06 		add	sp,OFFSET 6
+					L00608:
+; Line 45
+	*** 00032a	68 00 00 		push	OFFSET L00196
+	*** 00032d	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000330	50 			push	ax
+	*** 000331	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000334	50 			push	ax
+	*** 000335	e8 00 00 		call	_strcpy
+	*** 000338	83 c4 04 		add	sp,OFFSET 4
+	*** 00033b	50 			push	ax
+	*** 00033c	e8 00 00 		call	_strcmp
+	*** 00033f	83 c4 04 		add	sp,OFFSET 4
+	*** 000342	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000345	74 03 e9 00 00 		jne	L00611
+	*** 00034a	b8 00 00 		mov	ax,OFFSET 0
+	*** 00034d	e9 00 00 		jmp	L00610
+					L00611:
+	*** 000350	6a 2d 			push	OFFSET 45
+	*** 000352	68 00 00 		push	OFFSET L00197
+	*** 000355	68 00 00 		push	OFFSET L00198
+	*** 000358	e8 00 00 		call	__assert
+	*** 00035b	83 c4 06 		add	sp,OFFSET 6
+					L00610:
+; Line 46
+	*** 00035e	68 00 00 		push	OFFSET L00199
+	*** 000361	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000364	50 			push	ax
+	*** 000365	e8 00 00 		call	_strcmp
+	*** 000368	83 c4 04 		add	sp,OFFSET 4
+	*** 00036b	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00036e	74 03 e9 00 00 		jne	L00613
+	*** 000373	b8 00 00 		mov	ax,OFFSET 0
+	*** 000376	e9 00 00 		jmp	L00612
+					L00613:
+	*** 000379	6a 2e 			push	OFFSET 46
+	*** 00037b	68 00 00 		push	OFFSET L00200
+	*** 00037e	68 00 00 		push	OFFSET L00201
+	*** 000381	e8 00 00 		call	__assert
+	*** 000384	83 c4 06 		add	sp,OFFSET 6
+					L00612:
+; Line 47
+	*** 000387	68 00 00 		push	OFFSET L00202
+	*** 00038a	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 00038d	50 			push	ax
+	*** 00038e	e8 00 00 		call	_strcmp
+	*** 000391	83 c4 04 		add	sp,OFFSET 4
+	*** 000394	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000397	74 03 e9 00 00 		jne	L00615
+	*** 00039c	b8 00 00 		mov	ax,OFFSET 0
+	*** 00039f	e9 00 00 		jmp	L00614
+					L00615:
+	*** 0003a2	6a 2f 			push	OFFSET 47
+	*** 0003a4	68 00 00 		push	OFFSET L00203
+	*** 0003a7	68 00 00 		push	OFFSET L00204
+	*** 0003aa	e8 00 00 		call	__assert
+	*** 0003ad	83 c4 06 		add	sp,OFFSET 6
+					L00614:
+; Line 48
+; Line 48
+					L00176:
+	*** 0003b0	5f 			pop	di
+	*** 0003b1	5e 			pop	si
+	*** 0003b2	c9 			leave
+	*** 0003b3	c3 			ret	OFFSET 0
+; Local Size: 22
+; Line 52
+					___strncpy:
+	*** 0003b4	c8 00 00 00 		enter	OFFSET L00616,OFFSET 0
+	*** 0003b8	56 			push	si
+	*** 0003b9	57 			push	di
+; src = fff4
+; dest = ffea
+; Line 53
+; Line 55
+	*** 0003ba	6a 0a 			push	OFFSET 10
+	*** 0003bc	6a 00 			push	OFFSET 0
+	*** 0003be	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0003c1	50 			push	ax
+	*** 0003c2	e8 00 00 		call	_memset
+	*** 0003c5	83 c4 06 		add	sp,OFFSET 6
+; Line 56
+	*** 0003c8	6a 0a 			push	OFFSET 10
+	*** 0003ca	6a 00 			push	OFFSET 0
+	*** 0003cc	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0003cf	50 			push	ax
+	*** 0003d0	e8 00 00 		call	_memset
+	*** 0003d3	83 c4 06 		add	sp,OFFSET 6
+; Line 58
+	*** 0003d6	68 00 00 		push	OFFSET L00209
+	*** 0003d9	6a 05 			push	OFFSET 5
+	*** 0003db	68 00 00 		push	OFFSET L00210
+	*** 0003de	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0003e1	50 			push	ax
+	*** 0003e2	e8 00 00 		call	_strncpy
+	*** 0003e5	83 c4 06 		add	sp,OFFSET 6
+	*** 0003e8	50 			push	ax
+	*** 0003e9	e8 00 00 		call	_strcmp
+	*** 0003ec	83 c4 04 		add	sp,OFFSET 4
+	*** 0003ef	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0003f2	74 03 e9 00 00 		jne	L00618
+	*** 0003f7	b8 00 00 		mov	ax,OFFSET 0
+	*** 0003fa	e9 00 00 		jmp	L00617
+					L00618:
+	*** 0003fd	6a 3a 			push	OFFSET 58
+	*** 0003ff	68 00 00 		push	OFFSET L00211
+	*** 000402	68 00 00 		push	OFFSET L00212
+	*** 000405	e8 00 00 		call	__assert
+	*** 000408	83 c4 06 		add	sp,OFFSET 6
+					L00617:
+; Line 59
+	*** 00040b	68 00 00 		push	OFFSET L00213
+	*** 00040e	6a 04 			push	OFFSET 4
+	*** 000410	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000413	50 			push	ax
+	*** 000414	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000417	50 			push	ax
+	*** 000418	e8 00 00 		call	_strncpy
+	*** 00041b	83 c4 06 		add	sp,OFFSET 6
+	*** 00041e	50 			push	ax
+	*** 00041f	e8 00 00 		call	_strcmp
+	*** 000422	83 c4 04 		add	sp,OFFSET 4
+	*** 000425	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000428	74 03 e9 00 00 		jne	L00620
+	*** 00042d	b8 00 00 		mov	ax,OFFSET 0
+	*** 000430	e9 00 00 		jmp	L00619
+					L00620:
+	*** 000433	6a 3b 			push	OFFSET 59
+	*** 000435	68 00 00 		push	OFFSET L00214
+	*** 000438	68 00 00 		push	OFFSET L00215
+	*** 00043b	e8 00 00 		call	__assert
+	*** 00043e	83 c4 06 		add	sp,OFFSET 6
+					L00619:
+; Line 60
+	*** 000441	68 00 00 		push	OFFSET L00216
+	*** 000444	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000447	50 			push	ax
+	*** 000448	e8 00 00 		call	_strcmp
+	*** 00044b	83 c4 04 		add	sp,OFFSET 4
+	*** 00044e	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000451	74 03 e9 00 00 		jne	L00622
+	*** 000456	b8 00 00 		mov	ax,OFFSET 0
+	*** 000459	e9 00 00 		jmp	L00621
+					L00622:
+	*** 00045c	6a 3c 			push	OFFSET 60
+	*** 00045e	68 00 00 		push	OFFSET L00217
+	*** 000461	68 00 00 		push	OFFSET L00218
+	*** 000464	e8 00 00 		call	__assert
+	*** 000467	83 c4 06 		add	sp,OFFSET 6
+					L00621:
+; Line 61
+	*** 00046a	68 00 00 		push	OFFSET L00219
+	*** 00046d	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000470	50 			push	ax
+	*** 000471	e8 00 00 		call	_strcmp
+	*** 000474	83 c4 04 		add	sp,OFFSET 4
+	*** 000477	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00047a	74 03 e9 00 00 		jne	L00624
+	*** 00047f	b8 00 00 		mov	ax,OFFSET 0
+	*** 000482	e9 00 00 		jmp	L00623
+					L00624:
+	*** 000485	6a 3d 			push	OFFSET 61
+	*** 000487	68 00 00 		push	OFFSET L00220
+	*** 00048a	68 00 00 		push	OFFSET L00221
+	*** 00048d	e8 00 00 		call	__assert
+	*** 000490	83 c4 06 		add	sp,OFFSET 6
+					L00623:
+; Line 63
+	*** 000493	6a 0a 			push	OFFSET 10
+	*** 000495	6a 00 			push	OFFSET 0
+	*** 000497	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00049a	50 			push	ax
+	*** 00049b	e8 00 00 		call	_memset
+	*** 00049e	83 c4 06 		add	sp,OFFSET 6
+; Line 64
+	*** 0004a1	6a 0a 			push	OFFSET 10
+	*** 0004a3	6a 00 			push	OFFSET 0
+	*** 0004a5	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0004a8	50 			push	ax
+	*** 0004a9	e8 00 00 		call	_memset
+	*** 0004ac	83 c4 06 		add	sp,OFFSET 6
+; Line 66
+	*** 0004af	68 00 00 		push	OFFSET L00222
+	*** 0004b2	6a 03 			push	OFFSET 3
+	*** 0004b4	68 00 00 		push	OFFSET L00223
+	*** 0004b7	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0004ba	50 			push	ax
+	*** 0004bb	e8 00 00 		call	_strncpy
+	*** 0004be	83 c4 06 		add	sp,OFFSET 6
+	*** 0004c1	50 			push	ax
+	*** 0004c2	e8 00 00 		call	_strcmp
+	*** 0004c5	83 c4 04 		add	sp,OFFSET 4
+	*** 0004c8	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0004cb	74 03 e9 00 00 		jne	L00626
+	*** 0004d0	b8 00 00 		mov	ax,OFFSET 0
+	*** 0004d3	e9 00 00 		jmp	L00625
+					L00626:
+	*** 0004d6	6a 42 			push	OFFSET 66
+	*** 0004d8	68 00 00 		push	OFFSET L00224
+	*** 0004db	68 00 00 		push	OFFSET L00225
+	*** 0004de	e8 00 00 		call	__assert
+	*** 0004e1	83 c4 06 		add	sp,OFFSET 6
+					L00625:
+; Line 67
+	*** 0004e4	68 00 00 		push	OFFSET L00226
+	*** 0004e7	6a 02 			push	OFFSET 2
+	*** 0004e9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0004ec	50 			push	ax
+	*** 0004ed	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0004f0	50 			push	ax
+	*** 0004f1	e8 00 00 		call	_strncpy
+	*** 0004f4	83 c4 06 		add	sp,OFFSET 6
+	*** 0004f7	50 			push	ax
+	*** 0004f8	e8 00 00 		call	_strcmp
+	*** 0004fb	83 c4 04 		add	sp,OFFSET 4
+	*** 0004fe	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000501	74 03 e9 00 00 		jne	L00628
+	*** 000506	b8 00 00 		mov	ax,OFFSET 0
+	*** 000509	e9 00 00 		jmp	L00627
+					L00628:
+	*** 00050c	6a 43 			push	OFFSET 67
+	*** 00050e	68 00 00 		push	OFFSET L00227
+	*** 000511	68 00 00 		push	OFFSET L00228
+	*** 000514	e8 00 00 		call	__assert
+	*** 000517	83 c4 06 		add	sp,OFFSET 6
+					L00627:
+; Line 68
+	*** 00051a	68 00 00 		push	OFFSET L00229
+	*** 00051d	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000520	50 			push	ax
+	*** 000521	e8 00 00 		call	_strcmp
+	*** 000524	83 c4 04 		add	sp,OFFSET 4
+	*** 000527	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00052a	74 03 e9 00 00 		jne	L00630
+	*** 00052f	b8 00 00 		mov	ax,OFFSET 0
+	*** 000532	e9 00 00 		jmp	L00629
+					L00630:
+	*** 000535	6a 44 			push	OFFSET 68
+	*** 000537	68 00 00 		push	OFFSET L00230
+	*** 00053a	68 00 00 		push	OFFSET L00231
+	*** 00053d	e8 00 00 		call	__assert
+	*** 000540	83 c4 06 		add	sp,OFFSET 6
+					L00629:
+; Line 69
+	*** 000543	68 00 00 		push	OFFSET L00232
+	*** 000546	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000549	50 			push	ax
+	*** 00054a	e8 00 00 		call	_strcmp
+	*** 00054d	83 c4 04 		add	sp,OFFSET 4
+	*** 000550	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000553	74 03 e9 00 00 		jne	L00632
+	*** 000558	b8 00 00 		mov	ax,OFFSET 0
+	*** 00055b	e9 00 00 		jmp	L00631
+					L00632:
+	*** 00055e	6a 45 			push	OFFSET 69
+	*** 000560	68 00 00 		push	OFFSET L00233
+	*** 000563	68 00 00 		push	OFFSET L00234
+	*** 000566	e8 00 00 		call	__assert
+	*** 000569	83 c4 06 		add	sp,OFFSET 6
+					L00631:
+; Line 70
+; Line 70
+					L00206:
+	*** 00056c	5f 			pop	di
+	*** 00056d	5e 			pop	si
+	*** 00056e	c9 			leave
+	*** 00056f	c3 			ret	OFFSET 0
+; Local Size: 22
+; Line 74
+					___strlen:
+	*** 000570	c8 00 00 00 		enter	OFFSET L00633,OFFSET 0
+	*** 000574	56 			push	si
+	*** 000575	57 			push	di
+; len = fffc
+; Line 75
+; Line 77
+	*** 000576	68 00 00 		push	OFFSET L00238
+	*** 000579	e8 00 00 		call	_strlen
+	*** 00057c	83 c4 02 		add	sp,OFFSET 2
+	*** 00057f	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 78
+	*** 000582	68 00 00 		push	OFFSET L00239
+	*** 000585	e8 00 00 		call	_strlen
+	*** 000588	83 c4 02 		add	sp,OFFSET 2
+	*** 00058b	3d 06 00 		cmp	ax,OFFSET 6
+	*** 00058e	74 03 e9 00 00 		jne	L00635
+	*** 000593	b8 00 00 		mov	ax,OFFSET 0
+	*** 000596	e9 00 00 		jmp	L00634
+					L00635:
+	*** 000599	6a 4e 			push	OFFSET 78
+	*** 00059b	68 00 00 		push	OFFSET L00240
+	*** 00059e	68 00 00 		push	OFFSET L00241
+	*** 0005a1	e8 00 00 		call	__assert
+	*** 0005a4	83 c4 06 		add	sp,OFFSET 6
+					L00634:
+; Line 79
+	*** 0005a7	83 7e fc 06 		cmp	WORD PTR -4[bp],OFFSET 6
+	*** 0005ab	74 03 e9 00 00 		jne	L00637
+	*** 0005b0	b8 00 00 		mov	ax,OFFSET 0
+	*** 0005b3	e9 00 00 		jmp	L00636
+					L00637:
+	*** 0005b6	6a 4f 			push	OFFSET 79
+	*** 0005b8	68 00 00 		push	OFFSET L00242
+	*** 0005bb	68 00 00 		push	OFFSET L00243
+	*** 0005be	e8 00 00 		call	__assert
+	*** 0005c1	83 c4 06 		add	sp,OFFSET 6
+					L00636:
+; Line 81
+	*** 0005c4	68 00 00 		push	OFFSET L00244
+	*** 0005c7	e8 00 00 		call	_strlen
+	*** 0005ca	83 c4 02 		add	sp,OFFSET 2
+	*** 0005cd	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 82
+	*** 0005d0	68 00 00 		push	OFFSET L00245
+	*** 0005d3	e8 00 00 		call	_strlen
+	*** 0005d6	83 c4 02 		add	sp,OFFSET 2
+	*** 0005d9	3d 03 00 		cmp	ax,OFFSET 3
+	*** 0005dc	74 03 e9 00 00 		jne	L00639
+	*** 0005e1	b8 00 00 		mov	ax,OFFSET 0
+	*** 0005e4	e9 00 00 		jmp	L00638
+					L00639:
+	*** 0005e7	6a 52 			push	OFFSET 82
+	*** 0005e9	68 00 00 		push	OFFSET L00246
+	*** 0005ec	68 00 00 		push	OFFSET L00247
+	*** 0005ef	e8 00 00 		call	__assert
+	*** 0005f2	83 c4 06 		add	sp,OFFSET 6
+					L00638:
+; Line 83
+	*** 0005f5	83 7e fc 03 		cmp	WORD PTR -4[bp],OFFSET 3
+	*** 0005f9	74 03 e9 00 00 		jne	L00641
+	*** 0005fe	b8 00 00 		mov	ax,OFFSET 0
+	*** 000601	e9 00 00 		jmp	L00640
+					L00641:
+	*** 000604	6a 53 			push	OFFSET 83
+	*** 000606	68 00 00 		push	OFFSET L00248
+	*** 000609	68 00 00 		push	OFFSET L00249
+	*** 00060c	e8 00 00 		call	__assert
+	*** 00060f	83 c4 06 		add	sp,OFFSET 6
+					L00640:
+; Line 84
+; Line 84
+					L00236:
+	*** 000612	5f 			pop	di
+	*** 000613	5e 			pop	si
+	*** 000614	c9 			leave
+	*** 000615	c3 			ret	OFFSET 0
+; Local Size: 4
+; Line 88
+					___strchr:
+	*** 000616	c8 00 00 00 		enter	OFFSET L00642,OFFSET 0
+	*** 00061a	56 			push	si
+	*** 00061b	57 			push	di
+; ret2 = fffc
+; ret1 = fffa
+; Line 89
+	*** 00061c	6a 64 			push	OFFSET 100
+	*** 00061e	68 00 00 		push	OFFSET L00253
+	*** 000621	e8 00 00 		call	_strchr
+	*** 000624	83 c4 04 		add	sp,OFFSET 4
+	*** 000627	89 46 fa 		mov	WORD PTR -6[bp],ax
+; Line 90
+	*** 00062a	6a 44 			push	OFFSET 68
+	*** 00062c	68 00 00 		push	OFFSET L00255
+	*** 00062f	e8 00 00 		call	_strchr
+	*** 000632	83 c4 04 		add	sp,OFFSET 4
+	*** 000635	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 92
+	*** 000638	6a 64 			push	OFFSET 100
+	*** 00063a	68 00 00 		push	OFFSET L00256
+	*** 00063d	e8 00 00 		call	_strchr
+	*** 000640	83 c4 04 		add	sp,OFFSET 4
+	*** 000643	3d 00 00 		cmp	ax,OFFSET L00257
+	*** 000646	75 03 e9 00 00 		je	L00644
+	*** 00064b	b8 00 00 		mov	ax,OFFSET 0
+	*** 00064e	e9 00 00 		jmp	L00643
+					L00644:
+	*** 000651	6a 5c 			push	OFFSET 92
+	*** 000653	68 00 00 		push	OFFSET L00258
+	*** 000656	68 00 00 		push	OFFSET L00259
+	*** 000659	e8 00 00 		call	__assert
+	*** 00065c	83 c4 06 		add	sp,OFFSET 6
+					L00643:
+; Line 93
+	*** 00065f	81 7e fa 00 00 		cmp	WORD PTR -6[bp],OFFSET L00260
+	*** 000664	75 03 e9 00 00 		je	L00646
+	*** 000669	b8 00 00 		mov	ax,OFFSET 0
+	*** 00066c	e9 00 00 		jmp	L00645
+					L00646:
+	*** 00066f	6a 5d 			push	OFFSET 93
+	*** 000671	68 00 00 		push	OFFSET L00261
+	*** 000674	68 00 00 		push	OFFSET L00262
+	*** 000677	e8 00 00 		call	__assert
+	*** 00067a	83 c4 06 		add	sp,OFFSET 6
+					L00645:
+; Line 95
+	*** 00067d	68 00 00 		push	OFFSET L00263
+	*** 000680	6a 44 			push	OFFSET 68
+	*** 000682	68 00 00 		push	OFFSET L00264
+	*** 000685	e8 00 00 		call	_strchr
+	*** 000688	83 c4 04 		add	sp,OFFSET 4
+	*** 00068b	50 			push	ax
+	*** 00068c	e8 00 00 		call	_strcmp
+	*** 00068f	83 c4 04 		add	sp,OFFSET 4
+	*** 000692	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000695	74 03 e9 00 00 		jne	L00648
+	*** 00069a	b8 00 00 		mov	ax,OFFSET 0
+	*** 00069d	e9 00 00 		jmp	L00647
+					L00648:
+	*** 0006a0	6a 5f 			push	OFFSET 95
+	*** 0006a2	68 00 00 		push	OFFSET L00265
+	*** 0006a5	68 00 00 		push	OFFSET L00266
+	*** 0006a8	e8 00 00 		call	__assert
+	*** 0006ab	83 c4 06 		add	sp,OFFSET 6
+					L00647:
+; Line 96
+	*** 0006ae	68 00 00 		push	OFFSET L00267
+	*** 0006b1	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 0006b4	e8 00 00 		call	_strcmp
+	*** 0006b7	83 c4 04 		add	sp,OFFSET 4
+	*** 0006ba	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0006bd	74 03 e9 00 00 		jne	L00650
+	*** 0006c2	b8 00 00 		mov	ax,OFFSET 0
+	*** 0006c5	e9 00 00 		jmp	L00649
+					L00650:
+	*** 0006c8	6a 60 			push	OFFSET 96
+	*** 0006ca	68 00 00 		push	OFFSET L00268
+	*** 0006cd	68 00 00 		push	OFFSET L00269
+	*** 0006d0	e8 00 00 		call	__assert
+	*** 0006d3	83 c4 06 		add	sp,OFFSET 6
+					L00649:
+; Line 97
+; Line 97
+					L00251:
+	*** 0006d6	5f 			pop	di
+	*** 0006d7	5e 			pop	si
+	*** 0006d8	c9 			leave
+	*** 0006d9	c3 			ret	OFFSET 0
+; Local Size: 6
+; Line 101
+					___strcat:
+	*** 0006da	c8 00 00 00 		enter	OFFSET L00651,OFFSET 0
+	*** 0006de	56 			push	si
+	*** 0006df	57 			push	di
+; dest = fff4
+; Line 102
+; Line 104
+	*** 0006e0	68 00 00 		push	OFFSET L00273
+	*** 0006e3	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0006e6	50 			push	ax
+	*** 0006e7	e8 00 00 		call	_strcpy
+	*** 0006ea	83 c4 04 		add	sp,OFFSET 4
+; Line 105
+	*** 0006ed	68 00 00 		push	OFFSET L00274
+	*** 0006f0	68 00 00 		push	OFFSET L00275
+	*** 0006f3	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0006f6	50 			push	ax
+	*** 0006f7	e8 00 00 		call	_strcat
+	*** 0006fa	83 c4 04 		add	sp,OFFSET 4
+	*** 0006fd	50 			push	ax
+	*** 0006fe	e8 00 00 		call	_strcmp
+	*** 000701	83 c4 04 		add	sp,OFFSET 4
+	*** 000704	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000707	74 03 e9 00 00 		jne	L00653
+	*** 00070c	b8 00 00 		mov	ax,OFFSET 0
+	*** 00070f	e9 00 00 		jmp	L00652
+					L00653:
+	*** 000712	6a 69 			push	OFFSET 105
+	*** 000714	68 00 00 		push	OFFSET L00276
+	*** 000717	68 00 00 		push	OFFSET L00277
+	*** 00071a	e8 00 00 		call	__assert
+	*** 00071d	83 c4 06 		add	sp,OFFSET 6
+					L00652:
+; Line 106
+	*** 000720	68 00 00 		push	OFFSET L00278
+	*** 000723	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000726	50 			push	ax
+	*** 000727	e8 00 00 		call	_strcmp
+	*** 00072a	83 c4 04 		add	sp,OFFSET 4
+	*** 00072d	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000730	74 03 e9 00 00 		jne	L00655
+	*** 000735	b8 00 00 		mov	ax,OFFSET 0
+	*** 000738	e9 00 00 		jmp	L00654
+					L00655:
+	*** 00073b	6a 6a 			push	OFFSET 106
+	*** 00073d	68 00 00 		push	OFFSET L00279
+	*** 000740	68 00 00 		push	OFFSET L00280
+	*** 000743	e8 00 00 		call	__assert
+	*** 000746	83 c4 06 		add	sp,OFFSET 6
+					L00654:
+; Line 108
+	*** 000749	6a 0a 			push	OFFSET 10
+	*** 00074b	6a 00 			push	OFFSET 0
+	*** 00074d	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000750	50 			push	ax
+	*** 000751	e8 00 00 		call	_memset
+	*** 000754	83 c4 06 		add	sp,OFFSET 6
+; Line 109
+	*** 000757	68 00 00 		push	OFFSET L00281
+	*** 00075a	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00075d	50 			push	ax
+	*** 00075e	e8 00 00 		call	_strcpy
+	*** 000761	83 c4 04 		add	sp,OFFSET 4
+; Line 111
+	*** 000764	68 00 00 		push	OFFSET L00282
+	*** 000767	68 00 00 		push	OFFSET L00283
+	*** 00076a	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00076d	50 			push	ax
+	*** 00076e	e8 00 00 		call	_strcat
+	*** 000771	83 c4 04 		add	sp,OFFSET 4
+	*** 000774	50 			push	ax
+	*** 000775	e8 00 00 		call	_strcmp
+	*** 000778	83 c4 04 		add	sp,OFFSET 4
+	*** 00077b	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00077e	74 03 e9 00 00 		jne	L00657
+	*** 000783	b8 00 00 		mov	ax,OFFSET 0
+	*** 000786	e9 00 00 		jmp	L00656
+					L00657:
+	*** 000789	6a 6f 			push	OFFSET 111
+	*** 00078b	68 00 00 		push	OFFSET L00284
+	*** 00078e	68 00 00 		push	OFFSET L00285
+	*** 000791	e8 00 00 		call	__assert
+	*** 000794	83 c4 06 		add	sp,OFFSET 6
+					L00656:
+; Line 112
+	*** 000797	68 00 00 		push	OFFSET L00286
+	*** 00079a	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00079d	50 			push	ax
+	*** 00079e	e8 00 00 		call	_strcmp
+	*** 0007a1	83 c4 04 		add	sp,OFFSET 4
+	*** 0007a4	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0007a7	74 03 e9 00 00 		jne	L00659
+	*** 0007ac	b8 00 00 		mov	ax,OFFSET 0
+	*** 0007af	e9 00 00 		jmp	L00658
+					L00659:
+	*** 0007b2	6a 70 			push	OFFSET 112
+	*** 0007b4	68 00 00 		push	OFFSET L00287
+	*** 0007b7	68 00 00 		push	OFFSET L00288
+	*** 0007ba	e8 00 00 		call	__assert
+	*** 0007bd	83 c4 06 		add	sp,OFFSET 6
+					L00658:
+; Line 113
+; Line 113
+					L00271:
+	*** 0007c0	5f 			pop	di
+	*** 0007c1	5e 			pop	si
+	*** 0007c2	c9 			leave
+	*** 0007c3	c3 			ret	OFFSET 0
+; Local Size: 12
+; Line 117
+					___strncat:
+	*** 0007c4	c8 00 00 00 		enter	OFFSET L00660,OFFSET 0
+	*** 0007c8	56 			push	si
+	*** 0007c9	57 			push	di
+; src = ffee
+; dest = ffde
+; Line 118
+; Line 120
+	*** 0007ca	68 00 00 		push	OFFSET L00293
+	*** 0007cd	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 0007d0	50 			push	ax
+	*** 0007d1	e8 00 00 		call	_strcpy
+	*** 0007d4	83 c4 04 		add	sp,OFFSET 4
+; Line 121
+	*** 0007d7	68 00 00 		push	OFFSET L00294
+	*** 0007da	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 0007dd	50 			push	ax
+	*** 0007de	e8 00 00 		call	_strcpy
+	*** 0007e1	83 c4 04 		add	sp,OFFSET 4
+; Line 123
+	*** 0007e4	68 00 00 		push	OFFSET L00295
+	*** 0007e7	6a 02 			push	OFFSET 2
+	*** 0007e9	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 0007ec	50 			push	ax
+	*** 0007ed	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 0007f0	50 			push	ax
+	*** 0007f1	e8 00 00 		call	_strncat
+	*** 0007f4	83 c4 06 		add	sp,OFFSET 6
+	*** 0007f7	50 			push	ax
+	*** 0007f8	e8 00 00 		call	_strcmp
+	*** 0007fb	83 c4 04 		add	sp,OFFSET 4
+	*** 0007fe	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000801	74 03 e9 00 00 		jne	L00662
+	*** 000806	b8 00 00 		mov	ax,OFFSET 0
+	*** 000809	e9 00 00 		jmp	L00661
+					L00662:
+	*** 00080c	6a 7b 			push	OFFSET 123
+	*** 00080e	68 00 00 		push	OFFSET L00296
+	*** 000811	68 00 00 		push	OFFSET L00297
+	*** 000814	e8 00 00 		call	__assert
+	*** 000817	83 c4 06 		add	sp,OFFSET 6
+					L00661:
+; Line 124
+	*** 00081a	68 00 00 		push	OFFSET L00298
+	*** 00081d	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 000820	50 			push	ax
+	*** 000821	e8 00 00 		call	_strcmp
+	*** 000824	83 c4 04 		add	sp,OFFSET 4
+	*** 000827	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00082a	74 03 e9 00 00 		jne	L00664
+	*** 00082f	b8 00 00 		mov	ax,OFFSET 0
+	*** 000832	e9 00 00 		jmp	L00663
+					L00664:
+	*** 000835	6a 7c 			push	OFFSET 124
+	*** 000837	68 00 00 		push	OFFSET L00299
+	*** 00083a	68 00 00 		push	OFFSET L00300
+	*** 00083d	e8 00 00 		call	__assert
+	*** 000840	83 c4 06 		add	sp,OFFSET 6
+					L00663:
+; Line 126
+	*** 000843	6a 0f 			push	OFFSET 15
+	*** 000845	6a 00 			push	OFFSET 0
+	*** 000847	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 00084a	50 			push	ax
+	*** 00084b	e8 00 00 		call	_memset
+	*** 00084e	83 c4 06 		add	sp,OFFSET 6
+; Line 127
+	*** 000851	6a 0f 			push	OFFSET 15
+	*** 000853	6a 00 			push	OFFSET 0
+	*** 000855	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 000858	50 			push	ax
+	*** 000859	e8 00 00 		call	_memset
+	*** 00085c	83 c4 06 		add	sp,OFFSET 6
+; Line 129
+	*** 00085f	68 00 00 		push	OFFSET L00301
+	*** 000862	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 000865	50 			push	ax
+	*** 000866	e8 00 00 		call	_strcpy
+	*** 000869	83 c4 04 		add	sp,OFFSET 4
+; Line 130
+	*** 00086c	68 00 00 		push	OFFSET L00302
+	*** 00086f	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 000872	50 			push	ax
+	*** 000873	e8 00 00 		call	_strcpy
+	*** 000876	83 c4 04 		add	sp,OFFSET 4
+; Line 132
+	*** 000879	68 00 00 		push	OFFSET L00303
+	*** 00087c	6a 02 			push	OFFSET 2
+	*** 00087e	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 000881	50 			push	ax
+	*** 000882	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 000885	50 			push	ax
+	*** 000886	e8 00 00 		call	_strncat
+	*** 000889	83 c4 06 		add	sp,OFFSET 6
+	*** 00088c	50 			push	ax
+	*** 00088d	e8 00 00 		call	_strcmp
+	*** 000890	83 c4 04 		add	sp,OFFSET 4
+	*** 000893	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000896	74 03 e9 00 00 		jne	L00666
+	*** 00089b	b8 00 00 		mov	ax,OFFSET 0
+	*** 00089e	e9 00 00 		jmp	L00665
+					L00666:
+	*** 0008a1	68 84 00 		push	OFFSET 132
+	*** 0008a4	68 00 00 		push	OFFSET L00304
+	*** 0008a7	68 00 00 		push	OFFSET L00305
+	*** 0008aa	e8 00 00 		call	__assert
+	*** 0008ad	83 c4 06 		add	sp,OFFSET 6
+					L00665:
+; Line 133
+	*** 0008b0	68 00 00 		push	OFFSET L00306
+	*** 0008b3	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 0008b6	50 			push	ax
+	*** 0008b7	e8 00 00 		call	_strcmp
+	*** 0008ba	83 c4 04 		add	sp,OFFSET 4
+	*** 0008bd	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0008c0	74 03 e9 00 00 		jne	L00668
+	*** 0008c5	b8 00 00 		mov	ax,OFFSET 0
+	*** 0008c8	e9 00 00 		jmp	L00667
+					L00668:
+	*** 0008cb	68 85 00 		push	OFFSET 133
+	*** 0008ce	68 00 00 		push	OFFSET L00307
+	*** 0008d1	68 00 00 		push	OFFSET L00308
+	*** 0008d4	e8 00 00 		call	__assert
+	*** 0008d7	83 c4 06 		add	sp,OFFSET 6
+					L00667:
+; Line 134
+; Line 134
+					L00290:
+	*** 0008da	5f 			pop	di
+	*** 0008db	5e 			pop	si
+	*** 0008dc	c9 			leave
+	*** 0008dd	c3 			ret	OFFSET 0
+; Local Size: 34
+; Line 138
+					___memset:
+	*** 0008de	c8 00 00 00 		enter	OFFSET L00669,OFFSET 0
+	*** 0008e2	56 			push	si
+	*** 0008e3	57 			push	di
+; str = fff4
+; Line 139
+; Line 141
+	*** 0008e4	68 00 00 		push	OFFSET L00312
+	*** 0008e7	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0008ea	50 			push	ax
+	*** 0008eb	e8 00 00 		call	_strcpy
+	*** 0008ee	83 c4 04 		add	sp,OFFSET 4
+; Line 142
+	*** 0008f1	68 00 00 		push	OFFSET L00313
+	*** 0008f4	6a 03 			push	OFFSET 3
+	*** 0008f6	6a 61 			push	OFFSET 97
+	*** 0008f8	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0008fb	50 			push	ax
+	*** 0008fc	e8 00 00 		call	_memset
+	*** 0008ff	83 c4 06 		add	sp,OFFSET 6
+	*** 000902	50 			push	ax
+	*** 000903	e8 00 00 		call	_strcmp
+	*** 000906	83 c4 04 		add	sp,OFFSET 4
+	*** 000909	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00090c	74 03 e9 00 00 		jne	L00671
+	*** 000911	b8 00 00 		mov	ax,OFFSET 0
+	*** 000914	e9 00 00 		jmp	L00670
+					L00671:
+	*** 000917	68 8e 00 		push	OFFSET 142
+	*** 00091a	68 00 00 		push	OFFSET L00314
+	*** 00091d	68 00 00 		push	OFFSET L00315
+	*** 000920	e8 00 00 		call	__assert
+	*** 000923	83 c4 06 		add	sp,OFFSET 6
+					L00670:
+; Line 143
+	*** 000926	68 00 00 		push	OFFSET L00316
+	*** 000929	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00092c	50 			push	ax
+	*** 00092d	e8 00 00 		call	_strcmp
+	*** 000930	83 c4 04 		add	sp,OFFSET 4
+	*** 000933	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000936	74 03 e9 00 00 		jne	L00673
+	*** 00093b	b8 00 00 		mov	ax,OFFSET 0
+	*** 00093e	e9 00 00 		jmp	L00672
+					L00673:
+	*** 000941	68 8f 00 		push	OFFSET 143
+	*** 000944	68 00 00 		push	OFFSET L00317
+	*** 000947	68 00 00 		push	OFFSET L00318
+	*** 00094a	e8 00 00 		call	__assert
+	*** 00094d	83 c4 06 		add	sp,OFFSET 6
+					L00672:
+; Line 145
+	*** 000950	6a 0a 			push	OFFSET 10
+	*** 000952	6a 00 			push	OFFSET 0
+	*** 000954	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000957	50 			push	ax
+	*** 000958	e8 00 00 		call	_memset
+	*** 00095b	83 c4 06 		add	sp,OFFSET 6
+; Line 146
+	*** 00095e	68 00 00 		push	OFFSET L00319
+	*** 000961	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000964	50 			push	ax
+	*** 000965	e8 00 00 		call	_strcpy
+	*** 000968	83 c4 04 		add	sp,OFFSET 4
+; Line 148
+	*** 00096b	68 00 00 		push	OFFSET L00320
+	*** 00096e	6a 03 			push	OFFSET 3
+	*** 000970	6a 41 			push	OFFSET 65
+	*** 000972	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000975	50 			push	ax
+	*** 000976	e8 00 00 		call	_memset
+	*** 000979	83 c4 06 		add	sp,OFFSET 6
+	*** 00097c	50 			push	ax
+	*** 00097d	e8 00 00 		call	_strcmp
+	*** 000980	83 c4 04 		add	sp,OFFSET 4
+	*** 000983	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000986	74 03 e9 00 00 		jne	L00675
+	*** 00098b	b8 00 00 		mov	ax,OFFSET 0
+	*** 00098e	e9 00 00 		jmp	L00674
+					L00675:
+	*** 000991	68 94 00 		push	OFFSET 148
+	*** 000994	68 00 00 		push	OFFSET L00321
+	*** 000997	68 00 00 		push	OFFSET L00322
+	*** 00099a	e8 00 00 		call	__assert
+	*** 00099d	83 c4 06 		add	sp,OFFSET 6
+					L00674:
+; Line 149
+	*** 0009a0	68 00 00 		push	OFFSET L00323
+	*** 0009a3	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0009a6	50 			push	ax
+	*** 0009a7	e8 00 00 		call	_strcmp
+	*** 0009aa	83 c4 04 		add	sp,OFFSET 4
+	*** 0009ad	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0009b0	74 03 e9 00 00 		jne	L00677
+	*** 0009b5	b8 00 00 		mov	ax,OFFSET 0
+	*** 0009b8	e9 00 00 		jmp	L00676
+					L00677:
+	*** 0009bb	68 95 00 		push	OFFSET 149
+	*** 0009be	68 00 00 		push	OFFSET L00324
+	*** 0009c1	68 00 00 		push	OFFSET L00325
+	*** 0009c4	e8 00 00 		call	__assert
+	*** 0009c7	83 c4 06 		add	sp,OFFSET 6
+					L00676:
+; Line 150
+; Line 150
+					L00310:
+	*** 0009ca	5f 			pop	di
+	*** 0009cb	5e 			pop	si
+	*** 0009cc	c9 			leave
+	*** 0009cd	c3 			ret	OFFSET 0
+; Local Size: 12
+; Line 154
+					___memmove:
+	*** 0009ce	c8 00 00 00 		enter	OFFSET L00678,OFFSET 0
+	*** 0009d2	56 			push	si
+	*** 0009d3	57 			push	di
+; dest = fff4
+; Line 155
+; Line 157
+	*** 0009d4	68 00 00 		push	OFFSET L00329
+	*** 0009d7	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0009da	50 			push	ax
+	*** 0009db	e8 00 00 		call	_strcpy
+	*** 0009de	83 c4 04 		add	sp,OFFSET 4
+; Line 158
+	*** 0009e1	68 00 00 		push	OFFSET L00330
+	*** 0009e4	6a 03 			push	OFFSET 3
+	*** 0009e6	68 00 00 		push	OFFSET L00331
+	*** 0009e9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0009ec	50 			push	ax
+	*** 0009ed	e8 00 00 		call	_memmove
+	*** 0009f0	83 c4 06 		add	sp,OFFSET 6
+	*** 0009f3	50 			push	ax
+	*** 0009f4	e8 00 00 		call	_strcmp
+	*** 0009f7	83 c4 04 		add	sp,OFFSET 4
+	*** 0009fa	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0009fd	74 03 e9 00 00 		jne	L00680
+	*** 000a02	b8 00 00 		mov	ax,OFFSET 0
+	*** 000a05	e9 00 00 		jmp	L00679
+					L00680:
+	*** 000a08	68 9e 00 		push	OFFSET 158
+	*** 000a0b	68 00 00 		push	OFFSET L00332
+	*** 000a0e	68 00 00 		push	OFFSET L00333
+	*** 000a11	e8 00 00 		call	__assert
+	*** 000a14	83 c4 06 		add	sp,OFFSET 6
+					L00679:
+; Line 159
+	*** 000a17	68 00 00 		push	OFFSET L00334
+	*** 000a1a	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000a1d	50 			push	ax
+	*** 000a1e	e8 00 00 		call	_strcmp
+	*** 000a21	83 c4 04 		add	sp,OFFSET 4
+	*** 000a24	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000a27	74 03 e9 00 00 		jne	L00682
+	*** 000a2c	b8 00 00 		mov	ax,OFFSET 0
+	*** 000a2f	e9 00 00 		jmp	L00681
+					L00682:
+	*** 000a32	68 9f 00 		push	OFFSET 159
+	*** 000a35	68 00 00 		push	OFFSET L00335
+	*** 000a38	68 00 00 		push	OFFSET L00336
+	*** 000a3b	e8 00 00 		call	__assert
+	*** 000a3e	83 c4 06 		add	sp,OFFSET 6
+					L00681:
+; Line 161
+	*** 000a41	6a 0a 			push	OFFSET 10
+	*** 000a43	6a 00 			push	OFFSET 0
+	*** 000a45	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000a48	50 			push	ax
+	*** 000a49	e8 00 00 		call	_memset
+	*** 000a4c	83 c4 06 		add	sp,OFFSET 6
+; Line 162
+	*** 000a4f	68 00 00 		push	OFFSET L00337
+	*** 000a52	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000a55	50 			push	ax
+	*** 000a56	e8 00 00 		call	_strcpy
+	*** 000a59	83 c4 04 		add	sp,OFFSET 4
+; Line 164
+	*** 000a5c	68 00 00 		push	OFFSET L00338
+	*** 000a5f	6a 03 			push	OFFSET 3
+	*** 000a61	68 00 00 		push	OFFSET L00339
+	*** 000a64	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000a67	50 			push	ax
+	*** 000a68	e8 00 00 		call	_memmove
+	*** 000a6b	83 c4 06 		add	sp,OFFSET 6
+	*** 000a6e	50 			push	ax
+	*** 000a6f	e8 00 00 		call	_strcmp
+	*** 000a72	83 c4 04 		add	sp,OFFSET 4
+	*** 000a75	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000a78	74 03 e9 00 00 		jne	L00684
+	*** 000a7d	b8 00 00 		mov	ax,OFFSET 0
+	*** 000a80	e9 00 00 		jmp	L00683
+					L00684:
+	*** 000a83	68 a4 00 		push	OFFSET 164
+	*** 000a86	68 00 00 		push	OFFSET L00340
+	*** 000a89	68 00 00 		push	OFFSET L00341
+	*** 000a8c	e8 00 00 		call	__assert
+	*** 000a8f	83 c4 06 		add	sp,OFFSET 6
+					L00683:
+; Line 165
+	*** 000a92	68 00 00 		push	OFFSET L00342
+	*** 000a95	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000a98	50 			push	ax
+	*** 000a99	e8 00 00 		call	_strcmp
+	*** 000a9c	83 c4 04 		add	sp,OFFSET 4
+	*** 000a9f	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000aa2	74 03 e9 00 00 		jne	L00686
+	*** 000aa7	b8 00 00 		mov	ax,OFFSET 0
+	*** 000aaa	e9 00 00 		jmp	L00685
+					L00686:
+	*** 000aad	68 a5 00 		push	OFFSET 165
+	*** 000ab0	68 00 00 		push	OFFSET L00343
+	*** 000ab3	68 00 00 		push	OFFSET L00344
+	*** 000ab6	e8 00 00 		call	__assert
+	*** 000ab9	83 c4 06 		add	sp,OFFSET 6
+					L00685:
+; Line 166
+; Line 166
+					L00327:
+	*** 000abc	5f 			pop	di
+	*** 000abd	5e 			pop	si
+	*** 000abe	c9 			leave
+	*** 000abf	c3 			ret	OFFSET 0
+; Local Size: 12
+; Line 170
+					___memcpy:
+	*** 000ac0	c8 00 00 00 		enter	OFFSET L00687,OFFSET 0
+	*** 000ac4	56 			push	si
+	*** 000ac5	57 			push	di
+; src = fff4
+; dest = ffea
+; Line 171
+; Line 173
+	*** 000ac6	68 00 00 		push	OFFSET L00349
+	*** 000ac9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000acc	50 			push	ax
+	*** 000acd	e8 00 00 		call	_strcpy
+	*** 000ad0	83 c4 04 		add	sp,OFFSET 4
+; Line 174
+	*** 000ad3	68 00 00 		push	OFFSET L00350
+	*** 000ad6	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000ad9	50 			push	ax
+	*** 000ada	e8 00 00 		call	_strlen
+	*** 000add	83 c4 02 		add	sp,OFFSET 2
+	*** 000ae0	05 01 00 		add	ax,OFFSET 1
+	*** 000ae3	50 			push	ax
+	*** 000ae4	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000ae7	50 			push	ax
+	*** 000ae8	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000aeb	50 			push	ax
+	*** 000aec	e8 00 00 		call	_memcpy
+	*** 000aef	83 c4 06 		add	sp,OFFSET 6
+	*** 000af2	50 			push	ax
+	*** 000af3	e8 00 00 		call	_strcmp
+	*** 000af6	83 c4 04 		add	sp,OFFSET 4
+	*** 000af9	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000afc	74 03 e9 00 00 		jne	L00689
+	*** 000b01	b8 00 00 		mov	ax,OFFSET 0
+	*** 000b04	e9 00 00 		jmp	L00688
+					L00689:
+	*** 000b07	68 ae 00 		push	OFFSET 174
+	*** 000b0a	68 00 00 		push	OFFSET L00351
+	*** 000b0d	68 00 00 		push	OFFSET L00352
+	*** 000b10	e8 00 00 		call	__assert
+	*** 000b13	83 c4 06 		add	sp,OFFSET 6
+					L00688:
+; Line 175
+	*** 000b16	68 00 00 		push	OFFSET L00353
+	*** 000b19	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000b1c	50 			push	ax
+	*** 000b1d	e8 00 00 		call	_strcmp
+	*** 000b20	83 c4 04 		add	sp,OFFSET 4
+	*** 000b23	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000b26	74 03 e9 00 00 		jne	L00691
+	*** 000b2b	b8 00 00 		mov	ax,OFFSET 0
+	*** 000b2e	e9 00 00 		jmp	L00690
+					L00691:
+	*** 000b31	68 af 00 		push	OFFSET 175
+	*** 000b34	68 00 00 		push	OFFSET L00354
+	*** 000b37	68 00 00 		push	OFFSET L00355
+	*** 000b3a	e8 00 00 		call	__assert
+	*** 000b3d	83 c4 06 		add	sp,OFFSET 6
+					L00690:
+; Line 176
+	*** 000b40	68 00 00 		push	OFFSET L00356
+	*** 000b43	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000b46	50 			push	ax
+	*** 000b47	e8 00 00 		call	_strcmp
+	*** 000b4a	83 c4 04 		add	sp,OFFSET 4
+	*** 000b4d	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000b50	74 03 e9 00 00 		jne	L00693
+	*** 000b55	b8 00 00 		mov	ax,OFFSET 0
+	*** 000b58	e9 00 00 		jmp	L00692
+					L00693:
+	*** 000b5b	68 b0 00 		push	OFFSET 176
+	*** 000b5e	68 00 00 		push	OFFSET L00357
+	*** 000b61	68 00 00 		push	OFFSET L00358
+	*** 000b64	e8 00 00 		call	__assert
+	*** 000b67	83 c4 06 		add	sp,OFFSET 6
+					L00692:
+; Line 178
+	*** 000b6a	6a 0a 			push	OFFSET 10
+	*** 000b6c	6a 00 			push	OFFSET 0
+	*** 000b6e	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000b71	50 			push	ax
+	*** 000b72	e8 00 00 		call	_memset
+	*** 000b75	83 c4 06 		add	sp,OFFSET 6
+; Line 179
+	*** 000b78	6a 0a 			push	OFFSET 10
+	*** 000b7a	6a 00 			push	OFFSET 0
+	*** 000b7c	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000b7f	50 			push	ax
+	*** 000b80	e8 00 00 		call	_memset
+	*** 000b83	83 c4 06 		add	sp,OFFSET 6
+; Line 180
+	*** 000b86	68 00 00 		push	OFFSET L00359
+	*** 000b89	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000b8c	50 			push	ax
+	*** 000b8d	e8 00 00 		call	_strcpy
+	*** 000b90	83 c4 04 		add	sp,OFFSET 4
+; Line 182
+	*** 000b93	68 00 00 		push	OFFSET L00360
+	*** 000b96	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000b99	50 			push	ax
+	*** 000b9a	e8 00 00 		call	_strlen
+	*** 000b9d	83 c4 02 		add	sp,OFFSET 2
+	*** 000ba0	05 01 00 		add	ax,OFFSET 1
+	*** 000ba3	50 			push	ax
+	*** 000ba4	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000ba7	50 			push	ax
+	*** 000ba8	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000bab	50 			push	ax
+	*** 000bac	e8 00 00 		call	_memcpy
+	*** 000baf	83 c4 06 		add	sp,OFFSET 6
+	*** 000bb2	50 			push	ax
+	*** 000bb3	e8 00 00 		call	_strcmp
+	*** 000bb6	83 c4 04 		add	sp,OFFSET 4
+	*** 000bb9	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000bbc	74 03 e9 00 00 		jne	L00695
+	*** 000bc1	b8 00 00 		mov	ax,OFFSET 0
+	*** 000bc4	e9 00 00 		jmp	L00694
+					L00695:
+	*** 000bc7	68 b6 00 		push	OFFSET 182
+	*** 000bca	68 00 00 		push	OFFSET L00361
+	*** 000bcd	68 00 00 		push	OFFSET L00362
+	*** 000bd0	e8 00 00 		call	__assert
+	*** 000bd3	83 c4 06 		add	sp,OFFSET 6
+					L00694:
+; Line 183
+	*** 000bd6	68 00 00 		push	OFFSET L00363
+	*** 000bd9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000bdc	50 			push	ax
+	*** 000bdd	e8 00 00 		call	_strcmp
+	*** 000be0	83 c4 04 		add	sp,OFFSET 4
+	*** 000be3	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000be6	74 03 e9 00 00 		jne	L00697
+	*** 000beb	b8 00 00 		mov	ax,OFFSET 0
+	*** 000bee	e9 00 00 		jmp	L00696
+					L00697:
+	*** 000bf1	68 b7 00 		push	OFFSET 183
+	*** 000bf4	68 00 00 		push	OFFSET L00364
+	*** 000bf7	68 00 00 		push	OFFSET L00365
+	*** 000bfa	e8 00 00 		call	__assert
+	*** 000bfd	83 c4 06 		add	sp,OFFSET 6
+					L00696:
+; Line 184
+	*** 000c00	68 00 00 		push	OFFSET L00366
+	*** 000c03	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000c06	50 			push	ax
+	*** 000c07	e8 00 00 		call	_strcmp
+	*** 000c0a	83 c4 04 		add	sp,OFFSET 4
+	*** 000c0d	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000c10	74 03 e9 00 00 		jne	L00699
+	*** 000c15	b8 00 00 		mov	ax,OFFSET 0
+	*** 000c18	e9 00 00 		jmp	L00698
+					L00699:
+	*** 000c1b	68 b8 00 		push	OFFSET 184
+	*** 000c1e	68 00 00 		push	OFFSET L00367
+	*** 000c21	68 00 00 		push	OFFSET L00368
+	*** 000c24	e8 00 00 		call	__assert
+	*** 000c27	83 c4 06 		add	sp,OFFSET 6
+					L00698:
+; Line 185
+; Line 185
+					L00346:
+	*** 000c2a	5f 			pop	di
+	*** 000c2b	5e 			pop	si
+	*** 000c2c	c9 			leave
+	*** 000c2d	c3 			ret	OFFSET 0
+; Local Size: 22
+; Line 189
+					___memcmp:
+	*** 000c2e	c8 00 00 00 		enter	OFFSET L00700,OFFSET 0
+	*** 000c32	56 			push	si
+	*** 000c33	57 			push	di
+; Line 190
+	*** 000c34	6a 04 			push	OFFSET 4
+	*** 000c36	68 00 00 		push	OFFSET L00371
+	*** 000c39	68 00 00 		push	OFFSET L00372
+	*** 000c3c	e8 00 00 		call	_memcmp
+	*** 000c3f	83 c4 06 		add	sp,OFFSET 6
+	*** 000c42	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000c45	7f 03 e9 00 00 		jle	L00702
+	*** 000c4a	b8 00 00 		mov	ax,OFFSET 0
+	*** 000c4d	e9 00 00 		jmp	L00701
+					L00702:
+	*** 000c50	68 be 00 		push	OFFSET 190
+	*** 000c53	68 00 00 		push	OFFSET L00373
+	*** 000c56	68 00 00 		push	OFFSET L00374
+	*** 000c59	e8 00 00 		call	__assert
+	*** 000c5c	83 c4 06 		add	sp,OFFSET 6
+					L00701:
+; Line 191
+	*** 000c5f	6a 03 			push	OFFSET 3
+	*** 000c61	68 00 00 		push	OFFSET L00375
+	*** 000c64	68 00 00 		push	OFFSET L00376
+	*** 000c67	e8 00 00 		call	_memcmp
+	*** 000c6a	83 c4 06 		add	sp,OFFSET 6
+	*** 000c6d	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000c70	7c 03 e9 00 00 		jge	L00704
+	*** 000c75	b8 00 00 		mov	ax,OFFSET 0
+	*** 000c78	e9 00 00 		jmp	L00703
+					L00704:
+	*** 000c7b	68 bf 00 		push	OFFSET 191
+	*** 000c7e	68 00 00 		push	OFFSET L00377
+	*** 000c81	68 00 00 		push	OFFSET L00378
+	*** 000c84	e8 00 00 		call	__assert
+	*** 000c87	83 c4 06 		add	sp,OFFSET 6
+					L00703:
+; Line 192
+	*** 000c8a	6a 02 			push	OFFSET 2
+	*** 000c8c	68 00 00 		push	OFFSET L00379
+	*** 000c8f	68 00 00 		push	OFFSET L00380
+	*** 000c92	e8 00 00 		call	_memcmp
+	*** 000c95	83 c4 06 		add	sp,OFFSET 6
+	*** 000c98	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000c9b	74 03 e9 00 00 		jne	L00706
+	*** 000ca0	b8 00 00 		mov	ax,OFFSET 0
+	*** 000ca3	e9 00 00 		jmp	L00705
+					L00706:
+	*** 000ca6	68 c0 00 		push	OFFSET 192
+	*** 000ca9	68 00 00 		push	OFFSET L00381
+	*** 000cac	68 00 00 		push	OFFSET L00382
+	*** 000caf	e8 00 00 		call	__assert
+	*** 000cb2	83 c4 06 		add	sp,OFFSET 6
+					L00705:
+; Line 194
+	*** 000cb5	6a 03 			push	OFFSET 3
+	*** 000cb7	68 00 00 		push	OFFSET L00383
+	*** 000cba	68 00 00 		push	OFFSET L00384
+	*** 000cbd	e8 00 00 		call	_memcmp
+	*** 000cc0	83 c4 06 		add	sp,OFFSET 6
+	*** 000cc3	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000cc6	7f 03 e9 00 00 		jle	L00708
+	*** 000ccb	b8 00 00 		mov	ax,OFFSET 0
+	*** 000cce	e9 00 00 		jmp	L00707
+					L00708:
+	*** 000cd1	68 c2 00 		push	OFFSET 194
+	*** 000cd4	68 00 00 		push	OFFSET L00385
+	*** 000cd7	68 00 00 		push	OFFSET L00386
+	*** 000cda	e8 00 00 		call	__assert
+	*** 000cdd	83 c4 06 		add	sp,OFFSET 6
+					L00707:
+; Line 195
+	*** 000ce0	6a 02 			push	OFFSET 2
+	*** 000ce2	68 00 00 		push	OFFSET L00387
+	*** 000ce5	68 00 00 		push	OFFSET L00388
+	*** 000ce8	e8 00 00 		call	_memcmp
+	*** 000ceb	83 c4 06 		add	sp,OFFSET 6
+	*** 000cee	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000cf1	7c 03 e9 00 00 		jge	L00710
+	*** 000cf6	b8 00 00 		mov	ax,OFFSET 0
+	*** 000cf9	e9 00 00 		jmp	L00709
+					L00710:
+	*** 000cfc	68 c3 00 		push	OFFSET 195
+	*** 000cff	68 00 00 		push	OFFSET L00389
+	*** 000d02	68 00 00 		push	OFFSET L00390
+	*** 000d05	e8 00 00 		call	__assert
+	*** 000d08	83 c4 06 		add	sp,OFFSET 6
+					L00709:
+; Line 196
+	*** 000d0b	6a 01 			push	OFFSET 1
+	*** 000d0d	68 00 00 		push	OFFSET L00391
+	*** 000d10	68 00 00 		push	OFFSET L00392
+	*** 000d13	e8 00 00 		call	_memcmp
+	*** 000d16	83 c4 06 		add	sp,OFFSET 6
+	*** 000d19	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000d1c	74 03 e9 00 00 		jne	L00712
+	*** 000d21	b8 00 00 		mov	ax,OFFSET 0
+	*** 000d24	e9 00 00 		jmp	L00711
+					L00712:
+	*** 000d27	68 c4 00 		push	OFFSET 196
+	*** 000d2a	68 00 00 		push	OFFSET L00393
+	*** 000d2d	68 00 00 		push	OFFSET L00394
+	*** 000d30	e8 00 00 		call	__assert
+	*** 000d33	83 c4 06 		add	sp,OFFSET 6
+					L00711:
+; Line 197
+; Line 197
+					L00370:
+	*** 000d36	5f 			pop	di
+	*** 000d37	5e 			pop	si
+	*** 000d38	c9 			leave
+	*** 000d39	c3 			ret	OFFSET 0
+; Local Size: 2
+; Line 201
+					___memchr:
+	*** 000d3a	c8 00 00 00 		enter	OFFSET L00713,OFFSET 0
+	*** 000d3e	56 			push	si
+	*** 000d3f	57 			push	di
+; ret2 = fffc
+; ret1 = fffa
+; Line 202
+	*** 000d40	6a 07 			push	OFFSET 7
+	*** 000d42	6a 64 			push	OFFSET 100
+	*** 000d44	68 00 00 		push	OFFSET L00398
+	*** 000d47	e8 00 00 		call	_memchr
+	*** 000d4a	83 c4 06 		add	sp,OFFSET 6
+	*** 000d4d	89 46 fa 		mov	WORD PTR -6[bp],ax
+; Line 203
+	*** 000d50	6a 07 			push	OFFSET 7
+	*** 000d52	6a 66 			push	OFFSET 102
+	*** 000d54	68 00 00 		push	OFFSET L00400
+	*** 000d57	e8 00 00 		call	_memchr
+	*** 000d5a	83 c4 06 		add	sp,OFFSET 6
+	*** 000d5d	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 205
+	*** 000d60	68 00 00 		push	OFFSET L00401
+	*** 000d63	6a 07 			push	OFFSET 7
+	*** 000d65	6a 64 			push	OFFSET 100
+	*** 000d67	68 00 00 		push	OFFSET L00402
+	*** 000d6a	e8 00 00 		call	_memchr
+	*** 000d6d	83 c4 06 		add	sp,OFFSET 6
+	*** 000d70	50 			push	ax
+	*** 000d71	e8 00 00 		call	_strcmp
+	*** 000d74	83 c4 04 		add	sp,OFFSET 4
+	*** 000d77	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000d7a	74 03 e9 00 00 		jne	L00715
+	*** 000d7f	b8 00 00 		mov	ax,OFFSET 0
+	*** 000d82	e9 00 00 		jmp	L00714
+					L00715:
+	*** 000d85	68 cd 00 		push	OFFSET 205
+	*** 000d88	68 00 00 		push	OFFSET L00403
+	*** 000d8b	68 00 00 		push	OFFSET L00404
+	*** 000d8e	e8 00 00 		call	__assert
+	*** 000d91	83 c4 06 		add	sp,OFFSET 6
+					L00714:
+; Line 206
+	*** 000d94	68 00 00 		push	OFFSET L00405
+	*** 000d97	ff 76 fa 		push	WORD PTR -6[bp]
+	*** 000d9a	e8 00 00 		call	_strcmp
+	*** 000d9d	83 c4 04 		add	sp,OFFSET 4
+	*** 000da0	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000da3	74 03 e9 00 00 		jne	L00717
+	*** 000da8	b8 00 00 		mov	ax,OFFSET 0
+	*** 000dab	e9 00 00 		jmp	L00716
+					L00717:
+	*** 000dae	68 ce 00 		push	OFFSET 206
+	*** 000db1	68 00 00 		push	OFFSET L00406
+	*** 000db4	68 00 00 		push	OFFSET L00407
+	*** 000db7	e8 00 00 		call	__assert
+	*** 000dba	83 c4 06 		add	sp,OFFSET 6
+					L00716:
+; Line 208
+	*** 000dbd	68 00 00 		push	OFFSET L00408
+	*** 000dc0	6a 07 			push	OFFSET 7
+	*** 000dc2	6a 66 			push	OFFSET 102
+	*** 000dc4	68 00 00 		push	OFFSET L00409
+	*** 000dc7	e8 00 00 		call	_memchr
+	*** 000dca	83 c4 06 		add	sp,OFFSET 6
+	*** 000dcd	50 			push	ax
+	*** 000dce	e8 00 00 		call	_strcmp
+	*** 000dd1	83 c4 04 		add	sp,OFFSET 4
+	*** 000dd4	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000dd7	74 03 e9 00 00 		jne	L00719
+	*** 000ddc	b8 00 00 		mov	ax,OFFSET 0
+	*** 000ddf	e9 00 00 		jmp	L00718
+					L00719:
+	*** 000de2	68 d0 00 		push	OFFSET 208
+	*** 000de5	68 00 00 		push	OFFSET L00410
+	*** 000de8	68 00 00 		push	OFFSET L00411
+	*** 000deb	e8 00 00 		call	__assert
+	*** 000dee	83 c4 06 		add	sp,OFFSET 6
+					L00718:
+; Line 209
+	*** 000df1	68 00 00 		push	OFFSET L00412
+	*** 000df4	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 000df7	e8 00 00 		call	_strcmp
+	*** 000dfa	83 c4 04 		add	sp,OFFSET 4
+	*** 000dfd	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000e00	74 03 e9 00 00 		jne	L00721
+	*** 000e05	b8 00 00 		mov	ax,OFFSET 0
+	*** 000e08	e9 00 00 		jmp	L00720
+					L00721:
+	*** 000e0b	68 d1 00 		push	OFFSET 209
+	*** 000e0e	68 00 00 		push	OFFSET L00413
+	*** 000e11	68 00 00 		push	OFFSET L00414
+	*** 000e14	e8 00 00 		call	__assert
+	*** 000e17	83 c4 06 		add	sp,OFFSET 6
+					L00720:
+; Line 210
+; Line 210
+					L00396:
+	*** 000e1a	5f 			pop	di
+	*** 000e1b	5e 			pop	si
+	*** 000e1c	c9 			leave
+	*** 000e1d	c3 			ret	OFFSET 0
+; Local Size: 6
+; Line 214
+					___strcspn:
+	*** 000e1e	c8 00 00 00 		enter	OFFSET L00722,OFFSET 0
+	*** 000e22	56 			push	si
+	*** 000e23	57 			push	di
+; len = fffc
+; Line 215
+; Line 217
+	*** 000e24	68 00 00 		push	OFFSET L00418
+	*** 000e27	68 00 00 		push	OFFSET L00419
+	*** 000e2a	e8 00 00 		call	_strcspn
+	*** 000e2d	83 c4 04 		add	sp,OFFSET 4
+	*** 000e30	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 218
+	*** 000e33	68 00 00 		push	OFFSET L00420
+	*** 000e36	68 00 00 		push	OFFSET L00421
+	*** 000e39	e8 00 00 		call	_strcspn
+	*** 000e3c	83 c4 04 		add	sp,OFFSET 4
+	*** 000e3f	05 01 00 		add	ax,OFFSET 1
+	*** 000e42	3d 04 00 		cmp	ax,OFFSET 4
+	*** 000e45	74 03 e9 00 00 		jne	L00724
+	*** 000e4a	b8 00 00 		mov	ax,OFFSET 0
+	*** 000e4d	e9 00 00 		jmp	L00723
+					L00724:
+	*** 000e50	68 da 00 		push	OFFSET 218
+	*** 000e53	68 00 00 		push	OFFSET L00422
+	*** 000e56	68 00 00 		push	OFFSET L00423
+	*** 000e59	e8 00 00 		call	__assert
+	*** 000e5c	83 c4 06 		add	sp,OFFSET 6
+					L00723:
+; Line 219
+	*** 000e5f	8b 46 fc 		mov	ax,WORD PTR -4[bp]
+	*** 000e62	05 01 00 		add	ax,OFFSET 1
+	*** 000e65	3d 04 00 		cmp	ax,OFFSET 4
+	*** 000e68	74 03 e9 00 00 		jne	L00726
+	*** 000e6d	b8 00 00 		mov	ax,OFFSET 0
+	*** 000e70	e9 00 00 		jmp	L00725
+					L00726:
+	*** 000e73	68 db 00 		push	OFFSET 219
+	*** 000e76	68 00 00 		push	OFFSET L00424
+	*** 000e79	68 00 00 		push	OFFSET L00425
+	*** 000e7c	e8 00 00 		call	__assert
+	*** 000e7f	83 c4 06 		add	sp,OFFSET 6
+					L00725:
+; Line 221
+	*** 000e82	68 00 00 		push	OFFSET L00426
+	*** 000e85	68 00 00 		push	OFFSET L00427
+	*** 000e88	e8 00 00 		call	_strcspn
+	*** 000e8b	83 c4 04 		add	sp,OFFSET 4
+	*** 000e8e	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 222
+	*** 000e91	68 00 00 		push	OFFSET L00428
+	*** 000e94	68 00 00 		push	OFFSET L00429
+	*** 000e97	e8 00 00 		call	_strcspn
+	*** 000e9a	83 c4 04 		add	sp,OFFSET 4
+	*** 000e9d	05 01 00 		add	ax,OFFSET 1
+	*** 000ea0	3d 02 00 		cmp	ax,OFFSET 2
+	*** 000ea3	74 03 e9 00 00 		jne	L00728
+	*** 000ea8	b8 00 00 		mov	ax,OFFSET 0
+	*** 000eab	e9 00 00 		jmp	L00727
+					L00728:
+	*** 000eae	68 de 00 		push	OFFSET 222
+	*** 000eb1	68 00 00 		push	OFFSET L00430
+	*** 000eb4	68 00 00 		push	OFFSET L00431
+	*** 000eb7	e8 00 00 		call	__assert
+	*** 000eba	83 c4 06 		add	sp,OFFSET 6
+					L00727:
+; Line 223
+	*** 000ebd	8b 46 fc 		mov	ax,WORD PTR -4[bp]
+	*** 000ec0	05 01 00 		add	ax,OFFSET 1
+	*** 000ec3	3d 02 00 		cmp	ax,OFFSET 2
+	*** 000ec6	74 03 e9 00 00 		jne	L00730
+	*** 000ecb	b8 00 00 		mov	ax,OFFSET 0
+	*** 000ece	e9 00 00 		jmp	L00729
+					L00730:
+	*** 000ed1	68 df 00 		push	OFFSET 223
+	*** 000ed4	68 00 00 		push	OFFSET L00432
+	*** 000ed7	68 00 00 		push	OFFSET L00433
+	*** 000eda	e8 00 00 		call	__assert
+	*** 000edd	83 c4 06 		add	sp,OFFSET 6
+					L00729:
+; Line 225
+; Line 225
+					L00416:
+	*** 000ee0	5f 			pop	di
+	*** 000ee1	5e 			pop	si
+	*** 000ee2	c9 			leave
+	*** 000ee3	c3 			ret	OFFSET 0
+; Local Size: 4
+; Line 229
+					___strpbrk:
+	*** 000ee4	c8 00 00 00 		enter	OFFSET L00731,OFFSET 0
+	*** 000ee8	56 			push	si
+	*** 000ee9	57 			push	di
+; ret = fffc
+; Line 230
+	*** 000eea	68 00 00 		push	OFFSET L00437
+	*** 000eed	68 00 00 		push	OFFSET L00438
+	*** 000ef0	e8 00 00 		call	_strpbrk
+	*** 000ef3	83 c4 04 		add	sp,OFFSET 4
+	*** 000ef6	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 232
+	*** 000ef9	68 00 00 		push	OFFSET L00439
+	*** 000efc	68 00 00 		push	OFFSET L00440
+	*** 000eff	68 00 00 		push	OFFSET L00441
+	*** 000f02	e8 00 00 		call	_strpbrk
+	*** 000f05	83 c4 04 		add	sp,OFFSET 4
+	*** 000f08	50 			push	ax
+	*** 000f09	e8 00 00 		call	_strcmp
+	*** 000f0c	83 c4 04 		add	sp,OFFSET 4
+	*** 000f0f	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000f12	74 03 e9 00 00 		jne	L00733
+	*** 000f17	b8 00 00 		mov	ax,OFFSET 0
+	*** 000f1a	e9 00 00 		jmp	L00732
+					L00733:
+	*** 000f1d	68 e8 00 		push	OFFSET 232
+	*** 000f20	68 00 00 		push	OFFSET L00442
+	*** 000f23	68 00 00 		push	OFFSET L00443
+	*** 000f26	e8 00 00 		call	__assert
+	*** 000f29	83 c4 06 		add	sp,OFFSET 6
+					L00732:
+; Line 233
+	*** 000f2c	68 00 00 		push	OFFSET L00444
+	*** 000f2f	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 000f32	e8 00 00 		call	_strcmp
+	*** 000f35	83 c4 04 		add	sp,OFFSET 4
+	*** 000f38	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000f3b	74 03 e9 00 00 		jne	L00735
+	*** 000f40	b8 00 00 		mov	ax,OFFSET 0
+	*** 000f43	e9 00 00 		jmp	L00734
+					L00735:
+	*** 000f46	68 e9 00 		push	OFFSET 233
+	*** 000f49	68 00 00 		push	OFFSET L00445
+	*** 000f4c	68 00 00 		push	OFFSET L00446
+	*** 000f4f	e8 00 00 		call	__assert
+	*** 000f52	83 c4 06 		add	sp,OFFSET 6
+					L00734:
+; Line 235
+	*** 000f55	68 00 00 		push	OFFSET L00447
+	*** 000f58	68 00 00 		push	OFFSET L00448
+	*** 000f5b	e8 00 00 		call	_strpbrk
+	*** 000f5e	83 c4 04 		add	sp,OFFSET 4
+	*** 000f61	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 237
+	*** 000f64	68 00 00 		push	OFFSET L00449
+	*** 000f67	68 00 00 		push	OFFSET L00450
+	*** 000f6a	68 00 00 		push	OFFSET L00451
+	*** 000f6d	e8 00 00 		call	_strpbrk
+	*** 000f70	83 c4 04 		add	sp,OFFSET 4
+	*** 000f73	50 			push	ax
+	*** 000f74	e8 00 00 		call	_strcmp
+	*** 000f77	83 c4 04 		add	sp,OFFSET 4
+	*** 000f7a	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000f7d	74 03 e9 00 00 		jne	L00737
+	*** 000f82	b8 00 00 		mov	ax,OFFSET 0
+	*** 000f85	e9 00 00 		jmp	L00736
+					L00737:
+	*** 000f88	68 ed 00 		push	OFFSET 237
+	*** 000f8b	68 00 00 		push	OFFSET L00452
+	*** 000f8e	68 00 00 		push	OFFSET L00453
+	*** 000f91	e8 00 00 		call	__assert
+	*** 000f94	83 c4 06 		add	sp,OFFSET 6
+					L00736:
+; Line 238
+	*** 000f97	68 00 00 		push	OFFSET L00454
+	*** 000f9a	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 000f9d	e8 00 00 		call	_strcmp
+	*** 000fa0	83 c4 04 		add	sp,OFFSET 4
+	*** 000fa3	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000fa6	74 03 e9 00 00 		jne	L00739
+	*** 000fab	b8 00 00 		mov	ax,OFFSET 0
+	*** 000fae	e9 00 00 		jmp	L00738
+					L00739:
+	*** 000fb1	68 ee 00 		push	OFFSET 238
+	*** 000fb4	68 00 00 		push	OFFSET L00455
+	*** 000fb7	68 00 00 		push	OFFSET L00456
+	*** 000fba	e8 00 00 		call	__assert
+	*** 000fbd	83 c4 06 		add	sp,OFFSET 6
+					L00738:
+; Line 239
+; Line 239
+					L00435:
+	*** 000fc0	5f 			pop	di
+	*** 000fc1	5e 			pop	si
+	*** 000fc2	c9 			leave
+	*** 000fc3	c3 			ret	OFFSET 0
+; Local Size: 4
+; Line 243
+					___strrchr:
+	*** 000fc4	c8 00 00 00 		enter	OFFSET L00740,OFFSET 0
+	*** 000fc8	56 			push	si
+	*** 000fc9	57 			push	di
+; ret = fffc
+; Line 244
+	*** 000fca	6a 2e 			push	OFFSET 46
+	*** 000fcc	68 00 00 		push	OFFSET L00460
+	*** 000fcf	e8 00 00 		call	_strrchr
+	*** 000fd2	83 c4 04 		add	sp,OFFSET 4
+	*** 000fd5	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 246
+	*** 000fd8	68 00 00 		push	OFFSET L00461
+	*** 000fdb	6a 2e 			push	OFFSET 46
+	*** 000fdd	68 00 00 		push	OFFSET L00462
+	*** 000fe0	e8 00 00 		call	_strrchr
+	*** 000fe3	83 c4 04 		add	sp,OFFSET 4
+	*** 000fe6	50 			push	ax
+	*** 000fe7	e8 00 00 		call	_strcmp
+	*** 000fea	83 c4 04 		add	sp,OFFSET 4
+	*** 000fed	3d 00 00 		cmp	ax,OFFSET 0
+	*** 000ff0	74 03 e9 00 00 		jne	L00742
+	*** 000ff5	b8 00 00 		mov	ax,OFFSET 0
+	*** 000ff8	e9 00 00 		jmp	L00741
+					L00742:
+	*** 000ffb	68 f6 00 		push	OFFSET 246
+	*** 000ffe	68 00 00 		push	OFFSET L00463
+	*** 001001	68 00 00 		push	OFFSET L00464
+	*** 001004	e8 00 00 		call	__assert
+	*** 001007	83 c4 06 		add	sp,OFFSET 6
+					L00741:
+; Line 247
+	*** 00100a	68 00 00 		push	OFFSET L00465
+	*** 00100d	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 001010	e8 00 00 		call	_strcmp
+	*** 001013	83 c4 04 		add	sp,OFFSET 4
+	*** 001016	3d 00 00 		cmp	ax,OFFSET 0
+	*** 001019	74 03 e9 00 00 		jne	L00744
+	*** 00101e	b8 00 00 		mov	ax,OFFSET 0
+	*** 001021	e9 00 00 		jmp	L00743
+					L00744:
+	*** 001024	68 f7 00 		push	OFFSET 247
+	*** 001027	68 00 00 		push	OFFSET L00466
+	*** 00102a	68 00 00 		push	OFFSET L00467
+	*** 00102d	e8 00 00 		call	__assert
+	*** 001030	83 c4 06 		add	sp,OFFSET 6
+					L00743:
+; Line 249
+	*** 001033	6a 61 			push	OFFSET 97
+	*** 001035	68 00 00 		push	OFFSET L00468
+	*** 001038	e8 00 00 		call	_strrchr
+	*** 00103b	83 c4 04 		add	sp,OFFSET 4
+	*** 00103e	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 251
+	*** 001041	68 00 00 		push	OFFSET L00469
+	*** 001044	6a 61 			push	OFFSET 97
+	*** 001046	68 00 00 		push	OFFSET L00470
+	*** 001049	e8 00 00 		call	_strrchr
+	*** 00104c	83 c4 04 		add	sp,OFFSET 4
+	*** 00104f	50 			push	ax
+	*** 001050	e8 00 00 		call	_strcmp
+	*** 001053	83 c4 04 		add	sp,OFFSET 4
+	*** 001056	3d 00 00 		cmp	ax,OFFSET 0
+	*** 001059	74 03 e9 00 00 		jne	L00746
+	*** 00105e	b8 00 00 		mov	ax,OFFSET 0
+	*** 001061	e9 00 00 		jmp	L00745
+					L00746:
+	*** 001064	68 fb 00 		push	OFFSET 251
+	*** 001067	68 00 00 		push	OFFSET L00471
+	*** 00106a	68 00 00 		push	OFFSET L00472
+	*** 00106d	e8 00 00 		call	__assert
+	*** 001070	83 c4 06 		add	sp,OFFSET 6
+					L00745:
+; Line 252
+	*** 001073	68 00 00 		push	OFFSET L00473
+	*** 001076	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 001079	e8 00 00 		call	_strcmp
+	*** 00107c	83 c4 04 		add	sp,OFFSET 4
+	*** 00107f	3d 00 00 		cmp	ax,OFFSET 0
+	*** 001082	74 03 e9 00 00 		jne	L00748
+	*** 001087	b8 00 00 		mov	ax,OFFSET 0
+	*** 00108a	e9 00 00 		jmp	L00747
+					L00748:
+	*** 00108d	68 fc 00 		push	OFFSET 252
+	*** 001090	68 00 00 		push	OFFSET L00474
+	*** 001093	68 00 00 		push	OFFSET L00475
+	*** 001096	e8 00 00 		call	__assert
+	*** 001099	83 c4 06 		add	sp,OFFSET 6
+					L00747:
+; Line 253
+; Line 253
+					L00458:
+	*** 00109c	5f 			pop	di
+	*** 00109d	5e 			pop	si
+	*** 00109e	c9 			leave
+	*** 00109f	c3 			ret	OFFSET 0
+; Local Size: 4
+; Line 257
+					___strspn:
+	*** 0010a0	c8 00 00 00 		enter	OFFSET L00749,OFFSET 0
+	*** 0010a4	56 			push	si
+	*** 0010a5	57 			push	di
+; len = fffc
+; Line 258
+	*** 0010a6	68 00 00 		push	OFFSET L00479
+	*** 0010a9	68 00 00 		push	OFFSET L00480
+	*** 0010ac	e8 00 00 		call	_strspn
+	*** 0010af	83 c4 04 		add	sp,OFFSET 4
+	*** 0010b2	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 260
+	*** 0010b5	68 00 00 		push	OFFSET L00481
+	*** 0010b8	68 00 00 		push	OFFSET L00482
+	*** 0010bb	e8 00 00 		call	_strspn
+	*** 0010be	83 c4 04 		add	sp,OFFSET 4
+	*** 0010c1	3d 04 00 		cmp	ax,OFFSET 4
+	*** 0010c4	74 03 e9 00 00 		jne	L00751
+	*** 0010c9	b8 00 00 		mov	ax,OFFSET 0
+	*** 0010cc	e9 00 00 		jmp	L00750
+					L00751:
+	*** 0010cf	68 04 01 		push	OFFSET 260
+	*** 0010d2	68 00 00 		push	OFFSET L00483
+	*** 0010d5	68 00 00 		push	OFFSET L00484
+	*** 0010d8	e8 00 00 		call	__assert
+	*** 0010db	83 c4 06 		add	sp,OFFSET 6
+					L00750:
+; Line 261
+	*** 0010de	83 7e fc 04 		cmp	WORD PTR -4[bp],OFFSET 4
+	*** 0010e2	74 03 e9 00 00 		jne	L00753
+	*** 0010e7	b8 00 00 		mov	ax,OFFSET 0
+	*** 0010ea	e9 00 00 		jmp	L00752
+					L00753:
+	*** 0010ed	68 05 01 		push	OFFSET 261
+	*** 0010f0	68 00 00 		push	OFFSET L00485
+	*** 0010f3	68 00 00 		push	OFFSET L00486
+	*** 0010f6	e8 00 00 		call	__assert
+	*** 0010f9	83 c4 06 		add	sp,OFFSET 6
+					L00752:
+; Line 263
+	*** 0010fc	68 00 00 		push	OFFSET L00487
+	*** 0010ff	68 00 00 		push	OFFSET L00488
+	*** 001102	e8 00 00 		call	_strspn
+	*** 001105	83 c4 04 		add	sp,OFFSET 4
+	*** 001108	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 265
+	*** 00110b	68 00 00 		push	OFFSET L00489
+	*** 00110e	68 00 00 		push	OFFSET L00490
+	*** 001111	e8 00 00 		call	_strspn
+	*** 001114	83 c4 04 		add	sp,OFFSET 4
+	*** 001117	3d 02 00 		cmp	ax,OFFSET 2
+	*** 00111a	74 03 e9 00 00 		jne	L00755
+	*** 00111f	b8 00 00 		mov	ax,OFFSET 0
+	*** 001122	e9 00 00 		jmp	L00754
+					L00755:
+	*** 001125	68 09 01 		push	OFFSET 265
+	*** 001128	68 00 00 		push	OFFSET L00491
+	*** 00112b	68 00 00 		push	OFFSET L00492
+	*** 00112e	e8 00 00 		call	__assert
+	*** 001131	83 c4 06 		add	sp,OFFSET 6
+					L00754:
+; Line 266
+	*** 001134	83 7e fc 02 		cmp	WORD PTR -4[bp],OFFSET 2
+	*** 001138	74 03 e9 00 00 		jne	L00757
+	*** 00113d	b8 00 00 		mov	ax,OFFSET 0
+	*** 001140	e9 00 00 		jmp	L00756
+					L00757:
+	*** 001143	68 0a 01 		push	OFFSET 266
+	*** 001146	68 00 00 		push	OFFSET L00493
+	*** 001149	68 00 00 		push	OFFSET L00494
+	*** 00114c	e8 00 00 		call	__assert
+	*** 00114f	83 c4 06 		add	sp,OFFSET 6
+					L00756:
+; Line 267
+; Line 267
+					L00477:
+	*** 001152	5f 			pop	di
+	*** 001153	5e 			pop	si
+	*** 001154	c9 			leave
+	*** 001155	c3 			ret	OFFSET 0
+; Local Size: 4
+; Line 271
+					___strstr:
+	*** 001156	c8 00 00 00 		enter	OFFSET L00758,OFFSET 0
+	*** 00115a	56 			push	si
+	*** 00115b	57 			push	di
+; ret = fffc
+; Line 272
+	*** 00115c	68 00 00 		push	OFFSET L00498
+	*** 00115f	68 00 00 		push	OFFSET L00499
+	*** 001162	e8 00 00 		call	_strstr
+	*** 001165	83 c4 04 		add	sp,OFFSET 4
+	*** 001168	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 273
+	*** 00116b	68 00 00 		push	OFFSET L00500
+	*** 00116e	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 001171	e8 00 00 		call	_strcmp
+	*** 001174	83 c4 04 		add	sp,OFFSET 4
+	*** 001177	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00117a	74 03 e9 00 00 		jne	L00760
+	*** 00117f	b8 00 00 		mov	ax,OFFSET 0
+	*** 001182	e9 00 00 		jmp	L00759
+					L00760:
+	*** 001185	68 11 01 		push	OFFSET 273
+	*** 001188	68 00 00 		push	OFFSET L00501
+	*** 00118b	68 00 00 		push	OFFSET L00502
+	*** 00118e	e8 00 00 		call	__assert
+	*** 001191	83 c4 06 		add	sp,OFFSET 6
+					L00759:
+; Line 274
+	*** 001194	68 00 00 		push	OFFSET L00503
+	*** 001197	68 00 00 		push	OFFSET L00504
+	*** 00119a	68 00 00 		push	OFFSET L00505
+	*** 00119d	e8 00 00 		call	_strstr
+	*** 0011a0	83 c4 04 		add	sp,OFFSET 4
+	*** 0011a3	50 			push	ax
+	*** 0011a4	e8 00 00 		call	_strcmp
+	*** 0011a7	83 c4 04 		add	sp,OFFSET 4
+	*** 0011aa	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0011ad	74 03 e9 00 00 		jne	L00762
+	*** 0011b2	b8 00 00 		mov	ax,OFFSET 0
+	*** 0011b5	e9 00 00 		jmp	L00761
+					L00762:
+	*** 0011b8	68 12 01 		push	OFFSET 274
+	*** 0011bb	68 00 00 		push	OFFSET L00506
+	*** 0011be	68 00 00 		push	OFFSET L00507
+	*** 0011c1	e8 00 00 		call	__assert
+	*** 0011c4	83 c4 06 		add	sp,OFFSET 6
+					L00761:
+; Line 276
+	*** 0011c7	68 00 00 		push	OFFSET L00508
+	*** 0011ca	68 00 00 		push	OFFSET L00509
+	*** 0011cd	e8 00 00 		call	_strstr
+	*** 0011d0	83 c4 04 		add	sp,OFFSET 4
+	*** 0011d3	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 277
+	*** 0011d6	68 00 00 		push	OFFSET L00510
+	*** 0011d9	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 0011dc	e8 00 00 		call	_strcmp
+	*** 0011df	83 c4 04 		add	sp,OFFSET 4
+	*** 0011e2	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0011e5	74 03 e9 00 00 		jne	L00764
+	*** 0011ea	b8 00 00 		mov	ax,OFFSET 0
+	*** 0011ed	e9 00 00 		jmp	L00763
+					L00764:
+	*** 0011f0	68 15 01 		push	OFFSET 277
+	*** 0011f3	68 00 00 		push	OFFSET L00511
+	*** 0011f6	68 00 00 		push	OFFSET L00512
+	*** 0011f9	e8 00 00 		call	__assert
+	*** 0011fc	83 c4 06 		add	sp,OFFSET 6
+					L00763:
+; Line 278
+	*** 0011ff	68 00 00 		push	OFFSET L00513
+	*** 001202	68 00 00 		push	OFFSET L00514
+	*** 001205	68 00 00 		push	OFFSET L00515
+	*** 001208	e8 00 00 		call	_strstr
+	*** 00120b	83 c4 04 		add	sp,OFFSET 4
+	*** 00120e	50 			push	ax
+	*** 00120f	e8 00 00 		call	_strcmp
+	*** 001212	83 c4 04 		add	sp,OFFSET 4
+	*** 001215	3d 00 00 		cmp	ax,OFFSET 0
+	*** 001218	74 03 e9 00 00 		jne	L00766
+	*** 00121d	b8 00 00 		mov	ax,OFFSET 0
+	*** 001220	e9 00 00 		jmp	L00765
+					L00766:
+	*** 001223	68 16 01 		push	OFFSET 278
+	*** 001226	68 00 00 		push	OFFSET L00516
+	*** 001229	68 00 00 		push	OFFSET L00517
+	*** 00122c	e8 00 00 		call	__assert
+	*** 00122f	83 c4 06 		add	sp,OFFSET 6
+					L00765:
+; Line 279
+; Line 279
+					L00496:
+	*** 001232	5f 			pop	di
+	*** 001233	5e 			pop	si
+	*** 001234	c9 			leave
+	*** 001235	c3 			ret	OFFSET 0
+; Local Size: 4
+; Line 283
+					___strxfrm:
+	*** 001236	c8 00 00 00 		enter	OFFSET L00767,OFFSET 0
+	*** 00123a	56 			push	si
+	*** 00123b	57 			push	di
+; src = fff4
+; dest = ffea
+; Line 284
+; Line 286
+	*** 00123c	68 00 00 		push	OFFSET L00522
+	*** 00123f	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 001242	50 			push	ax
+	*** 001243	e8 00 00 		call	_strcpy
+	*** 001246	83 c4 04 		add	sp,OFFSET 4
+; Line 287
+	*** 001249	68 00 00 		push	OFFSET L00523
+	*** 00124c	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00124f	50 			push	ax
+	*** 001250	e8 00 00 		call	_strcpy
+	*** 001253	83 c4 04 		add	sp,OFFSET 4
+; Line 289
+	*** 001256	6a 02 			push	OFFSET 2
+	*** 001258	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00125b	50 			push	ax
+	*** 00125c	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 00125f	50 			push	ax
+	*** 001260	e8 00 00 		call	_strxfrm
+	*** 001263	83 c4 06 		add	sp,OFFSET 6
+	*** 001266	3d 03 00 		cmp	ax,OFFSET 3
+	*** 001269	74 03 e9 00 00 		jne	L00769
+	*** 00126e	b8 00 00 		mov	ax,OFFSET 0
+	*** 001271	e9 00 00 		jmp	L00768
+					L00769:
+	*** 001274	68 21 01 		push	OFFSET 289
+	*** 001277	68 00 00 		push	OFFSET L00524
+	*** 00127a	68 00 00 		push	OFFSET L00525
+	*** 00127d	e8 00 00 		call	__assert
+	*** 001280	83 c4 06 		add	sp,OFFSET 6
+					L00768:
+; Line 290
+	*** 001283	68 00 00 		push	OFFSET L00526
+	*** 001286	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 001289	50 			push	ax
+	*** 00128a	e8 00 00 		call	_strcmp
+	*** 00128d	83 c4 04 		add	sp,OFFSET 4
+	*** 001290	3d 00 00 		cmp	ax,OFFSET 0
+	*** 001293	74 03 e9 00 00 		jne	L00771
+	*** 001298	b8 00 00 		mov	ax,OFFSET 0
+	*** 00129b	e9 00 00 		jmp	L00770
+					L00771:
+	*** 00129e	68 22 01 		push	OFFSET 290
+	*** 0012a1	68 00 00 		push	OFFSET L00527
+	*** 0012a4	68 00 00 		push	OFFSET L00528
+	*** 0012a7	e8 00 00 		call	__assert
+	*** 0012aa	83 c4 06 		add	sp,OFFSET 6
+					L00770:
+; Line 292
+	*** 0012ad	6a 0a 			push	OFFSET 10
+	*** 0012af	6a 00 			push	OFFSET 0
+	*** 0012b1	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0012b4	50 			push	ax
+	*** 0012b5	e8 00 00 		call	_memset
+	*** 0012b8	83 c4 06 		add	sp,OFFSET 6
+; Line 293
+	*** 0012bb	6a 0a 			push	OFFSET 10
+	*** 0012bd	6a 00 			push	OFFSET 0
+	*** 0012bf	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0012c2	50 			push	ax
+	*** 0012c3	e8 00 00 		call	_memset
+	*** 0012c6	83 c4 06 		add	sp,OFFSET 6
+; Line 295
+	*** 0012c9	68 00 00 		push	OFFSET L00529
+	*** 0012cc	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0012cf	50 			push	ax
+	*** 0012d0	e8 00 00 		call	_strcpy
+	*** 0012d3	83 c4 04 		add	sp,OFFSET 4
+; Line 296
+	*** 0012d6	68 00 00 		push	OFFSET L00530
+	*** 0012d9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0012dc	50 			push	ax
+	*** 0012dd	e8 00 00 		call	_strcpy
+	*** 0012e0	83 c4 04 		add	sp,OFFSET 4
+; Line 298
+	*** 0012e3	6a 03 			push	OFFSET 3
+	*** 0012e5	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0012e8	50 			push	ax
+	*** 0012e9	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0012ec	50 			push	ax
+	*** 0012ed	e8 00 00 		call	_strxfrm
+	*** 0012f0	83 c4 06 		add	sp,OFFSET 6
+	*** 0012f3	3d 06 00 		cmp	ax,OFFSET 6
+	*** 0012f6	74 03 e9 00 00 		jne	L00773
+	*** 0012fb	b8 00 00 		mov	ax,OFFSET 0
+	*** 0012fe	e9 00 00 		jmp	L00772
+					L00773:
+	*** 001301	68 2a 01 		push	OFFSET 298
+	*** 001304	68 00 00 		push	OFFSET L00531
+	*** 001307	68 00 00 		push	OFFSET L00532
+	*** 00130a	e8 00 00 		call	__assert
+	*** 00130d	83 c4 06 		add	sp,OFFSET 6
+					L00772:
+; Line 299
+	*** 001310	68 00 00 		push	OFFSET L00533
+	*** 001313	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 001316	50 			push	ax
+	*** 001317	e8 00 00 		call	_strcmp
+	*** 00131a	83 c4 04 		add	sp,OFFSET 4
+	*** 00131d	3d 00 00 		cmp	ax,OFFSET 0
+	*** 001320	74 03 e9 00 00 		jne	L00775
+	*** 001325	b8 00 00 		mov	ax,OFFSET 0
+	*** 001328	e9 00 00 		jmp	L00774
+					L00775:
+	*** 00132b	68 2b 01 		push	OFFSET 299
+	*** 00132e	68 00 00 		push	OFFSET L00534
+	*** 001331	68 00 00 		push	OFFSET L00535
+	*** 001334	e8 00 00 		call	__assert
+	*** 001337	83 c4 06 		add	sp,OFFSET 6
+					L00774:
+; Line 300
+; Line 300
+					L00519:
+	*** 00133a	5f 			pop	di
+	*** 00133b	5e 			pop	si
+	*** 00133c	c9 			leave
+	*** 00133d	c3 			ret	OFFSET 0
+; Local Size: 22
+; Line 304
+					___strcoll:
+	*** 00133e	c8 00 00 00 		enter	OFFSET L00776,OFFSET 0
+	*** 001342	56 			push	si
+	*** 001343	57 			push	di
+; Line 305
+	*** 001344	68 00 00 		push	OFFSET L00538
+	*** 001347	68 00 00 		push	OFFSET L00539
+	*** 00134a	e8 00 00 		call	_strcoll
+	*** 00134d	83 c4 04 		add	sp,OFFSET 4
+	*** 001350	3d 00 00 		cmp	ax,OFFSET 0
+	*** 001353	7f 03 e9 00 00 		jle	L00778
+	*** 001358	b8 00 00 		mov	ax,OFFSET 0
+	*** 00135b	e9 00 00 		jmp	L00777
+					L00778:
+	*** 00135e	68 31 01 		push	OFFSET 305
+	*** 001361	68 00 00 		push	OFFSET L00540
+	*** 001364	68 00 00 		push	OFFSET L00541
+	*** 001367	e8 00 00 		call	__assert
+	*** 00136a	83 c4 06 		add	sp,OFFSET 6
+					L00777:
+; Line 306
+	*** 00136d	68 00 00 		push	OFFSET L00542
+	*** 001370	68 00 00 		push	OFFSET L00543
+	*** 001373	e8 00 00 		call	_strcoll
+	*** 001376	83 c4 04 		add	sp,OFFSET 4
+	*** 001379	3d 00 00 		cmp	ax,OFFSET 0
+	*** 00137c	7c 03 e9 00 00 		jge	L00780
+	*** 001381	b8 00 00 		mov	ax,OFFSET 0
+	*** 001384	e9 00 00 		jmp	L00779
+					L00780:
+	*** 001387	68 32 01 		push	OFFSET 306
+	*** 00138a	68 00 00 		push	OFFSET L00544
+	*** 00138d	68 00 00 		push	OFFSET L00545
+	*** 001390	e8 00 00 		call	__assert
+	*** 001393	83 c4 06 		add	sp,OFFSET 6
+					L00779:
+; Line 307
+	*** 001396	68 00 00 		push	OFFSET L00546
+	*** 001399	68 00 00 		push	OFFSET L00547
+	*** 00139c	e8 00 00 		call	_strcoll
+	*** 00139f	83 c4 04 		add	sp,OFFSET 4
+	*** 0013a2	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0013a5	74 03 e9 00 00 		jne	L00782
+	*** 0013aa	b8 00 00 		mov	ax,OFFSET 0
+	*** 0013ad	e9 00 00 		jmp	L00781
+					L00782:
+	*** 0013b0	68 33 01 		push	OFFSET 307
+	*** 0013b3	68 00 00 		push	OFFSET L00548
+	*** 0013b6	68 00 00 		push	OFFSET L00549
+	*** 0013b9	e8 00 00 		call	__assert
+	*** 0013bc	83 c4 06 		add	sp,OFFSET 6
+					L00781:
+; Line 309
+	*** 0013bf	68 00 00 		push	OFFSET L00550
+	*** 0013c2	68 00 00 		push	OFFSET L00551
+	*** 0013c5	e8 00 00 		call	_strcoll
+	*** 0013c8	83 c4 04 		add	sp,OFFSET 4
+	*** 0013cb	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0013ce	7f 03 e9 00 00 		jle	L00784
+	*** 0013d3	b8 00 00 		mov	ax,OFFSET 0
+	*** 0013d6	e9 00 00 		jmp	L00783
+					L00784:
+	*** 0013d9	68 35 01 		push	OFFSET 309
+	*** 0013dc	68 00 00 		push	OFFSET L00552
+	*** 0013df	68 00 00 		push	OFFSET L00553
+	*** 0013e2	e8 00 00 		call	__assert
+	*** 0013e5	83 c4 06 		add	sp,OFFSET 6
+					L00783:
+; Line 310
+	*** 0013e8	68 00 00 		push	OFFSET L00554
+	*** 0013eb	68 00 00 		push	OFFSET L00555
+	*** 0013ee	e8 00 00 		call	_strcoll
+	*** 0013f1	83 c4 04 		add	sp,OFFSET 4
+	*** 0013f4	3d 00 00 		cmp	ax,OFFSET 0
+	*** 0013f7	7c 03 e9 00 00 		jge	L00786
+	*** 0013fc	b8 00 00 		mov	ax,OFFSET 0
+	*** 0013ff	e9 00 00 		jmp	L00785
+					L00786:
+	*** 001402	68 36 01 		push	OFFSET 310
+	*** 001405	68 00 00 		push	OFFSET L00556
+	*** 001408	68 00 00 		push	OFFSET L00557
+	*** 00140b	e8 00 00 		call	__assert
+	*** 00140e	83 c4 06 		add	sp,OFFSET 6
+					L00785:
+; Line 311
+	*** 001411	68 00 00 		push	OFFSET L00558
+	*** 001414	68 00 00 		push	OFFSET L00559
+	*** 001417	e8 00 00 		call	_strcoll
+	*** 00141a	83 c4 04 		add	sp,OFFSET 4
+	*** 00141d	3d 00 00 		cmp	ax,OFFSET 0
+	*** 001420	74 03 e9 00 00 		jne	L00788
+	*** 001425	b8 00 00 		mov	ax,OFFSET 0
+	*** 001428	e9 00 00 		jmp	L00787
+					L00788:
+	*** 00142b	68 37 01 		push	OFFSET 311
+	*** 00142e	68 00 00 		push	OFFSET L00560
+	*** 001431	68 00 00 		push	OFFSET L00561
+	*** 001434	e8 00 00 		call	__assert
+	*** 001437	83 c4 06 		add	sp,OFFSET 6
+					L00787:
+; Line 312
+; Line 312
+					L00537:
+	*** 00143a	5f 			pop	di
+	*** 00143b	5e 			pop	si
+	*** 00143c	c9 			leave
+	*** 00143d	c3 			ret	OFFSET 0
+; Local Size: 2
+; Line 316
+					___strtok:
+	*** 00143e	c8 00 00 00 		enter	OFFSET L00789,OFFSET 0
+	*** 001442	56 			push	si
+	*** 001443	57 			push	di
+; token = fffc
+; str = fffa
+; Line 317
+	*** 001444	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET L00565
+; Line 318
+	*** 001449	6a 20 			push	OFFSET 32
+	*** 00144b	ff 76 fa 		push	WORD PTR -6[bp]
+	*** 00144e	e8 00 00 		call	_strtok
+	*** 001451	83 c4 04 		add	sp,OFFSET 4
+	*** 001454	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 319
+	*** 001457	e9 00 00 		jmp	L00570
+					L00567:
+; Line 320
+; Line 321
+	*** 00145a	6a 20 			push	OFFSET 32
+	*** 00145c	6a 00 			push	OFFSET 0
+	*** 00145e	e8 00 00 		call	_strtok
+	*** 001461	83 c4 04 		add	sp,OFFSET 4
+	*** 001464	89 46 fc 		mov	WORD PTR -4[bp],ax
+; Line 322
+					L00568:
+; Line 322
+					L00570:
+	*** 001467	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 00146b	74 03 e9 ea ff 		jne	L00567
+					L00569:
+; Line 323
+; Line 323
+					L00563:
+	*** 001470	5f 			pop	di
+	*** 001471	5e 			pop	si
+	*** 001472	c9 			leave
+	*** 001473	c3 			ret	OFFSET 0
+; Local Size: 6
+; Line 327
+					_string_tests:
+	*** 001474	c8 00 00 00 		enter	OFFSET L00790,OFFSET 0
+	*** 001478	56 			push	si
+	*** 001479	57 			push	di
+; Line 328
+	*** 00147a	e8 83 eb 		call	___strcmp
+; Line 329
+	*** 00147d	e8 7a ec 		call	___strncmp
+; Line 330
+	*** 001480	e8 7d ed 		call	___strcpy
+; Line 331
+	*** 001483	e8 2e ef 		call	___strncpy
+; Line 332
+	*** 001486	e8 e7 f0 		call	___strlen
+; Line 333
+	*** 001489	e8 8a f1 		call	___strchr
+; Line 334
+	*** 00148c	e8 4b f2 		call	___strcat
+; Line 335
+	*** 00148f	e8 32 f3 		call	___strncat
+; Line 336
+	*** 001492	e8 49 f4 		call	___memset
+; Line 337
+	*** 001495	e8 36 f5 		call	___memmove
+; Line 338
+	*** 001498	e8 25 f6 		call	___memcpy
+; Line 339
+	*** 00149b	e8 90 f7 		call	___memcmp
+; Line 340
+	*** 00149e	e8 99 f8 		call	___memchr
+; Line 341
+	*** 0014a1	e8 7a f9 		call	___strcspn
+; Line 342
+	*** 0014a4	e8 3d fa 		call	___strpbrk
+; Line 343
+	*** 0014a7	e8 1a fb 		call	___strrchr
+; Line 344
+	*** 0014aa	e8 f3 fb 		call	___strspn
+; Line 345
+	*** 0014ad	e8 a6 fc 		call	___strstr
+; Line 346
+	*** 0014b0	e8 83 fd 		call	___strxfrm
+; Line 347
+	*** 0014b3	e8 88 fe 		call	___strcoll
+; Line 348
+	*** 0014b6	e8 85 ff 		call	___strtok
+; Line 349
+; Line 349
+					L00572:
+	*** 0014b9	5f 			pop	di
+	*** 0014ba	5e 			pop	si
+	*** 0014bb	c9 			leave
+	*** 0014bc	c3 			ret	OFFSET 0
+; Local Size: 2

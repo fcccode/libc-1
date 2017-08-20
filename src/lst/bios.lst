@@ -1,0 +1,164 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\bios.asm						     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				include libc.inc						; Include library headers
+			      C .NOLIST								; Supress listing of header
+			      C .LIST
+			      C 
+			      C include string.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include ctype.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include conio.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include assert.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C 
+			      C ENDIF
+			      C .LIST								; Enable listing again
+			      C 
+ 0000				.data								; Data segment
+ 0000				.code								; Start of code segment
+				; ------------------------------------------------------------------
+
+ 0000				_acrtused PROC
+ 0000				_acrtused ENDP
+				; ------------------------------------------------------------------
+				; void setpage(int page)
+				; ------------------------------------------------------------------
+				; This function sets the active page number.
+
+ 0000				setpage PROC
+ 0000  55			    push bp							; Save BP on stack
+ 0001  8B EC			    mov bp, sp							; Set BP to SP
+
+ 0003  8A 46 04			    mov  al, [bp + 4]						; Select display page
+ 0006  B4 05			    mov  ah, 05h						; Select active display page
+ 0008  CD 10			    int  10h
+
+ 000A  8B E5			    mov sp, bp							; Restore stack pointer
+ 000C  5D			    pop bp							; Restore BP register
+ 000D  C3			    ret
+ 000E				setpage ENDP
+
+				END
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\bios.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 000E	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0000	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+_acrtused  . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0000 Public C
+_assert  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+clrscr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cprintf  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cputsxy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cputs  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cscanf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cursoroff  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cursoron . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+delay  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+drawline . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getche . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+gets . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+gotoxy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+highvideo  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+insline  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isalnum  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isalpha  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+iscntrl  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isdigit  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isgraph  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+islower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isprint  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+ispunct  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isspace  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isxdigit . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+kbhit  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+lowvideo . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memcpy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memmove  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memset . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+newline  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+printf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+setcursortype  . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+setpage  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 000E Public C
+strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcoll  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcpy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcspn  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strlen . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncat  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncmp  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncpy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strpbrk  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strrchr  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strspn . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strstr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strtok . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strxfrm  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+textbackground . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+textcolor  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+tolower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+toupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+ungetch  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+wherex . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+wherey . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+LIBC_INC . . . . . . . . . . . .	Text   	 1
+_ASSERT_ . . . . . . . . . . . .	Text   	 1
+_CONIO_  . . . . . . . . . . . .	Text   	 1
+_CTYPE_  . . . . . . . . . . . .	Text   	 1
+_STDIO_  . . . . . . . . . . . .	Text   	 1
+_STRING_ . . . . . . . . . . . .	Text   	 1
+
+	   0 Warnings
+	   0 Errors

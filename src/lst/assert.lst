@@ -1,0 +1,191 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\assert.asm						     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				include libc.inc						; Include library headers
+			      C .NOLIST								; Supress listing of header
+			      C .LIST
+			      C 
+			      C include string.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include ctype.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include conio.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include assert.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C 
+			      C ENDIF
+			      C .LIST								; Enable listing again
+			      C 
+ 0000				.data								; Data segment
+ 0000 20 20 20 20 5B 2D		 error_fmt db "    [-] Assertion failed: file %s, line %d", 10, 13, 0
+       5D 20 41 73 73 65
+       72 74 69 6F 6E 20
+       66 61 69 6C 65 64
+       3A 20 66 69 6C 65
+       20 25 73 2C 20 6C
+       69 6E 65 20 25 64
+       0A 0D 00
+ 0000				.code								; Start of code segment
+				; ------------------------------------------------------------------
+
+
+				; ------------------------------------------------------------------
+				; void _assert(const char *e ,const char *file, int line)
+				; ------------------------------------------------------------------
+				; This function returns an assertion error if vaid, calls
+				; to the _printf function within the library and uses
+				; a string fmt method for producing the error msg in the
+				; system console.
+
+ 0000				_assert PROC func:WORD, file:WORD, line:PTR BYTE
+ 0003  60			    pusha
+
+ 0004  B4 09			    mov	ah, 09h
+ 0006  B0 20			    mov	al, ' '
+ 0008  B3 0C			    mov	bl, 0ch						    ; Format text red
+ 000A  B9 0054			    mov	cx, 84
+ 000D  CD 10			    int	10h
+
+ 000F  BF 0000 R		    mov di, offset error_fmt				    ; Error string to format
+ 0012  8B 46 04			    mov ax,func					    ; Filename
+ 0015  8B 5E 06			    mov bx, file					    ; Line number
+ 0018  8B 4E 08			    mov cx, line					    ; Failed input
+
+ 001B  51			    push cx
+ 001C  53			    push bx
+ 001D  57			    push di
+ 001E  E8 0000 E		    call printf
+ 0021  59			    pop cx
+ 0022  5B			    pop bx
+ 0023  5F			    pop di
+
+ 0024  61			    popa
+ 0025  8B E5			    mov sp, bp						    ; Restore stack pointer
+ 0027  5D			    pop bp						    ; Restore BP register
+				    ret
+ 002A				_assert ENDP
+
+				end
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\assert.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 002A	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 002D	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+_assert  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 002A Public C
+  func . . . . . . . . . . . . .	Word	 bp + 0004
+  file . . . . . . . . . . . . .	Word	 bp + 0006
+  line . . . . . . . . . . . . .	Word	 bp + 0008
+clrscr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cprintf  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cputsxy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cputs  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cscanf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cursoroff  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+cursoron . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+delay  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+drawline . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getche . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+getch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+gets . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+gotoxy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+highvideo  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+insline  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isalnum  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isalpha  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+iscntrl  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isdigit  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isgraph  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+islower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isprint  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+ispunct  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isspace  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isxdigit . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+kbhit  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+lowvideo . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memcpy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memmove  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memset . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+newline  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+printf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+setcursortype  . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcoll  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcpy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcspn  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strlen . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncat  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncmp  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncpy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strpbrk  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strrchr  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strspn . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strstr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strtok . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strxfrm  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+textbackground . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+textcolor  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+tolower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+toupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+ungetch  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+wherex . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+wherey . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+LIBC_INC . . . . . . . . . . . .	Text   	 1
+_ASSERT_ . . . . . . . . . . . .	Text   	 1
+_CONIO_  . . . . . . . . . . . .	Text   	 1
+_CTYPE_  . . . . . . . . . . . .	Text   	 1
+_STDIO_  . . . . . . . . . . . .	Text   	 1
+_STRING_ . . . . . . . . . . . .	Text   	 1
+error_fmt  . . . . . . . . . . .	Byte	 0000	  _DATA	
+
+	   0 Warnings
+	   0 Errors

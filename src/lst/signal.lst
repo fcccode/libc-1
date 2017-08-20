@@ -1,0 +1,57 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\signal.asm						     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				.model small, C
+				.386
+ 0000					.data							; Data segment
+ 0000					.code							; Start of code segment
+				; ------------------------------------------------------------------
+ 0000				_raise PROC
+ 0000  55			    push bp						    ; Save BP on stack
+ 0001  8B EC			    mov bp, sp						    ; Set BP to SP
+
+ 0003  8B E5			    mov sp, bp						    ; Restore stack pointer
+ 0005  5D			    pop bp						    ; Restore BP register
+ 0006  C3			    ret
+ 0007				_raise ENDP
+				end
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+src\signal.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	16 Bit	 0000	  Word	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0007	  Word	  Public  'CODE'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+_raise . . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0007 Public C
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0002h	 
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+
+	   0 Warnings
+	   0 Errors
