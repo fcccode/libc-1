@@ -1,5 +1,5 @@
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:15
-src\bios.asm						     Page 1 - 1
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:46:03
+src\signal.asm						     Page 1 - 1
 
 
 				; ------------------------------------------------------------------
@@ -40,34 +40,97 @@ src\bios.asm						     Page 1 - 1
 			      C 
 			      C 
  0000				.data								; Data segment
+ 0000 00			 catch_func db ?						; Buffer for returning data
+ 0001 01			 SIGCHECK db 1
  0000				.code								; Start of code segment
 				; ------------------------------------------------------------------
 
- 0000				_acrtused PROC
- 0000				_acrtused ENDP
-				; ------------------------------------------------------------------
-				; void setpage(int page)
-				; ------------------------------------------------------------------
-				; This function sets the active page number.
 
- 0000				setpage PROC
- 0000  55			    push bp							; Save BP on stack
- 0001  8B EC			    mov bp, sp							; Set BP to SP
+				clearBuff MACRO arg
+				    push di
+				    push cx
+				    push ax
+				    cld
+				    mov di, offset arg
+				    mov cx, sizeof arg						; Repeat for the length of the buffer
+				    mov al, 0							; Clear with null (0)
+				    rep stosb
+				    pop di
+				    pop cx
+				    pop ax
+				ENDM
 
- 0003  8A 46 04			    mov  al, [bp + 4]						; Select display page
- 0006  B4 05			    mov  ah, 05h						; Select active display page
- 0008  CD 10			    int  10h
 
- 000A  8B E5			    mov sp, bp							; Restore stack pointer
- 000C  5D			    pop bp							; Restore BP register
- 000D  C3			    ret
- 000E				setpage ENDP
+ 0000				signal PROC sig:PTR BYTE, func:WORD
+				    .IF sig == SIGINT
+					.IF SIGCHECK == true					 ; Signal failsafe
+ 0010  8B 46 06				    mov ax, func					 ; Move func into register
+ 0013  A3 0000 R			    mov WORD PTR catch_func, ax				 ; Move ax into the static var
+ 0016  C6 06 0001 R 00			    mov SIGCHECK, false					 ; Set failsafe to false
+ 001B  B8 0000				    mov ax, 0						 ; Return 0 for success
+					.ELSE
+ 0020  B8 FFFF				    mov ax, -1
+					.ENDIF
+				    .ELSEIF sig == SIGILL
+				    .ELSEIF sig == SIGFPE
+				    .ELSEIF sig == SIGSEGV
+				    .ELSEIF sig == SIGTERM
+				    .ELSEIF sig == SIGBREAK
+				    .ELSEIF sig == SIGABRT
+				    .ELSEIF sig == NSIG
+				    .ELSE
+ 005D  B8 FFFF				mov ax, -1
+				    .ENDIF
+				    ret
+ 0062				signal ENDP
+
+
+ 0062				raise PROC sig:PTR BYTE
+				    .IF sig == SIGINT
+				    	.IF SIGCHECK == false
+ 0072  A1 0000 R			    mov ax, WORD PTR catch_func
+ 0075  FF D0				    call ax
+ 0077  C6 06 0001 R 01			    mov SIGCHECK, true
+					    clearBuff catch_func
+ 007C  57		     1	    push di
+ 007D  51		     1	    push cx
+ 007E  50		     1	    push ax
+ 007F  FC		     1	    cld
+ 0080  BF 0000 R	     1	    mov di, offset catch_func
+ 0083  B9 0001		     1	    mov cx, sizeof catch_func						; Repeat for the length of the buffer
+ 0086  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 0088  F3/ AA		     1	    rep stosb
+ 008A  5F		     1	    pop di
+ 008B  59		     1	    pop cx
+ 008C  58		     1	    pop ax
+ 008D  B8 0000				    mov ax, 0
+					.ELSE
+ 0092  B8 FFFF				    mov ax, -1
+					.ENDIF
+				    .ELSEIF sig == SIGILL
+				    .ELSEIF sig == SIGFPE
+				    .ELSEIF sig == SIGSEGV
+				    .ELSEIF sig == SIGTERM
+				    .ELSEIF sig == SIGBREAK
+				    .ELSEIF sig == SIGABRT
+				    .ELSEIF sig == NSIG
+				    .ELSE
+				    .ENDIF
+				    ret
+ 00D1				raise ENDP
 
 				END
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:15
-src\bios.asm						     Symbols 2 - 1
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:46:03
+src\signal.asm						     Symbols 2 - 1
 
 
+
+
+Macros:
+
+                N a m e                 Type
+
+clearBuff  . . . . . . . . . . .	Proc
 
 
 Structures and Unions:
@@ -92,15 +155,14 @@ Segments and Groups:
                 N a m e                 Size     Length   Align   Combine Class
 
 DGROUP . . . . . . . . . . . . .	GROUP
-_TEXT  . . . . . . . . . . . . .	16 Bit	 000E	  Word	  Public  'CODE'	
-_DATA  . . . . . . . . . . . . .	16 Bit	 0000	  Word	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	16 Bit	 00D1	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0002	  Word	  Public  'DATA'	
 
 
 Procedures,  parameters and locals:
 
                 N a m e                 Type     Value    Attr
 
-_acrtused  . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0000 Public C
 _assert  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 bcd  . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 clrscr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -143,11 +205,13 @@ printf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 putchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 putch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-raise  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+raise  . . . . . . . . . . . . .	P Near	 0062	  _TEXT	Length= 006F Public C
+  sig  . . . . . . . . . . . . .	Word	 bp + 0004
 scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 setcursortype  . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-setpage  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 000E Public C
-signal . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+signal . . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0062 Public C
+  sig  . . . . . . . . . . . . .	Word	 bp + 0004
+  func . . . . . . . . . . . . .	Word	 bp + 0006
 strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -191,6 +255,7 @@ FILENAME_MAX . . . . . . . . . .	Number	 000Bh
 NSIG . . . . . . . . . . . . . .	Number	 0017h	 
 SIGABRT  . . . . . . . . . . . .	Number	 0016h	 
 SIGBREAK . . . . . . . . . . . .	Number	 0015h	 
+SIGCHECK . . . . . . . . . . . .	Byte	 0001	  _DATA	
 SIGFPE . . . . . . . . . . . . .	Number	 0008h	 
 SIGILL . . . . . . . . . . . . .	Number	 0004h	 
 SIGINT . . . . . . . . . . . . .	Number	 0002h	 
@@ -204,6 +269,7 @@ _STDBOOL_  . . . . . . . . . . .	Text   	 1
 _STDIO_  . . . . . . . . . . . .	Text   	 1
 _STRING_ . . . . . . . . . . . .	Text   	 1
 _TIME_ . . . . . . . . . . . . .	Text   	 1
+catch_func . . . . . . . . . . .	Byte	 0000	  _DATA	
 false  . . . . . . . . . . . . .	Number	 0000h	 
 true . . . . . . . . . . . . . .	Number	 0001h	 
 

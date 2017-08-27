@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:27
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:46:03
 src\ctype.asm						     Page 1 - 1
 
 
@@ -328,7 +328,7 @@ src\ctype.asm						     Page 1 - 1
  029C				toupper  ENDP
 
 				END
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:27
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:46:03
 src\ctype.asm						     Symbols 2 - 1
 
 

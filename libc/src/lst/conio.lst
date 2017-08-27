@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:23
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:46:03
 src\conio.asm						     Page 1 - 1
 
 
@@ -665,7 +665,7 @@ src\conio.asm						     Page 1 - 1
  03A2				setcursortype ENDP
 
 				END
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:23
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:46:03
 src\conio.asm						     Symbols 2 - 1
 
 

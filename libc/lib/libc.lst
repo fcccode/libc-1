@@ -1,17 +1,18 @@
-_clrscr...........conio             _convert_sector...stdio
-_cprintf..........conio             _cputs............conio
-_cputsxy..........conio             _cscanf...........conio
-_cursoroff........conio             _cursoron.........conio
-_delay............conio             _getch............conio
-_getchar..........stdio             _getche...........conio
-_gets.............stdio             _gotoxy...........conio
-_highvideo........conio             _insline..........conio
-_isalnum..........ctype             _isalpha..........ctype
-_iscntrl..........ctype             _isdigit..........ctype
-_isgraph..........ctype             _islower..........ctype
-_isprint..........ctype             _ispunct..........ctype
-_isspace..........ctype             _isupper..........ctype
-_isxdigit.........ctype             _kbhit............conio
+_bcd..............time              _clrscr...........conio
+_convert_sector...stdio             _cprintf..........conio
+_cputs............conio             _cputsxy..........conio
+_cscanf...........conio             _cursoroff........conio
+_cursoron.........conio             _delay............conio
+_getch............conio             _getchar..........stdio
+_getche...........conio             _gets.............stdio
+_gotoxy...........conio             _highvideo........conio
+_insline..........conio             _isalnum..........ctype
+_isalpha..........ctype             _iscntrl..........ctype
+_isdigit..........ctype             _isgraph..........ctype
+_islower..........ctype             _isprint..........ctype
+_ispunct..........ctype             _isspace..........ctype
+_isupper..........ctype             _isxdigit.........ctype
+_kbhit............conio             _localtime........time
 _lowvideo.........conio             _memchr...........string
 _memcmp...........string            _memcpy...........string
 _memmove..........string            _memset...........string
@@ -69,3 +70,6 @@ bios              Offset: 00008500H  Code and data size: 75cH
 
 signal            Offset: 00008f00H  Code and data size: a8bH
   _raise            _signal         
+
+time              Offset: 00009de0H  Code and data size: 84cH
+  _bcd              _localtime      

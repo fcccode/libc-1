@@ -1,5 +1,5 @@
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:09
-src\assert.asm						     Page 1 - 1
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:46:03
+src\bios.asm						     Page 1 - 1
 
 
 				; ------------------------------------------------------------------
@@ -40,57 +40,32 @@ src\assert.asm						     Page 1 - 1
 			      C 
 			      C 
  0000				.data								; Data segment
- 0000 20 20 20 20 5B 2D		 error_fmt db "    [-] Assertion failed: file %s, line %d", 10, 13, 0
-       5D 20 41 73 73 65
-       72 74 69 6F 6E 20
-       66 61 69 6C 65 64
-       3A 20 66 69 6C 65
-       20 25 73 2C 20 6C
-       69 6E 65 20 25 64
-       0A 0D 00
  0000				.code								; Start of code segment
 				; ------------------------------------------------------------------
 
-
+ 0000				_acrtused PROC
+ 0000				_acrtused ENDP
 				; ------------------------------------------------------------------
-				; void _assert(const char *e ,const char *file, int line)
+				; void setpage(int page)
 				; ------------------------------------------------------------------
-				; This function returns an assertion error if vaid, calls
-				; to the _printf function within the library and uses
-				; a string fmt method for producing the error msg in the
-				; system console.
+				; This function sets the active page number.
 
- 0000				_assert PROC func:WORD, file:WORD, line:PTR BYTE
- 0003  60			    pusha
+ 0000				setpage PROC
+ 0000  55			    push bp							; Save BP on stack
+ 0001  8B EC			    mov bp, sp							; Set BP to SP
 
- 0004  B4 09			    mov	ah, 09h
- 0006  B0 20			    mov	al, ' '
- 0008  B3 0C			    mov	bl, 0ch						    ; Format text red
- 000A  B9 0054			    mov	cx, 84
- 000D  CD 10			    int	10h
+ 0003  8A 46 04			    mov  al, [bp + 4]						; Select display page
+ 0006  B4 05			    mov  ah, 05h						; Select active display page
+ 0008  CD 10			    int  10h
 
- 000F  BF 0000 R		    mov di, offset error_fmt				    ; Error string to format
- 0012  8B 46 04			    mov ax,func					    ; Filename
- 0015  8B 5E 06			    mov bx, file					    ; Line number
- 0018  8B 4E 08			    mov cx, line					    ; Failed input
+ 000A  8B E5			    mov sp, bp							; Restore stack pointer
+ 000C  5D			    pop bp							; Restore BP register
+ 000D  C3			    ret
+ 000E				setpage ENDP
 
- 001B  51			    push cx
- 001C  53			    push bx
- 001D  57			    push di
- 001E  E8 0000 E		    call printf
- 0021  59			    pop cx
- 0022  5B			    pop bx
- 0023  5F			    pop di
-
- 0024  61			    popa
- 0025  8B E5			    mov sp, bp						    ; Restore stack pointer
- 0027  5D			    pop bp						    ; Restore BP register
-				    ret
- 002A				_assert ENDP
-
-				end
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:09
-src\assert.asm						     Symbols 2 - 1
+				END
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:46:03
+src\bios.asm						     Symbols 2 - 1
 
 
 
@@ -117,18 +92,16 @@ Segments and Groups:
                 N a m e                 Size     Length   Align   Combine Class
 
 DGROUP . . . . . . . . . . . . .	GROUP
-_TEXT  . . . . . . . . . . . . .	16 Bit	 002A	  Word	  Public  'CODE'	
-_DATA  . . . . . . . . . . . . .	16 Bit	 002D	  Word	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	16 Bit	 000E	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0000	  Word	  Public  'DATA'	
 
 
 Procedures,  parameters and locals:
 
                 N a m e                 Type     Value    Attr
 
-_assert  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 002A Public C
-  func . . . . . . . . . . . . .	Word	 bp + 0004
-  file . . . . . . . . . . . . .	Word	 bp + 0006
-  line . . . . . . . . . . . . .	Word	 bp + 0008
+_acrtused  . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0000 Public C
+_assert  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 bcd  . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 clrscr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cprintf  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -173,6 +146,7 @@ puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 raise  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 setcursortype  . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+setpage  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 000E Public C
 signal . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -230,7 +204,6 @@ _STDBOOL_  . . . . . . . . . . .	Text   	 1
 _STDIO_  . . . . . . . . . . . .	Text   	 1
 _STRING_ . . . . . . . . . . . .	Text   	 1
 _TIME_ . . . . . . . . . . . . .	Text   	 1
-error_fmt  . . . . . . . . . . .	Byte	 0000	  _DATA	
 false  . . . . . . . . . . . . .	Number	 0000h	 
 true . . . . . . . . . . . . . .	Number	 0001h	 
 
