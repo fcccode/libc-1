@@ -23,8 +23,12 @@
     <None Include="include\conio.inc" />
     <None Include="include\ctype.inc" />
     <None Include="include\libc.inc" />
+    <None Include="include\signal.inc" />
+    <None Include="include\stdarg.inc" />
+    <None Include="include\stdbool.inc" />
     <None Include="include\stdio.inc" />
     <None Include="include\string.inc" />
+    <None Include="include\time.inc" />
     <None Include="src\assert.asm" />
     <None Include="src\bios.asm" />
     <None Include="src\conio.asm" />
@@ -32,24 +36,28 @@
     <None Include="src\signal.asm" />
     <None Include="src\stdio.asm" />
     <None Include="src\string.asm" />
+    <None Include="src\time.asm" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests\__conio.c" />
     <ClCompile Include="tests\__ctype.c" />
     <ClCompile Include="tests\__kernel.c" />
+    <ClCompile Include="tests\__signal.c" />
+    <ClCompile Include="tests\__stddef.c" />
     <ClCompile Include="tests\__string.c" />
+    <ClCompile Include="tests\__time.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\h\assert.h" />
-    <ClInclude Include="..\h\bios.h" />
-    <ClInclude Include="..\h\conio.h" />
-    <ClInclude Include="..\h\ctype.h" />
-    <ClInclude Include="..\h\errno.h" />
-    <ClInclude Include="..\h\limits.h" />
-    <ClInclude Include="..\h\signal.h" />
-    <ClInclude Include="..\h\stdbool.h" />
-    <ClInclude Include="..\h\stdio.h" />
-    <ClInclude Include="..\h\string.h" />
+    <ClInclude Include="include\assert.h" />
+    <ClInclude Include="include\conio.h" />
+    <ClInclude Include="include\ctype.h" />
+    <ClInclude Include="include\errno.h" />
+    <ClInclude Include="include\limits.h" />
+    <ClInclude Include="include\signal.h" />
+    <ClInclude Include="include\stdbool.h" />
+    <ClInclude Include="include\stdio.h" />
+    <ClInclude Include="include\string.h" />
+    <ClInclude Include="include\time.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

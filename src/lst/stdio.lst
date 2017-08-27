@@ -1,10 +1,13 @@
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:32
 src\stdio.asm						     Page 1 - 1
 
 
 				; ------------------------------------------------------------------
+				.model tiny, c							; Small memoy model
+				.386								; 80386 CPU
 				include libc.inc						; Include library headers
-			      C .NOLIST								; Supress listing of header
+			      C include stdio.inc
+			      C .NOLIST
 			      C .LIST
 			      C 
 			      C include string.inc
@@ -23,99 +26,159 @@ src\stdio.asm						     Page 1 - 1
 			      C .NOLIST
 			      C .LIST
 			      C 
+			      C include stdbool.inc
+			      C .NOLIST
+			      C .LIST
 			      C 
-			      C ENDIF
-			      C .LIST								; Enable listing again
+			      C include signal.inc
+			      C .NOLIST
+			      C .LIST
 			      C 
+			      C include time.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C 
+				extern BootDrive:far
  0000				.data								; Data segment
- 0000  000A [			 temp db 10 dup(?)						; Temp var
+ 0000  003C [			dirlist db 60 dup(?)
+        00
+       ]
+ 003C  000A [			 temp db 10 dup(?)						; Temp var
         00
        ]
  0000				.code								; Start of code segment
 				; ------------------------------------------------------------------
+
+
+
+
+				; --------------------------------------------------------------------------
+				; convert_sector -- Calculate head, track and sector for int 13h
+				; IN: AX = logical sector
+				; OUT: correct registers for int 13h
+
+ 0000				convert_sector proc
+ 0000  53				push bx
+ 0001  50				push ax
+ 0002  8B D8				mov bx, ax                  ; Save logical sector
+ 0004  BA 0012				mov dx, 18                   ; First the sector
+ 0007  F7 F3				div bx	    ; Sectors per track
+ 0009  80 C2 01				add	dl, 01h                 ; Physical sectors start at 1
+ 000C  8A CA				mov	cl, dl                  ; Sectors belong in CL for int 13h
+ 000E  8B C3				mov	ax, bx
+ 0010  BA 0012				mov	dx, 18                   ; Calculate the head
+ 0013  F7 F3				div bx  ; Sectors per track
+ 0015  BA 0002				mov	dx, 2
+ 0018  F7 F3				div bx            ; Floppy sides
+ 001A  8A F2				mov	dh, dl                  ; Head/side
+ 001C  8A E8				mov	ch, al                  ; Track
+ 001E  58				pop	ax
+ 001F  5B				pop	bx
+ 0020  BA 0000 E			mov	dx, [BootDrive]
+ 0023  C3				ret
+ 0024				convert_sector endp
+				; ------------------------------------------------------------------
+				; reset_floppy -- Reset the floppy disk on error
+				; IN: Nothing
+				; OUT: Carry flag on error
+
+ 0024				reset_floppy proc
+ 0024  50			    push ax
+ 0025  52			    push dx
+
+ 0026  B8 0000			    mov	ax, 0
+ 0029  BA 0000 E		    mov	dx, [BootDrive]
+
+ 002C  F9			    stc
+ 002D  CD 13			    int	13h
+ 002F  5A			    pop dx
+ 0030  58			    pop ax
+ 0031  C3			    ret
+ 0032				reset_floppy ENDp
 
 				; ------------------------------------------------------------------
 				; int printf(const char *format, ...)
 				; ------------------------------------------------------------------
 				; Sends formatted output to stdout.
 
- 0000				printf PROC uses ax
- 0001  55			    push bp							; Save BP on stack
- 0002  8B EC			    mov bp, sp							; Set BP to SP
- 0004  BF 0006				mov di, 6
- 0007  8B 33			    mov si, [bp + di]						; Point to param address
+ 0032				printf PROC uses ax
+ 0033  55			    push bp							; Save BP on stack
+ 0034  8B EC			    mov bp, sp							; Set BP to SP
+ 0036  BF 0006			    mov di, 6
+ 0039  8B 33			    mov si, [bp + di]						; Point to param address
 
- 0009				  @@loop:
- 0009  AC				lodsb							; Get character from string
- 000A  0A C0				or al, al						; End of string
- 000C  74 57				jz @@done
- 000E  3C 25				cmp al, '%'
- 0010  74 06				je @@switch
- 0012  B4 0E				mov ah, 0eh						; int 10h 'print char' function
- 0014  CD 10				int     10h						; Otherwise, print it
- 0016  EB F1				jmp @@loop
+ 003B				  @@loop:
+ 003B  AC				lodsb							; Get character from string
+ 003C  0A C0				or al, al						; End of string
+ 003E  74 57				jz @@done
+ 0040  3C 25				cmp al, '%'
+ 0042  74 06				je @@switch
+ 0044  B4 0E				mov ah, 0eh						; int 10h 'print char' function
+ 0046  CD 10				int     10h						; Otherwise, print it
+ 0048  EB F1				jmp @@loop
 
- 0018					@@switch:
- 0018  AC					lodsb
- 0019  56					push si						; Store current string
- 001A  83 C7 02					add di, 2					; Add to param offset
- 001D  8B 33					mov si, [bp + di]				; Point to param address
+ 004A					@@switch:
+ 004A  AC					lodsb
+ 004B  56					push si						; Store current string
+ 004C  83 C7 02					add di, 2					; Add to param offset
+ 004F  8B 33					mov si, [bp + di]				; Point to param address
 
- 001F  3C 73					cmp al, 's'					; String
- 0021  74 0B					je @@string
- 0023  3C 63					cmp al, 'c'					; Character
- 0025  74 12					je @@char
- 0027  3C 64					cmp al, 'd'					; Decimal integer
- 0029  74 16					je @@decimal
+ 0051  3C 73					cmp al, 's'					; String
+ 0053  74 0B					je @@string
+ 0055  3C 63					cmp al, 'c'					; Character
+ 0057  74 12					je @@char
+ 0059  3C 64					cmp al, 'd'					; Decimal integer
+ 005B  74 16					je @@decimal
 
- 002B					  @@switch_end:
- 002B  5E				  	pop si
- 002C  EB DB					jmp @@loop
+ 005D					  @@switch_end:
+ 005D  5E				  	pop si
+ 005E  EB DB					jmp @@loop
 
- 002E					  @@string:
- 002E  AC					lodsb
- 002F  0A C0					or al, al					; End of param string
- 0031  74 F8					jz @@switch_end
- 0033  B4 0E					mov ah, 0eh					; Teletype output
- 0035  CD 10					int     10h					; Video interupt
- 0037  EB F5					jmp @@string
+ 0060					  @@string:
+ 0060  AC					lodsb
+ 0061  0A C0					or al, al					; End of param string
+ 0063  74 F8					jz @@switch_end
+ 0065  B4 0E					mov ah, 0eh					; Teletype output
+ 0067  CD 10					int     10h					; Video interupt
+ 0069  EB F5					jmp @@string
 
- 0039					  @@char:
- 0039  8B C6					mov ax,  si
- 003B  B4 0E					mov ah, 0eh					; Teletype output
- 003D  CD 10					int     10h					; Video interupt
- 003F  EB EA					jmp @@switch_end
+ 006B					  @@char:
+ 006B  8B C6					mov ax,  si
+ 006D  B4 0E					mov ah, 0eh					; Teletype output
+ 006F  CD 10					int     10h					; Video interupt
+ 0071  EB EA					jmp @@switch_end
 
- 0041					  @@decimal:
- 0041  8B C6					mov ax, si
- 0043  60					pusha
- 0044  B9 0000					mov cx, 0
- 0047  BB 000A					mov bx, 10					; Set BX 10, for division and mod
+ 0073					  @@decimal:
+ 0073  8B C6					mov ax, si
+ 0075  60					pusha
+ 0076  B9 0000					mov cx, 0
+ 0079  BB 000A					mov bx, 10					; Set BX 10, for division and mod
 
- 004A						@@push:
- 004A  BA 0000						mov dx, 0
- 004D  F7 F3						div bx					; Remainder in DX, quotient in AX
- 004F  41						inc cx					; Increase pop loop counter
- 0050  52						push dx					; Push remainder, so as to reverse order when popping
- 0051  85 C0						test ax, ax				; Is quotient zero?
- 0053  75 F5						jnz @@push				; If not, loop again
+ 007C						@@push:
+ 007C  BA 0000						mov dx, 0
+ 007F  F7 F3						div bx					; Remainder in DX, quotient in AX
+ 0081  41						inc cx					; Increase pop loop counter
+ 0082  52						push dx					; Push remainder, so as to reverse order when popping
+ 0083  85 C0						test ax, ax				; Is quotient zero?
+ 0085  75 F5						jnz @@push				; If not, loop again
 
- 0055						@@pop:
- 0055  5A						pop dx					; Pop off values in reverse order, and add 48 to make them digits
- 0056  80 C2 30						add dl, 48				; And save them in the string, increasing the pointer each time
- 0059  8A C2						mov al, dl
- 005B  B4 0E						mov ah, 0eh				; Teletype output
- 005D  CD 10						int     10h
- 005F  49						dec cx
- 0060  75 F3						jnz @@pop
- 0062  61						popa
- 0063  EB C6						jmp @@switch_end			; Print temp
+ 0087						@@pop:
+ 0087  5A						pop dx					; Pop off values in reverse order, and add 48 to make them digits
+ 0088  80 C2 30						add dl, 48				; And save them in the string, increasing the pointer each time
+ 008B  8A C2						mov al, dl
+ 008D  B4 0E						mov ah, 0eh				; Teletype output
+ 008F  CD 10						int     10h
+ 0091  49						dec cx
+ 0092  75 F3						jnz @@pop
+ 0094  61						popa
+ 0095  EB C6						jmp @@switch_end			; Print temp
 
- 0065				  @@done:
- 0065  8B E5			    mov sp, bp							; Restore stack pointer
- 0067  5D				pop bp							; Restore BP register
+ 0097				  @@done:
+ 0097  8B E5			    mov sp, bp							; Restore stack pointer
+ 0099  5D				pop bp							; Restore BP register
 					ret
- 006A				printf ENDP
+ 009C				printf ENDP
 
 
 				; ------------------------------------------------------------------
@@ -123,81 +186,81 @@ src\stdio.asm						     Page 1 - 1
 				; ------------------------------------------------------------------
 				; Reads formatted input from stdin.
 
- 006A				scanf PROC
- 006A  55			    push bp							; Save BP on stack
- 006B  8B EC			    mov bp, sp							; Set BP to SP
- 006D  8B 76 04			    mov si, [bp + 4]						; Point to param address
+ 009C				scanf PROC
+ 009C  55			    push bp							; Save BP on stack
+ 009D  8B EC			    mov bp, sp							; Set BP to SP
+ 009F  8B 76 04			    mov si, [bp + 4]						; Point to param address
 
 				    .IF BYTE PTR [si] == '%'
 					.IF BYTE PTR [si + 1] == 's'
- 007B  EB 1C				    jmp @@string
+ 00AD  EB 1C				    jmp @@string
 					.ELSEIF BYTE PTR [si + 1] == 'c'
- 0085  EB 4C				    jmp @@char
+ 00B7  EB 4C				    jmp @@char
 					.ELSEIF BYTE PTR [si + 1] == 'd'
- 008F  EB 50				    jmp @@decimal
+ 00C1  EB 50				    jmp @@decimal
 					.ELSE
- 0093  EB FE				    @@error: jmp @@error
+ 00C5  EB FE				    @@error: jmp @@error
 					.ENDIF
 				    .ELSE
- 0097  EB FE				    @error: jmp @error
+ 00C9  EB FE				    @error: jmp @error
 				    .ENDIF
- 0099				      @@string:
- 0099  8B 7E 06					mov di, [bp + 6]				; Point to param address
- 009C  32 C9					xor cl, cl
- 009E				      @@input_loop:
- 009E  B4 00					mov ah, 0
- 00A0  CD 16					int	16h	    				; Wait for keypress
- 00A2  3C 08					cmp al, 08h					; Handle backspace
- 00A4  74 12					je @@backspace
- 00A6  3C 0D					cmp al, 0dh					; Handle enter
- 00A8  74 37					je @@done
- 00AA  80 F9 3F					cmp cl, 3fh					; Handle max input buffer
- 00AD  74 32					je @@done
+ 00CB				      @@string:
+ 00CB  8B 7E 06					mov di, [bp + 6]				; Point to param address
+ 00CE  32 C9					xor cl, cl
+ 00D0				      @@input_loop:
+ 00D0  B4 00					mov ah, 0
+ 00D2  CD 16					int	16h	    				; Wait for keypress
+ 00D4  3C 08					cmp al, 08h					; Handle backspace
+ 00D6  74 12					je @@backspace
+ 00D8  3C 0D					cmp al, 0dh					; Handle enter
+ 00DA  74 37					je @@done
+ 00DC  80 F9 3F					cmp cl, 3fh					; Handle max input buffer
+ 00DF  74 32					je @@done
 
- 00AF  B4 0E					mov ah, 0eh					; Teletype output
- 00B1  CD 10					int	10h					; Video interupt
+ 00E1  B4 0E					mov ah, 0eh					; Teletype output
+ 00E3  CD 10					int	10h					; Video interupt
 
- 00B3  AA					stosb						; Store string
- 00B4  FE C1					inc cl
- 00B6  EB E6					jmp @@input_loop
+ 00E5  AA					stosb						; Store string
+ 00E6  FE C1					inc cl
+ 00E8  EB E6					jmp @@input_loop
 
- 00B8					  @@backspace:
- 00B8  80 F9 00					cmp cl, 0					; Start of string
- 00BB  74 E1					je @@input_loop
- 00BD  4F					dec di
- 00BE  C6 05 00					mov BYTE PTR [di], 0				 ; Remove char
- 00C1  FE C9					dec cl						; Decrease char counter
- 00C3  B4 0E					mov ah, 0eh					; Teletype output
- 00C5  B0 08					mov al, 08h					; Backspace
- 00C7  CD 10					int	10h					; Video interupt
- 00C9  B0 20					mov al, ' '					; Fill with blank char
- 00CB  CD 10					int     10h					; Video interupt
- 00CD  B0 08					mov al, 08h					; Backspace
- 00CF  CD 10					int     10h					; Video interupt
- 00D1  EB CB					jmp @@input_loop
+ 00EA					  @@backspace:
+ 00EA  80 F9 00					cmp cl, 0					; Start of string
+ 00ED  74 E1					je @@input_loop
+ 00EF  4F					dec di
+ 00F0  C6 05 00					mov BYTE PTR [di], 0				 ; Remove char
+ 00F3  FE C9					dec cl						; Decrease char counter
+ 00F5  B4 0E					mov ah, 0eh					; Teletype output
+ 00F7  B0 08					mov al, 08h					; Backspace
+ 00F9  CD 10					int	10h					; Video interupt
+ 00FB  B0 20					mov al, ' '					; Fill with blank char
+ 00FD  CD 10					int     10h					; Video interupt
+ 00FF  B0 08					mov al, 08h					; Backspace
+ 0101  CD 10					int     10h					; Video interupt
+ 0103  EB CB					jmp @@input_loop
 
- 00D3					@@char:
- 00D3  8B 7E 06					mov di, [bp + 6]				; Point to param address
- 00D6  B4 00					mov ah, 0
- 00D8  CD 16					int	16h					; Wait for keypress
- 00DA  B4 0E					mov ah, 0eh					; Teletype output
- 00DC  CD 10					int	10h					; Video interupt
- 00DE  AA					stosb						; Store string
- 00DF  EB 00					jmp @@done
+ 0105					@@char:
+ 0105  8B 7E 06					mov di, [bp + 6]				; Point to param address
+ 0108  B4 00					mov ah, 0
+ 010A  CD 16					int	16h					; Wait for keypress
+ 010C  B4 0E					mov ah, 0eh					; Teletype output
+ 010E  CD 10					int	10h					; Video interupt
+ 0110  AA					stosb						; Store string
+ 0111  EB 00					jmp @@done
 
- 00E1					@@decimal:
+ 0113					@@decimal:
 
- 00E1				  @@done:
- 00E1  B4 0E			    mov ah, 0eh							; Teletype output
- 00E3  B0 0D			    mov al, 0dh							; Carriage return
- 00E5  CD 10			    int	    10h							; Video interupt
- 00E7  B0 0A			    mov al, 0ah							; Line feed
- 00E9  CD 10			    int	    10h							; Video interupt
+ 0113				  @@done:
+ 0113  B4 0E			    mov ah, 0eh							; Teletype output
+ 0115  B0 0D			    mov al, 0dh							; Carriage return
+ 0117  CD 10			    int	    10h							; Video interupt
+ 0119  B0 0A			    mov al, 0ah							; Line feed
+ 011B  CD 10			    int	    10h							; Video interupt
 
- 00EB  8B E5			    mov sp, bp							; Restore stack pointer
- 00ED  5D			    pop bp							; Restore BP register
- 00EE  C3			    ret
- 00EF				scanf ENDP
+ 011D  8B E5			    mov sp, bp							; Restore stack pointer
+ 011F  5D			    pop bp							; Restore BP register
+ 0120  C3			    ret
+ 0121				scanf ENDP
 
 
 				; ------------------------------------------------------------------
@@ -205,18 +268,18 @@ src\stdio.asm						     Page 1 - 1
 				; ------------------------------------------------------------------
 				; Gets a character (an unsigned char) from stdin.
 
- 00EF				getchar PROC
- 00EF  55			    push bp							; Save BP on stack
- 00F0  8B EC			    mov bp, sp							; Set BP to SP
+ 0121				getchar PROC
+ 0121  55			    push bp							; Save BP on stack
+ 0122  8B EC			    mov bp, sp							; Set BP to SP
 
- 00F2  B4 00			    mov ah, 0
- 00F4  CD 16			    int	    16h							; Keybord interupt
- 00F6  32 E4			    xor ah, ah							; Clear higher-half of ax
+ 0124  B4 00			    mov ah, 0
+ 0126  CD 16			    int	    16h							; Keybord interupt
+ 0128  32 E4			    xor ah, ah							; Clear higher-half of ax
 
- 00F8  8B E5			    mov sp, bp							; Restore stack pointer
- 00FA  5D			    pop bp							; Restore BP register
- 00FB  C3			    ret
- 00FC				getchar ENDP
+ 012A  8B E5			    mov sp, bp							; Restore stack pointer
+ 012C  5D			    pop bp							; Restore BP register
+ 012D  C3			    ret
+ 012E				getchar ENDP
 
 
 				; ----------------------------------------------------------------
@@ -227,56 +290,56 @@ src\stdio.asm						     Page 1 - 1
 				; the newline character is read or when the end-of-file
 				; is reached, whichever comes first.
 
- 00FC				gets PROC
- 00FC  55			    push bp							; Save BP on stack
- 00FD  8B EC			    mov bp, sp							; Set BP to SP
- 00FF  8B 7E 04			    mov di, [bp + 4]						; Point to param address
+ 012E				gets PROC
+ 012E  55			    push bp							; Save BP on stack
+ 012F  8B EC			    mov bp, sp							; Set BP to SP
+ 0131  8B 7E 04			    mov di, [bp + 4]						; Point to param address
 
- 0102  32 C9			    xor cl, cl
- 0104				  @@input_loop:
- 0104  B4 00			    mov ah, 0
- 0106  CD 16			    int		16h						; Wait for keypress
- 0108  3C 08			    cmp al, 08h							; Handle backspace
- 010A  74 12			    je @@backspace
- 010C  3C 0D			    cmp al, 0dh							; Handle enter
- 010E  74 29			    je @@done
- 0110  80 F9 3F			    cmp cl, 3fh							; Handle max input buffer
- 0113  74 24			    je @@done
+ 0134  32 C9			    xor cl, cl
+ 0136				  @@input_loop:
+ 0136  B4 00			    mov ah, 0
+ 0138  CD 16			    int		16h						; Wait for keypress
+ 013A  3C 08			    cmp al, 08h							; Handle backspace
+ 013C  74 12			    je @@backspace
+ 013E  3C 0D			    cmp al, 0dh							; Handle enter
+ 0140  74 29			    je @@done
+ 0142  80 F9 3F			    cmp cl, 3fh							; Handle max input buffer
+ 0145  74 24			    je @@done
 
- 0115  B4 0E			    mov ah, 0eh							; Teletype output
- 0117  CD 10			    int	10h							; Video interupt
+ 0147  B4 0E			    mov ah, 0eh							; Teletype output
+ 0149  CD 10			    int	10h							; Video interupt
 
- 0119  AA			    stosb							; Store string
- 011A  FE C1			    inc cl
- 011C  EB E6			    jmp @@input_loop
+ 014B  AA			    stosb							; Store string
+ 014C  FE C1			    inc cl
+ 014E  EB E6			    jmp @@input_loop
 
- 011E				  @@backspace:
- 011E  80 F9 00			    cmp cl, 0							; Start of string
- 0121  74 E1			    je @@input_loop
- 0123  4F			    dec di
- 0124  C6 05 00			    mov byte ptr [di], 0					; Remove char
- 0127  FE C9			    dec cl							; Decrease char counter
- 0129  B4 0E			    mov ah, 0eh							; Teletype output
- 012B  B0 08			    mov al, 08h							; Backspace
- 012D  CD 10			    int	    10h							; Video interupt
- 012F  B0 20			    mov al, ' '							; Fill with blank char
- 0131  CD 10			    int     10h							; Video interupt
- 0133  B0 08			    mov al, 08h							; Backspace
- 0135  CD 10			    int     10h							; Video interupt
- 0137  EB CB			    jmp @@input_loop
+ 0150				  @@backspace:
+ 0150  80 F9 00			    cmp cl, 0							; Start of string
+ 0153  74 E1			    je @@input_loop
+ 0155  4F			    dec di
+ 0156  C6 05 00			    mov byte ptr [di], 0					; Remove char
+ 0159  FE C9			    dec cl							; Decrease char counter
+ 015B  B4 0E			    mov ah, 0eh							; Teletype output
+ 015D  B0 08			    mov al, 08h							; Backspace
+ 015F  CD 10			    int	    10h							; Video interupt
+ 0161  B0 20			    mov al, ' '							; Fill with blank char
+ 0163  CD 10			    int     10h							; Video interupt
+ 0165  B0 08			    mov al, 08h							; Backspace
+ 0167  CD 10			    int     10h							; Video interupt
+ 0169  EB CB			    jmp @@input_loop
 
- 0139				  @@done:
+ 016B				  @@done:
 
- 0139  B4 0E			    mov ah, 0eh							; Teletype output
- 013B  B0 0D			    mov al, 0dh							; Carriage return
- 013D  CD 10			    int	    10h							; Video interupt
- 013F  B0 0A			    mov al, 0ah							; Line feed
- 0141  CD 10			    int	    10h							; Video interupt
+ 016B  B4 0E			    mov ah, 0eh							; Teletype output
+ 016D  B0 0D			    mov al, 0dh							; Carriage return
+ 016F  CD 10			    int	    10h							; Video interupt
+ 0171  B0 0A			    mov al, 0ah							; Line feed
+ 0173  CD 10			    int	    10h							; Video interupt
 
- 0143  8B E5			    mov sp, bp							; Restore stack pointer
- 0145  5D			    pop bp							; Restore BP register
- 0146  C3			    ret
- 0147				gets ENDP
+ 0175  8B E5			    mov sp, bp							; Restore stack pointer
+ 0177  5D			    pop bp							; Restore BP register
+ 0178  C3			    ret
+ 0179				gets ENDP
 
 
 				; ------------------------------------------------------------------
@@ -285,18 +348,18 @@ src\stdio.asm						     Page 1 - 1
 				; Writes a character (an unsigned char) specified
 				; by the argument char to stdout.
 
- 0147				putchar PROC
- 0147  55			    push bp							; Save BP on stack
- 0148  8B EC			    mov bp, sp							; Set BP to SP
+ 0179				putchar PROC uses ax
+ 017A  55			    push bp							; Save BP on stack
+ 017B  8B EC			    mov bp, sp							; Set BP to SP
 
- 014A  8B 46 04			    mov ax, [bp + 4]						; Move char into ax
- 014D  B4 0E			    mov ah, 0eh							; Teletype output
- 014F  CD 10			    int	    10h							; Video interupt
+ 017D  8B 46 04			    mov ax, [bp + 4]						; Move char into ax
+ 0180  B4 0E			    mov ah, 0eh							; Teletype output
+ 0182  CD 10			    int	    10h							; Video interupt
 
- 0151  8B E5			    mov sp, bp							; Restore stack pointer
- 0153  5D			    pop bp							; Restore BP register
- 0154  C3			    ret
- 0155				putchar ENDP
+ 0184  8B E5			    mov sp, bp							; Restore stack pointer
+ 0186  5D			    pop bp							; Restore BP register
+				    ret
+ 0189				putchar ENDP
 
 
 				; ------------------------------------------------------------------
@@ -306,33 +369,50 @@ src\stdio.asm						     Page 1 - 1
 				; the null character. A newline character is appended
 				; to the output.
 
- 0155				puts PROC C uses ax string:WORD
- 0159  8B 76 04			    mov si, string						; Point to param address
+ 0189				puts PROC C uses ax string:WORD
+ 018D  8B 76 04			    mov si, string						; Point to param address
 
- 015C				  @@string:
- 015C  AC			    lodsb
- 015D  0A C0			    or al, al							; End of param string
- 015F  74 06			    jz @@done
- 0161  B4 0E			    mov ah, 0eh							; Teletype output
- 0163  CD 10			    int     10h							; Video interupt
- 0165  EB F5			    jmp @@string
+ 0190				  @@string:
+ 0190  AC			    lodsb
+ 0191  0A C0			    or al, al							; End of param string
+ 0193  74 06			    jz @@done
+ 0195  B4 0E			    mov ah, 0eh							; Teletype output
+ 0197  CD 10			    int     10h							; Video interupt
+ 0199  EB F5			    jmp @@string
 
- 0167				  @@done:
- 0167  B4 0E			    mov ah, 0eh							; Teletype output
- 0169  B0 0D			    mov al, 0dh							; Carriage return
- 016B  CD 10			    int	    10h							; Video interupt
- 016D  B0 0A			    mov al, 0ah							; Line feed
- 016F  CD 10			    int	    10h							; Video interupt
+ 019B				  @@done:
+ 019B  B4 0E			    mov ah, 0eh							; Teletype output
+ 019D  B0 0D			    mov al, 0dh							; Carriage return
+ 019F  CD 10			    int	    10h							; Video interupt
+ 01A1  B0 0A			    mov al, 0ah							; Line feed
+ 01A3  CD 10			    int	    10h							; Video interupt
 				    							; Restore BP register
 				    ret
- 0174				puts ENDP
+ 01A8				puts ENDP
 
 
 				END
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:32
 src\stdio.asm						     Symbols 2 - 1
 
 
+
+
+Structures and Unions:
+
+                N a m e                  Size
+                                         Offset      Type
+
+tm . . . . . . . . . . . . . . .	 0012
+  tm_sec . . . . . . . . . . . .	 0000	     Word
+  tm_min . . . . . . . . . . . .	 0002	     Word
+  tm_hour  . . . . . . . . . . .	 0004	     Word
+  tm_mday  . . . . . . . . . . .	 0006	     Word
+  tm_mon . . . . . . . . . . . .	 0008	     Word
+  tm_year  . . . . . . . . . . .	 000A	     Word
+  tm_wday  . . . . . . . . . . .	 000C	     Word
+  tm_yday  . . . . . . . . . . .	 000E	     Word
+  tm_isdst . . . . . . . . . . .	 0010	     Word
 
 
 Segments and Groups:
@@ -340,8 +420,8 @@ Segments and Groups:
                 N a m e                 Size     Length   Align   Combine Class
 
 DGROUP . . . . . . . . . . . . .	GROUP
-_TEXT  . . . . . . . . . . . . .	16 Bit	 0174	  Word	  Public  'CODE'	
-_DATA  . . . . . . . . . . . . .	16 Bit	 000A	  Word	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	16 Bit	 01A8	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0046	  Word	  Public  'DATA'	
 
 
 Procedures,  parameters and locals:
@@ -349,7 +429,9 @@ Procedures,  parameters and locals:
                 N a m e                 Type     Value    Attr
 
 _assert  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+bcd  . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 clrscr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+convert_sector . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0024 Public C
 cprintf  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cputsxy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cputs  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -358,13 +440,13 @@ cursoroff  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cursoron . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 delay  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 drawline . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-getchar  . . . . . . . . . . . .	P Near	 00EF	  _TEXT	Length= 000D Public C
+getchar  . . . . . . . . . . . .	P Near	 0121	  _TEXT	Length= 000D Public C
 getche . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 getch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-gets . . . . . . . . . . . . . .	P Near	 00FC	  _TEXT	Length= 004B Public C
-  @@input_loop . . . . . . . . .	L Near	 0104	  _TEXT	
-  @@backspace  . . . . . . . . .	L Near	 011E	  _TEXT	
-  @@done . . . . . . . . . . . .	L Near	 0139	  _TEXT	
+gets . . . . . . . . . . . . . .	P Near	 012E	  _TEXT	Length= 004B Public C
+  @@input_loop . . . . . . . . .	L Near	 0136	  _TEXT	
+  @@backspace  . . . . . . . . .	L Near	 0150	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 016B	  _TEXT	
 gotoxy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 highvideo  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 insline  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -380,6 +462,7 @@ isspace  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 isupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 isxdigit . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 kbhit  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+localtime  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 lowvideo . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -387,32 +470,35 @@ memcpy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memmove  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memset . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 newline  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-printf . . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 006A Public C
-  @@loop . . . . . . . . . . . .	L Near	 0009	  _TEXT	
-  @@switch . . . . . . . . . . .	L Near	 0018	  _TEXT	
-  @@switch_end . . . . . . . . .	L Near	 002B	  _TEXT	
-  @@string . . . . . . . . . . .	L Near	 002E	  _TEXT	
-  @@char . . . . . . . . . . . .	L Near	 0039	  _TEXT	
-  @@decimal  . . . . . . . . . .	L Near	 0041	  _TEXT	
-  @@push . . . . . . . . . . . .	L Near	 004A	  _TEXT	
-  @@pop  . . . . . . . . . . . .	L Near	 0055	  _TEXT	
-  @@done . . . . . . . . . . . .	L Near	 0065	  _TEXT	
-putchar  . . . . . . . . . . . .	P Near	 0147	  _TEXT	Length= 000E Public C
+printf . . . . . . . . . . . . .	P Near	 0032	  _TEXT	Length= 006A Public C
+  @@loop . . . . . . . . . . . .	L Near	 003B	  _TEXT	
+  @@switch . . . . . . . . . . .	L Near	 004A	  _TEXT	
+  @@switch_end . . . . . . . . .	L Near	 005D	  _TEXT	
+  @@string . . . . . . . . . . .	L Near	 0060	  _TEXT	
+  @@char . . . . . . . . . . . .	L Near	 006B	  _TEXT	
+  @@decimal  . . . . . . . . . .	L Near	 0073	  _TEXT	
+  @@push . . . . . . . . . . . .	L Near	 007C	  _TEXT	
+  @@pop  . . . . . . . . . . . .	L Near	 0087	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 0097	  _TEXT	
+putchar  . . . . . . . . . . . .	P Near	 0179	  _TEXT	Length= 0010 Public C
 putch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-puts . . . . . . . . . . . . . .	P Near	 0155	  _TEXT	Length= 001F Public C
+puts . . . . . . . . . . . . . .	P Near	 0189	  _TEXT	Length= 001F Public C
   string . . . . . . . . . . . .	Word	 bp + 0004
-  @@string . . . . . . . . . . .	L Near	 015C	  _TEXT	
-  @@done . . . . . . . . . . . .	L Near	 0167	  _TEXT	
-scanf  . . . . . . . . . . . . .	P Near	 006A	  _TEXT	Length= 0085 Public C
-  @@error  . . . . . . . . . . .	L Near	 0093	  _TEXT	
-  @error . . . . . . . . . . . .	L Near	 0097	  _TEXT	
-  @@string . . . . . . . . . . .	L Near	 0099	  _TEXT	
-  @@input_loop . . . . . . . . .	L Near	 009E	  _TEXT	
-  @@backspace  . . . . . . . . .	L Near	 00B8	  _TEXT	
-  @@char . . . . . . . . . . . .	L Near	 00D3	  _TEXT	
-  @@decimal  . . . . . . . . . .	L Near	 00E1	  _TEXT	
-  @@done . . . . . . . . . . . .	L Near	 00E1	  _TEXT	
+  @@string . . . . . . . . . . .	L Near	 0190	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 019B	  _TEXT	
+raise  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+reset_floppy . . . . . . . . . .	P Near	 0024	  _TEXT	Length= 000E Public C
+scanf  . . . . . . . . . . . . .	P Near	 009C	  _TEXT	Length= 0085 Public C
+  @@error  . . . . . . . . . . .	L Near	 00C5	  _TEXT	
+  @error . . . . . . . . . . . .	L Near	 00C9	  _TEXT	
+  @@string . . . . . . . . . . .	L Near	 00CB	  _TEXT	
+  @@input_loop . . . . . . . . .	L Near	 00D0	  _TEXT	
+  @@backspace  . . . . . . . . .	L Near	 00EA	  _TEXT	
+  @@char . . . . . . . . . . . .	L Near	 0105	  _TEXT	
+  @@decimal  . . . . . . . . . .	L Near	 0113	  _TEXT	
+  @@done . . . . . . . . . . . .	L Near	 0113	  _TEXT	
 setcursortype  . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+signal . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -451,13 +537,29 @@ Symbols:
 @fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
 @fardata . . . . . . . . . . . .	Text   	 FAR_DATA
 @stack . . . . . . . . . . . . .	Text   	 DGROUP
-LIBC_INC . . . . . . . . . . . .	Text   	 1
+BUFSIZ . . . . . . . . . . . . .	Number	 1000h	 
+BootDrive  . . . . . . . . . . .	L Far	 0000	  External C
+FILENAME_MAX . . . . . . . . . .	Number	 000Bh	 
+NSIG . . . . . . . . . . . . . .	Number	 0017h	 
+SIGABRT  . . . . . . . . . . . .	Number	 0016h	 
+SIGBREAK . . . . . . . . . . . .	Number	 0015h	 
+SIGFPE . . . . . . . . . . . . .	Number	 0008h	 
+SIGILL . . . . . . . . . . . . .	Number	 0004h	 
+SIGINT . . . . . . . . . . . . .	Number	 0002h	 
+SIGSEGV  . . . . . . . . . . . .	Number	 000Bh	 
+SIGTERM  . . . . . . . . . . . .	Number	 000Fh	 
 _ASSERT_ . . . . . . . . . . . .	Text   	 1
 _CONIO_  . . . . . . . . . . . .	Text   	 1
 _CTYPE_  . . . . . . . . . . . .	Text   	 1
+_SIGNAL_ . . . . . . . . . . . .	Text   	 1
+_STDBOOL_  . . . . . . . . . . .	Text   	 1
 _STDIO_  . . . . . . . . . . . .	Text   	 1
 _STRING_ . . . . . . . . . . . .	Text   	 1
-temp . . . . . . . . . . . . . .	Byte	 0000	  _DATA	
+_TIME_ . . . . . . . . . . . . .	Text   	 1
+dirlist  . . . . . . . . . . . .	Byte	 0000	  _DATA	
+false  . . . . . . . . . . . . .	Number	 0000h	 
+temp . . . . . . . . . . . . . .	Byte	 003C	  _DATA	
+true . . . . . . . . . . . . . .	Number	 0001h	 
 
 	   0 Warnings
 	   0 Errors

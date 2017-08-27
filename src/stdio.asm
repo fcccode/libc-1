@@ -1,9 +1,60 @@
 ; ------------------------------------------------------------------
+.model tiny, c							; Small memoy model
+.386								; 80386 CPU
 include libc.inc						; Include library headers
+extern BootDrive:far
 .data								; Data segment
+dirlist db 60 dup(?)
  temp db 10 dup(?)						; Temp var
 .code								; Start of code segment
 ; ------------------------------------------------------------------
+
+
+
+
+; --------------------------------------------------------------------------
+; convert_sector -- Calculate head, track and sector for int 13h
+; IN: AX = logical sector
+; OUT: correct registers for int 13h
+
+convert_sector proc
+	push bx
+	push ax
+	mov bx, ax                  ; Save logical sector
+	mov dx, 18                   ; First the sector
+	div bx	    ; Sectors per track
+	add	dl, 01h                 ; Physical sectors start at 1
+	mov	cl, dl                  ; Sectors belong in CL for int 13h
+	mov	ax, bx
+	mov	dx, 18                   ; Calculate the head
+	div bx  ; Sectors per track
+	mov	dx, 2
+	div bx            ; Floppy sides
+	mov	dh, dl                  ; Head/side
+	mov	ch, al                  ; Track
+	pop	ax
+	pop	bx
+	mov	dx, [BootDrive]
+	ret
+convert_sector endp
+; ------------------------------------------------------------------
+; reset_floppy -- Reset the floppy disk on error
+; IN: Nothing
+; OUT: Carry flag on error
+
+reset_floppy proc
+    push ax
+    push dx
+
+    mov	ax, 0
+    mov	dx, [BootDrive]
+
+    stc
+    int	13h
+    pop dx
+    pop ax
+    ret
+reset_floppy ENDp
 
 ; ------------------------------------------------------------------
 ; int printf(const char *format, ...)
@@ -13,7 +64,7 @@ include libc.inc						; Include library headers
 printf PROC uses ax
     push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
-	mov di, 6
+    mov di, 6
     mov si, [bp + di]						; Point to param address
 
   @@loop:
@@ -256,7 +307,7 @@ gets ENDP
 ; Writes a character (an unsigned char) specified
 ; by the argument char to stdout.
 
-putchar PROC
+putchar PROC uses ax
     push bp							; Save BP on stack
     mov bp, sp							; Set BP to SP
 

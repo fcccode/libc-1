@@ -1,10 +1,10 @@
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:15
-src\bios.asm						     Page 1 - 1
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/20/17 21:28:40
+src\kernel.asm						     Page 1 - 1
 
 
 				; ------------------------------------------------------------------
-				.model tiny, c							; Small memoy model
-				.386								; 80386 CPU
+				.model tiny, C
+				.386
 				include libc.inc						; Include library headers
 			      C include stdio.inc
 			      C .NOLIST
@@ -30,61 +30,31 @@ src\bios.asm						     Page 1 - 1
 			      C .NOLIST
 			      C .LIST
 			      C 
-			      C include signal.inc
-			      C .NOLIST
-			      C .LIST
 			      C 
-			      C include time.inc
-			      C .NOLIST
-			      C .LIST
-			      C 
-			      C 
- 0000				.data								; Data segment
- 0000				.code								; Start of code segment
+ 0000				.data							; Data segment
+ 0000 00			BootDrive db  0					; Store bootdrive number
+ 0000				.code							; Start of code segment
 				; ------------------------------------------------------------------
 
- 0000				_acrtused PROC
- 0000				_acrtused ENDP
-				; ------------------------------------------------------------------
-				; void setpage(int page)
-				; ------------------------------------------------------------------
-				; This function sets the active page number.
+ 0000				start PROC
+ 0000  FA			    cli					; Clear interrupts
+ 0001  B8 0000			    mov	ax, 0
+ 0004  8E D0			    mov	ss, ax				; Set stack pointer
+ 0006  BC FFFF			    mov	sp, 0FFFFh
+ 0009  FB			    sti					; Restore interrupts
 
- 0000				setpage PROC
- 0000  55			    push bp							; Save BP on stack
- 0001  8B EC			    mov bp, sp							; Set BP to SP
+ 000A  B8 2000			    mov	ax, 2000h			; Set segments to match where the kernel loaded
+ 000D  8E D8			    mov	ds, ax
+ 000F  8E C0			    mov	es, ax
 
- 0003  8A 46 04			    mov  al, [bp + 4]						; Select display page
- 0006  B4 05			    mov  ah, 05h						; Select active display page
- 0008  CD 10			    int  10h
-
- 000A  8B E5			    mov sp, bp							; Restore stack pointer
- 000C  5D			    pop bp							; Restore BP register
- 000D  C3			    ret
- 000E				setpage ENDP
-
+ 0011  88 16 0000 R		    mov [BootDrive], dl			; Save the boot drive number
+ 0015  C3			    ret				; Halt the system
+ 0016				start ENDp
 				END
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:15
-src\bios.asm						     Symbols 2 - 1
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/20/17 21:28:40
+src\kernel.asm						     Symbols 2 - 1
 
 
-
-
-Structures and Unions:
-
-                N a m e                  Size
-                                         Offset      Type
-
-tm . . . . . . . . . . . . . . .	 0012
-  tm_sec . . . . . . . . . . . .	 0000	     Word
-  tm_min . . . . . . . . . . . .	 0002	     Word
-  tm_hour  . . . . . . . . . . .	 0004	     Word
-  tm_mday  . . . . . . . . . . .	 0006	     Word
-  tm_mon . . . . . . . . . . . .	 0008	     Word
-  tm_year  . . . . . . . . . . .	 000A	     Word
-  tm_wday  . . . . . . . . . . .	 000C	     Word
-  tm_yday  . . . . . . . . . . .	 000E	     Word
-  tm_isdst . . . . . . . . . . .	 0010	     Word
 
 
 Segments and Groups:
@@ -92,17 +62,15 @@ Segments and Groups:
                 N a m e                 Size     Length   Align   Combine Class
 
 DGROUP . . . . . . . . . . . . .	GROUP
-_TEXT  . . . . . . . . . . . . .	16 Bit	 000E	  Word	  Public  'CODE'	
-_DATA  . . . . . . . . . . . . .	16 Bit	 0000	  Word	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0016	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0001	  Word	  Public  'DATA'	
 
 
 Procedures,  parameters and locals:
 
                 N a m e                 Type     Value    Attr
 
-_acrtused  . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0000 Public C
 _assert  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-bcd  . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 clrscr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cprintf  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cputsxy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -131,7 +99,6 @@ isspace  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 isupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 isxdigit . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 kbhit  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-localtime  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 lowvideo . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -143,11 +110,9 @@ printf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 putchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 putch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-raise  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 setcursortype  . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-setpage  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 000E Public C
-signal . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+start  . . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0016 Public C
 strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -164,6 +129,7 @@ strspn . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strstr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strtok . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strxfrm  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+tArg . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 textbackground . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 textcolor  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 tolower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -186,26 +152,15 @@ Symbols:
 @fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
 @fardata . . . . . . . . . . . .	Text   	 FAR_DATA
 @stack . . . . . . . . . . . . .	Text   	 DGROUP
-BUFSIZ . . . . . . . . . . . . .	Number	 1000h	 
-FILENAME_MAX . . . . . . . . . .	Number	 000Bh	 
-NSIG . . . . . . . . . . . . . .	Number	 0017h	 
-SIGABRT  . . . . . . . . . . . .	Number	 0016h	 
-SIGBREAK . . . . . . . . . . . .	Number	 0015h	 
-SIGFPE . . . . . . . . . . . . .	Number	 0008h	 
-SIGILL . . . . . . . . . . . . .	Number	 0004h	 
-SIGINT . . . . . . . . . . . . .	Number	 0002h	 
-SIGSEGV  . . . . . . . . . . . .	Number	 000Bh	 
-SIGTERM  . . . . . . . . . . . .	Number	 000Fh	 
+BootDrive  . . . . . . . . . . .	Byte	 0000	  _DATA	
 _ASSERT_ . . . . . . . . . . . .	Text   	 1
 _CONIO_  . . . . . . . . . . . .	Text   	 1
 _CTYPE_  . . . . . . . . . . . .	Text   	 1
-_SIGNAL_ . . . . . . . . . . . .	Text   	 1
 _STDBOOL_  . . . . . . . . . . .	Text   	 1
 _STDIO_  . . . . . . . . . . . .	Text   	 1
 _STRING_ . . . . . . . . . . . .	Text   	 1
-_TIME_ . . . . . . . . . . . . .	Text   	 1
-false  . . . . . . . . . . . . .	Number	 0000h	 
-true . . . . . . . . . . . . . .	Number	 0001h	 
+false  . . . . . . . . . . . . .	Text   	 0
+true . . . . . . . . . . . . . .	Text   	 1
 
 	   0 Warnings
 	   0 Errors

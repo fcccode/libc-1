@@ -1,4 +1,6 @@
 ; ------------------------------------------------------------------
+.model tiny, c							; Small memoy model
+.386								; 80386 CPU
 include libc.inc						; Include library headers
 .data								; Data segment
 .code								; Start of code segment

@@ -3,26 +3,29 @@ SET PATH=Tools\VC152\;Tools\;Tools\qemu\
 
 :build_library
     rem Compile all source assembly files
-    ML /omf /c /Fl /Zi /I include src\*.asm
+    ML /omf /c /Fl /Sa /Zi /I include src\*.asm
+    rem ML /omf /c /I include src\*.asm
 
     rem Link all object files to libary
-    LIB lib\libc -+conio.obj -+ctype.obj -+stdio.obj -+string.obj -+assert.obj -+bios.obj, lib\libc.lst, lib\libc.lib
+    LIB lib\libc -+conio.obj -+ctype.obj -+stdio.obj -+string.obj -+assert.obj -+bios.obj -+signal.obj -+time.obj, lib\libc.lst, lib\libc.lib
 
     move /Y *.obj src\obj > nul
-    move /Y *.lst src\lst > nul   
+    move /Y *.lst src\lst > nul
 
 :build_tests
     rem Compile all C files
-    CL /AT /G2 /Gs /Gx /c /Fl /Zi /Zl /I include tests\*.c
+    CL /AT /G2 /Gs /Gx /c /Fl /Zi /Zl /Sa /I include tests\*.c
+    rem CL /AT /G2 /Gs /Gx /c /I include tests\*.c
 
     rem Compile all assembly files
-    ML /omf /c  tests\*.asm
+    rem ML /omf /c /Fl /Sa /Zi /I include tests\*.asm
+    ML /omf /c /I include tests\*.asm
 
     rem Link together all files and include the libary
-    LINK /T /NOD kernel.obj __kernel.obj __string.obj __ctype.obj __conio.obj, bin\kernel.bin, nul, lib\libc.lib, nul
+    LINK /T /NOD  kernel.obj __kernel.obj __time.obj __signal.obj __stddef.obj __string.obj __ctype.obj __conio.obj, bin\kernel.bin, nul, lib\libc.lib, nul
 
     move /Y *.obj tests\obj > nul
-    move /Y *.cod tests\cod > nul   
+    move /Y *.cod tests\cod > nul
     del  *.pdb > nul
 
 :build_floppy
@@ -34,7 +37,6 @@ SET PATH=Tools\VC152\;Tools\;Tools\qemu\
 
     rem Copy our kernel to the floppy disk
     copy bin\kernel.bin  B:
-
     rem Unmount the floppy disk
     imdisk -D -m B:
 
@@ -42,4 +44,4 @@ SET PATH=Tools\VC152\;Tools\;Tools\qemu\
     dd if=bin\bootload.bin of=bin\built_floppy.img bs=512
 
     rem Run the built floppy disk image with qemu
-    qemu -fda bin\built_floppy.img
+    start bochsrc.bxrc

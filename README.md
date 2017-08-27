@@ -14,20 +14,31 @@ This table summarizes the C library features:
 | Header        | Description                       | Status        | Test Cases
 | :------------ | :-------------------------------- | :------------ | :---------
 <assert.h>      | Diagnostics.			    | Completed.    | 
-<ctype.h>       | Character handling.               | Completed.    | [__ctype.c](SuccOS/libsrc/tests/__ctype.c)  
+<ctype.h>       | Character handling.               | Completed.    | [__ctype.c]
 <errno.h>       | Error Events.			    | WIP	    | 
 <limits.h>      | Variable limits.		    | Completed.    |  
-<signal.h>      | Signal handling.  	            | WIP	    |  
+<signal.h>      | Signal handling.  	            | WIP	    | [__signal.c] 
+<stddef.h>	| Various variable types.	    | Completed.    | [__stddef.c]
 <stdio.h>       | Input/output.                     | WIP           |
-[<string.h>](https://github.com/SpookyVerkauferin/SuccOS/wiki/string.h)        | String handling.                  | Completed.    | [__string.c](SuccOS/libsrc/tests/__string.c)  
-<conio.h>       | Low level I/O functions.          | WIP           | [__conio.c](SuccOS/libsrc/tests/__conio.c)  
+[<string.h>]    | String handling.                  | Completed.    | [__string.c]
+<conio.h>       | Low level I/O functions.          | Completed.    | [__conio.c]
 <stdbool.h>     | Boolean statements.		    | Completed.    |
 
+
+
+[<string.h>]:(https://github.com/SpookyVerkauferin/libc/wiki/string.h)
+[__string.c]:(libc/libsrc/tests/__string.c)  
+[__signal.c]:(libc/libsrc/tests/__signal.c)  
+[__stddef.c]:(libc/libsrc/tests/__stddef.c)  
+[__conio.c]:(libc/libsrc/tests/__conio.c)  
+[__ctype.c]:(libc/tests/__ctype.c)  
+
 ## Downloads
-* [Version 0.1.1](https://github.com/SpookyVerkauferin/SuccOS/archive/master.zip)
+* [Version 0.1.1](https://github.com/SpookyVerkauferin/libc/archive/master.zip)
 * [Version 0.1](https://github.com/SpookyVerkauferin/SuccOS-0.1) 
 
 ## Notable Updates
+* August 20th 2017: Updated to 80386 from 80286 and added assembly include files.
 * August 16th 2017: Changed project name to *libc* and change focus on library.
 * August 11th 2017: Finished the *ctype* test case.
 * August 10th 2017: Finished the *string* test case.

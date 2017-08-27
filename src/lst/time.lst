@@ -1,5 +1,5 @@
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:15
-src\bios.asm						     Page 1 - 1
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:37
+src\time.asm						     Page 1 - 1
 
 
 				; ------------------------------------------------------------------
@@ -39,33 +39,82 @@ src\bios.asm						     Page 1 - 1
 			      C .LIST
 			      C 
 			      C 
- 0000				.data								; Data segment
  0000				.code								; Start of code segment
 				; ------------------------------------------------------------------
+ 0000 0000 0000 0000 0000	_tmbuf tm <>
+       0000 0000 0000
+       0000 0000
 
- 0000				_acrtused PROC
- 0000				_acrtused ENDP
 				; ------------------------------------------------------------------
-				; void setpage(int page)
+				; Converts binary coded decimal number to an integer
+
+ 0012				bcd PROC uses bx cx num:BYTE
+ 0017  8A 66 04				mov ah, num
+ 001A  8A D8				mov bl, al			; Store entire number for now
+
+ 001C  83 E0 0F				and ax, 0Fh			; Zero-out high bits
+ 001F  8B C8				mov cx, ax			; CH/CL = lower BCD number, zero extended
+
+ 0021  C0 EB 04				shr bl, 4			; Move higher BCD number into lower bits, zero fill msb
+ 0024  B0 0A				mov al, 10
+ 0026  F6 E3				mul bl				; AX = 10 * BL
+
+ 0028  03 C1				add ax, cx			; Add lower BCD to 10*higher
+
+					ret
+ 002E				bcd ENDP
+
+ 002E				localtime PROC
+				LOCAL hour: BYTE
+				LOCAL min: BYTE
+				LOCAL sec: BYTE
+				LOCAL isdst: BYTE
+				LOCAL year: BYTE
+				LOCAL mon: BYTE
+				LOCAL mday: BYTE
+
+ 0034  B4 02			    mov ah, 02h
+ 0036  CD 1A			    int	    1ah
+ 0038  88 6E FF			    mov hour, ch
+ 003B  88 4E FE			    mov min, cl
+ 003E  88 76 FD			    mov sec, dh
+ 0041  88 56 FC			    mov isdst, dl
+
+ 0044  B4 04			    mov ah, 04h
+ 0046  CD 1A			    int	    1ah
+ 0048  88 4E FB			    mov year, cl
+ 004B  88 76 FA			    mov mon, dh
+ 004E  88 56 F9			    mov mday, dl
+
+				    invoke bcd, hour
+ 005B  A3 0004 R		    mov _tmbuf.tm_hour, ax
+				    invoke bcd, min
+ 0068  A3 0002 R		    mov _tmbuf.tm_min, ax
+				    invoke bcd, sec
+ 0075  A3 0000 R		    mov _tmbuf.tm_sec, ax
+				    invoke bcd, isdst
+ 0082  A3 0010 R		    mov _tmbuf.tm_isdst, ax
+				    invoke bcd, year
+ 008F  A3 000A R		    mov _tmbuf.tm_year, ax
+				    invoke bcd, mon
+ 009C  A3 0008 R		    mov _tmbuf.tm_mon, ax
+				    invoke bcd, mday
+ 00A9  A3 0006 R		    mov _tmbuf.tm_mday, ax
+
+ 00AC  8D 06 0000 R		    lea ax, _tmbuf
+				    ret
+ 00B4				localtime ENDP
 				; ------------------------------------------------------------------
-				; This function sets the active page number.
+				; char *asctime(const struct tm *timeptr)
+				; ------------------------------------------------------------------
+				; returns a pointer to a string which represents the day
+				; and time of the structure struct timeptr.
 
- 0000				setpage PROC
- 0000  55			    push bp							; Save BP on stack
- 0001  8B EC			    mov bp, sp							; Set BP to SP
 
- 0003  8A 46 04			    mov  al, [bp + 4]						; Select display page
- 0006  B4 05			    mov  ah, 05h						; Select active display page
- 0008  CD 10			    int  10h
 
- 000A  8B E5			    mov sp, bp							; Restore stack pointer
- 000C  5D			    pop bp							; Restore BP register
- 000D  C3			    ret
- 000E				setpage ENDP
-
-				END
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:15
-src\bios.asm						     Symbols 2 - 1
+				end
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:37
+src\time.asm						     Symbols 2 - 1
 
 
 
@@ -92,7 +141,7 @@ Segments and Groups:
                 N a m e                 Size     Length   Align   Combine Class
 
 DGROUP . . . . . . . . . . . . .	GROUP
-_TEXT  . . . . . . . . . . . . .	16 Bit	 000E	  Word	  Public  'CODE'	
+_TEXT  . . . . . . . . . . . . .	16 Bit	 00B4	  Word	  Public  'CODE'	
 _DATA  . . . . . . . . . . . . .	16 Bit	 0000	  Word	  Public  'DATA'	
 
 
@@ -100,9 +149,9 @@ Procedures,  parameters and locals:
 
                 N a m e                 Type     Value    Attr
 
-_acrtused  . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0000 Public C
 _assert  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-bcd  . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+bcd  . . . . . . . . . . . . . .	P Near	 0012	  _TEXT	Length= 001C Public C
+  num  . . . . . . . . . . . . .	Byte	 bp + 0004
 clrscr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cprintf  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cputsxy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -131,7 +180,14 @@ isspace  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 isupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 isxdigit . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 kbhit  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-localtime  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+localtime  . . . . . . . . . . .	P Near	 002E	  _TEXT	Length= 0086 Public C
+  hour . . . . . . . . . . . . .	Byte	 bp - 0001
+  min  . . . . . . . . . . . . .	Byte	 bp - 0002
+  sec  . . . . . . . . . . . . .	Byte	 bp - 0003
+  isdst  . . . . . . . . . . . .	Byte	 bp - 0004
+  year . . . . . . . . . . . . .	Byte	 bp - 0005
+  mon  . . . . . . . . . . . . .	Byte	 bp - 0006
+  mday . . . . . . . . . . . . .	Byte	 bp - 0007
 lowvideo . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -146,7 +202,6 @@ puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 raise  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 setcursortype  . . . . . . . . .	P Near	 0000	  Length= 0000 External C
-setpage  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 000E Public C
 signal . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -204,6 +259,7 @@ _STDBOOL_  . . . . . . . . . . .	Text   	 1
 _STDIO_  . . . . . . . . . . . .	Text   	 1
 _STRING_ . . . . . . . . . . . .	Text   	 1
 _TIME_ . . . . . . . . . . . . .	Text   	 1
+_tmbuf . . . . . . . . . . . . .	tm	 0000	  _TEXT	
 false  . . . . . . . . . . . . .	Number	 0000h	 
 true . . . . . . . . . . . . . .	Number	 0001h	 
 

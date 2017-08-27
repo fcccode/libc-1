@@ -1,10 +1,13 @@
 ; ------------------------------------------------------------------
+.model tiny, c							; Small memoy model
+.386								; 80386 CPU
 include libc.inc						; Include library headers
 .data								; Data segment
  return_buffer BYTE 64 dup(?)					; Buffer for returning data
  strtok_buffer BYTE 64 dup(?)					; Buffer for str token data
  token_buffer BYTE 64 dup(?)					; Buffer for str token data
-.code								; Start of code segment
+ include art.inc
+ .code
 ; ------------------------------------------------------------------
 
 clearBuff MACRO arg
@@ -21,6 +24,36 @@ clearBuff MACRO arg
     pop ax
 ENDM
 
+
+plotImage PROC
+    mov cx, memesSize
+    mov si, offset memesImage
+    xor ax, ax
+    xor bx, bx
+  @@:
+    mov ax, [si]
+    inc si
+    mov bx, [si]
+    inc si
+    push bx
+    push ax
+    call gotoxy
+    pop ax
+    pop bx
+    pusha
+    mov bl, [si]
+    mov	cx, 1
+    mov bh, 00 ; page | color
+    mov	ax, 0920h ; int | char
+    int	    10h
+    mov ax, 0edbh  ; int | char
+    int	    10h							; Video interupt
+    popa
+    inc si
+  loop @b
+
+    ret
+plotImage ENDP
 ; ------------------------------------------------------------------
 ; int strcmp(const char *str1, const char *str2)
 ; ------------------------------------------------------------------

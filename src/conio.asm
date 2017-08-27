@@ -1,12 +1,15 @@
 ; ------------------------------------------------------------------
+.model tiny, c							; Small memoy model
+.386								; 80386 CPU
 include libc.inc						; Include library headers
 .data								; Data segment
  txtc  db 15							; Text color
  txtbg db 0							; Text background
-.code								; Start of code segment
+buffered BYTE 64 dup(?)					; Buffer for returning data
+ hexstr   db '0123456789ABCDEF'
+outstr16   db '00', 0  ;register value string
+    .code								; Start of code segment
 ; ------------------------------------------------------------------
-
-
 
  ColorAL MACRO
     pusha
@@ -271,7 +274,9 @@ cputsxy ENDP
 ; ------------------------------------------------------------------
 ; Sends formatted output to stdout.
 
+
 cprintf PROC uses di si ax bx cx dx format:WORD, args:VARARG
+local temp:word
     mov di, 4
     mov si, format					    ; Point to param address
     .REPEAT						    ; Iterate over string
@@ -288,6 +293,31 @@ cprintf PROC uses di si ax bx cx dx format:WORD, args:VARARG
 		    .BREAK .IF !al
 		    ColorAL
 		.UNTIL 0
+		pop si
+		.CONTINUE
+	    .ELSEIF al == 'x'				    ; Format hex
+		push si
+		push bx
+		mov di, offset outstr16
+		mov ax, si
+		mov si, offset hexstr
+		mov cx, 4
+		.REPEAT
+		    rol ax, 4				    ; leftmost will
+		    mov bx, ax				    ; become
+		    and bx, 0fh				    ; rightmost
+		    mov bl, [si + bx]			    ; Index into hexstr
+		    mov [di], bl
+		    inc di
+		.UNTILCXZ
+		mov si, offset outstr16
+		pop bx
+		.REPEAT
+		    lodsb
+		    .BREAK .IF !al
+		    ColorAL
+		.UNTIL 0
+		pop si
 		pop si
 		.CONTINUE
 	    .ELSEIF al == 'c'				    ; Format char

@@ -9,5 +9,8 @@ putchar PROTO
 puts    PROTO :WORD
 scanf	PROTO
 
+FILENAME_MAX EQU 11
+BUFSIZ equ 4096
+
 ENDIF
 .LIST

@@ -9,6 +9,19 @@
 #define FILENAME_MAX    11			// Define filename max length
 #define BUFSIZ          4096			// Define buffsize
 #define EOF		(-1)			// End of File or Error return code
+#define FOPEN_MAX	(20)
+
+typedef struct _iobuf
+{
+    char* _ptr;
+    int	_cnt;
+    char* _base;
+    int	_flag;
+    int	_file;
+    int	_charbuf;
+    int	_bufsiz;
+    char* _tmpfname;
+} FILE;
 
 int printf(const char *format, ...);
 int scanf(const char *format, ...);

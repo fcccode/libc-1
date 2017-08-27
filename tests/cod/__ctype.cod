@@ -1,105 +1,105 @@
 ; File tests\__ctype.c
 ; Line 7
 					___isalnum:
-	*** 000000	c8 00 00 00 		enter	OFFSET L00347,OFFSET 0
+	*** 000000	c8 00 00 00 		enter	OFFSET L00349,OFFSET 0
 	*** 000004	56 			push	si
 	*** 000005	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 8
 ; Line 9
-	*** 000006	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 00000b	e9 00 00 		jmp	L00137
-					L00134:
+	*** 000006	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 00000b	e9 00 00 		jmp	L00139
+					L00136:
 ; Line 10
 ; Line 11
-	*** 00000e	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 00000e	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 000011	e8 00 00 		call	_isalnum
 	*** 000014	83 c4 02 		add	sp,OFFSET 2
-	*** 000017	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 000017	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 12
-	*** 00001a	83 7e fc 30 		cmp	WORD PTR -4[bp],OFFSET 48
-	*** 00001e	7d 03 e9 00 00 		jl	L00138
-	*** 000023	83 7e fc 39 		cmp	WORD PTR -4[bp],OFFSET 57
-	*** 000027	7e 03 e9 00 00 		jg	L00138
-	*** 00002c	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000030	75 03 e9 00 00 		je	L00349
+	*** 00001a	83 7e fa 30 		cmp	WORD PTR -6[bp],OFFSET 48
+	*** 00001e	7d 03 e9 00 00 		jl	L00140
+	*** 000023	83 7e fa 39 		cmp	WORD PTR -6[bp],OFFSET 57
+	*** 000027	7e 03 e9 00 00 		jg	L00140
+	*** 00002c	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000030	75 03 e9 00 00 		je	L00351
 	*** 000035	b8 00 00 		mov	ax,OFFSET 0
-	*** 000038	e9 00 00 		jmp	L00348
-					L00349:
+	*** 000038	e9 00 00 		jmp	L00350
+					L00351:
 	*** 00003b	6a 0c 			push	OFFSET 12
-	*** 00003d	68 00 00 		push	OFFSET L00139
-	*** 000040	68 00 00 		push	OFFSET L00140
+	*** 00003d	68 00 00 		push	OFFSET L00141
+	*** 000040	68 00 00 		push	OFFSET L00142
 	*** 000043	e8 00 00 		call	__assert
 	*** 000046	83 c4 06 		add	sp,OFFSET 6
-					L00348:
+					L00350:
 ; Line 13
-	*** 000049	e9 00 00 		jmp	L00141
-					L00138:
+	*** 000049	e9 00 00 		jmp	L00143
+					L00140:
 ; Line 13
-	*** 00004c	83 7e fc 41 		cmp	WORD PTR -4[bp],OFFSET 65
-	*** 000050	7d 03 e9 00 00 		jl	L00142
-	*** 000055	83 7e fc 5a 		cmp	WORD PTR -4[bp],OFFSET 90
-	*** 000059	7e 03 e9 00 00 		jg	L00142
-	*** 00005e	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000062	75 03 e9 00 00 		je	L00351
+	*** 00004c	83 7e fa 41 		cmp	WORD PTR -6[bp],OFFSET 65
+	*** 000050	7d 03 e9 00 00 		jl	L00144
+	*** 000055	83 7e fa 5a 		cmp	WORD PTR -6[bp],OFFSET 90
+	*** 000059	7e 03 e9 00 00 		jg	L00144
+	*** 00005e	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000062	75 03 e9 00 00 		je	L00353
 	*** 000067	b8 00 00 		mov	ax,OFFSET 0
-	*** 00006a	e9 00 00 		jmp	L00350
-					L00351:
+	*** 00006a	e9 00 00 		jmp	L00352
+					L00353:
 	*** 00006d	6a 0d 			push	OFFSET 13
-	*** 00006f	68 00 00 		push	OFFSET L00143
-	*** 000072	68 00 00 		push	OFFSET L00144
+	*** 00006f	68 00 00 		push	OFFSET L00145
+	*** 000072	68 00 00 		push	OFFSET L00146
 	*** 000075	e8 00 00 		call	__assert
 	*** 000078	83 c4 06 		add	sp,OFFSET 6
-					L00350:
+					L00352:
 ; Line 14
-	*** 00007b	e9 00 00 		jmp	L00145
-					L00142:
+	*** 00007b	e9 00 00 		jmp	L00147
+					L00144:
 ; Line 14
-	*** 00007e	83 7e fc 61 		cmp	WORD PTR -4[bp],OFFSET 97
-	*** 000082	7d 03 e9 00 00 		jl	L00146
-	*** 000087	83 7e fc 7a 		cmp	WORD PTR -4[bp],OFFSET 122
-	*** 00008b	7e 03 e9 00 00 		jg	L00146
-	*** 000090	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000094	75 03 e9 00 00 		je	L00353
+	*** 00007e	83 7e fa 61 		cmp	WORD PTR -6[bp],OFFSET 97
+	*** 000082	7d 03 e9 00 00 		jl	L00148
+	*** 000087	83 7e fa 7a 		cmp	WORD PTR -6[bp],OFFSET 122
+	*** 00008b	7e 03 e9 00 00 		jg	L00148
+	*** 000090	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000094	75 03 e9 00 00 		je	L00355
 	*** 000099	b8 00 00 		mov	ax,OFFSET 0
-	*** 00009c	e9 00 00 		jmp	L00352
-					L00353:
+	*** 00009c	e9 00 00 		jmp	L00354
+					L00355:
 	*** 00009f	6a 0e 			push	OFFSET 14
-	*** 0000a1	68 00 00 		push	OFFSET L00147
-	*** 0000a4	68 00 00 		push	OFFSET L00148
+	*** 0000a1	68 00 00 		push	OFFSET L00149
+	*** 0000a4	68 00 00 		push	OFFSET L00150
 	*** 0000a7	e8 00 00 		call	__assert
 	*** 0000aa	83 c4 06 		add	sp,OFFSET 6
-					L00352:
+					L00354:
 ; Line 15
-	*** 0000ad	e9 00 00 		jmp	L00149
-					L00146:
+	*** 0000ad	e9 00 00 		jmp	L00151
+					L00148:
 ; Line 15
-	*** 0000b0	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0000b4	74 03 e9 00 00 		jne	L00355
+	*** 0000b0	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0000b4	74 03 e9 00 00 		jne	L00357
 	*** 0000b9	b8 00 00 		mov	ax,OFFSET 0
-	*** 0000bc	e9 00 00 		jmp	L00354
-					L00355:
+	*** 0000bc	e9 00 00 		jmp	L00356
+					L00357:
 	*** 0000bf	6a 0f 			push	OFFSET 15
-	*** 0000c1	68 00 00 		push	OFFSET L00150
-	*** 0000c4	68 00 00 		push	OFFSET L00151
+	*** 0000c1	68 00 00 		push	OFFSET L00152
+	*** 0000c4	68 00 00 		push	OFFSET L00153
 	*** 0000c7	e8 00 00 		call	__assert
 	*** 0000ca	83 c4 06 		add	sp,OFFSET 6
-					L00354:
-					L00149:
-					L00145:
-					L00141:
+					L00356:
+					L00151:
+					L00147:
+					L00143:
 ; Line 16
-					L00135:
-; Line 16
-	*** 0000cd	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00137:
-	*** 0000d1	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 0000d6	7f 03 e9 33 ff 		jle	L00134
-					L00136:
+; Line 16
+	*** 0000cd	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00139:
+	*** 0000d1	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 0000d6	7f 03 e9 33 ff 		jle	L00136
+					L00138:
 ; Line 17
 ; Line 17
-					L00131:
+					L00133:
 	*** 0000db	5f 			pop	di
 	*** 0000dc	5e 			pop	si
 	*** 0000dd	c9 			leave
@@ -107,85 +107,85 @@
 ; Local Size: 6
 ; Line 21
 					___isalpha:
-	*** 0000e0	c8 00 00 00 		enter	OFFSET L00356,OFFSET 0
+	*** 0000e0	c8 00 00 00 		enter	OFFSET L00358,OFFSET 0
 	*** 0000e4	56 			push	si
 	*** 0000e5	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 22
 ; Line 23
-	*** 0000e6	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 0000eb	e9 00 00 		jmp	L00159
-					L00156:
+	*** 0000e6	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 0000eb	e9 00 00 		jmp	L00161
+					L00158:
 ; Line 24
 ; Line 25
-	*** 0000ee	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 0000ee	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 0000f1	e8 00 00 		call	_isalpha
 	*** 0000f4	83 c4 02 		add	sp,OFFSET 2
-	*** 0000f7	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 0000f7	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 26
-	*** 0000fa	83 7e fc 41 		cmp	WORD PTR -4[bp],OFFSET 65
-	*** 0000fe	7d 03 e9 00 00 		jl	L00160
-	*** 000103	83 7e fc 5a 		cmp	WORD PTR -4[bp],OFFSET 90
-	*** 000107	7e 03 e9 00 00 		jg	L00160
-	*** 00010c	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000110	75 03 e9 00 00 		je	L00358
+	*** 0000fa	83 7e fa 41 		cmp	WORD PTR -6[bp],OFFSET 65
+	*** 0000fe	7d 03 e9 00 00 		jl	L00162
+	*** 000103	83 7e fa 5a 		cmp	WORD PTR -6[bp],OFFSET 90
+	*** 000107	7e 03 e9 00 00 		jg	L00162
+	*** 00010c	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000110	75 03 e9 00 00 		je	L00360
 	*** 000115	b8 00 00 		mov	ax,OFFSET 0
-	*** 000118	e9 00 00 		jmp	L00357
-					L00358:
+	*** 000118	e9 00 00 		jmp	L00359
+					L00360:
 	*** 00011b	6a 1a 			push	OFFSET 26
-	*** 00011d	68 00 00 		push	OFFSET L00161
-	*** 000120	68 00 00 		push	OFFSET L00162
+	*** 00011d	68 00 00 		push	OFFSET L00163
+	*** 000120	68 00 00 		push	OFFSET L00164
 	*** 000123	e8 00 00 		call	__assert
 	*** 000126	83 c4 06 		add	sp,OFFSET 6
-					L00357:
+					L00359:
 ; Line 27
-	*** 000129	e9 00 00 		jmp	L00163
-					L00160:
+	*** 000129	e9 00 00 		jmp	L00165
+					L00162:
 ; Line 27
-	*** 00012c	83 7e fc 61 		cmp	WORD PTR -4[bp],OFFSET 97
-	*** 000130	7d 03 e9 00 00 		jl	L00164
-	*** 000135	83 7e fc 7a 		cmp	WORD PTR -4[bp],OFFSET 122
-	*** 000139	7e 03 e9 00 00 		jg	L00164
-	*** 00013e	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000142	75 03 e9 00 00 		je	L00360
+	*** 00012c	83 7e fa 61 		cmp	WORD PTR -6[bp],OFFSET 97
+	*** 000130	7d 03 e9 00 00 		jl	L00166
+	*** 000135	83 7e fa 7a 		cmp	WORD PTR -6[bp],OFFSET 122
+	*** 000139	7e 03 e9 00 00 		jg	L00166
+	*** 00013e	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000142	75 03 e9 00 00 		je	L00362
 	*** 000147	b8 00 00 		mov	ax,OFFSET 0
-	*** 00014a	e9 00 00 		jmp	L00359
-					L00360:
+	*** 00014a	e9 00 00 		jmp	L00361
+					L00362:
 	*** 00014d	6a 1b 			push	OFFSET 27
-	*** 00014f	68 00 00 		push	OFFSET L00165
-	*** 000152	68 00 00 		push	OFFSET L00166
+	*** 00014f	68 00 00 		push	OFFSET L00167
+	*** 000152	68 00 00 		push	OFFSET L00168
 	*** 000155	e8 00 00 		call	__assert
 	*** 000158	83 c4 06 		add	sp,OFFSET 6
-					L00359:
+					L00361:
 ; Line 28
-	*** 00015b	e9 00 00 		jmp	L00167
-					L00164:
+	*** 00015b	e9 00 00 		jmp	L00169
+					L00166:
 ; Line 28
-	*** 00015e	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000162	74 03 e9 00 00 		jne	L00362
+	*** 00015e	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000162	74 03 e9 00 00 		jne	L00364
 	*** 000167	b8 00 00 		mov	ax,OFFSET 0
-	*** 00016a	e9 00 00 		jmp	L00361
-					L00362:
+	*** 00016a	e9 00 00 		jmp	L00363
+					L00364:
 	*** 00016d	6a 1c 			push	OFFSET 28
-	*** 00016f	68 00 00 		push	OFFSET L00168
-	*** 000172	68 00 00 		push	OFFSET L00169
+	*** 00016f	68 00 00 		push	OFFSET L00170
+	*** 000172	68 00 00 		push	OFFSET L00171
 	*** 000175	e8 00 00 		call	__assert
 	*** 000178	83 c4 06 		add	sp,OFFSET 6
-					L00361:
-					L00167:
-					L00163:
+					L00363:
+					L00169:
+					L00165:
 ; Line 29
-					L00157:
-; Line 29
-	*** 00017b	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00159:
-	*** 00017f	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 000184	7f 03 e9 65 ff 		jle	L00156
-					L00158:
+; Line 29
+	*** 00017b	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00161:
+	*** 00017f	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 000184	7f 03 e9 65 ff 		jle	L00158
+					L00160:
 ; Line 30
 ; Line 30
-					L00153:
+					L00155:
 	*** 000189	5f 			pop	di
 	*** 00018a	5e 			pop	si
 	*** 00018b	c9 			leave
@@ -193,86 +193,86 @@
 ; Local Size: 6
 ; Line 34
 					___iscntrl:
-	*** 00018e	c8 00 00 00 		enter	OFFSET L00363,OFFSET 0
+	*** 00018e	c8 00 00 00 		enter	OFFSET L00365,OFFSET 0
 	*** 000192	56 			push	si
 	*** 000193	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 35
 ; Line 36
-	*** 000194	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 000199	e9 00 00 		jmp	L00177
-					L00174:
+	*** 000194	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 000199	e9 00 00 		jmp	L00179
+					L00176:
 ; Line 37
 ; Line 38
-	*** 00019c	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 00019c	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 00019f	e8 00 00 		call	_iscntrl
 	*** 0001a2	83 c4 02 		add	sp,OFFSET 2
-	*** 0001a5	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 0001a5	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 39
-	*** 0001a8	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
-	*** 0001ac	7d 03 e9 00 00 		jl	L00178
-	*** 0001b1	83 7e fc 1f 		cmp	WORD PTR -4[bp],OFFSET 31
-	*** 0001b5	7e 03 e9 00 00 		jg	L00178
-	*** 0001ba	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0001be	75 03 e9 00 00 		je	L00365
+	*** 0001a8	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
+	*** 0001ac	7d 03 e9 00 00 		jl	L00180
+	*** 0001b1	83 7e fa 1f 		cmp	WORD PTR -6[bp],OFFSET 31
+	*** 0001b5	7e 03 e9 00 00 		jg	L00180
+	*** 0001ba	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0001be	75 03 e9 00 00 		je	L00367
 	*** 0001c3	b8 00 00 		mov	ax,OFFSET 0
-	*** 0001c6	e9 00 00 		jmp	L00364
-					L00365:
+	*** 0001c6	e9 00 00 		jmp	L00366
+					L00367:
 	*** 0001c9	6a 27 			push	OFFSET 39
-	*** 0001cb	68 00 00 		push	OFFSET L00179
-	*** 0001ce	68 00 00 		push	OFFSET L00180
+	*** 0001cb	68 00 00 		push	OFFSET L00181
+	*** 0001ce	68 00 00 		push	OFFSET L00182
 	*** 0001d1	e8 00 00 		call	__assert
 	*** 0001d4	83 c4 06 		add	sp,OFFSET 6
-					L00364:
+					L00366:
 ; Line 40
-	*** 0001d7	e9 00 00 		jmp	L00181
-					L00178:
+	*** 0001d7	e9 00 00 		jmp	L00183
+					L00180:
 ; Line 40
-	*** 0001da	83 7e fc 7f 		cmp	WORD PTR -4[bp],OFFSET 127
-	*** 0001de	75 03 e9 00 00 		je	L00183
-	*** 0001e3	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 0001e8	74 03 e9 00 00 		jne	L00182
-					L00183:
-	*** 0001ed	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0001f1	75 03 e9 00 00 		je	L00367
+	*** 0001da	83 7e fa 7f 		cmp	WORD PTR -6[bp],OFFSET 127
+	*** 0001de	75 03 e9 00 00 		je	L00185
+	*** 0001e3	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 0001e8	74 03 e9 00 00 		jne	L00184
+					L00185:
+	*** 0001ed	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0001f1	75 03 e9 00 00 		je	L00369
 	*** 0001f6	b8 00 00 		mov	ax,OFFSET 0
-	*** 0001f9	e9 00 00 		jmp	L00366
-					L00367:
+	*** 0001f9	e9 00 00 		jmp	L00368
+					L00369:
 	*** 0001fc	6a 28 			push	OFFSET 40
-	*** 0001fe	68 00 00 		push	OFFSET L00184
-	*** 000201	68 00 00 		push	OFFSET L00185
+	*** 0001fe	68 00 00 		push	OFFSET L00186
+	*** 000201	68 00 00 		push	OFFSET L00187
 	*** 000204	e8 00 00 		call	__assert
 	*** 000207	83 c4 06 		add	sp,OFFSET 6
-					L00366:
+					L00368:
 ; Line 41
-	*** 00020a	e9 00 00 		jmp	L00186
-					L00182:
+	*** 00020a	e9 00 00 		jmp	L00188
+					L00184:
 ; Line 41
-	*** 00020d	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000211	74 03 e9 00 00 		jne	L00369
+	*** 00020d	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000211	74 03 e9 00 00 		jne	L00371
 	*** 000216	b8 00 00 		mov	ax,OFFSET 0
-	*** 000219	e9 00 00 		jmp	L00368
-					L00369:
+	*** 000219	e9 00 00 		jmp	L00370
+					L00371:
 	*** 00021c	6a 29 			push	OFFSET 41
-	*** 00021e	68 00 00 		push	OFFSET L00187
-	*** 000221	68 00 00 		push	OFFSET L00188
+	*** 00021e	68 00 00 		push	OFFSET L00189
+	*** 000221	68 00 00 		push	OFFSET L00190
 	*** 000224	e8 00 00 		call	__assert
 	*** 000227	83 c4 06 		add	sp,OFFSET 6
-					L00368:
-					L00186:
-					L00181:
+					L00370:
+					L00188:
+					L00183:
 ; Line 42
-					L00175:
-; Line 42
-	*** 00022a	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00177:
-	*** 00022e	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 000233	7f 03 e9 64 ff 		jle	L00174
-					L00176:
+; Line 42
+	*** 00022a	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00179:
+	*** 00022e	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 000233	7f 03 e9 64 ff 		jle	L00176
+					L00178:
 ; Line 43
 ; Line 43
-					L00171:
+					L00173:
 	*** 000238	5f 			pop	di
 	*** 000239	5e 			pop	si
 	*** 00023a	c9 			leave
@@ -280,65 +280,65 @@
 ; Local Size: 6
 ; Line 47
 					___isdigit:
-	*** 00023c	c8 00 00 00 		enter	OFFSET L00370,OFFSET 0
+	*** 00023c	c8 00 00 00 		enter	OFFSET L00372,OFFSET 0
 	*** 000240	56 			push	si
 	*** 000241	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 48
 ; Line 49
-	*** 000242	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 000247	e9 00 00 		jmp	L00196
-					L00193:
+	*** 000242	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 000247	e9 00 00 		jmp	L00198
+					L00195:
 ; Line 50
 ; Line 51
-	*** 00024a	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 00024a	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 00024d	e8 00 00 		call	_isdigit
 	*** 000250	83 c4 02 		add	sp,OFFSET 2
-	*** 000253	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 000253	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 52
-	*** 000256	83 7e fc 30 		cmp	WORD PTR -4[bp],OFFSET 48
-	*** 00025a	7d 03 e9 00 00 		jl	L00197
-	*** 00025f	83 7e fc 39 		cmp	WORD PTR -4[bp],OFFSET 57
-	*** 000263	7e 03 e9 00 00 		jg	L00197
-	*** 000268	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 00026c	75 03 e9 00 00 		je	L00372
+	*** 000256	83 7e fa 30 		cmp	WORD PTR -6[bp],OFFSET 48
+	*** 00025a	7d 03 e9 00 00 		jl	L00199
+	*** 00025f	83 7e fa 39 		cmp	WORD PTR -6[bp],OFFSET 57
+	*** 000263	7e 03 e9 00 00 		jg	L00199
+	*** 000268	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 00026c	75 03 e9 00 00 		je	L00374
 	*** 000271	b8 00 00 		mov	ax,OFFSET 0
-	*** 000274	e9 00 00 		jmp	L00371
-					L00372:
+	*** 000274	e9 00 00 		jmp	L00373
+					L00374:
 	*** 000277	6a 34 			push	OFFSET 52
-	*** 000279	68 00 00 		push	OFFSET L00198
-	*** 00027c	68 00 00 		push	OFFSET L00199
+	*** 000279	68 00 00 		push	OFFSET L00200
+	*** 00027c	68 00 00 		push	OFFSET L00201
 	*** 00027f	e8 00 00 		call	__assert
 	*** 000282	83 c4 06 		add	sp,OFFSET 6
-					L00371:
+					L00373:
 ; Line 53
-	*** 000285	e9 00 00 		jmp	L00200
-					L00197:
+	*** 000285	e9 00 00 		jmp	L00202
+					L00199:
 ; Line 53
-	*** 000288	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 00028c	74 03 e9 00 00 		jne	L00374
+	*** 000288	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 00028c	74 03 e9 00 00 		jne	L00376
 	*** 000291	b8 00 00 		mov	ax,OFFSET 0
-	*** 000294	e9 00 00 		jmp	L00373
-					L00374:
+	*** 000294	e9 00 00 		jmp	L00375
+					L00376:
 	*** 000297	6a 35 			push	OFFSET 53
-	*** 000299	68 00 00 		push	OFFSET L00201
-	*** 00029c	68 00 00 		push	OFFSET L00202
+	*** 000299	68 00 00 		push	OFFSET L00203
+	*** 00029c	68 00 00 		push	OFFSET L00204
 	*** 00029f	e8 00 00 		call	__assert
 	*** 0002a2	83 c4 06 		add	sp,OFFSET 6
-					L00373:
-					L00200:
+					L00375:
+					L00202:
 ; Line 54
-					L00194:
-; Line 54
-	*** 0002a5	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00196:
-	*** 0002a9	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 0002ae	7f 03 e9 97 ff 		jle	L00193
-					L00195:
+; Line 54
+	*** 0002a5	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00198:
+	*** 0002a9	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 0002ae	7f 03 e9 97 ff 		jle	L00195
+					L00197:
 ; Line 55
 ; Line 55
-					L00190:
+					L00192:
 	*** 0002b3	5f 			pop	di
 	*** 0002b4	5e 			pop	si
 	*** 0002b5	c9 			leave
@@ -346,65 +346,65 @@
 ; Local Size: 6
 ; Line 59
 					___isgraph:
-	*** 0002b8	c8 00 00 00 		enter	OFFSET L00375,OFFSET 0
+	*** 0002b8	c8 00 00 00 		enter	OFFSET L00377,OFFSET 0
 	*** 0002bc	56 			push	si
 	*** 0002bd	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 60
 ; Line 61
-	*** 0002be	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 0002c3	e9 00 00 		jmp	L00210
-					L00207:
+	*** 0002be	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 0002c3	e9 00 00 		jmp	L00212
+					L00209:
 ; Line 62
 ; Line 63
-	*** 0002c6	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 0002c6	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 0002c9	e8 00 00 		call	_isgraph
 	*** 0002cc	83 c4 02 		add	sp,OFFSET 2
-	*** 0002cf	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 0002cf	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 64
-	*** 0002d2	83 7e fc 21 		cmp	WORD PTR -4[bp],OFFSET 33
-	*** 0002d6	7d 03 e9 00 00 		jl	L00211
-	*** 0002db	83 7e fc 7e 		cmp	WORD PTR -4[bp],OFFSET 126
-	*** 0002df	7e 03 e9 00 00 		jg	L00211
-	*** 0002e4	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0002e8	75 03 e9 00 00 		je	L00377
+	*** 0002d2	83 7e fa 21 		cmp	WORD PTR -6[bp],OFFSET 33
+	*** 0002d6	7d 03 e9 00 00 		jl	L00213
+	*** 0002db	83 7e fa 7e 		cmp	WORD PTR -6[bp],OFFSET 126
+	*** 0002df	7e 03 e9 00 00 		jg	L00213
+	*** 0002e4	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0002e8	75 03 e9 00 00 		je	L00379
 	*** 0002ed	b8 00 00 		mov	ax,OFFSET 0
-	*** 0002f0	e9 00 00 		jmp	L00376
-					L00377:
+	*** 0002f0	e9 00 00 		jmp	L00378
+					L00379:
 	*** 0002f3	6a 40 			push	OFFSET 64
-	*** 0002f5	68 00 00 		push	OFFSET L00212
-	*** 0002f8	68 00 00 		push	OFFSET L00213
+	*** 0002f5	68 00 00 		push	OFFSET L00214
+	*** 0002f8	68 00 00 		push	OFFSET L00215
 	*** 0002fb	e8 00 00 		call	__assert
 	*** 0002fe	83 c4 06 		add	sp,OFFSET 6
-					L00376:
+					L00378:
 ; Line 65
-	*** 000301	e9 00 00 		jmp	L00214
-					L00211:
+	*** 000301	e9 00 00 		jmp	L00216
+					L00213:
 ; Line 65
-	*** 000304	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000308	74 03 e9 00 00 		jne	L00379
+	*** 000304	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000308	74 03 e9 00 00 		jne	L00381
 	*** 00030d	b8 00 00 		mov	ax,OFFSET 0
-	*** 000310	e9 00 00 		jmp	L00378
-					L00379:
+	*** 000310	e9 00 00 		jmp	L00380
+					L00381:
 	*** 000313	6a 41 			push	OFFSET 65
-	*** 000315	68 00 00 		push	OFFSET L00215
-	*** 000318	68 00 00 		push	OFFSET L00216
+	*** 000315	68 00 00 		push	OFFSET L00217
+	*** 000318	68 00 00 		push	OFFSET L00218
 	*** 00031b	e8 00 00 		call	__assert
 	*** 00031e	83 c4 06 		add	sp,OFFSET 6
-					L00378:
-					L00214:
+					L00380:
+					L00216:
 ; Line 66
-					L00208:
-; Line 66
-	*** 000321	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00210:
-	*** 000325	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 00032a	7f 03 e9 97 ff 		jle	L00207
-					L00209:
+; Line 66
+	*** 000321	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00212:
+	*** 000325	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 00032a	7f 03 e9 97 ff 		jle	L00209
+					L00211:
 ; Line 67
 ; Line 67
-					L00204:
+					L00206:
 	*** 00032f	5f 			pop	di
 	*** 000330	5e 			pop	si
 	*** 000331	c9 			leave
@@ -412,65 +412,65 @@
 ; Local Size: 6
 ; Line 71
 					___islower:
-	*** 000334	c8 00 00 00 		enter	OFFSET L00380,OFFSET 0
+	*** 000334	c8 00 00 00 		enter	OFFSET L00382,OFFSET 0
 	*** 000338	56 			push	si
 	*** 000339	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 72
 ; Line 73
-	*** 00033a	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 00033f	e9 00 00 		jmp	L00224
-					L00221:
+	*** 00033a	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 00033f	e9 00 00 		jmp	L00226
+					L00223:
 ; Line 74
 ; Line 75
-	*** 000342	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 000342	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 000345	e8 00 00 		call	_islower
 	*** 000348	83 c4 02 		add	sp,OFFSET 2
-	*** 00034b	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 00034b	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 76
-	*** 00034e	83 7e fc 61 		cmp	WORD PTR -4[bp],OFFSET 97
-	*** 000352	7d 03 e9 00 00 		jl	L00225
-	*** 000357	83 7e fc 7a 		cmp	WORD PTR -4[bp],OFFSET 122
-	*** 00035b	7e 03 e9 00 00 		jg	L00225
-	*** 000360	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000364	75 03 e9 00 00 		je	L00382
+	*** 00034e	83 7e fa 61 		cmp	WORD PTR -6[bp],OFFSET 97
+	*** 000352	7d 03 e9 00 00 		jl	L00227
+	*** 000357	83 7e fa 7a 		cmp	WORD PTR -6[bp],OFFSET 122
+	*** 00035b	7e 03 e9 00 00 		jg	L00227
+	*** 000360	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000364	75 03 e9 00 00 		je	L00384
 	*** 000369	b8 00 00 		mov	ax,OFFSET 0
-	*** 00036c	e9 00 00 		jmp	L00381
-					L00382:
+	*** 00036c	e9 00 00 		jmp	L00383
+					L00384:
 	*** 00036f	6a 4c 			push	OFFSET 76
-	*** 000371	68 00 00 		push	OFFSET L00226
-	*** 000374	68 00 00 		push	OFFSET L00227
+	*** 000371	68 00 00 		push	OFFSET L00228
+	*** 000374	68 00 00 		push	OFFSET L00229
 	*** 000377	e8 00 00 		call	__assert
 	*** 00037a	83 c4 06 		add	sp,OFFSET 6
-					L00381:
+					L00383:
 ; Line 77
-	*** 00037d	e9 00 00 		jmp	L00228
-					L00225:
+	*** 00037d	e9 00 00 		jmp	L00230
+					L00227:
 ; Line 77
-	*** 000380	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000384	74 03 e9 00 00 		jne	L00384
+	*** 000380	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000384	74 03 e9 00 00 		jne	L00386
 	*** 000389	b8 00 00 		mov	ax,OFFSET 0
-	*** 00038c	e9 00 00 		jmp	L00383
-					L00384:
+	*** 00038c	e9 00 00 		jmp	L00385
+					L00386:
 	*** 00038f	6a 4d 			push	OFFSET 77
-	*** 000391	68 00 00 		push	OFFSET L00229
-	*** 000394	68 00 00 		push	OFFSET L00230
+	*** 000391	68 00 00 		push	OFFSET L00231
+	*** 000394	68 00 00 		push	OFFSET L00232
 	*** 000397	e8 00 00 		call	__assert
 	*** 00039a	83 c4 06 		add	sp,OFFSET 6
-					L00383:
-					L00228:
+					L00385:
+					L00230:
 ; Line 78
-					L00222:
-; Line 78
-	*** 00039d	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00224:
-	*** 0003a1	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 0003a6	7f 03 e9 97 ff 		jle	L00221
-					L00223:
+; Line 78
+	*** 00039d	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00226:
+	*** 0003a1	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 0003a6	7f 03 e9 97 ff 		jle	L00223
+					L00225:
 ; Line 79
 ; Line 79
-					L00218:
+					L00220:
 	*** 0003ab	5f 			pop	di
 	*** 0003ac	5e 			pop	si
 	*** 0003ad	c9 			leave
@@ -478,65 +478,65 @@
 ; Local Size: 6
 ; Line 81
 					___isprint:
-	*** 0003b0	c8 00 00 00 		enter	OFFSET L00385,OFFSET 0
+	*** 0003b0	c8 00 00 00 		enter	OFFSET L00387,OFFSET 0
 	*** 0003b4	56 			push	si
 	*** 0003b5	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 82
 ; Line 83
-	*** 0003b6	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 0003bb	e9 00 00 		jmp	L00238
-					L00235:
+	*** 0003b6	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 0003bb	e9 00 00 		jmp	L00240
+					L00237:
 ; Line 84
 ; Line 85
-	*** 0003be	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 0003be	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 0003c1	e8 00 00 		call	_isprint
 	*** 0003c4	83 c4 02 		add	sp,OFFSET 2
-	*** 0003c7	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 0003c7	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 86
-	*** 0003ca	83 7e fc 20 		cmp	WORD PTR -4[bp],OFFSET 32
-	*** 0003ce	7d 03 e9 00 00 		jl	L00239
-	*** 0003d3	83 7e fc 7e 		cmp	WORD PTR -4[bp],OFFSET 126
-	*** 0003d7	7e 03 e9 00 00 		jg	L00239
-	*** 0003dc	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0003e0	75 03 e9 00 00 		je	L00387
+	*** 0003ca	83 7e fa 20 		cmp	WORD PTR -6[bp],OFFSET 32
+	*** 0003ce	7d 03 e9 00 00 		jl	L00241
+	*** 0003d3	83 7e fa 7e 		cmp	WORD PTR -6[bp],OFFSET 126
+	*** 0003d7	7e 03 e9 00 00 		jg	L00241
+	*** 0003dc	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0003e0	75 03 e9 00 00 		je	L00389
 	*** 0003e5	b8 00 00 		mov	ax,OFFSET 0
-	*** 0003e8	e9 00 00 		jmp	L00386
-					L00387:
+	*** 0003e8	e9 00 00 		jmp	L00388
+					L00389:
 	*** 0003eb	6a 56 			push	OFFSET 86
-	*** 0003ed	68 00 00 		push	OFFSET L00240
-	*** 0003f0	68 00 00 		push	OFFSET L00241
+	*** 0003ed	68 00 00 		push	OFFSET L00242
+	*** 0003f0	68 00 00 		push	OFFSET L00243
 	*** 0003f3	e8 00 00 		call	__assert
 	*** 0003f6	83 c4 06 		add	sp,OFFSET 6
-					L00386:
+					L00388:
 ; Line 87
-	*** 0003f9	e9 00 00 		jmp	L00242
-					L00239:
+	*** 0003f9	e9 00 00 		jmp	L00244
+					L00241:
 ; Line 87
-	*** 0003fc	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000400	74 03 e9 00 00 		jne	L00389
+	*** 0003fc	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000400	74 03 e9 00 00 		jne	L00391
 	*** 000405	b8 00 00 		mov	ax,OFFSET 0
-	*** 000408	e9 00 00 		jmp	L00388
-					L00389:
+	*** 000408	e9 00 00 		jmp	L00390
+					L00391:
 	*** 00040b	6a 57 			push	OFFSET 87
-	*** 00040d	68 00 00 		push	OFFSET L00243
-	*** 000410	68 00 00 		push	OFFSET L00244
+	*** 00040d	68 00 00 		push	OFFSET L00245
+	*** 000410	68 00 00 		push	OFFSET L00246
 	*** 000413	e8 00 00 		call	__assert
 	*** 000416	83 c4 06 		add	sp,OFFSET 6
-					L00388:
-					L00242:
+					L00390:
+					L00244:
 ; Line 88
-					L00236:
-; Line 88
-	*** 000419	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00238:
-	*** 00041d	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 000422	7f 03 e9 97 ff 		jle	L00235
-					L00237:
+; Line 88
+	*** 000419	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00240:
+	*** 00041d	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 000422	7f 03 e9 97 ff 		jle	L00237
+					L00239:
 ; Line 89
 ; Line 89
-					L00232:
+					L00234:
 	*** 000427	5f 			pop	di
 	*** 000428	5e 			pop	si
 	*** 000429	c9 			leave
@@ -544,125 +544,125 @@
 ; Local Size: 6
 ; Line 93
 					___ispunct:
-	*** 00042c	c8 00 00 00 		enter	OFFSET L00390,OFFSET 0
+	*** 00042c	c8 00 00 00 		enter	OFFSET L00392,OFFSET 0
 	*** 000430	56 			push	si
 	*** 000431	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 94
 ; Line 95
-	*** 000432	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 000437	e9 00 00 		jmp	L00252
-					L00249:
+	*** 000432	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 000437	e9 00 00 		jmp	L00254
+					L00251:
 ; Line 96
 ; Line 97
-	*** 00043a	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 00043a	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 00043d	e8 00 00 		call	_ispunct
 	*** 000440	83 c4 02 		add	sp,OFFSET 2
-	*** 000443	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 000443	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 98
-	*** 000446	83 7e fc 21 		cmp	WORD PTR -4[bp],OFFSET 33
-	*** 00044a	7d 03 e9 00 00 		jl	L00253
-	*** 00044f	83 7e fc 2f 		cmp	WORD PTR -4[bp],OFFSET 47
-	*** 000453	7e 03 e9 00 00 		jg	L00253
-	*** 000458	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 00045c	75 03 e9 00 00 		je	L00392
+	*** 000446	83 7e fa 21 		cmp	WORD PTR -6[bp],OFFSET 33
+	*** 00044a	7d 03 e9 00 00 		jl	L00255
+	*** 00044f	83 7e fa 2f 		cmp	WORD PTR -6[bp],OFFSET 47
+	*** 000453	7e 03 e9 00 00 		jg	L00255
+	*** 000458	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 00045c	75 03 e9 00 00 		je	L00394
 	*** 000461	b8 00 00 		mov	ax,OFFSET 0
-	*** 000464	e9 00 00 		jmp	L00391
-					L00392:
+	*** 000464	e9 00 00 		jmp	L00393
+					L00394:
 	*** 000467	6a 62 			push	OFFSET 98
-	*** 000469	68 00 00 		push	OFFSET L00254
-	*** 00046c	68 00 00 		push	OFFSET L00255
+	*** 000469	68 00 00 		push	OFFSET L00256
+	*** 00046c	68 00 00 		push	OFFSET L00257
 	*** 00046f	e8 00 00 		call	__assert
 	*** 000472	83 c4 06 		add	sp,OFFSET 6
-					L00391:
+					L00393:
 ; Line 99
-	*** 000475	e9 00 00 		jmp	L00256
-					L00253:
+	*** 000475	e9 00 00 		jmp	L00258
+					L00255:
 ; Line 99
-	*** 000478	83 7e fc 3a 		cmp	WORD PTR -4[bp],OFFSET 58
-	*** 00047c	7d 03 e9 00 00 		jl	L00257
-	*** 000481	83 7e fc 40 		cmp	WORD PTR -4[bp],OFFSET 64
-	*** 000485	7e 03 e9 00 00 		jg	L00257
-	*** 00048a	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 00048e	75 03 e9 00 00 		je	L00394
+	*** 000478	83 7e fa 3a 		cmp	WORD PTR -6[bp],OFFSET 58
+	*** 00047c	7d 03 e9 00 00 		jl	L00259
+	*** 000481	83 7e fa 40 		cmp	WORD PTR -6[bp],OFFSET 64
+	*** 000485	7e 03 e9 00 00 		jg	L00259
+	*** 00048a	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 00048e	75 03 e9 00 00 		je	L00396
 	*** 000493	b8 00 00 		mov	ax,OFFSET 0
-	*** 000496	e9 00 00 		jmp	L00393
-					L00394:
+	*** 000496	e9 00 00 		jmp	L00395
+					L00396:
 	*** 000499	6a 63 			push	OFFSET 99
-	*** 00049b	68 00 00 		push	OFFSET L00258
-	*** 00049e	68 00 00 		push	OFFSET L00259
+	*** 00049b	68 00 00 		push	OFFSET L00260
+	*** 00049e	68 00 00 		push	OFFSET L00261
 	*** 0004a1	e8 00 00 		call	__assert
 	*** 0004a4	83 c4 06 		add	sp,OFFSET 6
-					L00393:
+					L00395:
 ; Line 100
-	*** 0004a7	e9 00 00 		jmp	L00260
-					L00257:
+	*** 0004a7	e9 00 00 		jmp	L00262
+					L00259:
 ; Line 100
-	*** 0004aa	83 7e fc 5b 		cmp	WORD PTR -4[bp],OFFSET 91
-	*** 0004ae	7d 03 e9 00 00 		jl	L00261
-	*** 0004b3	83 7e fc 60 		cmp	WORD PTR -4[bp],OFFSET 96
-	*** 0004b7	7e 03 e9 00 00 		jg	L00261
-	*** 0004bc	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0004c0	75 03 e9 00 00 		je	L00396
+	*** 0004aa	83 7e fa 5b 		cmp	WORD PTR -6[bp],OFFSET 91
+	*** 0004ae	7d 03 e9 00 00 		jl	L00263
+	*** 0004b3	83 7e fa 60 		cmp	WORD PTR -6[bp],OFFSET 96
+	*** 0004b7	7e 03 e9 00 00 		jg	L00263
+	*** 0004bc	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0004c0	75 03 e9 00 00 		je	L00398
 	*** 0004c5	b8 00 00 		mov	ax,OFFSET 0
-	*** 0004c8	e9 00 00 		jmp	L00395
-					L00396:
+	*** 0004c8	e9 00 00 		jmp	L00397
+					L00398:
 	*** 0004cb	6a 64 			push	OFFSET 100
-	*** 0004cd	68 00 00 		push	OFFSET L00262
-	*** 0004d0	68 00 00 		push	OFFSET L00263
+	*** 0004cd	68 00 00 		push	OFFSET L00264
+	*** 0004d0	68 00 00 		push	OFFSET L00265
 	*** 0004d3	e8 00 00 		call	__assert
 	*** 0004d6	83 c4 06 		add	sp,OFFSET 6
-					L00395:
+					L00397:
 ; Line 101
-	*** 0004d9	e9 00 00 		jmp	L00264
-					L00261:
+	*** 0004d9	e9 00 00 		jmp	L00266
+					L00263:
 ; Line 101
-	*** 0004dc	83 7e fc 7b 		cmp	WORD PTR -4[bp],OFFSET 123
-	*** 0004e0	7d 03 e9 00 00 		jl	L00265
-	*** 0004e5	83 7e fc 7e 		cmp	WORD PTR -4[bp],OFFSET 126
-	*** 0004e9	7e 03 e9 00 00 		jg	L00265
-	*** 0004ee	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0004f2	75 03 e9 00 00 		je	L00398
+	*** 0004dc	83 7e fa 7b 		cmp	WORD PTR -6[bp],OFFSET 123
+	*** 0004e0	7d 03 e9 00 00 		jl	L00267
+	*** 0004e5	83 7e fa 7e 		cmp	WORD PTR -6[bp],OFFSET 126
+	*** 0004e9	7e 03 e9 00 00 		jg	L00267
+	*** 0004ee	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0004f2	75 03 e9 00 00 		je	L00400
 	*** 0004f7	b8 00 00 		mov	ax,OFFSET 0
-	*** 0004fa	e9 00 00 		jmp	L00397
-					L00398:
+	*** 0004fa	e9 00 00 		jmp	L00399
+					L00400:
 	*** 0004fd	6a 65 			push	OFFSET 101
-	*** 0004ff	68 00 00 		push	OFFSET L00266
-	*** 000502	68 00 00 		push	OFFSET L00267
+	*** 0004ff	68 00 00 		push	OFFSET L00268
+	*** 000502	68 00 00 		push	OFFSET L00269
 	*** 000505	e8 00 00 		call	__assert
 	*** 000508	83 c4 06 		add	sp,OFFSET 6
-					L00397:
+					L00399:
 ; Line 102
-	*** 00050b	e9 00 00 		jmp	L00268
-					L00265:
+	*** 00050b	e9 00 00 		jmp	L00270
+					L00267:
 ; Line 102
-	*** 00050e	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000512	74 03 e9 00 00 		jne	L00400
+	*** 00050e	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000512	74 03 e9 00 00 		jne	L00402
 	*** 000517	b8 00 00 		mov	ax,OFFSET 0
-	*** 00051a	e9 00 00 		jmp	L00399
-					L00400:
+	*** 00051a	e9 00 00 		jmp	L00401
+					L00402:
 	*** 00051d	6a 66 			push	OFFSET 102
-	*** 00051f	68 00 00 		push	OFFSET L00269
-	*** 000522	68 00 00 		push	OFFSET L00270
+	*** 00051f	68 00 00 		push	OFFSET L00271
+	*** 000522	68 00 00 		push	OFFSET L00272
 	*** 000525	e8 00 00 		call	__assert
 	*** 000528	83 c4 06 		add	sp,OFFSET 6
-					L00399:
-					L00268:
-					L00264:
-					L00260:
-					L00256:
+					L00401:
+					L00270:
+					L00266:
+					L00262:
+					L00258:
 ; Line 103
-					L00250:
-; Line 103
-	*** 00052b	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00252:
-	*** 00052f	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 000534	7f 03 e9 01 ff 		jle	L00249
-					L00251:
+; Line 103
+	*** 00052b	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00254:
+	*** 00052f	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 000534	7f 03 e9 01 ff 		jle	L00251
+					L00253:
 ; Line 104
 ; Line 104
-					L00246:
+					L00248:
 	*** 000539	5f 			pop	di
 	*** 00053a	5e 			pop	si
 	*** 00053b	c9 			leave
@@ -670,83 +670,83 @@
 ; Local Size: 6
 ; Line 108
 					___isspace:
-	*** 00053e	c8 00 00 00 		enter	OFFSET L00401,OFFSET 0
+	*** 00053e	c8 00 00 00 		enter	OFFSET L00403,OFFSET 0
 	*** 000542	56 			push	si
 	*** 000543	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 109
 ; Line 110
-	*** 000544	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 000549	e9 00 00 		jmp	L00278
-					L00275:
+	*** 000544	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 000549	e9 00 00 		jmp	L00280
+					L00277:
 ; Line 111
 ; Line 112
-	*** 00054c	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 00054c	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 00054f	e8 00 00 		call	_isspace
 	*** 000552	83 c4 02 		add	sp,OFFSET 2
-	*** 000555	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 000555	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 113
-	*** 000558	83 7e fc 09 		cmp	WORD PTR -4[bp],OFFSET 9
-	*** 00055c	7d 03 e9 00 00 		jl	L00279
-	*** 000561	83 7e fc 0d 		cmp	WORD PTR -4[bp],OFFSET 13
-	*** 000565	7e 03 e9 00 00 		jg	L00279
-	*** 00056a	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 00056e	75 03 e9 00 00 		je	L00403
+	*** 000558	83 7e fa 09 		cmp	WORD PTR -6[bp],OFFSET 9
+	*** 00055c	7d 03 e9 00 00 		jl	L00281
+	*** 000561	83 7e fa 0d 		cmp	WORD PTR -6[bp],OFFSET 13
+	*** 000565	7e 03 e9 00 00 		jg	L00281
+	*** 00056a	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 00056e	75 03 e9 00 00 		je	L00405
 	*** 000573	b8 00 00 		mov	ax,OFFSET 0
-	*** 000576	e9 00 00 		jmp	L00402
-					L00403:
+	*** 000576	e9 00 00 		jmp	L00404
+					L00405:
 	*** 000579	6a 71 			push	OFFSET 113
-	*** 00057b	68 00 00 		push	OFFSET L00280
-	*** 00057e	68 00 00 		push	OFFSET L00281
+	*** 00057b	68 00 00 		push	OFFSET L00282
+	*** 00057e	68 00 00 		push	OFFSET L00283
 	*** 000581	e8 00 00 		call	__assert
 	*** 000584	83 c4 06 		add	sp,OFFSET 6
-					L00402:
+					L00404:
 ; Line 114
-	*** 000587	e9 00 00 		jmp	L00282
-					L00279:
+	*** 000587	e9 00 00 		jmp	L00284
+					L00281:
 ; Line 114
-	*** 00058a	83 7e fc 20 		cmp	WORD PTR -4[bp],OFFSET 32
-	*** 00058e	74 03 e9 00 00 		jne	L00283
-	*** 000593	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000597	75 03 e9 00 00 		je	L00405
+	*** 00058a	83 7e fa 20 		cmp	WORD PTR -6[bp],OFFSET 32
+	*** 00058e	74 03 e9 00 00 		jne	L00285
+	*** 000593	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000597	75 03 e9 00 00 		je	L00407
 	*** 00059c	b8 00 00 		mov	ax,OFFSET 0
-	*** 00059f	e9 00 00 		jmp	L00404
-					L00405:
+	*** 00059f	e9 00 00 		jmp	L00406
+					L00407:
 	*** 0005a2	6a 72 			push	OFFSET 114
-	*** 0005a4	68 00 00 		push	OFFSET L00284
-	*** 0005a7	68 00 00 		push	OFFSET L00285
+	*** 0005a4	68 00 00 		push	OFFSET L00286
+	*** 0005a7	68 00 00 		push	OFFSET L00287
 	*** 0005aa	e8 00 00 		call	__assert
 	*** 0005ad	83 c4 06 		add	sp,OFFSET 6
-					L00404:
+					L00406:
 ; Line 115
-	*** 0005b0	e9 00 00 		jmp	L00286
-					L00283:
+	*** 0005b0	e9 00 00 		jmp	L00288
+					L00285:
 ; Line 115
-	*** 0005b3	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0005b7	74 03 e9 00 00 		jne	L00407
+	*** 0005b3	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0005b7	74 03 e9 00 00 		jne	L00409
 	*** 0005bc	b8 00 00 		mov	ax,OFFSET 0
-	*** 0005bf	e9 00 00 		jmp	L00406
-					L00407:
+	*** 0005bf	e9 00 00 		jmp	L00408
+					L00409:
 	*** 0005c2	6a 73 			push	OFFSET 115
-	*** 0005c4	68 00 00 		push	OFFSET L00287
-	*** 0005c7	68 00 00 		push	OFFSET L00288
+	*** 0005c4	68 00 00 		push	OFFSET L00289
+	*** 0005c7	68 00 00 		push	OFFSET L00290
 	*** 0005ca	e8 00 00 		call	__assert
 	*** 0005cd	83 c4 06 		add	sp,OFFSET 6
-					L00406:
-					L00286:
-					L00282:
+					L00408:
+					L00288:
+					L00284:
 ; Line 116
-					L00276:
-; Line 116
-	*** 0005d0	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00278:
-	*** 0005d4	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 0005d9	7f 03 e9 6e ff 		jle	L00275
-					L00277:
+; Line 116
+	*** 0005d0	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00280:
+	*** 0005d4	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 0005d9	7f 03 e9 6e ff 		jle	L00277
+					L00279:
 ; Line 117
 ; Line 117
-					L00272:
+					L00274:
 	*** 0005de	5f 			pop	di
 	*** 0005df	5e 			pop	si
 	*** 0005e0	c9 			leave
@@ -754,65 +754,65 @@
 ; Local Size: 6
 ; Line 121
 					___isupper:
-	*** 0005e2	c8 00 00 00 		enter	OFFSET L00408,OFFSET 0
+	*** 0005e2	c8 00 00 00 		enter	OFFSET L00410,OFFSET 0
 	*** 0005e6	56 			push	si
 	*** 0005e7	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 122
 ; Line 123
-	*** 0005e8	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 0005ed	e9 00 00 		jmp	L00296
-					L00293:
+	*** 0005e8	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 0005ed	e9 00 00 		jmp	L00298
+					L00295:
 ; Line 124
 ; Line 125
-	*** 0005f0	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 0005f0	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 0005f3	e8 00 00 		call	_isupper
 	*** 0005f6	83 c4 02 		add	sp,OFFSET 2
-	*** 0005f9	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 0005f9	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 126
-	*** 0005fc	83 7e fc 41 		cmp	WORD PTR -4[bp],OFFSET 65
-	*** 000600	7d 03 e9 00 00 		jl	L00297
-	*** 000605	83 7e fc 5a 		cmp	WORD PTR -4[bp],OFFSET 90
-	*** 000609	7e 03 e9 00 00 		jg	L00297
-	*** 00060e	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000612	75 03 e9 00 00 		je	L00410
+	*** 0005fc	83 7e fa 41 		cmp	WORD PTR -6[bp],OFFSET 65
+	*** 000600	7d 03 e9 00 00 		jl	L00299
+	*** 000605	83 7e fa 5a 		cmp	WORD PTR -6[bp],OFFSET 90
+	*** 000609	7e 03 e9 00 00 		jg	L00299
+	*** 00060e	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000612	75 03 e9 00 00 		je	L00412
 	*** 000617	b8 00 00 		mov	ax,OFFSET 0
-	*** 00061a	e9 00 00 		jmp	L00409
-					L00410:
+	*** 00061a	e9 00 00 		jmp	L00411
+					L00412:
 	*** 00061d	6a 7e 			push	OFFSET 126
-	*** 00061f	68 00 00 		push	OFFSET L00298
-	*** 000622	68 00 00 		push	OFFSET L00299
+	*** 00061f	68 00 00 		push	OFFSET L00300
+	*** 000622	68 00 00 		push	OFFSET L00301
 	*** 000625	e8 00 00 		call	__assert
 	*** 000628	83 c4 06 		add	sp,OFFSET 6
-					L00409:
+					L00411:
 ; Line 127
-	*** 00062b	e9 00 00 		jmp	L00300
-					L00297:
+	*** 00062b	e9 00 00 		jmp	L00302
+					L00299:
 ; Line 127
-	*** 00062e	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000632	74 03 e9 00 00 		jne	L00412
+	*** 00062e	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000632	74 03 e9 00 00 		jne	L00414
 	*** 000637	b8 00 00 		mov	ax,OFFSET 0
-	*** 00063a	e9 00 00 		jmp	L00411
-					L00412:
+	*** 00063a	e9 00 00 		jmp	L00413
+					L00414:
 	*** 00063d	6a 7f 			push	OFFSET 127
-	*** 00063f	68 00 00 		push	OFFSET L00301
-	*** 000642	68 00 00 		push	OFFSET L00302
+	*** 00063f	68 00 00 		push	OFFSET L00303
+	*** 000642	68 00 00 		push	OFFSET L00304
 	*** 000645	e8 00 00 		call	__assert
 	*** 000648	83 c4 06 		add	sp,OFFSET 6
-					L00411:
-					L00300:
+					L00413:
+					L00302:
 ; Line 128
-					L00294:
-; Line 128
-	*** 00064b	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00296:
-	*** 00064f	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 000654	7f 03 e9 97 ff 		jle	L00293
-					L00295:
+; Line 128
+	*** 00064b	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00298:
+	*** 00064f	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 000654	7f 03 e9 97 ff 		jle	L00295
+					L00297:
 ; Line 129
 ; Line 129
-					L00290:
+					L00292:
 	*** 000659	5f 			pop	di
 	*** 00065a	5e 			pop	si
 	*** 00065b	c9 			leave
@@ -820,105 +820,105 @@
 ; Local Size: 6
 ; Line 133
 					___isxdigit:
-	*** 00065e	c8 00 00 00 		enter	OFFSET L00413,OFFSET 0
+	*** 00065e	c8 00 00 00 		enter	OFFSET L00415,OFFSET 0
 	*** 000662	56 			push	si
 	*** 000663	57 			push	di
-; i = fffc
-; ret = fffa
+; ret = fffc
+; i = fffa
 ; Line 134
 ; Line 135
-	*** 000664	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 000669	e9 00 00 		jmp	L00310
-					L00307:
+	*** 000664	c7 46 fa 00 00 		mov	WORD PTR -6[bp],OFFSET 0
+	*** 000669	e9 00 00 		jmp	L00312
+					L00309:
 ; Line 136
 ; Line 137
-	*** 00066c	ff 76 fc 		push	WORD PTR -4[bp]
+	*** 00066c	ff 76 fa 		push	WORD PTR -6[bp]
 	*** 00066f	e8 00 00 		call	_isxdigit
 	*** 000672	83 c4 02 		add	sp,OFFSET 2
-	*** 000675	89 46 fa 		mov	WORD PTR -6[bp],ax
+	*** 000675	89 46 fc 		mov	WORD PTR -4[bp],ax
 ; Line 138
-	*** 000678	83 7e fc 30 		cmp	WORD PTR -4[bp],OFFSET 48
-	*** 00067c	7d 03 e9 00 00 		jl	L00311
-	*** 000681	83 7e fc 39 		cmp	WORD PTR -4[bp],OFFSET 57
-	*** 000685	7e 03 e9 00 00 		jg	L00311
-	*** 00068a	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 00068e	75 03 e9 00 00 		je	L00415
+	*** 000678	83 7e fa 30 		cmp	WORD PTR -6[bp],OFFSET 48
+	*** 00067c	7d 03 e9 00 00 		jl	L00313
+	*** 000681	83 7e fa 39 		cmp	WORD PTR -6[bp],OFFSET 57
+	*** 000685	7e 03 e9 00 00 		jg	L00313
+	*** 00068a	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 00068e	75 03 e9 00 00 		je	L00417
 	*** 000693	b8 00 00 		mov	ax,OFFSET 0
-	*** 000696	e9 00 00 		jmp	L00414
-					L00415:
+	*** 000696	e9 00 00 		jmp	L00416
+					L00417:
 	*** 000699	68 8a 00 		push	OFFSET 138
-	*** 00069c	68 00 00 		push	OFFSET L00312
-	*** 00069f	68 00 00 		push	OFFSET L00313
+	*** 00069c	68 00 00 		push	OFFSET L00314
+	*** 00069f	68 00 00 		push	OFFSET L00315
 	*** 0006a2	e8 00 00 		call	__assert
 	*** 0006a5	83 c4 06 		add	sp,OFFSET 6
-					L00414:
+					L00416:
 ; Line 139
-	*** 0006a8	e9 00 00 		jmp	L00314
-					L00311:
+	*** 0006a8	e9 00 00 		jmp	L00316
+					L00313:
 ; Line 139
-	*** 0006ab	83 7e fc 41 		cmp	WORD PTR -4[bp],OFFSET 65
-	*** 0006af	7d 03 e9 00 00 		jl	L00315
-	*** 0006b4	83 7e fc 46 		cmp	WORD PTR -4[bp],OFFSET 70
-	*** 0006b8	7e 03 e9 00 00 		jg	L00315
-	*** 0006bd	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0006c1	75 03 e9 00 00 		je	L00417
+	*** 0006ab	83 7e fa 41 		cmp	WORD PTR -6[bp],OFFSET 65
+	*** 0006af	7d 03 e9 00 00 		jl	L00317
+	*** 0006b4	83 7e fa 46 		cmp	WORD PTR -6[bp],OFFSET 70
+	*** 0006b8	7e 03 e9 00 00 		jg	L00317
+	*** 0006bd	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0006c1	75 03 e9 00 00 		je	L00419
 	*** 0006c6	b8 00 00 		mov	ax,OFFSET 0
-	*** 0006c9	e9 00 00 		jmp	L00416
-					L00417:
+	*** 0006c9	e9 00 00 		jmp	L00418
+					L00419:
 	*** 0006cc	68 8b 00 		push	OFFSET 139
-	*** 0006cf	68 00 00 		push	OFFSET L00316
-	*** 0006d2	68 00 00 		push	OFFSET L00317
+	*** 0006cf	68 00 00 		push	OFFSET L00318
+	*** 0006d2	68 00 00 		push	OFFSET L00319
 	*** 0006d5	e8 00 00 		call	__assert
 	*** 0006d8	83 c4 06 		add	sp,OFFSET 6
-					L00416:
+					L00418:
 ; Line 140
-	*** 0006db	e9 00 00 		jmp	L00318
-					L00315:
+	*** 0006db	e9 00 00 		jmp	L00320
+					L00317:
 ; Line 140
-	*** 0006de	83 7e fc 61 		cmp	WORD PTR -4[bp],OFFSET 97
-	*** 0006e2	7d 03 e9 00 00 		jl	L00319
-	*** 0006e7	83 7e fc 66 		cmp	WORD PTR -4[bp],OFFSET 102
-	*** 0006eb	7e 03 e9 00 00 		jg	L00319
-	*** 0006f0	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 0006f4	75 03 e9 00 00 		je	L00419
+	*** 0006de	83 7e fa 61 		cmp	WORD PTR -6[bp],OFFSET 97
+	*** 0006e2	7d 03 e9 00 00 		jl	L00321
+	*** 0006e7	83 7e fa 66 		cmp	WORD PTR -6[bp],OFFSET 102
+	*** 0006eb	7e 03 e9 00 00 		jg	L00321
+	*** 0006f0	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 0006f4	75 03 e9 00 00 		je	L00421
 	*** 0006f9	b8 00 00 		mov	ax,OFFSET 0
-	*** 0006fc	e9 00 00 		jmp	L00418
-					L00419:
+	*** 0006fc	e9 00 00 		jmp	L00420
+					L00421:
 	*** 0006ff	68 8c 00 		push	OFFSET 140
-	*** 000702	68 00 00 		push	OFFSET L00320
-	*** 000705	68 00 00 		push	OFFSET L00321
+	*** 000702	68 00 00 		push	OFFSET L00322
+	*** 000705	68 00 00 		push	OFFSET L00323
 	*** 000708	e8 00 00 		call	__assert
 	*** 00070b	83 c4 06 		add	sp,OFFSET 6
-					L00418:
+					L00420:
 ; Line 141
-	*** 00070e	e9 00 00 		jmp	L00322
-					L00319:
+	*** 00070e	e9 00 00 		jmp	L00324
+					L00321:
 ; Line 141
-	*** 000711	83 7e fa 00 		cmp	WORD PTR -6[bp],OFFSET 0
-	*** 000715	74 03 e9 00 00 		jne	L00421
+	*** 000711	83 7e fc 00 		cmp	WORD PTR -4[bp],OFFSET 0
+	*** 000715	74 03 e9 00 00 		jne	L00423
 	*** 00071a	b8 00 00 		mov	ax,OFFSET 0
-	*** 00071d	e9 00 00 		jmp	L00420
-					L00421:
+	*** 00071d	e9 00 00 		jmp	L00422
+					L00423:
 	*** 000720	68 8d 00 		push	OFFSET 141
-	*** 000723	68 00 00 		push	OFFSET L00323
-	*** 000726	68 00 00 		push	OFFSET L00324
+	*** 000723	68 00 00 		push	OFFSET L00325
+	*** 000726	68 00 00 		push	OFFSET L00326
 	*** 000729	e8 00 00 		call	__assert
 	*** 00072c	83 c4 06 		add	sp,OFFSET 6
-					L00420:
-					L00322:
-					L00318:
-					L00314:
+					L00422:
+					L00324:
+					L00320:
+					L00316:
 ; Line 142
-					L00308:
-; Line 142
-	*** 00072f	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
 					L00310:
-	*** 000733	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 000738	7f 03 e9 2f ff 		jle	L00307
-					L00309:
+; Line 142
+	*** 00072f	83 46 fa 01 		add	WORD PTR -6[bp],OFFSET 1
+					L00312:
+	*** 000733	81 7e fa 00 01 		cmp	WORD PTR -6[bp],OFFSET 256
+	*** 000738	7f 03 e9 2f ff 		jle	L00309
+					L00311:
 ; Line 143
 ; Line 143
-					L00304:
+					L00306:
 	*** 00073d	5f 			pop	di
 	*** 00073e	5e 			pop	si
 	*** 00073f	c9 			leave
@@ -926,22 +926,22 @@
 ; Local Size: 6
 ; Line 147
 					___tolower:
-	*** 000742	c8 00 00 00 		enter	OFFSET L00422,OFFSET 0
+	*** 000742	c8 00 00 00 		enter	OFFSET L00424,OFFSET 0
 	*** 000746	56 			push	si
 	*** 000747	57 			push	di
 ; i = fffc
 ; Line 148
 ; Line 149
 	*** 000748	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 00074d	e9 00 00 		jmp	L00331
-					L00328:
+	*** 00074d	e9 00 00 		jmp	L00333
+					L00330:
 ; Line 150
 ; Line 151
 	*** 000750	ff 76 fc 		push	WORD PTR -4[bp]
 	*** 000753	e8 00 00 		call	_isupper
 	*** 000756	83 c4 02 		add	sp,OFFSET 2
 	*** 000759	3d 00 00 		cmp	ax,OFFSET 0
-	*** 00075c	75 03 e9 00 00 		je	L00332
+	*** 00075c	75 03 e9 00 00 		je	L00334
 	*** 000761	ff 76 fc 		push	WORD PTR -4[bp]
 	*** 000764	e8 00 00 		call	_tolower
 	*** 000767	83 c4 02 		add	sp,OFFSET 2
@@ -949,28 +949,28 @@
 	*** 00076b	e8 00 00 		call	_islower
 	*** 00076e	83 c4 02 		add	sp,OFFSET 2
 	*** 000771	3d 00 00 		cmp	ax,OFFSET 0
-	*** 000774	75 03 e9 00 00 		je	L00424
+	*** 000774	75 03 e9 00 00 		je	L00426
 	*** 000779	b8 00 00 		mov	ax,OFFSET 0
-	*** 00077c	e9 00 00 		jmp	L00423
-					L00424:
+	*** 00077c	e9 00 00 		jmp	L00425
+					L00426:
 	*** 00077f	68 97 00 		push	OFFSET 151
-	*** 000782	68 00 00 		push	OFFSET L00333
-	*** 000785	68 00 00 		push	OFFSET L00334
+	*** 000782	68 00 00 		push	OFFSET L00335
+	*** 000785	68 00 00 		push	OFFSET L00336
 	*** 000788	e8 00 00 		call	__assert
 	*** 00078b	83 c4 06 		add	sp,OFFSET 6
-					L00423:
+					L00425:
 ; Line 152
-					L00332:
-					L00329:
+					L00334:
+					L00331:
 ; Line 152
 	*** 00078e	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
-					L00331:
+					L00333:
 	*** 000792	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 000797	7f 03 e9 b4 ff 		jle	L00328
-					L00330:
+	*** 000797	7f 03 e9 b4 ff 		jle	L00330
+					L00332:
 ; Line 153
 ; Line 153
-					L00326:
+					L00328:
 	*** 00079c	5f 			pop	di
 	*** 00079d	5e 			pop	si
 	*** 00079e	c9 			leave
@@ -978,22 +978,22 @@
 ; Local Size: 4
 ; Line 157
 					___toupper:
-	*** 0007a0	c8 00 00 00 		enter	OFFSET L00425,OFFSET 0
+	*** 0007a0	c8 00 00 00 		enter	OFFSET L00427,OFFSET 0
 	*** 0007a4	56 			push	si
 	*** 0007a5	57 			push	di
 ; i = fffc
 ; Line 158
 ; Line 159
 	*** 0007a6	c7 46 fc 00 00 		mov	WORD PTR -4[bp],OFFSET 0
-	*** 0007ab	e9 00 00 		jmp	L00341
-					L00338:
+	*** 0007ab	e9 00 00 		jmp	L00343
+					L00340:
 ; Line 160
 ; Line 161
 	*** 0007ae	ff 76 fc 		push	WORD PTR -4[bp]
 	*** 0007b1	e8 00 00 		call	_islower
 	*** 0007b4	83 c4 02 		add	sp,OFFSET 2
 	*** 0007b7	3d 00 00 		cmp	ax,OFFSET 0
-	*** 0007ba	75 03 e9 00 00 		je	L00342
+	*** 0007ba	75 03 e9 00 00 		je	L00344
 	*** 0007bf	ff 76 fc 		push	WORD PTR -4[bp]
 	*** 0007c2	e8 00 00 		call	_toupper
 	*** 0007c5	83 c4 02 		add	sp,OFFSET 2
@@ -1001,28 +1001,28 @@
 	*** 0007c9	e8 00 00 		call	_isupper
 	*** 0007cc	83 c4 02 		add	sp,OFFSET 2
 	*** 0007cf	3d 00 00 		cmp	ax,OFFSET 0
-	*** 0007d2	75 03 e9 00 00 		je	L00427
+	*** 0007d2	75 03 e9 00 00 		je	L00429
 	*** 0007d7	b8 00 00 		mov	ax,OFFSET 0
-	*** 0007da	e9 00 00 		jmp	L00426
-					L00427:
+	*** 0007da	e9 00 00 		jmp	L00428
+					L00429:
 	*** 0007dd	68 a1 00 		push	OFFSET 161
-	*** 0007e0	68 00 00 		push	OFFSET L00343
-	*** 0007e3	68 00 00 		push	OFFSET L00344
+	*** 0007e0	68 00 00 		push	OFFSET L00345
+	*** 0007e3	68 00 00 		push	OFFSET L00346
 	*** 0007e6	e8 00 00 		call	__assert
 	*** 0007e9	83 c4 06 		add	sp,OFFSET 6
-					L00426:
+					L00428:
 ; Line 162
-					L00342:
-					L00339:
+					L00344:
+					L00341:
 ; Line 162
 	*** 0007ec	83 46 fc 01 		add	WORD PTR -4[bp],OFFSET 1
-					L00341:
+					L00343:
 	*** 0007f0	81 7e fc 00 01 		cmp	WORD PTR -4[bp],OFFSET 256
-	*** 0007f5	7f 03 e9 b4 ff 		jle	L00338
-					L00340:
+	*** 0007f5	7f 03 e9 b4 ff 		jle	L00340
+					L00342:
 ; Line 163
 ; Line 163
-					L00336:
+					L00338:
 	*** 0007fa	5f 			pop	di
 	*** 0007fb	5e 			pop	si
 	*** 0007fc	c9 			leave
@@ -1030,7 +1030,7 @@
 ; Local Size: 4
 ; Line 167
 					_ctype_tests:
-	*** 0007fe	c8 00 00 00 		enter	OFFSET L00428,OFFSET 0
+	*** 0007fe	c8 00 00 00 		enter	OFFSET L00430,OFFSET 0
 	*** 000802	56 			push	si
 	*** 000803	57 			push	di
 ; Line 168
@@ -1061,7 +1061,7 @@
 	*** 000828	e8 75 ff 		call	___toupper
 ; Line 181
 ; Line 181
-					L00346:
+					L00348:
 	*** 00082b	5f 			pop	di
 	*** 00082c	5e 			pop	si
 	*** 00082d	c9 			leave

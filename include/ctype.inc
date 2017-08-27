@@ -1,5 +1,4 @@
 .NOLIST
-
 IFNDEF _CTYPE_
 _CTYPE_ EQU <1>
 
@@ -18,5 +17,4 @@ tolower PROTO :PTR BYTE
 toupper PROTO :PTR BYTE
 
 ENDIF
-
 .LIST

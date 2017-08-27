@@ -1,4 +1,6 @@
 ; ------------------------------------------------------------------
+.model tiny, c							; Small memoy model
+.386								; 80386 CPU
 include libc.inc						; Include library headers
 .data								; Data segment
  error_fmt db "    [-] Assertion failed: file %s, line %d", 10, 13, 0

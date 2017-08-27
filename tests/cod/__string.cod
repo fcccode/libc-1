@@ -228,27 +228,27 @@
 	*** 000200	c8 00 00 00 		enter	OFFSET L00599,OFFSET 0
 	*** 000204	56 			push	si
 	*** 000205	57 			push	di
-; src = fff4
-; dest = ffea
+; dest = fff4
+; src = ffea
 ; Line 31
 ; Line 33
 	*** 000206	6a 0a 			push	OFFSET 10
 	*** 000208	6a 00 			push	OFFSET 0
-	*** 00020a	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00020a	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 00020d	50 			push	ax
 	*** 00020e	e8 00 00 		call	_memset
 	*** 000211	83 c4 06 		add	sp,OFFSET 6
 ; Line 34
 	*** 000214	6a 0a 			push	OFFSET 10
 	*** 000216	6a 00 			push	OFFSET 0
-	*** 000218	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000218	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 00021b	50 			push	ax
 	*** 00021c	e8 00 00 		call	_memset
 	*** 00021f	83 c4 06 		add	sp,OFFSET 6
 ; Line 36
 	*** 000222	68 00 00 		push	OFFSET L00179
 	*** 000225	68 00 00 		push	OFFSET L00180
-	*** 000228	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000228	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 00022b	50 			push	ax
 	*** 00022c	e8 00 00 		call	_strcpy
 	*** 00022f	83 c4 04 		add	sp,OFFSET 4
@@ -268,9 +268,9 @@
 					L00600:
 ; Line 37
 	*** 000255	68 00 00 		push	OFFSET L00183
-	*** 000258	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000258	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 00025b	50 			push	ax
-	*** 00025c	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 00025c	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 00025f	50 			push	ax
 	*** 000260	e8 00 00 		call	_strcpy
 	*** 000263	83 c4 04 		add	sp,OFFSET 4
@@ -290,7 +290,7 @@
 					L00602:
 ; Line 38
 	*** 000289	68 00 00 		push	OFFSET L00186
-	*** 00028c	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00028c	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 00028f	50 			push	ax
 	*** 000290	e8 00 00 		call	_strcmp
 	*** 000293	83 c4 04 		add	sp,OFFSET 4
@@ -307,7 +307,7 @@
 					L00604:
 ; Line 39
 	*** 0002b2	68 00 00 		push	OFFSET L00189
-	*** 0002b5	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0002b5	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 0002b8	50 			push	ax
 	*** 0002b9	e8 00 00 		call	_strcmp
 	*** 0002bc	83 c4 04 		add	sp,OFFSET 4
@@ -325,21 +325,21 @@
 ; Line 41
 	*** 0002db	6a 0a 			push	OFFSET 10
 	*** 0002dd	6a 00 			push	OFFSET 0
-	*** 0002df	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0002df	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 0002e2	50 			push	ax
 	*** 0002e3	e8 00 00 		call	_memset
 	*** 0002e6	83 c4 06 		add	sp,OFFSET 6
 ; Line 42
 	*** 0002e9	6a 0a 			push	OFFSET 10
 	*** 0002eb	6a 00 			push	OFFSET 0
-	*** 0002ed	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0002ed	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 0002f0	50 			push	ax
 	*** 0002f1	e8 00 00 		call	_memset
 	*** 0002f4	83 c4 06 		add	sp,OFFSET 6
 ; Line 44
 	*** 0002f7	68 00 00 		push	OFFSET L00192
 	*** 0002fa	68 00 00 		push	OFFSET L00193
-	*** 0002fd	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0002fd	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000300	50 			push	ax
 	*** 000301	e8 00 00 		call	_strcpy
 	*** 000304	83 c4 04 		add	sp,OFFSET 4
@@ -359,9 +359,9 @@
 					L00608:
 ; Line 45
 	*** 00032a	68 00 00 		push	OFFSET L00196
-	*** 00032d	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00032d	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000330	50 			push	ax
-	*** 000331	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000331	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 000334	50 			push	ax
 	*** 000335	e8 00 00 		call	_strcpy
 	*** 000338	83 c4 04 		add	sp,OFFSET 4
@@ -381,7 +381,7 @@
 					L00610:
 ; Line 46
 	*** 00035e	68 00 00 		push	OFFSET L00199
-	*** 000361	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000361	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000364	50 			push	ax
 	*** 000365	e8 00 00 		call	_strcmp
 	*** 000368	83 c4 04 		add	sp,OFFSET 4
@@ -398,7 +398,7 @@
 					L00612:
 ; Line 47
 	*** 000387	68 00 00 		push	OFFSET L00202
-	*** 00038a	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 00038a	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 00038d	50 			push	ax
 	*** 00038e	e8 00 00 		call	_strcmp
 	*** 000391	83 c4 04 		add	sp,OFFSET 4
@@ -426,20 +426,20 @@
 	*** 0003b4	c8 00 00 00 		enter	OFFSET L00616,OFFSET 0
 	*** 0003b8	56 			push	si
 	*** 0003b9	57 			push	di
-; src = fff4
-; dest = ffea
+; dest = fff4
+; src = ffea
 ; Line 53
 ; Line 55
 	*** 0003ba	6a 0a 			push	OFFSET 10
 	*** 0003bc	6a 00 			push	OFFSET 0
-	*** 0003be	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0003be	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 0003c1	50 			push	ax
 	*** 0003c2	e8 00 00 		call	_memset
 	*** 0003c5	83 c4 06 		add	sp,OFFSET 6
 ; Line 56
 	*** 0003c8	6a 0a 			push	OFFSET 10
 	*** 0003ca	6a 00 			push	OFFSET 0
-	*** 0003cc	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0003cc	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 0003cf	50 			push	ax
 	*** 0003d0	e8 00 00 		call	_memset
 	*** 0003d3	83 c4 06 		add	sp,OFFSET 6
@@ -447,7 +447,7 @@
 	*** 0003d6	68 00 00 		push	OFFSET L00209
 	*** 0003d9	6a 05 			push	OFFSET 5
 	*** 0003db	68 00 00 		push	OFFSET L00210
-	*** 0003de	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0003de	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 0003e1	50 			push	ax
 	*** 0003e2	e8 00 00 		call	_strncpy
 	*** 0003e5	83 c4 06 		add	sp,OFFSET 6
@@ -468,9 +468,9 @@
 ; Line 59
 	*** 00040b	68 00 00 		push	OFFSET L00213
 	*** 00040e	6a 04 			push	OFFSET 4
-	*** 000410	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000410	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000413	50 			push	ax
-	*** 000414	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000414	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 000417	50 			push	ax
 	*** 000418	e8 00 00 		call	_strncpy
 	*** 00041b	83 c4 06 		add	sp,OFFSET 6
@@ -490,7 +490,7 @@
 					L00619:
 ; Line 60
 	*** 000441	68 00 00 		push	OFFSET L00216
-	*** 000444	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000444	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000447	50 			push	ax
 	*** 000448	e8 00 00 		call	_strcmp
 	*** 00044b	83 c4 04 		add	sp,OFFSET 4
@@ -507,7 +507,7 @@
 					L00621:
 ; Line 61
 	*** 00046a	68 00 00 		push	OFFSET L00219
-	*** 00046d	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 00046d	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 000470	50 			push	ax
 	*** 000471	e8 00 00 		call	_strcmp
 	*** 000474	83 c4 04 		add	sp,OFFSET 4
@@ -525,14 +525,14 @@
 ; Line 63
 	*** 000493	6a 0a 			push	OFFSET 10
 	*** 000495	6a 00 			push	OFFSET 0
-	*** 000497	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000497	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 00049a	50 			push	ax
 	*** 00049b	e8 00 00 		call	_memset
 	*** 00049e	83 c4 06 		add	sp,OFFSET 6
 ; Line 64
 	*** 0004a1	6a 0a 			push	OFFSET 10
 	*** 0004a3	6a 00 			push	OFFSET 0
-	*** 0004a5	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0004a5	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 0004a8	50 			push	ax
 	*** 0004a9	e8 00 00 		call	_memset
 	*** 0004ac	83 c4 06 		add	sp,OFFSET 6
@@ -540,7 +540,7 @@
 	*** 0004af	68 00 00 		push	OFFSET L00222
 	*** 0004b2	6a 03 			push	OFFSET 3
 	*** 0004b4	68 00 00 		push	OFFSET L00223
-	*** 0004b7	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0004b7	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 0004ba	50 			push	ax
 	*** 0004bb	e8 00 00 		call	_strncpy
 	*** 0004be	83 c4 06 		add	sp,OFFSET 6
@@ -561,9 +561,9 @@
 ; Line 67
 	*** 0004e4	68 00 00 		push	OFFSET L00226
 	*** 0004e7	6a 02 			push	OFFSET 2
-	*** 0004e9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0004e9	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 0004ec	50 			push	ax
-	*** 0004ed	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0004ed	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 0004f0	50 			push	ax
 	*** 0004f1	e8 00 00 		call	_strncpy
 	*** 0004f4	83 c4 06 		add	sp,OFFSET 6
@@ -583,7 +583,7 @@
 					L00627:
 ; Line 68
 	*** 00051a	68 00 00 		push	OFFSET L00229
-	*** 00051d	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00051d	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000520	50 			push	ax
 	*** 000521	e8 00 00 		call	_strcmp
 	*** 000524	83 c4 04 		add	sp,OFFSET 4
@@ -600,7 +600,7 @@
 					L00629:
 ; Line 69
 	*** 000543	68 00 00 		push	OFFSET L00232
-	*** 000546	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000546	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 000549	50 			push	ax
 	*** 00054a	e8 00 00 		call	_strcmp
 	*** 00054d	83 c4 04 		add	sp,OFFSET 4
@@ -908,27 +908,27 @@
 	*** 0007c4	c8 00 00 00 		enter	OFFSET L00660,OFFSET 0
 	*** 0007c8	56 			push	si
 	*** 0007c9	57 			push	di
-; src = ffee
-; dest = ffde
+; dest = ffee
+; src = ffde
 ; Line 118
 ; Line 120
 	*** 0007ca	68 00 00 		push	OFFSET L00293
-	*** 0007cd	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 0007cd	8d 46 de 		lea	ax,WORD PTR -34[bp]
 	*** 0007d0	50 			push	ax
 	*** 0007d1	e8 00 00 		call	_strcpy
 	*** 0007d4	83 c4 04 		add	sp,OFFSET 4
 ; Line 121
 	*** 0007d7	68 00 00 		push	OFFSET L00294
-	*** 0007da	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 0007da	8d 46 ee 		lea	ax,WORD PTR -18[bp]
 	*** 0007dd	50 			push	ax
 	*** 0007de	e8 00 00 		call	_strcpy
 	*** 0007e1	83 c4 04 		add	sp,OFFSET 4
 ; Line 123
 	*** 0007e4	68 00 00 		push	OFFSET L00295
 	*** 0007e7	6a 02 			push	OFFSET 2
-	*** 0007e9	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 0007e9	8d 46 de 		lea	ax,WORD PTR -34[bp]
 	*** 0007ec	50 			push	ax
-	*** 0007ed	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 0007ed	8d 46 ee 		lea	ax,WORD PTR -18[bp]
 	*** 0007f0	50 			push	ax
 	*** 0007f1	e8 00 00 		call	_strncat
 	*** 0007f4	83 c4 06 		add	sp,OFFSET 6
@@ -948,7 +948,7 @@
 					L00661:
 ; Line 124
 	*** 00081a	68 00 00 		push	OFFSET L00298
-	*** 00081d	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 00081d	8d 46 ee 		lea	ax,WORD PTR -18[bp]
 	*** 000820	50 			push	ax
 	*** 000821	e8 00 00 		call	_strcmp
 	*** 000824	83 c4 04 		add	sp,OFFSET 4
@@ -966,35 +966,35 @@
 ; Line 126
 	*** 000843	6a 0f 			push	OFFSET 15
 	*** 000845	6a 00 			push	OFFSET 0
-	*** 000847	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 000847	8d 46 de 		lea	ax,WORD PTR -34[bp]
 	*** 00084a	50 			push	ax
 	*** 00084b	e8 00 00 		call	_memset
 	*** 00084e	83 c4 06 		add	sp,OFFSET 6
 ; Line 127
 	*** 000851	6a 0f 			push	OFFSET 15
 	*** 000853	6a 00 			push	OFFSET 0
-	*** 000855	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 000855	8d 46 ee 		lea	ax,WORD PTR -18[bp]
 	*** 000858	50 			push	ax
 	*** 000859	e8 00 00 		call	_memset
 	*** 00085c	83 c4 06 		add	sp,OFFSET 6
 ; Line 129
 	*** 00085f	68 00 00 		push	OFFSET L00301
-	*** 000862	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 000862	8d 46 de 		lea	ax,WORD PTR -34[bp]
 	*** 000865	50 			push	ax
 	*** 000866	e8 00 00 		call	_strcpy
 	*** 000869	83 c4 04 		add	sp,OFFSET 4
 ; Line 130
 	*** 00086c	68 00 00 		push	OFFSET L00302
-	*** 00086f	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 00086f	8d 46 ee 		lea	ax,WORD PTR -18[bp]
 	*** 000872	50 			push	ax
 	*** 000873	e8 00 00 		call	_strcpy
 	*** 000876	83 c4 04 		add	sp,OFFSET 4
 ; Line 132
 	*** 000879	68 00 00 		push	OFFSET L00303
 	*** 00087c	6a 02 			push	OFFSET 2
-	*** 00087e	8d 46 ee 		lea	ax,WORD PTR -18[bp]
+	*** 00087e	8d 46 de 		lea	ax,WORD PTR -34[bp]
 	*** 000881	50 			push	ax
-	*** 000882	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 000882	8d 46 ee 		lea	ax,WORD PTR -18[bp]
 	*** 000885	50 			push	ax
 	*** 000886	e8 00 00 		call	_strncat
 	*** 000889	83 c4 06 		add	sp,OFFSET 6
@@ -1014,7 +1014,7 @@
 					L00665:
 ; Line 133
 	*** 0008b0	68 00 00 		push	OFFSET L00306
-	*** 0008b3	8d 46 de 		lea	ax,WORD PTR -34[bp]
+	*** 0008b3	8d 46 ee 		lea	ax,WORD PTR -18[bp]
 	*** 0008b6	50 			push	ax
 	*** 0008b7	e8 00 00 		call	_strcmp
 	*** 0008ba	83 c4 04 		add	sp,OFFSET 4
@@ -1266,26 +1266,26 @@
 	*** 000ac0	c8 00 00 00 		enter	OFFSET L00687,OFFSET 0
 	*** 000ac4	56 			push	si
 	*** 000ac5	57 			push	di
-; src = fff4
-; dest = ffea
+; dest = fff4
+; src = ffea
 ; Line 171
 ; Line 173
 	*** 000ac6	68 00 00 		push	OFFSET L00349
-	*** 000ac9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000ac9	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000acc	50 			push	ax
 	*** 000acd	e8 00 00 		call	_strcpy
 	*** 000ad0	83 c4 04 		add	sp,OFFSET 4
 ; Line 174
 	*** 000ad3	68 00 00 		push	OFFSET L00350
-	*** 000ad6	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000ad6	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000ad9	50 			push	ax
 	*** 000ada	e8 00 00 		call	_strlen
 	*** 000add	83 c4 02 		add	sp,OFFSET 2
 	*** 000ae0	05 01 00 		add	ax,OFFSET 1
 	*** 000ae3	50 			push	ax
-	*** 000ae4	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000ae4	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000ae7	50 			push	ax
-	*** 000ae8	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000ae8	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 000aeb	50 			push	ax
 	*** 000aec	e8 00 00 		call	_memcpy
 	*** 000aef	83 c4 06 		add	sp,OFFSET 6
@@ -1305,7 +1305,7 @@
 					L00688:
 ; Line 175
 	*** 000b16	68 00 00 		push	OFFSET L00353
-	*** 000b19	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000b19	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000b1c	50 			push	ax
 	*** 000b1d	e8 00 00 		call	_strcmp
 	*** 000b20	83 c4 04 		add	sp,OFFSET 4
@@ -1322,7 +1322,7 @@
 					L00690:
 ; Line 176
 	*** 000b40	68 00 00 		push	OFFSET L00356
-	*** 000b43	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000b43	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 000b46	50 			push	ax
 	*** 000b47	e8 00 00 		call	_strcmp
 	*** 000b4a	83 c4 04 		add	sp,OFFSET 4
@@ -1340,34 +1340,34 @@
 ; Line 178
 	*** 000b6a	6a 0a 			push	OFFSET 10
 	*** 000b6c	6a 00 			push	OFFSET 0
-	*** 000b6e	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000b6e	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000b71	50 			push	ax
 	*** 000b72	e8 00 00 		call	_memset
 	*** 000b75	83 c4 06 		add	sp,OFFSET 6
 ; Line 179
 	*** 000b78	6a 0a 			push	OFFSET 10
 	*** 000b7a	6a 00 			push	OFFSET 0
-	*** 000b7c	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000b7c	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 000b7f	50 			push	ax
 	*** 000b80	e8 00 00 		call	_memset
 	*** 000b83	83 c4 06 		add	sp,OFFSET 6
 ; Line 180
 	*** 000b86	68 00 00 		push	OFFSET L00359
-	*** 000b89	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000b89	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000b8c	50 			push	ax
 	*** 000b8d	e8 00 00 		call	_strcpy
 	*** 000b90	83 c4 04 		add	sp,OFFSET 4
 ; Line 182
 	*** 000b93	68 00 00 		push	OFFSET L00360
-	*** 000b96	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000b96	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000b99	50 			push	ax
 	*** 000b9a	e8 00 00 		call	_strlen
 	*** 000b9d	83 c4 02 		add	sp,OFFSET 2
 	*** 000ba0	05 01 00 		add	ax,OFFSET 1
 	*** 000ba3	50 			push	ax
-	*** 000ba4	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000ba4	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000ba7	50 			push	ax
-	*** 000ba8	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000ba8	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 000bab	50 			push	ax
 	*** 000bac	e8 00 00 		call	_memcpy
 	*** 000baf	83 c4 06 		add	sp,OFFSET 6
@@ -1387,7 +1387,7 @@
 					L00694:
 ; Line 183
 	*** 000bd6	68 00 00 		push	OFFSET L00363
-	*** 000bd9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 000bd9	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 000bdc	50 			push	ax
 	*** 000bdd	e8 00 00 		call	_strcmp
 	*** 000be0	83 c4 04 		add	sp,OFFSET 4
@@ -1404,7 +1404,7 @@
 					L00696:
 ; Line 184
 	*** 000c00	68 00 00 		push	OFFSET L00366
-	*** 000c03	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 000c03	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 000c06	50 			push	ax
 	*** 000c07	e8 00 00 		call	_strcmp
 	*** 000c0a	83 c4 04 		add	sp,OFFSET 4
@@ -2115,26 +2115,26 @@
 	*** 001236	c8 00 00 00 		enter	OFFSET L00767,OFFSET 0
 	*** 00123a	56 			push	si
 	*** 00123b	57 			push	di
-; src = fff4
-; dest = ffea
+; dest = fff4
+; src = ffea
 ; Line 284
 ; Line 286
 	*** 00123c	68 00 00 		push	OFFSET L00522
-	*** 00123f	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 00123f	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 001242	50 			push	ax
 	*** 001243	e8 00 00 		call	_strcpy
 	*** 001246	83 c4 04 		add	sp,OFFSET 4
 ; Line 287
 	*** 001249	68 00 00 		push	OFFSET L00523
-	*** 00124c	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 00124c	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 00124f	50 			push	ax
 	*** 001250	e8 00 00 		call	_strcpy
 	*** 001253	83 c4 04 		add	sp,OFFSET 4
 ; Line 289
 	*** 001256	6a 02 			push	OFFSET 2
-	*** 001258	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 001258	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 00125b	50 			push	ax
-	*** 00125c	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 00125c	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 00125f	50 			push	ax
 	*** 001260	e8 00 00 		call	_strxfrm
 	*** 001263	83 c4 06 		add	sp,OFFSET 6
@@ -2151,7 +2151,7 @@
 					L00768:
 ; Line 290
 	*** 001283	68 00 00 		push	OFFSET L00526
-	*** 001286	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 001286	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 001289	50 			push	ax
 	*** 00128a	e8 00 00 		call	_strcmp
 	*** 00128d	83 c4 04 		add	sp,OFFSET 4
@@ -2169,34 +2169,34 @@
 ; Line 292
 	*** 0012ad	6a 0a 			push	OFFSET 10
 	*** 0012af	6a 00 			push	OFFSET 0
-	*** 0012b1	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0012b1	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 0012b4	50 			push	ax
 	*** 0012b5	e8 00 00 		call	_memset
 	*** 0012b8	83 c4 06 		add	sp,OFFSET 6
 ; Line 293
 	*** 0012bb	6a 0a 			push	OFFSET 10
 	*** 0012bd	6a 00 			push	OFFSET 0
-	*** 0012bf	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0012bf	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 0012c2	50 			push	ax
 	*** 0012c3	e8 00 00 		call	_memset
 	*** 0012c6	83 c4 06 		add	sp,OFFSET 6
 ; Line 295
 	*** 0012c9	68 00 00 		push	OFFSET L00529
-	*** 0012cc	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0012cc	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 0012cf	50 			push	ax
 	*** 0012d0	e8 00 00 		call	_strcpy
 	*** 0012d3	83 c4 04 		add	sp,OFFSET 4
 ; Line 296
 	*** 0012d6	68 00 00 		push	OFFSET L00530
-	*** 0012d9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0012d9	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 0012dc	50 			push	ax
 	*** 0012dd	e8 00 00 		call	_strcpy
 	*** 0012e0	83 c4 04 		add	sp,OFFSET 4
 ; Line 298
 	*** 0012e3	6a 03 			push	OFFSET 3
-	*** 0012e5	8d 46 f4 		lea	ax,WORD PTR -12[bp]
+	*** 0012e5	8d 46 ea 		lea	ax,WORD PTR -22[bp]
 	*** 0012e8	50 			push	ax
-	*** 0012e9	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 0012e9	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 0012ec	50 			push	ax
 	*** 0012ed	e8 00 00 		call	_strxfrm
 	*** 0012f0	83 c4 06 		add	sp,OFFSET 6
@@ -2213,7 +2213,7 @@
 					L00772:
 ; Line 299
 	*** 001310	68 00 00 		push	OFFSET L00533
-	*** 001313	8d 46 ea 		lea	ax,WORD PTR -22[bp]
+	*** 001313	8d 46 f4 		lea	ax,WORD PTR -12[bp]
 	*** 001316	50 			push	ax
 	*** 001317	e8 00 00 		call	_strcmp
 	*** 00131a	83 c4 04 		add	sp,OFFSET 4

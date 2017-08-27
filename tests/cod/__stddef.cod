@@ -1,0 +1,17 @@
+; File tests\__stddef.c
+; Line 12
+					_stddef_tests:
+	*** 000000	c8 00 00 00 		enter	OFFSET L00107,OFFSET 0
+	*** 000004	56 			push	si
+	*** 000005	57 			push	di
+; Line 13
+; Line 14
+; Line 15
+; Line 16
+; Line 16
+					L00106:
+	*** 000006	5f 			pop	di
+	*** 000007	5e 			pop	si
+	*** 000008	c9 			leave
+	*** 000009	c3 			ret	OFFSET 0
+; Local Size: 2

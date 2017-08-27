@@ -3,17 +3,18 @@
   <ItemGroup>
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <Extensions>asm;</Extensions>
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <Extensions>h;</Extensions>
     </Filter>
     <Filter Include="Test Files">
       <UniqueIdentifier>{916c50b2-4a4a-424d-b39d-6ab28f1f9c8d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Include Files">
       <UniqueIdentifier>{98c2a651-3bd7-4472-b06b-39143b4ca1b7}</UniqueIdentifier>
+      <Extensions>inc;</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +57,21 @@
     <None Include="include\ctype.inc">
       <Filter>Include Files</Filter>
     </None>
+    <None Include="include\stdbool.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="include\signal.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="include\stdarg.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="src\time.asm">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="include\time.inc">
+      <Filter>Include Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests\__string.c">
@@ -70,36 +86,45 @@
     <ClCompile Include="tests\__kernel.c">
       <Filter>Test Files</Filter>
     </ClCompile>
+    <ClCompile Include="tests\__signal.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\__stddef.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\__time.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\h\limits.h">
+    <ClInclude Include="include\limits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\signal.h">
+    <ClInclude Include="include\signal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\stdbool.h">
+    <ClInclude Include="include\stdbool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\stdio.h">
+    <ClInclude Include="include\stdio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\string.h">
+    <ClInclude Include="include\string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\assert.h">
+    <ClInclude Include="include\assert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\bios.h">
+    <ClInclude Include="include\conio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\conio.h">
+    <ClInclude Include="include\ctype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\ctype.h">
+    <ClInclude Include="include\errno.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\h\errno.h">
+    <ClInclude Include="include\time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

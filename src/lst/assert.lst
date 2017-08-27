@@ -1,10 +1,13 @@
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:09
 src\assert.asm						     Page 1 - 1
 
 
 				; ------------------------------------------------------------------
+				.model tiny, c							; Small memoy model
+				.386								; 80386 CPU
 				include libc.inc						; Include library headers
-			      C .NOLIST								; Supress listing of header
+			      C include stdio.inc
+			      C .NOLIST
 			      C .LIST
 			      C 
 			      C include string.inc
@@ -23,9 +26,18 @@ src\assert.asm						     Page 1 - 1
 			      C .NOLIST
 			      C .LIST
 			      C 
+			      C include stdbool.inc
+			      C .NOLIST
+			      C .LIST
 			      C 
-			      C ENDIF
-			      C .LIST								; Enable listing again
+			      C include signal.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
+			      C include time.inc
+			      C .NOLIST
+			      C .LIST
+			      C 
 			      C 
  0000				.data								; Data segment
  0000 20 20 20 20 5B 2D		 error_fmt db "    [-] Assertion failed: file %s, line %d", 10, 13, 0
@@ -77,10 +89,27 @@ src\assert.asm						     Page 1 - 1
  002A				_assert ENDP
 
 				end
-Microsoft (R) Macro Assembler Version 6.15.8803		    08/19/17 23:34:41
+Microsoft (R) Macro Assembler Version 6.15.8803		    08/27/17 03:17:09
 src\assert.asm						     Symbols 2 - 1
 
 
+
+
+Structures and Unions:
+
+                N a m e                  Size
+                                         Offset      Type
+
+tm . . . . . . . . . . . . . . .	 0012
+  tm_sec . . . . . . . . . . . .	 0000	     Word
+  tm_min . . . . . . . . . . . .	 0002	     Word
+  tm_hour  . . . . . . . . . . .	 0004	     Word
+  tm_mday  . . . . . . . . . . .	 0006	     Word
+  tm_mon . . . . . . . . . . . .	 0008	     Word
+  tm_year  . . . . . . . . . . .	 000A	     Word
+  tm_wday  . . . . . . . . . . .	 000C	     Word
+  tm_yday  . . . . . . . . . . .	 000E	     Word
+  tm_isdst . . . . . . . . . . .	 0010	     Word
 
 
 Segments and Groups:
@@ -100,6 +129,7 @@ _assert  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 002A Public C
   func . . . . . . . . . . . . .	Word	 bp + 0004
   file . . . . . . . . . . . . .	Word	 bp + 0006
   line . . . . . . . . . . . . .	Word	 bp + 0008
+bcd  . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 clrscr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cprintf  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 cputsxy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -128,6 +158,7 @@ isspace  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 isupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 isxdigit . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 kbhit  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+localtime  . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 lowvideo . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 memcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -139,8 +170,10 @@ printf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 putchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 putch  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+raise  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 setcursortype  . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+signal . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
 strcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
@@ -179,13 +212,27 @@ Symbols:
 @fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
 @fardata . . . . . . . . . . . .	Text   	 FAR_DATA
 @stack . . . . . . . . . . . . .	Text   	 DGROUP
-LIBC_INC . . . . . . . . . . . .	Text   	 1
+BUFSIZ . . . . . . . . . . . . .	Number	 1000h	 
+FILENAME_MAX . . . . . . . . . .	Number	 000Bh	 
+NSIG . . . . . . . . . . . . . .	Number	 0017h	 
+SIGABRT  . . . . . . . . . . . .	Number	 0016h	 
+SIGBREAK . . . . . . . . . . . .	Number	 0015h	 
+SIGFPE . . . . . . . . . . . . .	Number	 0008h	 
+SIGILL . . . . . . . . . . . . .	Number	 0004h	 
+SIGINT . . . . . . . . . . . . .	Number	 0002h	 
+SIGSEGV  . . . . . . . . . . . .	Number	 000Bh	 
+SIGTERM  . . . . . . . . . . . .	Number	 000Fh	 
 _ASSERT_ . . . . . . . . . . . .	Text   	 1
 _CONIO_  . . . . . . . . . . . .	Text   	 1
 _CTYPE_  . . . . . . . . . . . .	Text   	 1
+_SIGNAL_ . . . . . . . . . . . .	Text   	 1
+_STDBOOL_  . . . . . . . . . . .	Text   	 1
 _STDIO_  . . . . . . . . . . . .	Text   	 1
 _STRING_ . . . . . . . . . . . .	Text   	 1
+_TIME_ . . . . . . . . . . . . .	Text   	 1
 error_fmt  . . . . . . . . . . .	Byte	 0000	  _DATA	
+false  . . . . . . . . . . . . .	Number	 0000h	 
+true . . . . . . . . . . . . . .	Number	 0001h	 
 
 	   0 Warnings
 	   0 Errors

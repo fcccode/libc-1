@@ -1,28 +1,12 @@
 // stdio.h
 #ifndef __CONIO__
 #define __CONIO__
-
+typedef signed char int8_t;
+typedef unsigned char   uint8_t;
+typedef short  int16_t;
+typedef unsigned short  uint16_t;
 // Defines screen colors
-typedef enum
-{
-    BLACK,
-    BLUE,
-    GREEN,
-    CYAN,
-    RED,
-    MAGENTA,
-    BROWN,
-    LIGHTGRAY,
-    DARKGRAY,
-    LIGHTBLUE,
-    LIGHTGREEN,
-    LIGHTCYAN,
-    LIGHTRED,
-    LIGHTMAGENTA,
-    YELLOW,
-    WHITE
-};
-#define BLACK		 0          
+#define BLACK		 0
 #define BLUE		 1
 #define GREEN		 2
 #define CYAN		 3
@@ -30,7 +14,7 @@ typedef enum
 #define MAGENTA		 5
 #define BROWN		 6
 #define LIGHTGRAY	 7
-#define DARKGRAY	 8       
+#define DARKGRAY	 8
 #define LIGHTBLUE	 9
 #define LIGHTGREEN	 10
 #define LIGHTCYAN	 11
@@ -38,6 +22,7 @@ typedef enum
 #define LIGHTMAGENTA     13
 #define YELLOW		 14
 #define WHITE		 15
+
 // Defines max screen coordinates
 #define MAX_X 80
 #define MAX_Y 25
@@ -52,7 +37,7 @@ extern "C" {
 
 /* Low level console I/O functions */
 
-int cputs(const char*);				// Returns a string to the screen
+int cputs(const char*);	  			// Returns a string to the screen
 int cprintf(const char*, ...); 			// Prints formatted output to the screen
 int cscanf(const char*, ...);			// Reads input from the console and reformats it
 int getch(void);				// Get keyboard keypress
