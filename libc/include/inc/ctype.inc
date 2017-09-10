@@ -1,0 +1,17 @@
+.NOLIST
+
+isalnum PROTO :PTR BYTE
+isalpha PROTO :PTR BYTE
+iscntrl PROTO :PTR BYTE
+isdigit PROTO :PTR BYTE
+isgraph PROTO :PTR BYTE
+islower PROTO :PTR BYTE
+isprint PROTO :PTR BYTE
+ispunct PROTO :PTR BYTE
+isspace PROTO :PTR BYTE
+isupper PROTO :PTR BYTE
+isxdigit PROTO :PTR BYTE
+tolower PROTO :PTR BYTE
+toupper PROTO :PTR BYTE
+
+.LIST

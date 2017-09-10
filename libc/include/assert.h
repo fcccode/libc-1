@@ -1,7 +1,6 @@
 // assert.h
 #ifndef __ASSERT__
 #define __ASSERT__
-
 #ifdef __cplusplus
 extern "C" {
 #endif

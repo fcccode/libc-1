@@ -1,0 +1,89 @@
+_asctime..........times             _bcd..............times
+_closeRoot........fat               _clrscr...........conio
+_convert_sector...fat               _cprintf..........conio
+_cputs............conio             _cputsxy..........conio
+_cscanf...........conio             _cursoroff........conio
+_cursoron.........conio             _delay............conio
+_fmtFatFilename...fat               _getch............conio
+_getchar..........stdio             _getche...........conio
+_gets.............stdio             _gotoxy...........conio
+_highvideo........conio             _insline..........conio
+_isalnum..........ctype             _isalpha..........ctype
+_iscntrl..........ctype             _isdigit..........ctype
+_isgraph..........ctype             _islower..........ctype
+_isprint..........ctype             _ispunct..........ctype
+_isspace..........ctype             _isupper..........ctype
+_isxdigit.........ctype             _kbhit............conio
+_localeconv.......locale            _localtime........times
+_lowvideo.........conio             _memchr...........string
+_memcmp...........string            _memcpy...........string
+_memmove..........string            _memset...........string
+_newline..........conio             _openRoot.........fat
+_outp.............stdio             _outportp.........stdio
+_outportw.........stdio             _outw.............stdio
+_plotImage........string            _printf...........stdio
+_putch............conio             _putchar..........stdio
+_puts.............stdio             _raise............signal
+_readRoot.........fat               _rename...........fat
+_resetFloppy......fat               _scanf............stdio
+_setcursortype....conio             _setpage..........bios
+_signal...........signal            _strcat...........string
+_strchr...........string            _strcmp...........string
+_strcoll..........string            _strcpy...........string
+_strcspn..........string            _strlen...........string
+_strncat..........string            _strncmp..........string
+_strncpy..........string            _strpbrk..........string
+_strrchr..........string            _strspn...........string
+_strstr...........string            _strtok...........string
+_strxfrm..........string            _textbackground...conio
+_textcolor........conio             _tolower..........ctype
+_toupper..........ctype             _ungetch..........conio
+_wherex...........conio             _wherey...........conio
+_writeRoot........fat               __acrtused........bios
+__assert..........assert            
+
+conio             Offset: 00000010H  Code and data size: 37dH
+  _clrscr           _cprintf          _cputs            _cputsxy
+  _cscanf           _cursoroff        _cursoron         _delay
+  _getch            _getche           _gotoxy           _highvideo
+  _insline          _kbhit            _lowvideo         _newline
+  _putch            _setcursortype    _textbackground   _textcolor
+  _ungetch          _wherex           _wherey         
+
+ctype             Offset: 000005e0H  Code and data size: 29cH
+  _isalnum          _isalpha          _iscntrl          _isdigit
+  _isgraph          _islower          _isprint          _ispunct
+  _isspace          _isupper          _isxdigit         _tolower
+  _toupper        
+
+locale            Offset: 000009a0H  Code and data size: abH
+  _localeconv     
+
+stdio             Offset: 00000b70H  Code and data size: 21bH
+  _getchar          _gets             _outp             _outportp
+  _outportw         _outw             _printf           _putchar
+  _puts             _scanf          
+
+string            Offset: 00000e90H  Code and data size: f75H
+  _memchr           _memcmp           _memcpy           _memmove
+  _memset           _plotImage        _strcat           _strchr
+  _strcmp           _strcoll          _strcpy           _strcspn
+  _strlen           _strncat          _strncmp          _strncpy
+  _strpbrk          _strrchr          _strspn           _strstr
+  _strtok           _strxfrm        
+
+assert            Offset: 00001f90H  Code and data size: 6aH
+  __assert        
+
+bios              Offset: 000020b0H  Code and data size: eH
+  _setpage          __acrtused      
+
+signal            Offset: 00002150H  Code and data size: c5H
+  _raise            _signal         
+
+fat               Offset: 00002300H  Code and data size: 3feH
+  _closeRoot        _convert_sector   _fmtFatFilename   _openRoot
+  _readRoot         _rename           _resetFloppy      _writeRoot
+
+times             Offset: 00002810H  Code and data size: bfH
+  _asctime          _bcd              _localtime      

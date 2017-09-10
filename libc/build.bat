@@ -1,47 +1,73 @@
 @echo off
-SET PATH=Tools\VC152\;..\Tools\;Tools\qemu\
+SET PATH=
+cd libc
+REM List of object files to add to the library
+set libOBJ= -+conio.obj  ^
+    	    -+ctype.obj  ^
+	    -+locale.obj ^
+	    -+stdio.obj  ^
+	    -+string.obj ^
+	    -+assert.obj ^
+	    -+bios.obj   ^
+	    -+signal.obj ^
+	    -+fat.obj	 ^
+	    -+times.obj
 
-:build_library
-    rem Compile all source assembly files
-    ML /omf /c /Fl /Zi /I include src\*.asm
-    rem ML /omf /c /I include src\*.asm
 
-    rem Link all object files to libary
-    LIB lib\libc -+conio.obj -+ctype.obj -+stdio.obj -+string.obj -+assert.obj -+bios.obj -+signal.obj -+time.obj, lib\libc.lst, lib\libc.lib
+REM List of object files to add to the test kernel
+set testOBJ= __kernel.obj ^
+	     __time.obj   ^
+	     __fat.obj    ^
+	     __stdio.obj  ^
+	     __signal.obj ^
+	     __stddef.obj ^
+	     __string.obj ^
+	     __ctype.obj  ^
+	     __conio.obj
 
-    move /Y *.obj src\obj
-    move /Y *.lst src\lst
 
-:build_tests
-    rem Compile all C files
-    CL /AT /G2 /Gs /Gx /c /Fl /Zi /Zl /I include tests\*.c
-    rem CL /AT /G2 /Gs /Gx /c /I include tests\*.c
+REM Compile library source code
+:compileLibrary
+    IF "%~1" == "debug" (
+	REM Compile all source assembly files with debug options
+	..\tools\ML.EXE /omf /c /Fl /Zd /Sa /Zi /I include\inc source\*.asm
 
-    rem Compile all assembly files
-    rem ML /omf /c /Fl /Sa /Zi /I include tests\*.asm
-    ML /omf /c /I include tests\*.asm
+	REM Clean all produced lst files
+	move /Y *.lst source\lst > nul
+    ) ELSE (
+	REM Compile all source assembly files
+	..\tools\ML.EXE /omf /c /I include\inc source\*.asm
+    )
 
-    rem Link together all files and include the libary
-    LINK /T /NOD  kernel.obj __kernel.obj __time.obj __signal.obj __stddef.obj __string.obj __ctype.obj __conio.obj, bin\kernel.bin, nul, lib\libc.lib, nul
+    REM Link all object files to libary
+    ..\tools\LIB.EXE /BATCH /NOLOGO libc %libOBJ%, libc.lst, libc.lib
 
-    move /Y *.obj tests\obj
-    move /Y *.cod tests\cod
-    del  *.pdb > nul
+    REM Clean all produced obj files
+    move /Y *.obj source\obj > nul
 
-:build_floppy
-    rem Copy and replace the the old image with the formatted floppy image1
-    copy /Y bin\formatted_floppy.img bin\built_floppy.img > NUL
+    REM Clean produced bak file
+    del libc.bak > nul
+REM compileLibrary
 
-    rem Make a virtual disk image of our floppy disk
-    imdisk -a -f bin\built_floppy.img -s 1440K -m B:
 
-    rem Copy our kernel to the floppy disk
-    copy bin\kernel.bin  B:
-    rem Unmount the floppy disk
-    imdisk -D -m B:
+REM Compile test case source code
+:compileTestKernel
+    IF "%~1" == "debug" (
+	REM Compile all source C files with debug options
+	..\tools\CL.EXE /nologo /AT /G2 /Gs /Gx /c /Fl /Zi /Zl /I include debug\*.c
 
-    rem Write the bootloader to the floppy disk
-    dd if=bin\bootload.bin of=bin\built_floppy.img bs=512
-pause
-    rem Run the built floppy disk image with qemu
-    start bochsrc.bxrc
+	rem Clean all produced cod files
+	move /Y *.cod debug\cod > nul
+    ) ELSE (
+	REM Compile all source c files
+	..\tools\CL.EXE /AT /G2 /Gs /Gx /c /I include debug\*.c
+    )
+
+    rem Link together all test cases and libary
+    ..\tools\LINK.EXE /T /NOD  %testOBJ%, debug\kernel.bin, nul, libc.lib, nul
+
+    rem Clean all produced obj files
+    move /Y *.obj debug\obj > nul
+REM compileTestKernel
+
+

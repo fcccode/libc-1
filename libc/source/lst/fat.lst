@@ -1,0 +1,868 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\fat.asm						     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				.model tiny, c							; Small memoy model
+				.386								; 80386 CPU
+				 include fat.inc						; Include library headers
+			      C .NOLIST
+			      C IFNDEF _FAT_
+ = 1			      C _FAT_ EQU <1>
+			      C 
+			      C  include string.inc
+			      C .NOLIST
+			      C IFNDEF _STRING_
+ = 1			      C _STRING_ EQU <1>
+			      C 
+			      C memchr PROTO C :WORD, :BYTE, :PTR BYTE
+			      C memcmp PROTO :WORD, :WORD, :PTR BYTE
+			      C memcpy PROTO :WORD, :WORD, :PTR BYTE
+			      C memmove PROTO :WORD, :WORD, :PTR BYTE
+			      C memset PROTO :WORD, :BYTE, :PTR BYTE
+			      C strcat PROTO :WORD, :WORD
+			      C strchr PROTO :WORD, :BYTE
+			      C strcmp PROTO :WORD, :WORD
+			      C strcoll PROTO :WORD, :WORD
+			      C strcpy PROTO :WORD, :WORD
+			      C strcspn PROTO :WORD, :WORD
+			      C strlen PROTO :WORD
+			      C strncat PROTO :WORD, :WORD, :PTR BYTE	; [!] Warning! Mem error
+			      C strncmp PROTO :WORD, :WORD, :PTR BYTE
+			      C strncpy PROTO :WORD, :WORD, :PTR BYTE
+			      C strpbrk PROTO :WORD, :WORD
+			      C strrchr PROTO :WORD, :BYTE
+			      C strspn PROTO :PTR WORD, :WORD
+			      C strstr PROTO :WORD, :WORD
+			      C strtok PROTO :WORD, :WORD
+			      C strxfrm PROTO :WORD, :WORD, :PTR BYTE
+			      C 
+ 0000			      C .data
+ 0000  0040 [		      C  return_buffer BYTE 64 dup(?)					; Buffer for returning data
+        00
+       ]
+ 0040  0040 [		      C  strtok_buffer BYTE 64 dup(?)					; Buffer for str token data
+        00
+       ]
+ 0080  0040 [		      C  token_buffer BYTE 64 dup(?)					; Buffer for str token data
+        00
+       ]
+ 0000			      C .code
+			      C 
+			      C ENDIF
+			      C .LIST
+			      C 
+			      C  include stdio.inc
+			      C .NOLIST
+			      C IFNDEF _STDIO_
+ = 1			      C _STDIO_ EQU <1>
+			      C 
+			      C getchar PROTO
+			      C gets    PROTO
+			      C printf  PROTO :WORD, :VARARG
+			      C putchar PROTO
+			      C puts    PROTO :WORD
+			      C scanf	PROTO
+			      C 
+ = 000B			      C FILENAME_MAX EQU 11
+ 00C0			      C .data
+ 00C0 30 31 32 33 34 35	      C hexstr   db '0123456789ABCDEF'
+       36 37 38 39 41 42
+       43 44 45 46
+ 00D0 30 30 00		      C outstr16   db '00', 0
+ 0000			      C .code
+			      C ENDIF
+			      C .LIST
+			      C 
+			      C  include ctype.inc
+			      C .NOLIST
+			      C IFNDEF _CTYPE_
+ = 1			      C _CTYPE_ EQU <1>
+			      C 
+			      C isalnum PROTO :PTR BYTE
+			      C isalpha PROTO :PTR BYTE
+			      C iscntrl PROTO :PTR BYTE
+			      C isdigit PROTO :PTR BYTE
+			      C isgraph PROTO :PTR BYTE
+			      C islower PROTO :PTR BYTE
+			      C isprint PROTO :PTR BYTE
+			      C ispunct PROTO :PTR BYTE
+			      C isspace PROTO :PTR BYTE
+			      C isupper PROTO :PTR BYTE
+			      C isxdigit PROTO :PTR BYTE
+			      C tolower PROTO :PTR BYTE
+			      C toupper PROTO :PTR BYTE
+			      C 
+			      C ENDIF
+			      C .LIST
+			      C 
+			      C 
+ 00D3			      C .data
+ 0030			      C fileEntry STRUCT
+ 0000  000A [		      C     fileName	      db 10 dup(?)
+        00
+       ]
+ 000A  0004 [		      C     fileExtension     db 4  dup(?)
+        00
+       ]
+ 000E  0000		      C     fileAttribute     dw ?
+ 0010  000A [		      C     fileReserved      db 10 dup(?)
+        00
+       ]
+ 001A  0000		      C     fileCreatedMonth  dw ?
+ 001C  0000		      C     fileCreatedDay    dw ?
+ 001E  0000		      C     fileCreatedYear   dw ?
+ 0020  0000		      C     fileAccessedMonth dw ?
+ 0022  0000		      C     fileAccessedDay   dw ?
+ 0024  0000		      C     fileAccessedYear  dw ?
+ 0026  0000		      C     fileModifiedMonth dw ?
+ 0028  0000		      C     fileModifiedDay   dw ?
+ 002A  0000		      C     fileModifiedYear  dw ?
+ 002C  0000		      C     startCluster      dw ?
+ 002E  0000		      C     fileLength        dw ?
+			      C fileEntry ENDS
+			      C 
+ 00D3 0012		      C SecsPerTrack          dw 18
+ 00D5 0002		      C Sides		      dw 2
+ 00D7 00		      C BootDrive	      db 0
+ 00D8 6000		      C rootBuffer	      dw 24576
+ 00DA 0000		      C fileStat	      dw 0
+ 00DC  000C [		      C fmtBuf BYTE 12 dup(?)					
+        00
+       ]
+			      C 
+ 0000			      C .code
+			      C 
+			      C clearBuff MACRO arg
+			      C     push di
+			      C     push cx
+			      C     push ax
+			      C     cld
+			      C     mov di, offset arg
+			      C     mov cx, sizeof arg						; Repeat for the length of the buffer
+			      C     mov al, 0							; Clear with null (0)
+			      C     rep stosb
+			      C     pop di
+			      C     pop cx
+			      C     pop ax
+			      C ENDM
+			      C 
+			      C resetFloppy PROTO
+			      C openRoot PROTO
+			      C closeRoot PROTO
+			      C readRoot PROTO
+			      C convert_sector PROTO
+			      C rename PROTO  :WORD, :WORD	
+			      C fmtFatFilename PROTO :WORD
+ 0000  000A [		      C staticFileBuf fileEntry <>
+        00
+       ]
+       0004 [
+        00
+       ] 0000
+       000A [
+        00
+       ] 0000 0000 0000
+       0000 0000 0000
+       0000 0000 0000
+       0000 0000
+			      C 
+			      C ENDIF
+			      C .LIST
+			      C 
+ 0030				.code								; Start of code segment
+				; ------------------------------------------------------------------
+
+
+
+				;---------------------------------------------------
+ 0030				resetFloppy PROC USES ax dx
+
+				; void resetFloppy(void)
+
+				; Reset the floppy disk.
+				; Receives: nothing
+				; Returns:  carry on error
+				; Date: 9/6/2017
+				;---------------------------------------------------
+ 0030  50		   *	    push   ax
+ 0031  52		   *	    push   dx
+ 0032  F8			    clc						; Clear carry flag
+ 0033  B4 00			    mov ah, 0					; Reset Disk Drive
+ 0035  8A 16 00D7 R		    mov dl, [BootDrive]				; Bootdrive number (default 0 or drive A:)
+ 0039  CD 13			    int	    13h					; Low-level disk services
+				    ret
+ 003B  5A		   *	    pop    dx
+ 003C  58		   *	    pop    ax
+ 003D  C3		   *	    ret    00000h
+ 003E				resetFloppy ENDP
+
+
+				; ------------------------------------------------------------------
+				; void openRoot(void)
+				; ------------------- -----------------------------------------------
+				; Open the root directory and set the root directory buffer
+
+ 003E				openRoot PROC uses ax bx cx dx
+ 003E  50		   *	    push   ax
+ 003F  53		   *	    push   bx
+ 0040  51		   *	    push   cx
+ 0041  52		   *	    push   dx
+ 0042  FB			    sti
+ 0043  B8 0013			    mov ax, 19					; Root dir starts at logical sector 19
+ 0046  E8 02A5			    call convert_sector				; Convert logical root sectors
+ 0049  8B 36 00D8 R		    mov	si, rootBuffer				; Load the root buffer into si
+ 004D  8B DE			    mov bx, si					; Load buffer into ES:BX
+ 004F  B0 0E			    mov	al, 14					; Number of sectors
+ 0051  B4 02			    mov	ah, 2					; Read Sectors From Drive
+ 0053				  @@load:					; Load the root directory
+ 0053  60			    pusha
+ 0054  CD 13			    int	    13h					; Low-level disk services
+ 0056  73 05			    jnc	@@loaded				; Root has been loaded on no carry set
+ 0058  E8 FFD5			    call resetFloppy				; Reset the floppy disk
+ 005B  EB F6			    jmp	@@load					; Try to load the root contents again
+ 005D				  @@loaded:
+ 005D  61			    popa
+ 005E  B8 00D8 R		    mov ax, offset rootBuffer
+				    ret
+ 0061  5A		   *	    pop    dx
+ 0062  59		   *	    pop    cx
+ 0063  5B		   *	    pop    bx
+ 0064  58		   *	    pop    ax
+ 0065  C3		   *	    ret    00000h
+ 0066				openRoot ENDP
+
+
+				; ------------------------------------------------------------------
+				; void closeRoot(void)
+				; ------------------------------------------------------------------
+				; Close the root directory, flush the root directory buffer and
+				; reset the file counter
+
+ 0066				closeRoot PROC
+ 0066  C7 06 00D8 R 6000	    mov rootBuffer, 24576			; Reset filebuffer
+ 006C  C7 06 00DA R 0000	    mov fileStat, 0				; Clear file index
+ 0072  C3			    ret
+ 0073				closeRoot ENDP
+
+
+ 0073				fmtFatFilename PROC uses di si cx bx dx string:WORD
+				    clearBuff fmtBuf
+ 0073  55		   *	    push   bp
+ 0074  8B EC		   *	    mov    bp, sp
+ 0076  57		   *	    push   di
+ 0077  56		   *	    push   si
+ 0078  51		   *	    push   cx
+ 0079  53		   *	    push   bx
+ 007A  52		   *	    push   dx
+ 007B  57		     1	    push di
+ 007C  51		     1	    push cx
+ 007D  50		     1	    push ax
+ 007E  FC		     1	    cld
+ 007F  BF 00DC R	     1	    mov di, offset fmtBuf
+ 0082  B9 000C		     1	    mov cx, sizeof fmtBuf						; Repeat for the length of the buffer
+ 0085  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 0087  F3/ AA		     1	    rep stosb
+ 0089  5F		     1	    pop di
+ 008A  59		     1	    pop cx
+ 008B  58		     1	    pop ax
+				    invoke strlen, string
+ 008C  FF 76 04		   *	    push   word  ptr ss:[bp]+00004h
+ 008F  E8 0000 E	   *	    call   strlen
+ 0092  83 C4 02		   *	    add    sp, 00002h
+ 0095  8B C2			    mov ax, dx
+ 0097  8B 76 04			    mov si, string
+ 009A  BF 00DC R		    mov di, offset fmtBuf
+ 009D  33 C9			    xor cx, cx
+ 009F  33 C0			    xor ax, ax
+				    .REPEAT
+ 00A1			   *@C0001:
+ 00A1  AC				lodsb					; Load the first
+					.IF al == '.'				; If '.' found
+ 00A2  3C 2E		   *	    cmp    al, '.'
+ 00A4  75 6D		   *	    jne    @C0002
+					    .IF cx == 0				; Fail if extension dot is first char
+ 00A6  0B C9		   *	    or	cx, cx
+ 00A8  75 0C		   *	    jne    @C0004
+ 00AA  B8 0000					mov ax, 0			; Return -1 on error
+						ret
+ 00AD  5A		   *	    pop    dx
+ 00AE  5B		   *	    pop    bx
+ 00AF  59		   *	    pop    cx
+ 00B0  5E		   *	    pop    si
+ 00B1  5F		   *	    pop    di
+ 00B2  5D		   *	    pop    bp
+ 00B3  C3		   *	    ret    00000h
+					     .ELSE
+ 00B4  EB 0B		   *	    jmp    @C0006
+ 00B6			   *@C0004:
+						.WHILE cx < 8		        ; Fill filename untill equal to 8
+ 00B6  EB 04		   *	    jmp    @C0007
+ 00B8			   *@C0008:
+ 00B8  B0 20					    mov al, ' '			; Pad with a space
+ 00BA  AA					    stosb			; Store the space
+ 00BB  41					    inc cx			; Increase the counter
+						.ENDW
+ 00BC			   *@C0007:
+ 00BC  83 F9 08		   *	    cmp    cx, 008h
+ 00BF  72 F7		   *	    jb     @C0008
+					    .ENDIF
+ 00C1			   *@C0006:
+ 00C1  AC				     lodsb				; Load the extention
+					     .IF al == 0			; If no extension char
+ 00C2  0A C0		   *	    or	al, al
+ 00C4  75 0A		   *	    jne    @C000A
+ 00C6  B8 0000					mov ax, 0			; Return -1 on error
+						ret
+ 00C9  5A		   *	    pop    dx
+ 00CA  5B		   *	    pop    bx
+ 00CB  59		   *	    pop    cx
+ 00CC  5E		   *	    pop    si
+ 00CD  5F		   *	    pop    di
+ 00CE  5D		   *	    pop    bp
+ 00CF  C3		   *	    ret    00000h
+					     .ENDIF
+					   invoke toupper, ax			; Convert char to an upercase char
+ 00D0			   *@C000A:
+ 00D0  50		   *	    push   ax
+ 00D1  E8 0000 E	   *	    call   toupper
+ 00D4  83 C4 02		   *	    add    sp, 00002h
+ 00D7  AA				    stosb				; Store the extention
+ 00D8  AC				    lodsb			        ; Load the extention
+					     .IF al == 0			; If no extension char
+ 00D9  0A C0		   *	    or	al, al
+ 00DB  75 0A		   *	    jne    @C000C
+ 00DD  B8 0000					mov ax, 0			; Return -1 on error
+						ret
+ 00E0  5A		   *	    pop    dx
+ 00E1  5B		   *	    pop    bx
+ 00E2  59		   *	    pop    cx
+ 00E3  5E		   *	    pop    si
+ 00E4  5F		   *	    pop    di
+ 00E5  5D		   *	    pop    bp
+ 00E6  C3		   *	    ret    00000h
+					     .ENDIF
+					    invoke toupper, ax			; Convert char to an upercase char
+ 00E7			   *@C000C:
+ 00E7  50		   *	    push   ax
+ 00E8  E8 0000 E	   *	    call   toupper
+ 00EB  83 C4 02		   *	    add    sp, 00002h
+ 00EE  AA				    stosb				; Store the extention
+ 00EF  AC				    lodsb				; Load the extention
+					     .IF al == 0			; If no extension char
+ 00F0  0A C0		   *	    or	al, al
+ 00F2  75 0A		   *	    jne    @C000E
+ 00F4  B8 0000					mov ax, 0			; Return -1 on error
+						ret
+ 00F7  5A		   *	    pop    dx
+ 00F8  5B		   *	    pop    bx
+ 00F9  59		   *	    pop    cx
+ 00FA  5E		   *	    pop    si
+ 00FB  5F		   *	    pop    di
+ 00FC  5D		   *	    pop    bp
+ 00FD  C3		   *	    ret    00000h
+					     .ENDIF
+					    invoke toupper, ax			; Convert char to an upercase char
+ 00FE			   *@C000E:
+ 00FE  50		   *	    push   ax
+ 00FF  E8 0000 E	   *	    call   toupper
+ 0102  83 C4 02		   *	    add    sp, 00002h
+ 0105  AA				    stosb				; Store the extention
+ 0106  B0 00				    mov al, 0				; Zero termanate the string
+ 0108  AA				    stosb
+ 0109  B8 00DC R			    mov ax, offset fmtBuf		; Return the fat12 formatted filename
+					    ret
+ 010C  5A		   *	    pop    dx
+ 010D  5B		   *	    pop    bx
+ 010E  59		   *	    pop    cx
+ 010F  5E		   *	    pop    si
+ 0110  5F		   *	    pop    di
+ 0111  5D		   *	    pop    bp
+ 0112  C3		   *	    ret    00000h
+					.ENDIF
+					invoke toupper, ax			; Convert char to an upercase char
+ 0113			   *@C0002:
+ 0113  50		   *	    push   ax
+ 0114  E8 0000 E	   *	    call   toupper
+ 0117  83 C4 02		   *	    add    sp, 00002h
+ 011A  AA				stosb					; Store the filename
+ 011B  41				inc cx					; Increase counter
+					.IF cx > dx				; If no '.' found
+ 011C  3B CA		   *	    cmp    cx, dx
+ 011E  76 0C		   *	    jbe    @C0010
+ 0120  B8 0000				    mov ax, 0				; Return -1 on error
+					    ret
+ 0123  5A		   *	    pop    dx
+ 0124  5B		   *	    pop    bx
+ 0125  59		   *	    pop    cx
+ 0126  5E		   *	    pop    si
+ 0127  5F		   *	    pop    di
+ 0128  5D		   *	    pop    bp
+ 0129  C3		   *	    ret    00000h
+					.ELSEIF cx > 8
+ 012A  EB 0F		   *	    jmp    @C0012
+ 012C			   *@C0010:
+ 012C  83 F9 08		   *	    cmp    cx, 008h
+ 012F  76 0A		   *	    jbe    @C0013
+ 0131  B8 0000				    mov ax, 0
+					    ret
+ 0134  5A		   *	    pop    dx
+ 0135  5B		   *	    pop    bx
+ 0136  59		   *	    pop    cx
+ 0137  5E		   *	    pop    si
+ 0138  5F		   *	    pop    di
+ 0139  5D		   *	    pop    bp
+ 013A  C3		   *	    ret    00000h
+					.ENDIF
+				    .UNTIL 0
+ 013B			   *@C0013:
+ 013B			   *@C0012:
+ 013B  E9 FF63		   *	    jmp    @C0001
+				    ret
+ 013E  5A		   *	    pop    dx
+ 013F  5B		   *	    pop    bx
+ 0140  59		   *	    pop    cx
+ 0141  5E		   *	    pop    si
+ 0142  5F		   *	    pop    di
+ 0143  5D		   *	    pop    bp
+ 0144  C3		   *	    ret    00000h
+ 0145				fmtFatFilename ENDP
+
+
+				; ------------------------------------------------------------------
+				; int rename(const char *old_filename, const char *new_filename);
+				; ------------------------------------------------------------------
+				; This function renames a file from the old filename
+				; passed to the new filename input, returns 0 on
+				; success and -1 on failure.
+
+ 0145				rename PROC uses si di cx oldName:WORD, newName:WORD
+ 0145  55		   *	    push   bp
+ 0146  8B EC		   *	    mov    bp, sp
+ 0148  56		   *	    push   si
+ 0149  57		   *	    push   di
+ 014A  51		   *	    push   cx
+ 014B  E8 FEE2			call resetFloppy
+				    invoke fmtFatFilename, oldName		; Format the old name into the fat filename fmt
+ 014E  FF 76 04		   *	    push   word  ptr ss:[bp]+00004h
+ 0151  E8 FF1F		   *	    call   fmtFatFilename
+ 0154  83 C4 02		   *	    add    sp, 00002h
+ 0157  8B D0			    mov dx, ax					; Store the formatted filename in dx
+ 0159  E8 FEE2			    call openRoot				; Open the root dir and set buffer
+ 015C  8B F2			    mov si, dx					; Point to the filename to find
+ 015E  8B 3E 00D8 R		    mov	di, rootBuffer				; Move the buffer into di
+ 0162  B9 00E0			    mov	cx, 224					; Loop 224 times (max root entrys)
+ 0165  33 C0			    xor ax, ax					; Clear ax for the root offset
+ 0167				  @@loop:					; Search through the root dir for the file
+ 0167  51			    push cx					; Save current cx value for loop
+ 0168  8B F2			    mov	si, dx					; Point to the filename to find
+ 016A  B9 000B			    mov	cx, 11					; Loop 11 times
+ 016D  F3/ A6			    repe cmpsb
+ 016F  74 14			    je  @@foundFile				; Found the file!
+ 0171  83 C0 20			    add	ax, 32					; Add to the root offset
+ 0174  8B 3E 00D8 R		    mov	di, rootBuffer				; Move the buffer into di
+ 0178  03 F8			    add	di, ax					; Add the offset to the root buffer
+ 017A  59			    pop	cx					; Restore the cx loop value
+ 017B  E2 EA			    loop @@loop					; Continue to seach through the root dir
+ 017D  B8 FFFF			    mov ax, -1					; File not found!
+				    ret
+ 0180  59		   *	    pop    cx
+ 0181  5F		   *	    pop    di
+ 0182  5E		   *	    pop    si
+ 0183  5D		   *	    pop    bp
+ 0184  C3		   *	    ret    00000h
+ 0185				  @@foundFile:
+ 0185  59			    pop cx					; Restore cx, if not then causes memory error
+ 0186  83 EF 0B			    sub di, 11					; Reset the root buffer offset to the begining
+				    invoke fmtFatFilename, newName		; Format the new name into the fat filename fmt
+ 0189  FF 76 06		   *	    push   word  ptr ss:[bp]+00006h
+ 018C  E8 FEE4		   *	    call   fmtFatFilename
+ 018F  83 C4 02		   *	    add    sp, 00002h
+ 0192  8B F0			    mov si, ax					; Point to the filename to change
+ 0194  B9 000B			    mov cx, 11					; Loop 11 times
+ 0197  F3/ A4			    rep movsb
+ 0199  E8 0129			    call writeRoot				; Write data to the modifyed root entry
+ 019C  E8 FEC7			    call closeRoot				; Close and flush root buffer
+ 019F  B8 0000			    mov ax, 0
+				    ret
+ 01A2  59		   *	    pop    cx
+ 01A3  5F		   *	    pop    di
+ 01A4  5E		   *	    pop    si
+ 01A5  5D		   *	    pop    bp
+ 01A6  C3		   *	    ret    00000h
+ 01A7				rename ENDP
+
+				; ------------------------------------------------------------------
+				; struct rootEnt* readRoot(void)
+				; ------------------------------------------------------------------
+				; Iterate over the entire root directory, please use the
+				; openRoot() and  CloseRoot() functions before
+				; calling to this function. Returns a struct of the root
+				; entry found, NULL on finished
+
+ 01A7				readRoot PROC uses si
+ 01A7  56		   *	    push   si
+ 01A8  8B 36 00D8 R		    mov	si, rootBuffer
+ 01AC  8B 0E 00DA R		    mov cx, fileStat
+				    .IF cx == -1
+ 01B0  83 F9 FF		   *	    cmp    cx, - 001h
+ 01B3  75 06		   *	    jne    @C0016
+ 01B5  B8 0000				mov ax, 0
+				    .ELSE
+ 01B8  E9 0108		   *	    jmp    @C0018
+ 01BB			   *@C0016:
+ 01BB  41				inc cx
+ 01BC  89 0E 00DA R			mov fileStat, cx
+					.REPEAT
+ 01C0			   *@C0019:
+ 01C0  8A 44 0B				    mov	al, [si + 11]
+					    ; Windows marker || Directory marker || deleted file
+					    .IF al == 0fh || al == 18h || al == 0e5h
+ 01C3  3C 0F		   *	    cmp    al, 00Fh
+ 01C5  74 08		   *	    je     @C001B
+ 01C7  3C 18		   *	    cmp    al, 018h
+ 01C9  74 04		   *	    je     @C001B
+ 01CB  3C E5		   *	    cmp    al, 0E5h
+ 01CD  75 09		   *	    jne    @C001A
+ 01CF			   *@C001B:
+ 01CF  83 C6 20					add si, 32
+						.CONTINUE
+ 01D2  E9 00EB		   *	    jmp    @C001E
+					    .ELSEIF al == 0
+ 01D5  E9 00E8		   *	    jmp    @C0020
+ 01D8			   *@C001A:
+ 01D8  0A C0		   *	    or	al, al
+ 01DA  75 10		   *	    jne    @C0021
+ 01DC  B9 FFFF					mov cx, -1
+ 01DF  89 0E 00DA R			    	mov fileStat, cx
+ 01E3  B8 0000					mov ax, 0
+						.BREAK
+ 01E6  E9 00DA		   *	    jmp    @C001F
+					    .ELSE
+ 01E9  E9 00D4		   *	    jmp    @C0023
+ 01EC			   *@C0021:
+ 01EC  8B D6					mov dx, si
+ 01EE  B9 0008					mov cx, 8					; Store the filename
+						clearBuff staticFileBuf.fileName
+ 01F1  57		     1	    push di
+ 01F2  51		     1	    push cx
+ 01F3  50		     1	    push ax
+ 01F4  FC		     1	    cld
+ 01F5  BF 0000 R	     1	    mov di, offset staticFileBuf.fileName
+ 01F8  B9 000A		     1	    mov cx, sizeof staticFileBuf.fileName						; Repeat for the length of the buffer
+ 01FB  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 01FD  F3/ AA		     1	    rep stosb
+ 01FF  5F		     1	    pop di
+ 0200  59		     1	    pop cx
+ 0201  58		     1	    pop ax
+ 0202  BF 0000 R				mov di, offset staticFileBuf.fileName
+						.REPEAT
+ 0205			   *@C0024:
+ 0205  AC					    lodsb					; Load string
+						    .IF al == ' '				; Skip over a space
+ 0206  3C 20		   *	    cmp    al, ' '
+ 0208  75 02		   *	    jne    @C0025
+							.CONTINUE
+ 020A  EB 01		   *	    jmp    @C0027
+						    .ENDIF
+ 020C			   *@C0025:
+ 020C  AA					    stosb					; Store string
+						.UNTILCXZ					; Repeat 8 times
+ 020D			   *@C0027:
+ 020D  E2 F6		   *	    loop   @C0024
+ 020F  B9 0003					mov cx, 3					; Store the extension
+						clearBuff staticFileBuf.fileExtension
+ 0212  57		     1	    push di
+ 0213  51		     1	    push cx
+ 0214  50		     1	    push ax
+ 0215  FC		     1	    cld
+ 0216  BF 000A R	     1	    mov di, offset staticFileBuf.fileExtension
+ 0219  B9 0004		     1	    mov cx, sizeof staticFileBuf.fileExtension						; Repeat for the length of the buffer
+ 021C  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 021E  F3/ AA		     1	    rep stosb
+ 0220  5F		     1	    pop di
+ 0221  59		     1	    pop cx
+ 0222  58		     1	    pop ax
+ 0223  BF 000A R				mov di,offset staticFileBuf.fileExtension
+						.REPEAT
+ 0226			   *@C0029:
+ 0226  AC					    lodsb					; Load string
+ 0227  AA					    stosb					; Store string
+						.UNTILCXZ					; Repeat 8 times
+ 0228  E2 FC		   *	    loop   @C0029
+ 022A  8B F2					mov si, dx
+
+ 022C  8B 44 0B					mov ax, [si + 11]			        ; Attribute
+ 022F  0F B6 C0					movzx ax, al					; Clear byte ah
+ 0232  A3 000E R				mov staticFileBuf.fileAttribute, ax
+
+ 0235  8B 44 10					mov ax, [si + 16]			        ; Created Day
+ 0238  83 E0 1F			    		and ax, 1fh					; Clear year and month bits
+ 023B  A3 001C R		   		mov staticFileBuf.fileCreatedDay, ax
+
+ 023E  8B 44 10					mov ax, [si + 16]			        ; Created Month
+ 0241  25 01E0					and ax, 1e0h					; Clear year and day bits
+ 0244  C1 E8 05					shr ax, 5				        ; Rotate bits right by five
+ 0247  A3 001A R				mov staticFileBuf.fileCreatedMonth, ax
+
+ 024A  8B 44 10					mov ax, [si + 16]			        ; Created Year
+ 024D  25 FE00					and ax, 0fe00h 					; Clear day and month bits
+ 0250  C1 E8 09					shr ax, 9				        ; Rotate bits right by nine
+ 0253  05 07BC					add ax, 1980					; Add 1980 to the result to get the year
+ 0256  A3 001E R				mov staticFileBuf.fileCreatedYear, ax
+
+ 0259  8B 44 12					mov ax, [si + 18]			        ; Last access Day
+ 025C  83 E0 1F					and ax, 1fh					; Clear year and month bits
+ 025F  A3 0022 R				mov staticFileBuf.fileAccessedDay, ax
+
+ 0262  8B 44 12					mov ax, [si + 18]			        ; Last access Month
+ 0265  25 01E0					and ax, 1e0h					; Clear year and day bits
+ 0268  C1 E8 05					shr ax, 5				        ; Rotate bits right by five
+ 026B  A3 0020 R				mov staticFileBuf.fileAccessedMonth, ax
+
+ 026E  8B 44 12					mov ax, [si + 18]			        ; Last access Year
+ 0271  25 FE00					and ax, 0fe00h 					; Clear day and month bits
+ 0274  C1 E8 09					shr ax, 9				        ; Rotate bits right by nine
+ 0277  05 07BC					add ax, 1980					; Add 1980 to the result to get the year
+ 027A  A3 0024 R				mov staticFileBuf.fileAccessedYear, ax
+
+ 027D  8B 44 18					mov ax, [si + 24]			        ; Modified Day
+ 0280  83 E0 1F					and ax, 1fh					; Clear year and month bits
+ 0283  A3 0028 R				mov staticFileBuf.fileModifiedDay, ax
+
+ 0286  8B 44 18					mov ax, [si + 24]			        ; Modified Month
+ 0289  25 01E0					and ax, 1e0h					; Clear year and day bits
+ 028C  C1 E8 05					shr ax, 5				        ; Rotate bits right by five
+ 028F  A3 0026 R				mov staticFileBuf.fileModifiedMonth, ax
+
+ 0292  8B 44 18					mov ax, [si + 24]			        ; Modified Year
+ 0295  25 FE00					and ax, 0fe00h 					; Clear day and month bits
+ 0298  C1 E8 09					shr ax, 9				        ; Rotate bits right by nine
+ 029B  05 07BC					add ax, 1980					; Add 1980 to the result to get the year
+ 029E  A3 002A R				mov staticFileBuf.fileModifiedYear, ax
+
+ 02A1  8B 44 1A					mov ax, [si + 26]			        ; Start cluster
+ 02A4  A3 002C R				mov staticFileBuf.startCluster, ax
+
+ 02A7  C7 06 002E R 0000			mov staticFileBuf.FileLength, 0
+ 02AD  8B 44 1C					mov ax, [si + 28]			        ; File size
+ 02B0  89 36 002E R				mov staticFileBuf.FileLength, si
+
+ 02B4  83 C6 20					add si, 32
+ 02B7  89 36 00D8 R				mov rootBuffer, si
+ 02BB  B8 0000 R				mov ax, offset staticFileBuf
+						.BREAK
+ 02BE  EB 03		   *	    jmp    @C001F
+					    .ENDIF
+					.UNTIL 0
+ 02C0			   *@C0023:
+ 02C0			   *@C0020:
+ 02C0			   *@C001E:
+ 02C0  E9 FEFD		   *	    jmp    @C0019
+				    .ENDIF
+ 02C3			   *@C001F:
+ 02C3			   *@C0018:
+				  ret
+ 02C3  5E		   *	    pop    si
+ 02C4  C3		   *	    ret    00000h
+ 02C5				readroot ENDP
+
+
+ 02C5				writeRoot PROC uses si ax bx cx
+ 02C5  56		   *	    push   si
+ 02C6  50		   *	    push   ax
+ 02C7  53		   *	    push   bx
+ 02C8  51		   *	    push   cx
+ 02C9  B8 0013			    mov ax, 19					; Root dir starts at logical sector 19
+ 02CC  E8 001F			    call convert_sector				; Convert root sectors
+ 02CF  8B 36 00D8 R		    mov si, rootBuffer				; Point to the root buffer
+ 02D3  8C DB			    mov bx, ds
+ 02D5  8E C3			    mov es, bx
+ 02D7  8B DE			    mov bx, si
+ 02D9  B4 03			    mov ah, 3					; Write floppy sectors
+ 02DB  B0 0E			    mov al, 14					; Write 14 sectors
+ 02DD  F9			    stc						; Clear carry flag
+ 02DE  CD 13			    int	    13h					; Write sectors
+ 02E0  72 06			    jc @@error
+ 02E2  F8			    clc						; Clear carry on succuss
+				    ret
+ 02E3  59		   *	    pop    cx
+ 02E4  5B		   *	    pop    bx
+ 02E5  58		   *	    pop    ax
+ 02E6  5E		   *	    pop    si
+ 02E7  C3		   *	    ret    00000h
+ 02E8				  @@error:
+ 02E8  F9			    stc						; Set carry on error
+				    ret
+ 02E9  59		   *	    pop    cx
+ 02EA  5B		   *	    pop    bx
+ 02EB  58		   *	    pop    ax
+ 02EC  5E		   *	    pop    si
+ 02ED  C3		   *	    ret    00000h
+ 02EE				writeRoot ENDP
+
+
+ 02EE				convert_sector PROC uses bx ax
+ 02EE  53		   *	    push   bx
+ 02EF  50		   *	    push   ax
+ 02F0  8B D8			    mov bx, ax					; Save logical sector
+ 02F2  33 D2			    xor dx, dx					; First the sector
+ 02F4  F7 36 00D3 R		    div [SecsPerTrack]				; Sectors per track
+ 02F8  80 C2 01			    add dl, 01h					; Physical sectors start at 1
+ 02FB  8A CA			    mov cl, dl					; Sectors belong in CL for int 13h
+ 02FD  8B C3			    mov ax, bx
+ 02FF  33 D2			    xor dx, dx					; Now calculate the head
+ 0301  F7 36 00D3 R		    div [SecsPerTrack]				; Sectors per track
+ 0305  33 D2			    xor dx, dx
+ 0307  F7 36 00D5 R		    div [Sides]					; Floppy sides
+ 030B  8A F2			    mov dh, dl					; Head/side
+ 030D  8A E8			    mov ch, al					; Track
+ 030F  8A 16 00D7 R		    mov dl, [BootDrive]
+				    ret
+ 0313  58		   *	    pop    ax
+ 0314  5B		   *	    pop    bx
+ 0315  C3		   *	    ret    00000h
+ 0316				convert_sector ENDP
+
+
+				end
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\fat.asm						     Symbols 2 - 1
+
+
+
+
+Macros:
+
+                N a m e                 Type
+
+clearBuff  . . . . . . . . . . .	Proc
+
+
+Structures and Unions:
+
+                N a m e                  Size
+                                         Offset      Type
+
+fileEntry  . . . . . . . . . . .	 0030
+  fileName . . . . . . . . . . .	 0000	     Byte
+  fileExtension  . . . . . . . .	 000A	     Byte
+  fileAttribute  . . . . . . . .	 000E	     Word
+  fileReserved . . . . . . . . .	 0010	     Byte
+  fileCreatedMonth . . . . . . .	 001A	     Word
+  fileCreatedDay . . . . . . . .	 001C	     Word
+  fileCreatedYear  . . . . . . .	 001E	     Word
+  fileAccessedMonth  . . . . . .	 0020	     Word
+  fileAccessedDay  . . . . . . .	 0022	     Word
+  fileAccessedYear . . . . . . .	 0024	     Word
+  fileModifiedMonth  . . . . . .	 0026	     Word
+  fileModifiedDay  . . . . . . .	 0028	     Word
+  fileModifiedYear . . . . . . .	 002A	     Word
+  startCluster . . . . . . . . .	 002C	     Word
+  fileLength . . . . . . . . . .	 002E	     Word
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0316	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 00E8	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+closeRoot  . . . . . . . . . . .	P Near	 0066	  _TEXT	Length= 000D Public C
+convert_sector . . . . . . . . .	P Near	 02EE	  _TEXT	Length= 0028 Public C
+fmtFatFilename . . . . . . . . .	P Near	 0073	  _TEXT	Length= 00D2 Public C
+  string . . . . . . . . . . . .	Word	 bp + 0004
+getchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+gets . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isalnum  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isalpha  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+iscntrl  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isdigit  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isgraph  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+islower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isprint  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+ispunct  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isspace  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+isxdigit . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memcpy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memmove  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+memset . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+openRoot . . . . . . . . . . . .	P Near	 003E	  _TEXT	Length= 0028 Public C
+  @@load . . . . . . . . . . . .	L Near	 0053	  _TEXT	
+  @@loaded . . . . . . . . . . .	L Near	 005D	  _TEXT	
+printf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+readRoot . . . . . . . . . . . .	P Near	 01A7	  _TEXT	Length= 011E Public C
+rename . . . . . . . . . . . . .	P Near	 0145	  _TEXT	Length= 0062 Public C
+  oldName  . . . . . . . . . . .	Word	 bp + 0004
+  newName  . . . . . . . . . . .	Word	 bp + 0006
+  @@loop . . . . . . . . . . . .	L Near	 0167	  _TEXT	
+  @@foundFile  . . . . . . . . .	L Near	 0185	  _TEXT	
+resetFloppy  . . . . . . . . . .	P Near	 0030	  _TEXT	Length= 000E Public C
+scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcat . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strchr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcmp . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcoll  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcpy . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strcspn  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strlen . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncat  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncmp  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strncpy  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strpbrk  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strrchr  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strspn . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strstr . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strtok . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+strxfrm  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+tolower  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+toupper  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+writeRoot  . . . . . . . . . . .	P Near	 02C5	  _TEXT	Length= 0029 Public C
+  @@error  . . . . . . . . . . .	L Near	 02E8	  _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+BootDrive  . . . . . . . . . . .	Byte	 00D7	  _DATA	
+FILENAME_MAX . . . . . . . . . .	Number	 000Bh	 
+SecsPerTrack . . . . . . . . . .	Word	 00D3	  _DATA	
+Sides  . . . . . . . . . . . . .	Word	 00D5	  _DATA	
+_CTYPE_  . . . . . . . . . . . .	Text   	 1
+_FAT_  . . . . . . . . . . . . .	Text   	 1
+_STDIO_  . . . . . . . . . . . .	Text   	 1
+_STRING_ . . . . . . . . . . . .	Text   	 1
+fileStat . . . . . . . . . . . .	Word	 00DA	  _DATA	
+fmtBuf . . . . . . . . . . . . .	Byte	 00DC	  _DATA	
+hexstr . . . . . . . . . . . . .	Byte	 00C0	  _DATA	
+outstr16 . . . . . . . . . . . .	Byte	 00D0	  _DATA	
+return_buffer  . . . . . . . . .	Byte	 0000	  _DATA	
+rootBuffer . . . . . . . . . . .	Word	 00D8	  _DATA	
+staticFileBuf  . . . . . . . . .	fileEntry  0000	    _TEXT	
+strtok_buffer  . . . . . . . . .	Byte	 0040	  _DATA	
+token_buffer . . . . . . . . . .	Byte	 0080	  _DATA	
+
+	   0 Warnings
+	   0 Errors

@@ -1,0 +1,181 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\locale.asm					     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				.model tiny, c							; Small memoy model
+				.386								; 80386 CPU
+				 include locale.inc						; Include library headers
+			      C .NOLIST
+			      C IFNDEF _LOCALE_
+ = 1			      C _LOCALE_ EQU <1>
+			      C 
+ 0024			      C  lconv STRUCT
+ 0000  0000		      C  decimal_point	    dw ?			; Buffer for returning data
+ 0002  0000		      C  thousands_sep	    dw ?
+ 0004  0000		      C  grouping	    dw ?
+ 0006  0000		      C int_curr_symbol     dw ?
+ 0008  0000		      C  currency_symbol    dw ?
+ 000A  0000		      C  mon_decimal_point  dw ?
+ 000C  0000		      C  mon_thousands_sep  dw ?
+ 000E  0000		      C  mon_grouping       dw ?
+ 0010  0000		      C  positive_sign      dw ?
+ 0012  0000		      C  negative_sign      dw ?
+ 0014  0000		      C  int_frac_digits    dw ?
+ 0016  0000		      C  frac_digits	    dw ?
+ 0018  0000		      C  p_cs_precedes	    dw ?
+ 001A  0000		      C  p_sep_by_space	    dw ?
+ 001C  0000		      C  n_cs_precedes	    dw ?
+ 001E  0000		      C  n_sep_by_space	    dw ?
+ 0020  0000		      C  p_sign_posn	    dw ?
+ 0022  0000		      C  n_sign_posn	    dw ?
+			      C lconv ENDS
+ 0000			      C .data
+ 0000 0000 0000 0000 0000     C  _lconvbuf lconv <>
+       0000 0000 0000
+       0000 0000 0000
+       0000 0000 0000
+       0000 0000 0000
+       0000 0000
+ 0024 002E 0000		      C  decimal_point	    dw ".", 0
+ 0028 0000		      C  thousands_sep	    dw 0
+ 002A 0000		      C  grouping	    dw 0
+ 002C 0000		      C  int_curr_symbol    dw 0
+ 002E 0000		      C  currency_symbol    dw 0
+ 0030 0000		      C  mon_decimal_point  dw 0
+ 0032 0000		      C  mon_thousands_sep  dw 0
+ 0034 0000		      C  mon_grouping	    dw 0
+ 0036 0000		      C  positive_sign	    dw 0
+ 0038 0000		      C  negative_sign	    dw 0
+ 0000			      C .code
+ = 0000			      C  int_frac_digits    = 0
+ = 0000			      C  frac_digits	    = 0
+ = 0000			      C  p_cs_precedes	    = 0
+ = 0000			      C  p_sep_by_space	    = 0
+ = 0000			      C  n_cs_precedes	    = 0
+ = 0000			      C  n_sep_by_space	    = 0
+ = 0000			      C  p_sign_posn	    = 0
+ = 0000			      C  n_sign_posn	    = 0
+			      C 
+			      C ENDIF
+			      C .LIST
+			      C 
+
+ 0000				.code							; Start of code segment
+				; ------------------------------------------------------------------
+
+				; ------------------------------------------------------------------
+				; char *localtime(const struct tm *timeptr)
+				; ------------------------------------------------------------------
+				; returns a pointer to a the localtime struct with current
+				; time and date values
+
+ 0000				localeconv PROC
+ 0000  C7 06 0000 R 0024 R	    mov _lconvbuf.decimal_point, offset decimal_point
+ 0006  C7 06 0002 R 0028 R	    mov _lconvbuf.thousands_sep, offset thousands_sep
+ 000C  C7 06 0004 R 002A R	    mov _lconvbuf.grouping, offset grouping
+ 0012  C7 06 0006 R 002C R	    mov _lconvbuf.int_curr_symbol, offset int_curr_symbol
+ 0018  C7 06 0008 R 002E R	    mov _lconvbuf.currency_symbol, offset currency_symbol
+ 001E  C7 06 000A R 0030 R	    mov _lconvbuf.mon_decimal_point, offset mon_decimal_point
+ 0024  C7 06 000C R 0032 R	    mov _lconvbuf.mon_thousands_sep, offset mon_thousands_sep
+ 002A  C7 06 000E R 0034 R	    mov _lconvbuf.mon_grouping, offset mon_grouping
+ 0030  C7 06 0010 R 0036 R	    mov _lconvbuf.positive_sign, offset positive_sign
+ 0036  C7 06 0012 R 0038 R	    mov _lconvbuf.negative_sign, offset negative_sign
+ 003C  C7 06 0014 R 0000	    mov _lconvbuf.int_frac_digits, int_frac_digits
+ 0042  C7 06 0016 R 0000	    mov _lconvbuf.frac_digits, frac_digits
+ 0048  C7 06 0018 R 0000	    mov _lconvbuf.p_cs_precedes, p_cs_precedes
+ 004E  C7 06 001A R 0000	    mov _lconvbuf.p_sep_by_space, p_sep_by_space
+ 0054  C7 06 001C R 0000	    mov _lconvbuf.n_cs_precedes, n_cs_precedes
+ 005A  C7 06 001E R 0000	    mov _lconvbuf.n_sep_by_space, n_sep_by_space
+ 0060  C7 06 0020 R 0000	    mov _lconvbuf.p_sign_posn, p_sign_posn
+ 0066  C7 06 0022 R 0000	    mov _lconvbuf.n_sign_posn, n_sign_posn
+ 006C  8D 06 0000 R		    lea ax, _lconvbuf
+ 0070  C3			    ret
+ 0071				localeconv ENDP
+
+
+				end
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\locale.asm					     Symbols 2 - 1
+
+
+
+
+Structures and Unions:
+
+                N a m e                  Size
+                                         Offset      Type
+
+lconv  . . . . . . . . . . . . .	 0024
+  decimal_point  . . . . . . . .	 0000	     Word
+  thousands_sep  . . . . . . . .	 0002	     Word
+  grouping . . . . . . . . . . .	 0004	     Word
+  int_curr_symbol  . . . . . . .	 0006	     Word
+  currency_symbol  . . . . . . .	 0008	     Word
+  mon_decimal_point  . . . . . .	 000A	     Word
+  mon_thousands_sep  . . . . . .	 000C	     Word
+  mon_grouping . . . . . . . . .	 000E	     Word
+  positive_sign  . . . . . . . .	 0010	     Word
+  negative_sign  . . . . . . . .	 0012	     Word
+  int_frac_digits  . . . . . . .	 0014	     Word
+  frac_digits  . . . . . . . . .	 0016	     Word
+  p_cs_precedes  . . . . . . . .	 0018	     Word
+  p_sep_by_space . . . . . . . .	 001A	     Word
+  n_cs_precedes  . . . . . . . .	 001C	     Word
+  n_sep_by_space . . . . . . . .	 001E	     Word
+  p_sign_posn  . . . . . . . . .	 0020	     Word
+  n_sign_posn  . . . . . . . . .	 0022	     Word
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 0071	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 003A	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+localeconv . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0071 Public C
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+_LOCALE_ . . . . . . . . . . . .	Text   	 1
+_lconvbuf  . . . . . . . . . . .	lconv	 0000	  _DATA	
+currency_symbol  . . . . . . . .	Word	 002E	  _DATA	
+decimal_point  . . . . . . . . .	Word	 0024	  _DATA	
+frac_digits  . . . . . . . . . .	Number	 0000h	 
+grouping . . . . . . . . . . . .	Word	 002A	  _DATA	
+int_curr_symbol  . . . . . . . .	Word	 002C	  _DATA	
+int_frac_digits  . . . . . . . .	Number	 0000h	 
+mon_decimal_point  . . . . . . .	Word	 0030	  _DATA	
+mon_grouping . . . . . . . . . .	Word	 0034	  _DATA	
+mon_thousands_sep  . . . . . . .	Word	 0032	  _DATA	
+n_cs_precedes  . . . . . . . . .	Number	 0000h	 
+n_sep_by_space . . . . . . . . .	Number	 0000h	 
+n_sign_posn  . . . . . . . . . .	Number	 0000h	 
+negative_sign  . . . . . . . . .	Word	 0038	  _DATA	
+p_cs_precedes  . . . . . . . . .	Number	 0000h	 
+p_sep_by_space . . . . . . . . .	Number	 0000h	 
+p_sign_posn  . . . . . . . . . .	Number	 0000h	 
+positive_sign  . . . . . . . . .	Word	 0036	  _DATA	
+thousands_sep  . . . . . . . . .	Word	 0028	  _DATA	
+
+	   0 Warnings
+	   0 Errors

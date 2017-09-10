@@ -1,0 +1,262 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\signal.asm					     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				.model tiny, c							; Small memoy model
+				.386								; 80386 CPU
+				 include signal.inc					; Include library headers
+			      C .NOLIST
+			      C IFNDEF _SIGNAL_
+ = 1			      C _SIGNAL_ EQU <1>
+			      C 
+ = 0002			      C SIGINT EQU 2
+ = 0004			      C SIGILL EQU 4
+ = 0008			      C SIGFPE EQU 8
+ = 000B			      C SIGSEGV EQU 11
+ = 000F			      C SIGTERM EQU 15
+ = 0015			      C SIGBREAK EQU 21
+ = 0016			      C SIGABRT EQU 22
+ = 0017			      C NSIG EQU 23
+			      C 
+			      C signal PROTO C :PTR BYTE, :WORD
+			      C raise PROTO C :PTR BYTE
+			      C 
+ 0000			      C .data
+ 0000 00		      C  catch_func db ?						; Buffer for returning data
+ 0001 01		      C  SIGCHECK db 1
+ 0000			      C  .code
+			      C 
+			      C ENDIF
+			      C .LIST
+			      C 
+				 include stdbool.inc
+			      C .NOLIST
+			      C IFNDEF _STDBOOL_
+ = 1			      C _STDBOOL_ EQU <1>
+			      C 
+ = 0001			      C true EQU 1
+ = 0000			      C false EQU 0
+			      C 
+			      C ENDIF
+			      C .LIST
+			      C 
+ 0000				.code								; Start of code segment
+				; ------------------------------------------------------------------
+
+
+				clearBuff MACRO arg
+				    push di
+				    push cx
+				    push ax
+				    cld
+				    mov di, offset arg
+				    mov cx, sizeof arg						; Repeat for the length of the buffer
+				    mov al, 0							; Clear with null (0)
+				    rep stosb
+				    pop di
+				    pop cx
+				    pop ax
+				ENDM
+
+
+ 0000				signal PROC C sig:PTR BYTE, func:WORD
+ 0000  55		   *	    push   bp
+ 0001  8B EC		   *	    mov    bp, sp
+				    .IF sig == SIGINT
+ 0003  83 7E 04 02	   *	    cmp    sig, SIGINT
+ 0007  75 1C		   *	    jne    @C0001
+					.IF SIGCHECK == true					 ; Signal failsafe
+ 0009  80 3E 0001 R 01	   *	    cmp    SIGCHECK, true
+ 000E  75 10		   *	    jne    @C0003
+ 0010  8B 46 06				    mov ax, func					 ; Move func into register
+ 0013  A3 0000 R			    mov WORD PTR catch_func, ax				 ; Move ax into the static var
+ 0016  C6 06 0001 R 00			    mov SIGCHECK, false					 ; Set failsafe to false
+ 001B  B8 0000				    mov ax, 0						 ; Return 0 for success
+					.ELSE
+ 001E  EB 39		   *	    jmp    @C0005
+ 0020			   *@C0003:
+ 0020  B8 FFFF				    mov ax, -1
+					.ENDIF
+				    .ELSEIF sig == SIGTERM
+ 0023  EB 34		   *	    jmp    @C0006
+ 0025			   *@C0001:
+ 0025  83 7E 04 0F	   *	    cmp    sig, SIGTERM
+ 0029  75 1B		   *	    jne    @C0007
+				        clearBuff catch_func
+ 002B  57		     1	    push di
+ 002C  51		     1	    push cx
+ 002D  50		     1	    push ax
+ 002E  FC		     1	    cld
+ 002F  BF 0000 R	     1	    mov di, offset catch_func
+ 0032  B9 0001		     1	    mov cx, sizeof catch_func						; Repeat for the length of the buffer
+ 0035  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 0037  F3/ AA		     1	    rep stosb
+ 0039  5F		     1	    pop di
+ 003A  59		     1	    pop cx
+ 003B  58		     1	    pop ax
+ 003C  C6 06 0001 R 01		    	mov SIGCHECK, true
+ 0041  B8 0000			        mov ax, 0
+				    .ELSEIF sig == SIGBREAK
+ 0044  EB 13		   *	    jmp    @C0009
+ 0046			   *@C0007:
+ 0046  83 7E 04 15	   *	    cmp    sig, SIGBREAK
+ 004A  75 02		   *	    jne    @C000A
+				    .ELSEIF sig == SIGABRT
+ 004C  EB 0B		   *	    jmp    @C000C
+ 004E			   *@C000A:
+ 004E  83 7E 04 16	   *	    cmp    sig, SIGABRT
+ 0052  75 02		   *	    jne    @C000D
+				    .ELSE
+ 0054  EB 03		   *	    jmp    @C000F
+ 0056			   *@C000D:
+ 0056  B8 FFFF				mov ax, -1
+				    .ENDIF
+ 0059			   *@C000F:
+ 0059			   *@C000C:
+ 0059			   *@C0009:
+ 0059			   *@C0006:
+ 0059			   *@C0005:
+				    ret
+ 0059  5D		   *	    pop    bp
+ 005A  C3		   *	    ret    00000h
+ 005B				signal ENDP
+
+
+ 005B				raise PROC C sig:PTR BYTE
+ 005B  55		   *	    push   bp
+ 005C  8B EC		   *	    mov    bp, sp
+				    .IF sig == SIGINT
+ 005E  83 7E 04 02	   *	    cmp    sig, SIGINT
+ 0062  75 2C		   *	    jne    @C0010
+				    	.IF SIGCHECK == false
+ 0064  80 3E 0001 R 00	   *	    cmp    SIGCHECK, false
+ 0069  75 20		   *	    jne    @C0012
+ 006B  A1 0000 R			    mov ax, WORD PTR catch_func
+ 006E  FF D0				    call ax
+ 0070  C6 06 0001 R 01			    mov SIGCHECK, true
+					    clearBuff catch_func
+ 0075  57		     1	    push di
+ 0076  51		     1	    push cx
+ 0077  50		     1	    push ax
+ 0078  FC		     1	    cld
+ 0079  BF 0000 R	     1	    mov di, offset catch_func
+ 007C  B9 0001		     1	    mov cx, sizeof catch_func						; Repeat for the length of the buffer
+ 007F  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 0081  F3/ AA		     1	    rep stosb
+ 0083  5F		     1	    pop di
+ 0084  59		     1	    pop cx
+ 0085  58		     1	    pop ax
+ 0086  B8 0000				    mov ax, 0
+					.ELSE
+ 0089  EB 36		   *	    jmp    @C0014
+ 008B			   *@C0012:
+ 008B  B8 FFFF				    mov ax, -1
+					.ENDIF
+				    .ELSEIF sig == SIGTERM
+ 008E  EB 31		   *	    jmp    @C0015
+ 0090			   *@C0010:
+ 0090  83 7E 04 0F	   *	    cmp    sig, SIGTERM
+ 0094  75 1B		   *	    jne    @C0016
+				        clearBuff catch_func
+ 0096  57		     1	    push di
+ 0097  51		     1	    push cx
+ 0098  50		     1	    push ax
+ 0099  FC		     1	    cld
+ 009A  BF 0000 R	     1	    mov di, offset catch_func
+ 009D  B9 0001		     1	    mov cx, sizeof catch_func						; Repeat for the length of the buffer
+ 00A0  B0 00		     1	    mov al, 0							; Clear with null (0)
+ 00A2  F3/ AA		     1	    rep stosb
+ 00A4  5F		     1	    pop di
+ 00A5  59		     1	    pop cx
+ 00A6  58		     1	    pop ax
+ 00A7  C6 06 0001 R 01			mov SIGCHECK, true
+ 00AC  B8 0000			        mov ax, 0
+				    .ELSEIF sig == SIGBREAK
+ 00AF  EB 10		   *	    jmp    @C0018
+ 00B1			   *@C0016:
+ 00B1  83 7E 04 15	   *	    cmp    sig, SIGBREAK
+ 00B5  75 02		   *	    jne    @C0019
+				    .ELSEIF sig == SIGABRT
+ 00B7  EB 08		   *	    jmp    @C001B
+ 00B9			   *@C0019:
+ 00B9  83 7E 04 16	   *	    cmp    sig, SIGABRT
+ 00BD  75 02		   *	    jne    @C001C
+				    .ELSE
+ 00BF  EB 00		   *	    jmp    @C001E
+ 00C1			   *@C001C:
+				    .ENDIF
+ 00C1			   *@C001E:
+ 00C1			   *@C001B:
+ 00C1			   *@C0018:
+ 00C1			   *@C0015:
+ 00C1			   *@C0014:
+				    ret
+ 00C1  5D		   *	    pop    bp
+ 00C2  C3		   *	    ret    00000h
+ 00C3				raise ENDP
+
+				END
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\signal.asm					     Symbols 2 - 1
+
+
+
+
+Macros:
+
+                N a m e                 Type
+
+clearBuff  . . . . . . . . . . .	Proc
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 00C3	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0002	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+raise  . . . . . . . . . . . . .	P Near	 005B	  _TEXT	Length= 0068 Public C
+  sig  . . . . . . . . . . . . .	Word	 bp + 0004
+signal . . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 005B Public C
+  sig  . . . . . . . . . . . . .	Word	 bp + 0004
+  func . . . . . . . . . . . . .	Word	 bp + 0006
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+NSIG . . . . . . . . . . . . . .	Number	 0017h	 
+SIGABRT  . . . . . . . . . . . .	Number	 0016h	 
+SIGBREAK . . . . . . . . . . . .	Number	 0015h	 
+SIGCHECK . . . . . . . . . . . .	Byte	 0001	  _DATA	
+SIGFPE . . . . . . . . . . . . .	Number	 0008h	 
+SIGILL . . . . . . . . . . . . .	Number	 0004h	 
+SIGINT . . . . . . . . . . . . .	Number	 0002h	 
+SIGSEGV  . . . . . . . . . . . .	Number	 000Bh	 
+SIGTERM  . . . . . . . . . . . .	Number	 000Fh	 
+_SIGNAL_ . . . . . . . . . . . .	Text   	 1
+_STDBOOL_  . . . . . . . . . . .	Text   	 1
+catch_func . . . . . . . . . . .	Byte	 0000	  _DATA	
+false  . . . . . . . . . . . . .	Number	 0000h	 
+true . . . . . . . . . . . . . .	Number	 0001h	 
+
+	   0 Warnings
+	   0 Errors

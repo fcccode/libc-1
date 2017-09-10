@@ -1,10 +1,7 @@
 // stdio.h
 #ifndef __CONIO__
 #define __CONIO__
-typedef signed char int8_t;
-typedef unsigned char   uint8_t;
-typedef short  int16_t;
-typedef unsigned short  uint16_t;
+
 // Defines screen colors
 #define BLACK		 0
 #define BLUE		 1
@@ -38,7 +35,7 @@ extern "C" {
 /* Low level console I/O functions */
 
 int cputs(const char*);	  			// Returns a string to the screen
-int cprintf(const char*, ...); 			// Prints formatted output to the screen
+ int cprintf(const char*, ...); 		// Prints formatted output to the screen
 int cscanf(const char*, ...);			// Reads input from the console and reformats it
 int getch(void);				// Get keyboard keypress
 int getche(void);				// Get keyboard keypress and echo
@@ -56,13 +53,10 @@ void highvideo(void);				// Set to high intensity bits for text
 void lowvideo(void);				// Set to low intensity bits for text
 void insline(void);				// Insert a blank line at the current cursor pos
 void delay(int);				// Pause for a time
-
-/* misc done    */
-void cursoron(void);
-void cursoroff(void);
-void drawline(int x, int y, int len);
-void newline(void);
-void setcursortype(int type);
+void cursoron(void);				// Turn on the cursor
+void cursoroff(void);				// Turn off the cursor
+void newline(void);				// Write a new line
+void setcursortype(int);			// Set the cursor type
 
 #ifdef __cplusplus
 }

@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="libc\debug\__conio.c" />
+    <ClCompile Include="libc\debug\__ctype.c" />
+    <ClCompile Include="libc\debug\__fat.c" />
+    <ClCompile Include="libc\debug\__kernel.c" />
+    <ClCompile Include="libc\debug\__locale.c" />
+    <ClCompile Include="libc\debug\__signal.c" />
+    <ClCompile Include="libc\debug\__stddef.c" />
+    <ClCompile Include="libc\debug\__stdio.c" />
+    <ClCompile Include="libc\debug\__string.c" />
+    <ClCompile Include="libc\debug\__time.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="libc\source\assert.asm" />
+    <MASM Include="libc\source\bios.asm" />
+    <MASM Include="libc\source\conio.asm" />
+    <MASM Include="libc\source\ctype.asm" />
+    <MASM Include="libc\source\fat.asm" />
+    <MASM Include="libc\source\locale.asm" />
+    <MASM Include="libc\source\signal.asm" />
+    <MASM Include="libc\source\stdio.asm" />
+    <MASM Include="libc\source\string.asm" />
+    <MASM Include="libc\source\times.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="libc\include\assert.h" />
+    <ClInclude Include="libc\include\conio.h" />
+    <ClInclude Include="libc\include\ctype.h" />
+    <ClInclude Include="libc\include\errno.h" />
+    <ClInclude Include="libc\include\fat.h" />
+    <ClInclude Include="libc\include\limits.h" />
+    <ClInclude Include="libc\include\locale.h" />
+    <ClInclude Include="libc\include\signal.h" />
+    <ClInclude Include="libc\include\stdbool.h" />
+    <ClInclude Include="libc\include\stddef.h" />
+    <ClInclude Include="libc\include\stdint.h" />
+    <ClInclude Include="libc\include\stdio.h" />
+    <ClInclude Include="libc\include\string.h" />
+    <ClInclude Include="libc\include\time.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libc\include\inc\assert.inc" />
+    <None Include="libc\include\inc\conio.inc" />
+    <None Include="libc\include\inc\ctype.inc" />
+    <None Include="libc\include\inc\fat.inc" />
+    <None Include="libc\include\inc\locale.inc" />
+    <None Include="libc\include\inc\signal.inc" />
+    <None Include="libc\include\inc\stdbool.inc" />
+    <None Include="libc\include\inc\stdio.inc" />
+    <None Include="libc\include\inc\string.inc" />
+    <None Include="libc\include\inc\time.inc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{BE830F7A-EA49-4933-AC9C-6673828C4C18}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <ProjectName>libsrc</ProjectName>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseOfMfc />
+    <ConfigurationType>Makefile</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <NMakeBuildCommandLine>cd libc 
+build.bat</NMakeBuildCommandLine>
+    <ExecutablePath>
+    </ExecutablePath>
+    <IncludePath>libc\include; libc\include\inc;</IncludePath>
+    <LibraryPath>libc\include; libc\include\inc;</LibraryPath>
+    <ReferencePath />
+    <LibraryWPath />
+    <SourcePath />
+    <ExcludePath />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <OutDir>.</OutDir>
+    <IntDir>.</IntDir>
+    <NMakeBuildCommandLine>build_libc.bat</NMakeBuildCommandLine>
+    <IncludePath>.\..\libsrc\include;</IncludePath>
+    <LibraryPath>.\..\libsrc\include;</LibraryPath>
+    <ExecutablePath>.\..\..\Tools\VC152\;</ExecutablePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <BuildLog>
+      <Path>
+      </Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <BuildLog>
+      <Path>$(SolutionDir)build\bin\\libc.log</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties BuildVersion_StartDate="2000/1/1" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

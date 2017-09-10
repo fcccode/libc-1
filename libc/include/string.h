@@ -25,7 +25,7 @@ void *memset(void*, int, size_t);				// Copies the character c to the first n ch
 char *strcat(char*, const char*);				// Append string src to the string dest
 char *strncat(char*, const char*, size_t);			// Append n chracters from string src to the string dest
 char *strchr(const char*, int);					// Finds first occurance of a char
-int strcmp(const char*, const char*);				// Compaire two strings
+int strcmp(const char* , const char*);				// Compaire two strings
 int strncmp(const char*, const char*, size_t);			// Compaire up to n chars in two strings
 int strcoll(const char *, const char*);				// Compaire two strings [!] DOES NOT USE LC_COLLATE [!]
 char *strcpy(char*, const char*);				// Coppies string to dest

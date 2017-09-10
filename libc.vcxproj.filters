@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>asm;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;</Extensions>
+    </Filter>
+    <Filter Include="Test Files">
+      <UniqueIdentifier>{916c50b2-4a4a-424d-b39d-6ab28f1f9c8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include Files">
+      <UniqueIdentifier>{98c2a651-3bd7-4472-b06b-39143b4ca1b7}</UniqueIdentifier>
+      <Extensions>inc;</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="libc\debug\__stddef.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libc\debug\__stdio.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libc\debug\__string.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libc\debug\__time.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libc\debug\__conio.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libc\debug\__ctype.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libc\debug\__fat.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libc\debug\__kernel.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libc\debug\__locale.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libc\debug\__signal.c">
+      <Filter>Test Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="libc\source\ctype.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="libc\source\fat.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="libc\source\locale.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="libc\source\signal.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="libc\source\stdio.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="libc\source\string.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="libc\source\times.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="libc\source\assert.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="libc\source\bios.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="libc\source\conio.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="libc\include\ctype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\errno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\fat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\limits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\locale.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\signal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\stdbool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\stddef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\stdint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\stdio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\assert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libc\include\conio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libc\include\inc\stdbool.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="libc\include\inc\stdio.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="libc\include\inc\string.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="libc\include\inc\time.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="libc\include\inc\assert.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="libc\include\inc\conio.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="libc\include\inc\ctype.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="libc\include\inc\fat.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="libc\include\inc\locale.inc">
+      <Filter>Include Files</Filter>
+    </None>
+    <None Include="libc\include\inc\signal.inc">
+      <Filter>Include Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

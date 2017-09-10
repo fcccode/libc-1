@@ -1,0 +1,8 @@
+_setpage..........bios              __acrtused........bios
+__assert..........assert            
+
+assert            Offset: 00000010H  Code and data size: 1d9H
+  __assert        
+
+bios              Offset: 000003a0H  Code and data size: dbH
+  _setpage          __acrtused      

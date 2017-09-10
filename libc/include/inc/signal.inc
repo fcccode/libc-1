@@ -1,0 +1,23 @@
+.NOLIST
+IFNDEF _SIGNAL_
+_SIGNAL_ EQU <1>
+
+SIGINT EQU 2
+SIGILL EQU 4
+SIGFPE EQU 8
+SIGSEGV EQU 11
+SIGTERM EQU 15
+SIGBREAK EQU 21
+SIGABRT EQU 22
+NSIG EQU 23
+
+signal PROTO C :PTR BYTE, :WORD
+raise PROTO C :PTR BYTE
+
+.data
+ catch_func db ?						; Buffer for returning data
+ SIGCHECK db 1
+ .code
+
+ENDIF
+.LIST

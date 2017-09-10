@@ -1,0 +1,232 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\times.asm					     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				.model tiny, c							; Small memoy model
+				.386								; 80386 CPU
+				 include time.inc					; Include library headers
+			      C .NOLIST
+			      C IFNDEF _TIME_
+ = 1			      C _TIME_ EQU <1>
+			      C 
+ 0000			      C .data
+ 0012			      C tm struct
+ 0000  0000		      C     tm_sec dw ?
+ 0002  0000		      C     tm_min dw ?
+ 0004  0000		      C     tm_hour dw ?
+ 0006  0000		      C     tm_mday dw ?
+ 0008  0000		      C     tm_mon dw ?
+ 000A  0000		      C     tm_year dw ?
+ 000C  0000		      C     tm_wday dw ?
+ 000E  0000		      C     tm_yday dw ?
+ 0010  0000		      C     tm_isdst dw ?
+			      C tm ENDS
+ 0000			      C .code
+			      C 
+			      C bcd PROTO :BYTE
+			      C localtime PROTO
+ 0000 0000 0000 0000 0000     C _tmbuf tm <>
+       0000 0000 0000
+       0000 0000
+			      C 
+			      C ENDIF
+			      C .LIST
+			      C 
+ 0012				.code								; Start of code segment
+				; ------------------------------------------------------------------
+
+
+
+				; ------------------------------------------------------------------
+				; Converts binary coded decimal number to an integer
+
+ 0012				bcd PROC uses bx cx num:BYTE
+ 0012  55		   *	    push   bp
+ 0013  8B EC		   *	    mov    bp, sp
+ 0015  53		   *	    push   bx
+ 0016  51		   *	    push   cx
+ 0017  8A 66 04				mov ah, num
+ 001A  8A D8				mov bl, al			; Store entire number for now
+ 001C  83 E0 0F				and ax, 0Fh			; Zero-out high bits
+ 001F  8B C8				mov cx, ax			; CH/CL = lower BCD number, zero extended
+ 0021  C0 EB 04				shr bl, 4			; Move higher BCD number into lower bits, zero fill msb
+ 0024  B0 0A				mov al, 10
+ 0026  F6 E3				mul bl				; AX = 10 * BL
+ 0028  03 C1				add ax, cx			; Add lower BCD to 10*higher
+					ret
+ 002A  59		   *	    pop    cx
+ 002B  5B		   *	    pop    bx
+ 002C  5D		   *	    pop    bp
+ 002D  C3		   *	    ret    00000h
+ 002E				bcd ENDP
+				; ------------------------------------------------------------------
+				; char *asctime(const struct tm *timeptr)
+				; ------------------------------------------------------------------
+
+ 002E				asctime PROC timeptr:tm
+
+ 002E  55		   *	    push   bp
+ 002F  8B EC		   *	    mov    bp, sp
+				    ret
+ 0031  5D		   *	    pop    bp
+ 0032  C3		   *	    ret    00000h
+ 0033				asctime ENDP
+
+				; ------------------------------------------------------------------
+				; char *localtime(const struct tm *timeptr)
+				; ------------------------------------------------------------------
+				; returns a pointer to a the localtime struct with current
+				; time and date values
+
+ 0033				localtime PROC uses bx cx dx
+				LOCAL hour :BYTE
+				LOCAL min :BYTE
+				LOCAL sec :BYTE
+				LOCAL isdst :BYTE
+				LOCAL year :BYTE
+				LOCAL mon :BYTE
+				LOCAL mday :BYTE
+
+ 0033  55		   *	    push   bp
+ 0034  8B EC		   *	    mov    bp, sp
+ 0036  83 C4 F8		   *	    add    sp, 0FFF8h
+ 0039  53		   *	    push   bx
+ 003A  51		   *	    push   cx
+ 003B  52		   *	    push   dx
+ 003C  B4 02			    mov ah, 02h
+ 003E  CD 1A			    int	    1ah
+
+ 0040  B4 04			    mov ah, 04h
+ 0042  CD 1A			    int	    1ah
+
+ 0044  88 6E FF			    mov hour, ch
+ 0047  88 4E FE			    mov min, cl
+ 004A  88 76 FD			    mov sec, dh
+ 004D  88 56 FC			    mov isdst, dl
+ 0050  88 4E FB			    mov year, cl
+ 0053  88 76 FA			    mov mon, dh
+ 0056  88 56 F9			    mov mday, dl
+
+				    invoke bcd, hour
+ 0059  8A 46 FF		   *	    mov    al, byte  ptr ss:[bp]+0FFh
+ 005C  50		   *	    push   ax
+ 005D  E8 FFB2		   *	    call   bcd
+ 0060  83 C4 02		   *	    add    sp, 00002h
+ 0063  A3 0004 R		    mov _tmbuf.tm_hour, ax
+				    invoke bcd, min
+ 0066  8A 46 FE		   *	    mov    al, byte  ptr ss:[bp]+0FEh
+ 0069  50		   *	    push   ax
+ 006A  E8 FFA5		   *	    call   bcd
+ 006D  83 C4 02		   *	    add    sp, 00002h
+ 0070  A3 0002 R		    mov _tmbuf.tm_min, ax
+				    invoke bcd, sec
+ 0073  8A 46 FD		   *	    mov    al, byte  ptr ss:[bp]+0FDh
+ 0076  50		   *	    push   ax
+ 0077  E8 FF98		   *	    call   bcd
+ 007A  83 C4 02		   *	    add    sp, 00002h
+ 007D  A3 0000 R		    mov _tmbuf.tm_sec, ax
+				    invoke bcd, isdst
+ 0080  8A 46 FC		   *	    mov    al, byte  ptr ss:[bp]+0FCh
+ 0083  50		   *	    push   ax
+ 0084  E8 FF8B		   *	    call   bcd
+ 0087  83 C4 02		   *	    add    sp, 00002h
+ 008A  A3 0010 R		    mov _tmbuf.tm_isdst, ax
+				    invoke bcd, year
+ 008D  8A 46 FB		   *	    mov    al, byte  ptr ss:[bp]+0FBh
+ 0090  50		   *	    push   ax
+ 0091  E8 FF7E		   *	    call   bcd
+ 0094  83 C4 02		   *	    add    sp, 00002h
+ 0097  A3 000A R		    mov _tmbuf.tm_year, ax
+				    invoke bcd, mon
+ 009A  8A 46 FA		   *	    mov    al, byte  ptr ss:[bp]+0FAh
+ 009D  50		   *	    push   ax
+ 009E  E8 FF71		   *	    call   bcd
+ 00A1  83 C4 02		   *	    add    sp, 00002h
+ 00A4  A3 0008 R		    mov _tmbuf.tm_mon, ax
+				    invoke bcd, mday
+ 00A7  8A 46 F9		   *	    mov    al, byte  ptr ss:[bp]+0F9h
+ 00AA  50		   *	    push   ax
+ 00AB  E8 FF64		   *	    call   bcd
+ 00AE  83 C4 02		   *	    add    sp, 00002h
+ 00B1  A3 0006 R		    mov _tmbuf.tm_mday, ax
+
+ 00B4  8D 06 0000 R		    lea ax, _tmbuf
+				    ret
+ 00B8  5A		   *	    pop    dx
+ 00B9  59		   *	    pop    cx
+ 00BA  5B		   *	    pop    bx
+ 00BB  8B E5		   *	    mov    sp, bp
+ 00BD  5D		   *	    pop    bp
+ 00BE  C3		   *	    ret    00000h
+ 00BF				localtime ENDP
+
+				end
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\times.asm					     Symbols 2 - 1
+
+
+
+
+Structures and Unions:
+
+                N a m e                  Size
+                                         Offset      Type
+
+tm . . . . . . . . . . . . . . .	 0012
+  tm_sec . . . . . . . . . . . .	 0000	     Word
+  tm_min . . . . . . . . . . . .	 0002	     Word
+  tm_hour  . . . . . . . . . . .	 0004	     Word
+  tm_mday  . . . . . . . . . . .	 0006	     Word
+  tm_mon . . . . . . . . . . . .	 0008	     Word
+  tm_year  . . . . . . . . . . .	 000A	     Word
+  tm_wday  . . . . . . . . . . .	 000C	     Word
+  tm_yday  . . . . . . . . . . .	 000E	     Word
+  tm_isdst . . . . . . . . . . .	 0010	     Word
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 00BF	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0000	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+asctime  . . . . . . . . . . . .	P Near	 002E	  _TEXT	Length= 0005 Public C
+  timeptr  . . . . . . . . . . .	 0012	 bp + 0004
+bcd  . . . . . . . . . . . . . .	P Near	 0012	  _TEXT	Length= 001C Public C
+  num  . . . . . . . . . . . . .	Byte	 bp + 0004
+localtime  . . . . . . . . . . .	P Near	 0033	  _TEXT	Length= 008C Public C
+  hour . . . . . . . . . . . . .	Byte	 bp - 0001
+  min  . . . . . . . . . . . . .	Byte	 bp - 0002
+  sec  . . . . . . . . . . . . .	Byte	 bp - 0003
+  isdst  . . . . . . . . . . . .	Byte	 bp - 0004
+  year . . . . . . . . . . . . .	Byte	 bp - 0005
+  mon  . . . . . . . . . . . . .	Byte	 bp - 0006
+  mday . . . . . . . . . . . . .	Byte	 bp - 0007
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+_TIME_ . . . . . . . . . . . . .	Text   	 1
+_tmbuf . . . . . . . . . . . . .	tm	 0000	  _TEXT	
+
+	   0 Warnings
+	   0 Errors

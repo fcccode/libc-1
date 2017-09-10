@@ -1,9 +1,0 @@
-.NOLIST
-IFNDEF _STDBOOL_
-_STDBOOL_ EQU <1>
-
-true EQU 1
-false EQU 0
-
-ENDIF
-.LIST

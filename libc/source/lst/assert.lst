@@ -1,0 +1,135 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\assert.asm					     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				.model tiny, c							; Small memoy model
+				.386								; 80386 CPU
+				include stdio.inc						; Include library headers
+			      C .NOLIST
+			      C IFNDEF _STDIO_
+ = 1			      C _STDIO_ EQU <1>
+			      C 
+			      C getchar PROTO
+			      C gets    PROTO
+			      C printf  PROTO :WORD, :VARARG
+			      C putchar PROTO
+			      C puts    PROTO :WORD
+			      C scanf	PROTO
+			      C 
+ = 000B			      C FILENAME_MAX EQU 11
+ 0000			      C .data
+ 0000 30 31 32 33 34 35	      C hexstr   db '0123456789ABCDEF'
+       36 37 38 39 41 42
+       43 44 45 46
+ 0010 30 30 00		      C outstr16   db '00', 0
+ 0000			      C .code
+			      C ENDIF
+			      C .LIST
+			      C 
+ 0013				.data								; Data segment
+ 0013 20 20 20 20 5B 2D		 error_fmt db "    [-] Assertion failed: file %s, line %d", 10, 13, 0
+       5D 20 41 73 73 65
+       72 74 69 6F 6E 20
+       66 61 69 6C 65 64
+       3A 20 66 69 6C 65
+       20 25 73 2C 20 6C
+       69 6E 65 20 25 64
+       0A 0D 00
+ 0000				.code								; Start of code segment
+				; ------------------------------------------------------------------
+
+
+				; ------------------------------------------------------------------
+				; void _assert(const char *e ,const char *file, int line)
+				; ------------------------------------------------------------------
+				; This function returns an assertion error if vaid, calls
+				; to the _printf function within the library and uses
+				; a string fmt method for producing the error msg in the
+				; system console.
+
+ 0000				_assert PROC C func:WORD, file:WORD, line:PTR BYTE
+ 0000  55		   *	    push   bp
+ 0001  8B EC		   *	    mov    bp, sp
+ 0003  60			    pusha
+
+ 0004  B4 09			    mov	ah, 09h
+ 0006  B0 20			    mov	al, ' '
+ 0008  B3 0C			    mov	bl, 0ch						    ; Format text red
+ 000A  B9 0054			    mov	cx, 84
+ 000D  CD 10			    int	10h
+
+ 000F  BF 0013 R		    mov di, offset error_fmt				    ; Error string to format
+ 0012  8B 46 04			    mov ax,func					    ; Filename
+ 0015  8B 5E 06			    mov bx, file					    ; Line number
+ 0018  8B 4E 08			    mov cx, line					    ; Failed input
+
+ 001B  51			    push cx
+ 001C  53			    push bx
+ 001D  57			    push di
+ 001E  E8 0000 E		    call printf
+ 0021  59			    pop cx
+ 0022  5B			    pop bx
+ 0023  5F			    pop di
+
+ 0024  61			    popa
+ 0025  8B E5			    mov sp, bp						    ; Restore stack pointer
+ 0027  5D			    pop bp						    ; Restore BP register
+				    ret
+ 0028  5D		   *	    pop    bp
+ 0029  C3		   *	    ret    00000h
+ 002A				_assert ENDP
+
+				end
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\assert.asm					     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 002A	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0040	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+_assert  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 002A Public C
+  func . . . . . . . . . . . . .	Word	 bp + 0004
+  file . . . . . . . . . . . . .	Word	 bp + 0006
+  line . . . . . . . . . . . . .	Word	 bp + 0008
+getchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+gets . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+printf . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+putchar  . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+puts . . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+scanf  . . . . . . . . . . . . .	P Near	 0000	  Length= 0000 External C
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+FILENAME_MAX . . . . . . . . . .	Number	 000Bh	 
+_STDIO_  . . . . . . . . . . . .	Text   	 1
+error_fmt  . . . . . . . . . . .	Byte	 0013	  _DATA	
+hexstr . . . . . . . . . . . . .	Byte	 0000	  _DATA	
+outstr16 . . . . . . . . . . . .	Byte	 0010	  _DATA	
+
+	   0 Warnings
+	   0 Errors

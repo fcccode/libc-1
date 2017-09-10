@@ -1,0 +1,15 @@
+{
+  "commands": {
+    "afterBuild": {
+      "fileName": "cmd.exe",
+      "workingDirectory": "libc\\bin\\",
+      "arguments": "/c afterBuild.bat"
+    },
+    "beforeBuild": {
+      "fileName": "cmd.exe",
+      "workingDirectory": "libc\\bin\\",
+      "arguments": "/c beforeBuild.bat"
+    }
+  },
+  "-vs-binding":{"BeforeBuild":["beforeBuild"],"AfterBuild":["afterBuild"]}
+}

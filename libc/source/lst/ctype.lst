@@ -1,0 +1,680 @@
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\ctype.asm					     Page 1 - 1
+
+
+				; ------------------------------------------------------------------
+				.model tiny, c							; Small memoy model
+				.386								; 80386 CPU
+				 include ctype.inc
+			      C .NOLIST
+			      C IFNDEF _CTYPE_
+ = 1			      C _CTYPE_ EQU <1>
+			      C 
+			      C isalnum PROTO :PTR BYTE
+			      C isalpha PROTO :PTR BYTE
+			      C iscntrl PROTO :PTR BYTE
+			      C isdigit PROTO :PTR BYTE
+			      C isgraph PROTO :PTR BYTE
+			      C islower PROTO :PTR BYTE
+			      C isprint PROTO :PTR BYTE
+			      C ispunct PROTO :PTR BYTE
+			      C isspace PROTO :PTR BYTE
+			      C isupper PROTO :PTR BYTE
+			      C isxdigit PROTO :PTR BYTE
+			      C tolower PROTO :PTR BYTE
+			      C toupper PROTO :PTR BYTE
+			      C 
+			      C ENDIF
+			      C .LIST
+			      C 
+ 0000				.code								; Start of code segment
+				; ------------------------------------------------------------------
+
+
+				; ------------------------------------------------------------------
+				; int isalnum(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character
+				; is alphanumeric or not.
+
+ 0000				isalnum PROC var:PTR BYTE
+ 0000  55		   *	    push   bp
+ 0001  8B EC		   *	    mov    bp, sp
+ 0003  8B 46 04			    mov ax, var
+
+				    .IF ax >= 48 && ax <= 57 					; If input is a digit return 4
+ 0006  83 F8 30		   *	    cmp    ax, 030h
+ 0009  72 0A		   *	    jb     @C0001
+ 000B  83 F8 39		   *	    cmp    ax, 039h
+ 000E  77 05		   *	    ja     @C0001
+ 0010  B8 0004			   	mov ax, 4
+				    .ELSEIF ax >= 65 && ax <= 90				; If input is uppercase char return 1
+ 0013  EB 21		   *	    jmp    @C0004
+ 0015			   *@C0001:
+ 0015  83 F8 41		   *	    cmp    ax, 041h
+ 0018  72 0A		   *	    jb     @C0005
+ 001A  83 F8 5A		   *	    cmp    ax, 05Ah
+ 001D  77 05		   *	    ja     @C0005
+ 001F  B8 0001				mov ax, 1
+				    .ELSEIF ax >= 97 && ax <= 122				; If input is lowercase char return 2
+ 0022  EB 12		   *	    jmp    @C0008
+ 0024			   *@C0005:
+ 0024  83 F8 61		   *	    cmp    ax, 061h
+ 0027  72 0A		   *	    jb     @C0009
+ 0029  83 F8 7A		   *	    cmp    ax, 07Ah
+ 002C  77 05		   *	    ja     @C0009
+ 002E  B8 0002				mov ax, 2
+				    .ELSE
+ 0031  EB 03		   *	    jmp    @C000C
+ 0033			   *@C0009:
+ 0033  B8 0000				mov ax, 0						; Return 0 on non alphanumeric
+				    .ENDIF
+ 0036			   *@C000C:
+ 0036			   *@C0008:
+ 0036			   *@C0004:
+
+				    ret
+ 0036  5D		   *	    pop    bp
+ 0037  C3		   *	    ret    00000h
+ 0038				isalnum ENDP
+
+
+				; ------------------------------------------------------------------
+				; int isalpha(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character is alphabetic.
+
+ 0038				isalpha PROC var:PTR BYTE
+ 0038  55		   *	    push   bp
+ 0039  8B EC		   *	    mov    bp, sp
+ 003B  8B 46 04			    mov ax, var
+
+				    .IF ax >= 65 && ax <= 90					; If input is uppercase char return 1
+ 003E  83 F8 41		   *	    cmp    ax, 041h
+ 0041  72 0A		   *	    jb     @C000D
+ 0043  83 F8 5A		   *	    cmp    ax, 05Ah
+ 0046  77 05		   *	    ja     @C000D
+ 0048  B8 0001			    	mov ax, 1
+				    .ELSEIF ax >= 97 && ax <= 122				; If input is lowercase char return 2
+ 004B  EB 12		   *	    jmp    @C0010
+ 004D			   *@C000D:
+ 004D  83 F8 61		   *	    cmp    ax, 061h
+ 0050  72 0A		   *	    jb     @C0011
+ 0052  83 F8 7A		   *	    cmp    ax, 07Ah
+ 0055  77 05		   *	    ja     @C0011
+ 0057  B8 0002			    	mov ax, 2
+				    .ELSE
+ 005A  EB 03		   *	    jmp    @C0014
+ 005C			   *@C0011:
+ 005C  B8 0000			    	mov ax, 0						; Return 0 on non alphanumeric
+				    .ENDIF
+ 005F			   *@C0014:
+ 005F			   *@C0010:
+
+				    ret
+ 005F  5D		   *	    pop    bp
+ 0060  C3		   *	    ret    00000h
+ 0061				isalpha ENDP
+
+
+				; ------------------------------------------------------------------
+				; int iscntrl(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character is control character.
+
+ 0061				iscntrl PROC var:PTR BYTE
+ 0061  55		   *	    push   bp
+ 0062  8B EC		   *	    mov    bp, sp
+ 0064  8B 46 04			    mov ax, var
+
+				    .IF ax >= 0 && ax <= 31					; If input is control character return 32
+ 0067  83 F8 00		   *	    cmp    ax, 000h
+ 006A  72 0A		   *	    jb     @C0015
+ 006C  83 F8 1F		   *	    cmp    ax, 01Fh
+ 006F  77 05		   *	    ja     @C0015
+ 0071  B8 0020				mov ax, 32
+				    .ELSEIF ax == 127						; If input is control character return 32
+ 0074  EB 17		   *	    jmp    @C0018
+ 0076			   *@C0015:
+ 0076  83 F8 7F		   *	    cmp    ax, 07Fh
+ 0079  75 05		   *	    jne    @C0019
+ 007B  B8 0020				mov ax, 32
+				    .ELSEIF ax == 256						; If input is control character return 32
+ 007E  EB 0D		   *	    jmp    @C001B
+ 0080			   *@C0019:
+ 0080  3D 0100		   *	    cmp    ax, 00100h
+ 0083  75 05		   *	    jne    @C001C
+ 0085  B8 0020				mov ax, 32
+				    .ELSE
+ 0088  EB 03		   *	    jmp    @C001E
+ 008A			   *@C001C:
+ 008A  B8 0000				mov ax, 0						; Return 0 on non control character
+				    .ENDIF
+ 008D			   *@C001E:
+ 008D			   *@C001B:
+ 008D			   *@C0018:
+
+				    ret
+ 008D  5D		   *	    pop    bp
+ 008E  C3		   *	    ret    00000h
+ 008F				iscntrl ENDP
+
+
+				; ------------------------------------------------------------------
+				; int isdigit(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character is decimal digit.
+
+ 008F				isdigit PROC var:PTR BYTE
+ 008F  55		   *	    push   bp
+ 0090  8B EC		   *	    mov    bp, sp
+ 0092  8B 46 04			    mov ax, var
+
+				    .IF ax >= 48 && ax <= 57					; If input is a digits 1
+ 0095  83 F8 30		   *	    cmp    ax, 030h
+ 0098  72 0A		   *	    jb     @C001F
+ 009A  83 F8 39		   *	    cmp    ax, 039h
+ 009D  77 05		   *	    ja     @C001F
+ 009F  B8 0001				mov ax, 1
+				    .ELSE
+ 00A2  EB 03		   *	    jmp    @C0022
+ 00A4			   *@C001F:
+ 00A4  B8 0000				mov ax, 0						; Return 0 on non control character
+				    .ENDIF
+ 00A7			   *@C0022:
+
+				    ret
+ 00A7  5D		   *	    pop    bp
+ 00A8  C3		   *	    ret    00000h
+ 00A9				isdigit ENDP
+
+
+				; ------------------------------------------------------------------
+				; int isgraph(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character has a graphical represatation
+
+ 00A9				isgraph PROC var:PTR BYTE
+ 00A9  55		   *	    push   bp
+ 00AA  8B EC		   *	    mov    bp, sp
+ 00AC  8B 46 04			    mov ax, var
+
+				    .IF ax >= 33 && ax <= 47
+ 00AF  83 F8 21		   *	    cmp    ax, 021h
+ 00B2  72 0A		   *	    jb     @C0023
+ 00B4  83 F8 2F		   *	    cmp    ax, 02Fh
+ 00B7  77 05		   *	    ja     @C0023
+ 00B9  B8 0010				mov ax, 16
+				    .ELSEIF ax >= 48 && ax <= 57
+ 00BC  EB 5D		   *	    jmp    @C0026
+ 00BE			   *@C0023:
+ 00BE  83 F8 30		   *	    cmp    ax, 030h
+ 00C1  72 0A		   *	    jb     @C0027
+ 00C3  83 F8 39		   *	    cmp    ax, 039h
+ 00C6  77 05		   *	    ja     @C0027
+ 00C8  B8 0004			    	mov ax, 4
+				    .ELSEIF ax >= 58 && ax <= 64
+ 00CB  EB 4E		   *	    jmp    @C002A
+ 00CD			   *@C0027:
+ 00CD  83 F8 3A		   *	    cmp    ax, 03Ah
+ 00D0  72 0A		   *	    jb     @C002B
+ 00D2  83 F8 40		   *	    cmp    ax, 040h
+ 00D5  77 05		   *	    ja     @C002B
+ 00D7  B8 0010				mov ax, 16
+				    .ELSEIF ax >= 65 && ax <= 90
+ 00DA  EB 3F		   *	    jmp    @C002E
+ 00DC			   *@C002B:
+ 00DC  83 F8 41		   *	    cmp    ax, 041h
+ 00DF  72 0A		   *	    jb     @C002F
+ 00E1  83 F8 5A		   *	    cmp    ax, 05Ah
+ 00E4  77 05		   *	    ja     @C002F
+ 00E6  B8 0001				mov ax, 1
+				    .ELSEIF ax >= 91 && ax <= 96
+ 00E9  EB 30		   *	    jmp    @C0032
+ 00EB			   *@C002F:
+ 00EB  83 F8 5B		   *	    cmp    ax, 05Bh
+ 00EE  72 0A		   *	    jb     @C0033
+ 00F0  83 F8 60		   *	    cmp    ax, 060h
+ 00F3  77 05		   *	    ja     @C0033
+ 00F5  B8 0010				mov ax, 16
+				    .ELSEIF ax >= 97 && ax <= 122
+ 00F8  EB 21		   *	    jmp    @C0036
+ 00FA			   *@C0033:
+ 00FA  83 F8 61		   *	    cmp    ax, 061h
+ 00FD  72 0A		   *	    jb     @C0037
+ 00FF  83 F8 7A		   *	    cmp    ax, 07Ah
+ 0102  77 05		   *	    ja     @C0037
+ 0104  B8 0002				mov ax, 2
+				    .ELSEIF ax >= 123 && ax <= 126
+ 0107  EB 12		   *	    jmp    @C003A
+ 0109			   *@C0037:
+ 0109  83 F8 7B		   *	    cmp    ax, 07Bh
+ 010C  72 0A		   *	    jb     @C003B
+ 010E  83 F8 7E		   *	    cmp    ax, 07Eh
+ 0111  77 05		   *	    ja     @C003B
+ 0113  B8 0010				mov ax, 16
+				    .ELSE
+ 0116  EB 03		   *	    jmp    @C003E
+ 0118			   *@C003B:
+ 0118  B8 0000				mov ax, 0
+				    .ENDIF
+ 011B			   *@C003E:
+ 011B			   *@C003A:
+ 011B			   *@C0036:
+ 011B			   *@C0032:
+ 011B			   *@C002E:
+ 011B			   *@C002A:
+ 011B			   *@C0026:
+
+				    ret
+ 011B  5D		   *	    pop    bp
+ 011C  C3		   *	    ret    00000h
+ 011D				isgraph ENDP
+
+
+				; ------------------------------------------------------------------
+				; int islower(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character is
+				; a lowercase letter.
+
+ 011D				islower PROC var:PTR BYTE
+ 011D  55		   *	    push   bp
+ 011E  8B EC		   *	    mov    bp, sp
+ 0120  8B 46 04			    mov ax, var
+
+				    .IF ax >= 97 && ax <= 122					; If input is lowercase char return 2
+ 0123  83 F8 61		   *	    cmp    ax, 061h
+ 0126  72 0A		   *	    jb     @C003F
+ 0128  83 F8 7A		   *	    cmp    ax, 07Ah
+ 012B  77 05		   *	    ja     @C003F
+ 012D  B8 0002				mov ax, 2
+				    .ELSE
+ 0130  EB 03		   *	    jmp    @C0042
+ 0132			   *@C003F:
+ 0132  B8 0000				mov ax, 0						; Return 0 on non lowercase
+				    .ENDIF
+ 0135			   *@C0042:
+
+				    ret
+ 0135  5D		   *	    pop    bp
+ 0136  C3		   *	    ret    00000h
+ 0137				islower ENDP
+
+
+				; ------------------------------------------------------------------
+				; int isprint(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character
+				; is a printable char
+
+ 0137				isprint PROC var:PTR BYTE
+ 0137  55		   *	    push   bp
+ 0138  8B EC		   *	    mov    bp, sp
+ 013A  8B 46 04			    mov ax, var
+
+				    .IF ax == 32						; If input is a special char return 32
+ 013D  83 F8 20		   *	    cmp    ax, 020h
+ 0140  75 05		   *	    jne    @C0043
+ 0142  B8 0040				mov ax, 64
+				    .ELSEIF ax >= 33 && ax <= 47				; If input is a special char return 16
+ 0145  EB 6C		   *	    jmp    @C0045
+ 0147			   *@C0043:
+ 0147  83 F8 21		   *	    cmp    ax, 021h
+ 014A  72 0A		   *	    jb     @C0046
+ 014C  83 F8 2F		   *	    cmp    ax, 02Fh
+ 014F  77 05		   *	    ja     @C0046
+ 0151  B8 0010				mov ax, 16
+				    .ELSEIF ax >= 48 && ax <= 57 				; If input is a digit return 4
+ 0154  EB 5D		   *	    jmp    @C0049
+ 0156			   *@C0046:
+ 0156  83 F8 30		   *	    cmp    ax, 030h
+ 0159  72 0A		   *	    jb     @C004A
+ 015B  83 F8 39		   *	    cmp    ax, 039h
+ 015E  77 05		   *	    ja     @C004A
+ 0160  B8 0004				mov ax, 4
+				    .ELSEIF ax >= 58 && ax <= 64				; If input is a special char return 16
+ 0163  EB 4E		   *	    jmp    @C004D
+ 0165			   *@C004A:
+ 0165  83 F8 3A		   *	    cmp    ax, 03Ah
+ 0168  72 0A		   *	    jb     @C004E
+ 016A  83 F8 40		   *	    cmp    ax, 040h
+ 016D  77 05		   *	    ja     @C004E
+ 016F  B8 0010				mov ax, 16
+				    .ELSEIF ax >= 65 && ax <= 90				; If input is lowercase char return 1
+ 0172  EB 3F		   *	    jmp    @C0051
+ 0174			   *@C004E:
+ 0174  83 F8 41		   *	    cmp    ax, 041h
+ 0177  72 0A		   *	    jb     @C0052
+ 0179  83 F8 5A		   *	    cmp    ax, 05Ah
+ 017C  77 05		   *	    ja     @C0052
+ 017E  B8 0001				mov ax, 1
+				    .ELSEIF ax >= 91 && ax <= 96				; If input is a special char return 16
+ 0181  EB 30		   *	    jmp    @C0055
+ 0183			   *@C0052:
+ 0183  83 F8 5B		   *	    cmp    ax, 05Bh
+ 0186  72 0A		   *	    jb     @C0056
+ 0188  83 F8 60		   *	    cmp    ax, 060h
+ 018B  77 05		   *	    ja     @C0056
+ 018D  B8 0010				mov ax, 16
+				    .ELSEIF ax >= 97 && ax <= 122				; If input is uppercase char return 2
+ 0190  EB 21		   *	    jmp    @C0059
+ 0192			   *@C0056:
+ 0192  83 F8 61		   *	    cmp    ax, 061h
+ 0195  72 0A		   *	    jb     @C005A
+ 0197  83 F8 7A		   *	    cmp    ax, 07Ah
+ 019A  77 05		   *	    ja     @C005A
+ 019C  B8 0002				mov ax, 2
+				    .ELSEIF ax >= 123 && ax <= 126				; If input is a special char return 16
+ 019F  EB 12		   *	    jmp    @C005D
+ 01A1			   *@C005A:
+ 01A1  83 F8 7B		   *	    cmp    ax, 07Bh
+ 01A4  72 0A		   *	    jb     @C005E
+ 01A6  83 F8 7E		   *	    cmp    ax, 07Eh
+ 01A9  77 05		   *	    ja     @C005E
+ 01AB  B8 0010				mov ax, 16
+				    .ELSE
+ 01AE  EB 03		   *	    jmp    @C0061
+ 01B0			   *@C005E:
+ 01B0  B8 0000				mov ax, 0						; Return 0 on non printable char
+				    .ENDIF
+ 01B3			   *@C0061:
+ 01B3			   *@C005D:
+ 01B3			   *@C0059:
+ 01B3			   *@C0055:
+ 01B3			   *@C0051:
+ 01B3			   *@C004D:
+ 01B3			   *@C0049:
+ 01B3			   *@C0045:
+
+				    ret
+ 01B3  5D		   *	    pop    bp
+ 01B4  C3		   *	    ret    00000h
+ 01B5				isprint ENDP
+
+
+				; ------------------------------------------------------------------
+				; int ispunct(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character
+				; is a punctuation character.
+
+ 01B5				ispunct PROC var:PTR BYTE
+ 01B5  55		   *	    push   bp
+ 01B6  8B EC		   *	    mov    bp, sp
+ 01B8  8B 46 04			    mov ax, var
+
+				    .IF ax >= 33 && ax <= 47					; If input is punctuation return 16
+ 01BB  83 F8 21		   *	    cmp    ax, 021h
+ 01BE  72 0A		   *	    jb     @C0062
+ 01C0  83 F8 2F		   *	    cmp    ax, 02Fh
+ 01C3  77 05		   *	    ja     @C0062
+ 01C5  B8 0010				mov ax, 16
+				    .ELSEIF ax >= 58 && ax <= 64				; If input is punctuation return 16
+ 01C8  EB 30		   *	    jmp    @C0065
+ 01CA			   *@C0062:
+ 01CA  83 F8 3A		   *	    cmp    ax, 03Ah
+ 01CD  72 0A		   *	    jb     @C0066
+ 01CF  83 F8 40		   *	    cmp    ax, 040h
+ 01D2  77 05		   *	    ja     @C0066
+ 01D4  B8 0010				mov ax, 16
+				    .ELSEIF ax >= 91 && ax <= 96				; If input is punctuation return 16
+ 01D7  EB 21		   *	    jmp    @C0069
+ 01D9			   *@C0066:
+ 01D9  83 F8 5B		   *	    cmp    ax, 05Bh
+ 01DC  72 0A		   *	    jb     @C006A
+ 01DE  83 F8 60		   *	    cmp    ax, 060h
+ 01E1  77 05		   *	    ja     @C006A
+ 01E3  B8 0010				mov ax, 16
+				    .ELSEIF ax >= 123 && ax <= 126				; If input is punctuation return 16
+ 01E6  EB 12		   *	    jmp    @C006D
+ 01E8			   *@C006A:
+ 01E8  83 F8 7B		   *	    cmp    ax, 07Bh
+ 01EB  72 0A		   *	    jb     @C006E
+ 01ED  83 F8 7E		   *	    cmp    ax, 07Eh
+ 01F0  77 05		   *	    ja     @C006E
+ 01F2  B8 0010				mov ax, 16
+				    .ELSE
+ 01F5  EB 03		   *	    jmp    @C0071
+ 01F7			   *@C006E:
+ 01F7  B8 0000				mov ax, 0						; Return 0 on non printable char
+				    .ENDIF
+ 01FA			   *@C0071:
+ 01FA			   *@C006D:
+ 01FA			   *@C0069:
+ 01FA			   *@C0065:
+
+				    ret
+ 01FA  5D		   *	    pop    bp
+ 01FB  C3		   *	    ret    00000h
+ 01FC				ispunct ENDP
+
+
+				; ------------------------------------------------------------------
+				; int isspace(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character is white-space.
+
+ 01FC				isspace PROC var:PTR BYTE
+ 01FC  55		   *	    push   bp
+ 01FD  8B EC		   *	    mov    bp, sp
+ 01FF  8B 46 04			    mov ax, var
+
+				    .IF ax >= 9 && ax <= 13					; If input is white-space return 16
+ 0202  83 F8 09		   *	    cmp    ax, 009h
+ 0205  72 0A		   *	    jb     @C0072
+ 0207  83 F8 0D		   *	    cmp    ax, 00Dh
+ 020A  77 05		   *	    ja     @C0072
+ 020C  B8 0008				mov ax, 8
+				    .ELSEIF ax == 32						; If input is white-space return 16
+ 020F  EB 0D		   *	    jmp    @C0075
+ 0211			   *@C0072:
+ 0211  83 F8 20		   *	    cmp    ax, 020h
+ 0214  75 05		   *	    jne    @C0076
+ 0216  B8 0008				mov ax, 8
+				    .ELSE
+ 0219  EB 03		   *	    jmp    @C0078
+ 021B			   *@C0076:
+ 021B  B8 0000				mov ax, 0						; Return 0 on non printable char
+				    .ENDIF
+ 021E			   *@C0078:
+ 021E			   *@C0075:
+
+				    ret
+ 021E  5D		   *	    pop    bp
+ 021F  C3		   *	    ret    00000h
+ 0220				isspace ENDP
+
+
+				; ------------------------------------------------------------------
+				; int isupper(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character
+				; is an uppercase letter.
+
+ 0220				isupper PROC var:PTR BYTE
+ 0220  55		   *	    push   bp
+ 0221  8B EC		   *	    mov    bp, sp
+ 0223  8B 46 04			    mov ax, var
+
+				    .IF ax >= 65 && ax <= 90					; If input is uppercase char return 1
+ 0226  83 F8 41		   *	    cmp    ax, 041h
+ 0229  72 0A		   *	    jb     @C0079
+ 022B  83 F8 5A		   *	    cmp    ax, 05Ah
+ 022E  77 05		   *	    ja     @C0079
+ 0230  B8 0001				mov ax, 1
+				    .ELSE
+ 0233  EB 03		   *	    jmp    @C007C
+ 0235			   *@C0079:
+ 0235  B8 0000				mov ax, 0						; Return 0 on non uppercase
+				    .ENDIF
+ 0238			   *@C007C:
+
+				    ret
+ 0238  5D		   *	    pop    bp
+ 0239  C3		   *	    ret    00000h
+ 023A				isupper ENDP
+
+
+				; ------------------------------------------------------------------
+				; int isxdigit(int c)
+				; ------------------------------------------------------------------
+				; This function checks whether the passed character
+				; is a hexadecimal digit.
+
+ 023A				isxdigit PROC var:PTR BYTE
+ 023A  55		   *	    push   bp
+ 023B  8B EC		   *	    mov    bp, sp
+ 023D  8B 46 04			    mov ax, var
+
+				    .IF ax >= 48 && ax <= 57					; If input is a hexadecimal digit return 128
+ 0240  83 F8 30		   *	    cmp    ax, 030h
+ 0243  72 0A		   *	    jb     @C007D
+ 0245  83 F8 39		   *	    cmp    ax, 039h
+ 0248  77 05		   *	    ja     @C007D
+ 024A  B8 0080			    	mov ax, 128
+				    .ELSEIF ax >= 65 && ax <= 70				; If input is a hexadecimal digit return 128
+ 024D  EB 21		   *	    jmp    @C0080
+ 024F			   *@C007D:
+ 024F  83 F8 41		   *	    cmp    ax, 041h
+ 0252  72 0A		   *	    jb     @C0081
+ 0254  83 F8 46		   *	    cmp    ax, 046h
+ 0257  77 05		   *	    ja     @C0081
+ 0259  B8 0080			    	mov ax, 128
+				    .ELSEIF ax >= 97 && ax <= 102				; If input is a hexadecimal digit return 128
+ 025C  EB 12		   *	    jmp    @C0084
+ 025E			   *@C0081:
+ 025E  83 F8 61		   *	    cmp    ax, 061h
+ 0261  72 0A		   *	    jb     @C0085
+ 0263  83 F8 66		   *	    cmp    ax, 066h
+ 0266  77 05		   *	    ja     @C0085
+ 0268  B8 0080			    	mov ax, 128
+				    .ELSE
+ 026B  EB 03		   *	    jmp    @C0088
+ 026D			   *@C0085:
+ 026D  B8 0000			    	mov ax, 0						; Return 0 on non uppercase
+				    .ENDIF
+ 0270			   *@C0088:
+ 0270			   *@C0084:
+ 0270			   *@C0080:
+
+				    ret
+ 0270  5D		   *	    pop    bp
+ 0271  C3		   *	    ret    00000h
+ 0272				isxdigit ENDP
+
+
+				; ------------------------------------------------------------------
+				; int tolower(int c)
+				; ------------------------------------------------------------------
+				; This function converts uppercase letters to lowercase.
+
+ 0272				tolower PROC var:PTR BYTE
+ 0272  55		   *	    push   bp
+ 0273  8B EC		   *	    mov    bp, sp
+ 0275  8B 46 04			    mov ax, var
+
+				    .IF ax >= 65 && ax <= 90
+ 0278  83 F8 41		   *	    cmp    ax, 041h
+ 027B  72 08		   *	    jb     @C0089
+ 027D  83 F8 5A		   *	    cmp    ax, 05Ah
+ 0280  77 03		   *	    ja     @C0089
+ 0282  83 C0 20				add ax, 32
+				    .ENDIF
+ 0285			   *@C0089:
+
+				    ret
+ 0285  5D		   *	    pop    bp
+ 0286  C3		   *	    ret    00000h
+ 0287				tolower  ENDP
+
+
+				; ------------------------------------------------------------------
+				; int toupper(int c)
+				; ------------------------------------------------------------------
+				; This function converts lowercase letters to uppercase .
+
+ 0287				toupper PROC var:PTR BYTE
+ 0287  55		   *	    push   bp
+ 0288  8B EC		   *	    mov    bp, sp
+ 028A  8B 46 04			    mov ax, var
+
+				    .IF ax >= 97 && ax <= 122
+ 028D  83 F8 61		   *	    cmp    ax, 061h
+ 0290  72 08		   *	    jb     @C008C
+ 0292  83 F8 7A		   *	    cmp    ax, 07Ah
+ 0295  77 03		   *	    ja     @C008C
+ 0297  83 E8 20				sub ax, 32
+				    .ENDIF
+ 029A			   *@C008C:
+
+				    ret
+ 029A  5D		   *	    pop    bp
+ 029B  C3		   *	    ret    00000h
+ 029C				toupper  ENDP
+
+				END
+Microsoft (R) Macro Assembler Version 6.15.8803		    09/07/17 22:04:37
+source\ctype.asm					     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+DGROUP . . . . . . . . . . . . .	GROUP
+_TEXT  . . . . . . . . . . . . .	16 Bit	 029C	  Word	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	16 Bit	 0000	  Word	  Public  'DATA'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+isalnum  . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 0038 Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+isalpha  . . . . . . . . . . . .	P Near	 0038	  _TEXT	Length= 0029 Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+iscntrl  . . . . . . . . . . . .	P Near	 0061	  _TEXT	Length= 002E Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+isdigit  . . . . . . . . . . . .	P Near	 008F	  _TEXT	Length= 001A Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+isgraph  . . . . . . . . . . . .	P Near	 00A9	  _TEXT	Length= 0074 Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+islower  . . . . . . . . . . . .	P Near	 011D	  _TEXT	Length= 001A Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+isprint  . . . . . . . . . . . .	P Near	 0137	  _TEXT	Length= 007E Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+ispunct  . . . . . . . . . . . .	P Near	 01B5	  _TEXT	Length= 0047 Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+isspace  . . . . . . . . . . . .	P Near	 01FC	  _TEXT	Length= 0024 Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+isupper  . . . . . . . . . . . .	P Near	 0220	  _TEXT	Length= 001A Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+isxdigit . . . . . . . . . . . .	P Near	 023A	  _TEXT	Length= 0038 Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+tolower  . . . . . . . . . . . .	P Near	 0272	  _TEXT	Length= 0015 Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+toupper  . . . . . . . . . . . .	P Near	 0287	  _TEXT	Length= 0015 Public C
+  var  . . . . . . . . . . . . .	Word	 bp + 0004
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 0000h	 
+@DataSize  . . . . . . . . . . .	Number	 0000h	 
+@Interface . . . . . . . . . . .	Number	 0001h	 
+@Model . . . . . . . . . . . . .	Number	 0001h	 
+@code  . . . . . . . . . . . . .	Text   	 DGROUP
+@data  . . . . . . . . . . . . .	Text   	 DGROUP
+@fardata?  . . . . . . . . . . .	Text   	 FAR_BSS
+@fardata . . . . . . . . . . . .	Text   	 FAR_DATA
+@stack . . . . . . . . . . . . .	Text   	 DGROUP
+_CTYPE_  . . . . . . . . . . . .	Text   	 1
+
+	   0 Warnings
+	   0 Errors
