@@ -4,7 +4,7 @@
 ;----------------------------------
 ; This file is part of a 16 bit	C library devoloped for
 ; hobby os devolopment, by Joshua Riek, 2017. The file
-; ctype.asm is a replica of the Standard C Library ctype,
+; ctype.asm is a replica of the Standard C Library ctype.h,
 ; that declares several functions that are useful for
 ; testing and mapping characters.
 ;
@@ -117,7 +117,7 @@ iscntrl PROC C char:PTR BYTE
 
     ret
 iscntrl ENDP
-mov
+
 
 ;---------------------------------------------------
 isdigit PROC C char:PTR BYTE

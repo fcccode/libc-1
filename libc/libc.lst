@@ -64,7 +64,7 @@ stdio             Offset: 00000b70H  Code and data size: 21bH
   _outportw         _outw             _printf           _putchar
   _puts             _scanf          
 
-string            Offset: 00000e90H  Code and data size: f75H
+string            Offset: 00000e90H  Code and data size: f6eH
   _memchr           _memcmp           _memcpy           _memmove
   _memset           _plotImage        _strcat           _strchr
   _strcmp           _strcoll          _strcpy           _strcspn
