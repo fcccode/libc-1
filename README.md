@@ -1,5 +1,5 @@
-﻿
-## Features & Goals
+
+## Features & Goals (NOTE: THIS PROJECT IS DEAD)
 * [x] Working Bootloader and kernel entry point.
 * [ ] Standard C library written in MASM and compatable with any 16 bit system.
 * [x] Library refrences work in both MASM and C.
